@@ -51,7 +51,6 @@ class _LoginScreenState extends State<LoginScreen>
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     double screenWidth = MediaQuery.of(context).size.width;
     int select = widget.selectIndex > 0 ? widget.selectIndex : 0;
@@ -252,40 +251,40 @@ class _LoginScreenState extends State<LoginScreen>
                                       ? const EdgeInsets.only(top: 18.0)
                                       : const EdgeInsets.only(top: 8.0),
                                   child: GestureDetector(
-                                    onTap: () {
-                                      _controller.forward().then((value) {
-                                        _controller.reverse().then((value) {
-                                          _submit();
-                                        });
-                                      });
-                                    },
-                                    child: ScaleTransition(
-                                      scale: _easeInAnimation,
-                                      child: Container(
-                                        decoration: new BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topRight,
-                                              end: Alignment.bottomLeft,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.amberAccent
-                                              ]),
-                                        ),
-                                        child: CircleAvatar(
-                                            backgroundColor: Colors.transparent,
-                                            radius: size.height > diviceSize
-                                                ? 40
-                                                : 30,
-                                            child: Icon(
-                                              Icons.arrow_forward,
-                                              size: size.height > diviceSize
-                                                  ? 40
-                                                  : 20,
-                                              color: Colors.black,
-                                            )),
+                                    // onTap: () {
+                                    //   _controller.forward().then((value) {
+                                    //     _controller.reverse().then((value) {
+                                    //       _submit();
+                                    //     });
+                                    //   });
+                                    // },
+                                    // child: ScaleTransition(
+                                    // scale: _easeInAnimation,
+                                    child: Container(
+                                      decoration: new BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topRight,
+                                            end: Alignment.bottomLeft,
+                                            colors: [
+                                              Colors.white,
+                                              Colors.amberAccent
+                                            ]),
                                       ),
+                                      child: CircleAvatar(
+                                          backgroundColor: Colors.transparent,
+                                          radius: size.height > diviceSize
+                                              ? 40
+                                              : 30,
+                                          child: Icon(
+                                            Icons.arrow_forward,
+                                            size: size.height > diviceSize
+                                                ? 40
+                                                : 20,
+                                            color: Colors.black,
+                                          )),
                                     ),
+                                    // ),
                                   ),
                                 ),
                               ],
@@ -331,17 +330,15 @@ class _LoginScreenState extends State<LoginScreen>
                         : const EdgeInsets.only(top: 8.0),
                     child: GestureDetector(
                       onTapCancel: () {
-                        // print(d.localPosition);
                         _scroll();
+                        _controller.reverse();
                       },
                       onTapDown: (d) {
-                        setState(() {
-                          click = true;
-                        });
+                        _controller.forward();
                       },
                       onTapUp: (d) {
-                        // print(d.localPosition);
                         _scroll();
+                        _controller.reverse();
                       },
                       child: Container(
                         height: size.height > diviceSize ? 100 : boxSize,
@@ -358,16 +355,20 @@ class _LoginScreenState extends State<LoginScreen>
                                 padding: size.height > diviceSize
                                     ? EdgeInsets.symmetric(horizontal: 25)
                                     : const EdgeInsets.symmetric(horizontal: 0),
-                                child: RoundedButton(
+                                child: ScaleTransition(
                                   key: ValueKey(i * 1000000),
-                                  onTap: () {
-                                    print(icon[i % icon.length].icon.icon);
-                                    _scroll();
-                                  },
-                                  iconData: size.height > diviceSize
-                                      ? tabIcon[i % icon.length].icon
-                                      : icon[i % icon.length].icon,
-                                  radius: 40,
+                                  scale: _easeInAnimation,
+                                  child: RoundedButton(
+                                    key: ValueKey(i * 1000000),
+                                    onTap: () {
+                                      print(icon[i % icon.length].icon.icon);
+                                      _scroll();
+                                    },
+                                    iconData: size.height > diviceSize
+                                        ? tabIcon[i % icon.length].icon
+                                        : icon[i % icon.length].icon,
+                                    radius: 40,
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -504,10 +505,6 @@ class _LoginScreenState extends State<LoginScreen>
       ),
     );
   }
-}
-
-void _tap(TapUpDetails d) {
-  print(d.globalPosition);
 }
 
 class BottomIcon1 extends StatelessWidget {
