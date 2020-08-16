@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 class EaseInWidget extends StatefulWidget {
-  final Widget child;
   final Function onTap;
-  const EaseInWidget({Key key, @required this.child, @required this.onTap})
-      : super(key: key);
+  const EaseInWidget({Key key, @required this.onTap}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _EaseInWidgetState();
 }
@@ -13,6 +11,7 @@ class _EaseInWidgetState extends State<EaseInWidget>
     with TickerProviderStateMixin<EaseInWidget> {
   AnimationController controller;
   Animation<double> easeInAnimation;
+  bool _selected = false;
   @override
   void initState() {
     super.initState();
@@ -35,30 +34,48 @@ class _EaseInWidgetState extends State<EaseInWidget>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTapDown: (TapDownDetails details) {
+      onTapDown: (TapDownDetails details) async {
         if (widget.onTap == null) {
           return;
         }
-        controller.forward().then((val) {});
+        setState(() {
+          _selected = true;
+        });
+        await controller.forward().then((val) {});
       },
-      onTapUp: (TapUpDetails details) {
+      onTapUp: (TapUpDetails details) async {
         if (widget.onTap == null) {
           return;
         }
-        controller.reverse().then((val) {
+        await controller.reverse().then((val) {
           widget.onTap();
         });
+        setState(() {
+          _selected = false;
+        });
       },
-      onTapCancel: () {
-        controller.forward().then((val) {
+      onTapCancel: () async {
+        await controller.forward().then((val) {
           controller.reverse().then((val) {
             widget.onTap();
           });
         });
+        setState(() {
+          _selected = false;
+        });
       },
       child: ScaleTransition(
         scale: easeInAnimation,
-        child: widget.child,
+        child: Material(
+          child: CircleAvatar(
+            radius: 40,
+            backgroundColor: _selected ? Colors.yellow : Colors.purple,
+            child: Image.asset(
+              _selected ? 'image/unnam.png' : 'image/unnamed.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
       ),
     );
   }
