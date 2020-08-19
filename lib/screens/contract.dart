@@ -43,6 +43,7 @@ class Contract extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(28.0),
             child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[

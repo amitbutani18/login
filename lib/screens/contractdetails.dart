@@ -8,6 +8,36 @@ class ContractDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      floatingActionButton: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          GradientButton(
+            color1: Colors.green,
+            color2: Colors.greenAccent,
+            iconData: Icons.check,
+            size: size,
+            diviceSize: diviceSize,
+          ),
+          SizedBox(
+            width: 25,
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => Contract(),
+              ));
+            },
+            child: GradientButton(
+              color1: Colors.red,
+              color2: Colors.redAccent,
+              iconData: Icons.close,
+              size: size,
+              diviceSize: diviceSize,
+            ),
+          ),
+        ],
+      ),
       body: Stack(
         children: <Widget>[
           Container(
@@ -21,6 +51,7 @@ class ContractDetails extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(28.0),
             child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -234,36 +265,6 @@ class ContractDetails extends StatelessWidget {
                                       ),
                                     ),
                                   ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                GradientButton(
-                                  color1: Colors.green,
-                                  color2: Colors.greenAccent,
-                                  iconData: Icons.check,
-                                  size: size,
-                                  diviceSize: diviceSize,
-                                ),
-                                SizedBox(
-                                  width: 25,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          Contract(),
-                                    ));
-                                  },
-                                  child: GradientButton(
-                                    color1: Colors.red,
-                                    color2: Colors.redAccent,
-                                    iconData: Icons.close,
-                                    size: size,
-                                    diviceSize: diviceSize,
-                                  ),
                                 ),
                               ],
                             ),

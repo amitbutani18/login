@@ -45,6 +45,7 @@ class ProjectDetails extends StatelessWidget {
             ),
           ),
           SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.all(28.0),
               child: Column(
@@ -197,7 +198,7 @@ class ProjectDetails extends StatelessWidget {
                     child: Row(
                       children: <Widget>[
                         Container(
-                          width: size.height > diviceSize ? 900 : 700,
+                          width: size.height > diviceSize ? 900 : 500,
                           child: Row(
                             children: <Widget>[
                               Logo(
@@ -212,11 +213,14 @@ class ProjectDetails extends StatelessWidget {
                               SizedBox(
                                 width: 35,
                               ),
-                              Text(
-                                "Smit S. William , Akash Gajera , Kapil Maheshvari",
-                                style: TextStyle(
-                                  color: Colors.white54,
-                                  fontSize: size.height > diviceSize ? 25 : 18,
+                              Expanded(
+                                child: Text(
+                                  "Smit S. William , Akash Gajera , Kapil Maheshvari",
+                                  style: TextStyle(
+                                    color: Colors.white54,
+                                    fontSize:
+                                        size.height > diviceSize ? 25 : 18,
+                                  ),
                                 ),
                               )
                             ],
@@ -230,9 +234,11 @@ class ProjectDetails extends StatelessWidget {
                         ? const EdgeInsets.all(18.0)
                         : const EdgeInsets.all(5.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                          width: size.height > diviceSize ? 900 : 700,
+                          width:
+                              size.height > diviceSize ? 900 : size.width - 70,
                           child: Row(
                             children: <Widget>[
                               Logo(
@@ -247,11 +253,14 @@ class ProjectDetails extends StatelessWidget {
                               SizedBox(
                                 width: 35,
                               ),
-                              Text(
-                                "WWW.SUPERMECARD.COM",
-                                style: TextStyle(
-                                  color: Colors.white54,
-                                  fontSize: size.height > diviceSize ? 25 : 18,
+                              Container(
+                                child: Text(
+                                  "WWW.SUPERMECARD.COM",
+                                  style: TextStyle(
+                                    color: Colors.white54,
+                                    fontSize:
+                                        size.height > diviceSize ? 25 : 18,
+                                  ),
                                 ),
                               )
                             ],
@@ -267,6 +276,8 @@ class ProjectDetails extends StatelessWidget {
                     child: Row(
                       children: <Widget>[
                         Container(
+                          width:
+                              size.height > diviceSize ? 900 : size.width - 70,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,7 +297,7 @@ class ProjectDetails extends StatelessWidget {
                               Container(
                                 width: size.width - 200,
                                 height: 150,
-                                child: Expanded(
+                                child: Container(
                                   child: Text(
                                     "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful contentIn publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content",
                                     style: TextStyle(
@@ -309,6 +320,8 @@ class ProjectDetails extends StatelessWidget {
                     child: Row(
                       children: <Widget>[
                         Container(
+                          width:
+                              size.height > diviceSize ? 900 : size.width - 70,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -328,7 +341,7 @@ class ProjectDetails extends StatelessWidget {
                               Container(
                                 width: size.width - 200,
                                 height: 150,
-                                child: Expanded(
+                                child: Container(
                                   child: Text(
                                     "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful contentIn publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content",
                                     style: TextStyle(

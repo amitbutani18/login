@@ -82,6 +82,7 @@ class _OwnProfileState extends State<OwnProfile> {
                             : size.height - 86,
                         // color: Colors.white,
                         child: SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
                           child: Column(
                             children: <Widget>[
                               CircleAvatar(
@@ -170,6 +171,7 @@ class _OwnProfileState extends State<OwnProfile> {
                               : size.height - 100,
                           // color: Colors.pink,
                           child: SingleChildScrollView(
+                            physics: BouncingScrollPhysics(),
                             child: Column(
                               children: <Widget>[
                                 Column(

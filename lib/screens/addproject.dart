@@ -77,6 +77,7 @@ class _AddProjectState extends State<AddProject> {
             ),
           ),
           SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.all(28.0),
               child: Column(

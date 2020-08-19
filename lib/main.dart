@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:login/helpers/bottomdownsliderprovider.dart';
+import 'package:login/helpers/bottomupsliderprovider.dart';
 import 'package:login/helpers/iconprovider.dart';
 import 'package:login/helpers/imageprovider.dart';
+import 'package:login/helpers/leftsideslidericonprovider.dart';
+import 'package:login/helpers/rightsidesliderprovider.dart';
 import 'package:login/helpers/roomimageprovider.dart';
 import 'package:login/helpers/tabiconprovider.dart';
+import 'package:login/helpers/topslidericonprovider.dart';
 import 'package:login/screens/addproject.dart';
 import 'package:login/widgets/datepick.dart';
 import 'package:login/screens/detailsscreen.dart';
@@ -35,6 +40,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: ImagesProvider()),
         ChangeNotifierProvider.value(value: TabIconProvider()),
         ChangeNotifierProvider.value(value: RoomImageProvider()),
+        ChangeNotifierProvider.value(value: TopSliderIconProvider()),
+        ChangeNotifierProvider.value(value: LeftSideSliderIconProvider()),
+        ChangeNotifierProvider.value(value: RightSideSliderIconProvider()),
+        ChangeNotifierProvider.value(value: BottomUpSliderProvider()),
+        ChangeNotifierProvider.value(value: BottomDownSliderProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -46,7 +56,7 @@ class MyApp extends StatelessWidget {
         home: LoginScreen(),
         routes: {
           '/date': (context) => DatePick(),
-          '/details': (context) => DetailsScreen(),
+          // '/details': (context) => DetailsScreen(),
           '/what': (context) => WhatScreen(),
           '/pickroom': (context) => PickRoom(),
           '/room-details': (context) => RoomDetails(),

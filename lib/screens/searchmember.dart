@@ -221,10 +221,11 @@ class _SearchMemberState extends State<SearchMember> {
                     alignment: Alignment.topLeft,
                     color: Colors.transparent,
                     child: GridView.builder(
+                      physics: BouncingScrollPhysics(),
                       itemCount: 12,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           // maxCrossAxisExtent: 200,
-                          childAspectRatio: 1 / 0.4,
+                          childAspectRatio: 1 / 0.43,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
                           crossAxisCount: 3),

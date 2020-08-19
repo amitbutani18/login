@@ -23,87 +23,150 @@ class _DatePickState extends State<DatePick> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              width: size.height > divSize ? 320 : 200,
-              height: size.height > divSize ? 80 : 60,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                color: Colors.transparent,
-                child: ListTile(
-                  title: Padding(
-                    padding: size.height > divSize
-                        ? const EdgeInsets.only(top: 0.0)
-                        : const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      _firstDate == null && _lastDate == null
-                          ? 'No date choosen! '
-                          : 'First Date : ${DateFormat().add_yMd().format(_firstDate)}  Last Date : ${DateFormat().add_yMd().format(_lastDate)}',
-                      style: TextStyle(
-                          fontSize: size.height > divSize ? 20 : 10,
-                          color: Colors.white),
-                    ),
-                  ),
-                  trailing: ClipOval(
-                    child: Container(
-                      decoration: new BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            colors: [Colors.white, Colors.amberAccent]),
-                        borderRadius:
-                            new BorderRadius.all(new Radius.circular(50.0)),
+            Theme(
+              data: ThemeData.dark().copyWith(
+                accentColor: Color.fromRGBO(201, 163, 66, 1),
+                canvasColor: Color.fromRGBO(201, 163, 66, 1),
+                backgroundColor: Color.fromRGBO(201, 163, 66, 1),
+                buttonTheme: ButtonThemeData(
+                  colorScheme: Theme.of(context).colorScheme.copyWith(
+                        primary: Colors.amber,
                       ),
-                      child: Material(
+                ),
+              ),
+              // data: Theme.of(context).copyWith(
+              //   primaryColor: Color.fromRGBO(201, 163, 66, 1),
+              //   accentColor: Color.fromRGBO(201, 163, 66, 1),
+              //   cardColor: Colors.white,
+              //   splashColor: Colors.white,
+              //   cursorColor: Colors.white,
+              //   highlightColor: Colors.white,
+              //   dialogBackgroundColor: Colors.black,
+              //   buttonTheme: ButtonThemeData(
+              //     colorScheme: Theme.of(context).colorScheme.copyWith(
+              //           primary: Colors.amber,
+              //         ),
+              //   ),
+              // ),
+              child: Builder(
+                builder: (context) => GestureDetector(
+                  onTap: () async {
+                    List<DateTime> dateTime =
+                        await DateRangePicker.showDatePicker(
+                            context: context,
+                            initialFirstDate: DateTime.now(),
+                            initialLastDate: DateTime.now().add(
+                              Duration(days: 7),
+                            ),
+                            firstDate:
+                                DateTime.now().subtract(Duration(days: 1)),
+                            lastDate: DateTime(DateTime.now().year + 5));
+                    if (dateTime != null && dateTime.length == 2) {
+                      setState(() {
+                        _firstDate = dateTime[0];
+                        _lastDate = dateTime[1];
+                      });
+                      print(dateTime);
+                    }
+                  },
+                  child: Container(
+                    width: size.height > divSize ? 320 : 200,
+                    height: size.height > divSize ? 80 : 50,
+                    decoration: BoxDecoration(
                         color: Colors.transparent,
-                        child: InkWell(
-                          splashColor: Colors.blue,
-                          child: SizedBox(
-                              width: size.height > divSize ? 50 : 30,
-                              height: size.height > divSize ? 50 : 30,
-                              child: Icon(
-                                Icons.calendar_today,
-                                size: size.height > divSize ? 20 : 15,
-                                color: Colors.black,
-                              )),
-                          onTap: () async {
-                            List<DateTime> dateTime =
-                                await DateRangePicker.showDatePicker(
-                                    context: context,
-                                    initialFirstDate: DateTime.now(),
-                                    initialLastDate: DateTime.now().add(
-                                      Duration(days: 7),
-                                    ),
-                                    firstDate: DateTime.now()
-                                        .subtract(Duration(days: 1)),
-                                    lastDate:
-                                        DateTime(DateTime.now().year + 5));
-                            if (dateTime != null && dateTime.length == 2) {
-                              setState(() {
-                                _firstDate = dateTime[0];
-                                _lastDate = dateTime[1];
-                              });
-                              print(dateTime);
-                            }
-                            // DateTime datetime = await showRoundedDatePicker(
-                            //         context: context,
-                            //         initialDate: DateTime.now(),
-                            //         firstDate:
-                            //             DateTime.now().subtract(Duration(days: 1)),
-                            //         lastDate: DateTime(DateTime.now().year + 1),
-                            //         borderRadius: 16,
-                            //         theme: ThemeData.dark())
-                            //     .then((pickdate) {
-                            //   if (pickdate == null) {
-                            //     return;
-                            //   }
-                            //   setState(() {
-                            //     _dateTime = pickdate;
-                            //   });
-                            // });
-                          },
+                        border:
+                            Border(bottom: BorderSide(color: Colors.yellow))),
+                    child: ListTile(
+                      title: Padding(
+                        padding: size.height > divSize
+                            ? const EdgeInsets.only(top: 0.0)
+                            : const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          _firstDate == null && _lastDate == null
+                              ? ' '
+                              : '${DateFormat("MM-dd-yy").format(_firstDate)} - ${DateFormat("MM-dd-yy").format(_lastDate)}',
+                          style: TextStyle(
+                              fontSize: size.height > divSize ? 20 : 15,
+                              color: Colors.yellow),
                         ),
+                      ),
+                      leading: Container(
+                        child: ClipOval(
+                          child: Container(
+                            decoration: new BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [
+                                    Colors.white,
+                                    Colors.amber,
+                                  ]),
+                              borderRadius: new BorderRadius.all(
+                                  new Radius.circular(50.0)),
+                            ),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: Center(
+                                  child: Image.asset('assets/icons/What.png'),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // child: Material(
+                        //   // color: Colors.transparent,
+                        //   child: InkWell(
+                        //     // splashColor: Colors.blue,
+                        //     child: SizedBox(
+                        //         width: size.height > divSize ? 50 : 20,
+                        //         height: size.height > divSize ? 50 : 20,
+                        //         child: CircleAvatar(
+                        //           backgroundColor: Colors.transparent,
+                        //           child: Image.asset(
+                        //             'assets/icons/Calender.png',
+                        //             fit: BoxFit.cover,
+                        //           ),
+                        //         )),
+                        //     onTap: () async {
+                        //       List<DateTime> dateTime =
+                        //           await DateRangePicker.showDatePicker(
+                        //               context: context,
+                        //               initialFirstDate: DateTime.now(),
+                        //               initialLastDate: DateTime.now().add(
+                        //                 Duration(days: 7),
+                        //               ),
+                        //               firstDate: DateTime.now()
+                        //                   .subtract(Duration(days: 1)),
+                        //               lastDate: DateTime(DateTime.now().year + 5));
+                        //       if (dateTime != null && dateTime.length == 2) {
+                        //         setState(() {
+                        //           _firstDate = dateTime[0];
+                        //           _lastDate = dateTime[1];
+                        //         });
+                        //         print(dateTime);
+                        //       }
+                        //       // DateTime datetime = await showRoundedDatePicker(
+                        //       //         context: context,
+                        //       //         initialDate: DateTime.now(),
+                        //       //         firstDate:
+                        //       //             DateTime.now().subtract(Duration(days: 1)),
+                        //       //         lastDate: DateTime(DateTime.now().year + 1),
+                        //       //         borderRadius: 16,
+                        //       //         theme: ThemeData.dark())
+                        //       //     .then((pickdate) {
+                        //       //   if (pickdate == null) {
+                        //       //     return;
+                        //       //   }
+                        //       //   setState(() {
+                        //       //     _dateTime = pickdate;
+                        //       //   });
+                        //       // });
+                        //     },
+                        //   ),
+                        // ),
                       ),
                     ),
                   ),

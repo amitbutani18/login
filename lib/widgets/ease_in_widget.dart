@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
 class EaseInWidget extends StatefulWidget {
-  final Widget child;
+  final String image;
   final Function onTap;
-  const EaseInWidget({Key key, @required this.child, @required this.onTap})
+  final double radius;
+
+  const EaseInWidget(
+      {Key key,
+      @required this.image,
+      @required this.onTap,
+      @required this.radius})
       : super(key: key);
   @override
   State<StatefulWidget> createState() => _EaseInWidgetState();
@@ -13,6 +19,8 @@ class _EaseInWidgetState extends State<EaseInWidget>
     with TickerProviderStateMixin<EaseInWidget> {
   AnimationController controller;
   Animation<double> easeInAnimation;
+  Animation _colorTween;
+  bool _selected = false;
   @override
   void initState() {
     super.initState();
@@ -29,16 +37,23 @@ class _EaseInWidgetState extends State<EaseInWidget>
         curve: Curves.fastOutSlowIn,
       ),
     );
+    _colorTween =
+        ColorTween(begin: Colors.red, end: Colors.green).animate(controller);
     controller.reverse();
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return GestureDetector(
       onTapDown: (TapDownDetails details) {
         if (widget.onTap == null) {
           return;
         }
+        setState(() {
+          _selected = true;
+        });
         controller.forward().then((val) {});
       },
       onTapUp: (TapUpDetails details) {
@@ -48,17 +63,32 @@ class _EaseInWidgetState extends State<EaseInWidget>
         controller.reverse().then((val) {
           widget.onTap();
         });
+        setState(() {
+          _selected = false;
+        });
       },
       onTapCancel: () {
         controller.forward().then((val) {
           controller.reverse().then((val) {
             widget.onTap();
+            setState(() {
+              _selected = false;
+            });
           });
         });
       },
       child: ScaleTransition(
         scale: easeInAnimation,
-        child: widget.child,
+        child: Material(
+          child: CircleAvatar(
+            radius: size.height > 550 ? 50 : widget.radius,
+            backgroundColor: Colors.transparent,
+            child: Image.asset(
+              widget.image,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
       ),
     );
   }
