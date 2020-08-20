@@ -9,8 +9,11 @@ import 'package:login/helpers/leftsideslidericonprovider.dart';
 import 'package:login/helpers/rightsidesliderprovider.dart';
 import 'package:login/helpers/slidericon.dart';
 import 'package:login/helpers/topslidericonprovider.dart';
+import 'package:login/screens/ownprofile.dart';
+import 'package:login/screens/projectDetails.dart';
 import 'package:login/widgets/datepick.dart';
 import 'package:login/widgets/ease_in_widget.dart';
+import 'package:login/widgets/sliderightroute.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
@@ -94,16 +97,6 @@ class _PickRoomState extends State<PickRoom> {
           ),
           icon: ClipOval(
             child: Container(
-              decoration: new BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      Colors.white,
-                      Colors.amber,
-                    ]),
-                borderRadius: new BorderRadius.all(new Radius.circular(50.0)),
-              ),
               child: Material(
                 color: Colors.transparent,
                 child: SizedBox(
@@ -702,7 +695,12 @@ class LeftListView extends StatelessWidget {
               image: rightSlider[i % rightSlider.length].image,
               secondImage: rightSlider[i % rightSlider.length].image,
               onTap: () {
-                Navigator.of(context).pushNamed('/project-details');
+                Navigator.push(
+                  context,
+                  SlideRightRoute(
+                    page: ProjectDetails(),
+                  ),
+                );
                 print(rightSlider[i % rightSlider.length].image);
               }),
         ),
@@ -747,7 +745,12 @@ class RightListView extends StatelessWidget {
               image: leftSlider[i % leftSlider.length].image,
               secondImage: leftSlider[i % leftSlider.length].image,
               onTap: () {
-                Navigator.of(context).pushNamed('/own-profile');
+                Navigator.push(
+                  context,
+                  SlideRightRoute(
+                    page: OwnProfile(),
+                  ),
+                );
                 print(leftSlider[i % leftSlider.length].image);
               }),
         ),
