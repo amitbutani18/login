@@ -1,21 +1,18 @@
 import 'dart:io';
 
-import 'package:after_layout/after_layout.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:login/helpers/bottomdownsliderprovider.dart';
 import 'package:login/helpers/bottomupsliderprovider.dart';
-import 'package:login/helpers/iconprovider.dart';
 import 'package:login/helpers/imageprovider.dart';
 import 'package:login/helpers/leftsideslidericonprovider.dart';
 import 'package:login/helpers/rightsidesliderprovider.dart';
-import 'package:login/helpers/tabiconprovider.dart';
+import 'package:login/helpers/slidericon.dart';
 import 'package:login/helpers/topslidericonprovider.dart';
 import 'package:login/widgets/datepick.dart';
 import 'package:login/widgets/ease_in_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
-import 'package:vibration/vibration.dart';
 
 class PickRoom extends StatefulWidget {
   final int selectIndex = 0;
@@ -24,12 +21,11 @@ class PickRoom extends StatefulWidget {
   _PickRoomState createState() => _PickRoomState();
 }
 
-class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
+class _PickRoomState extends State<PickRoom> {
   ScrollController _scrollController = ScrollController();
   ScrollController _scrollController2 = ScrollController();
   ScrollController _scrollController3 = ScrollController();
-  ScrollController _scrollController4 =
-      ScrollController(initialScrollOffset: 20000);
+  ScrollController _scrollController4 = ScrollController();
   ScrollController _scrollController5 = ScrollController();
 
   AudioPlayer audioPlayer = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
@@ -63,14 +59,6 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
     _scrollController2.animateTo(maxExtent2,
         duration: Duration(seconds: durationDouble2.toInt()),
         curve: Curves.linear);
-
-    // double maxExtent3 = _scrollController.position.maxScrollExtent;
-    // double distanceDifference3 = maxExtent3 - _scrollController.offset;
-    // double durationDouble3 = distanceDifference3 / speedFactor;
-    // // print(maxExtent3);
-    // _scrollController3.animateTo(maxExtent3,
-    //     duration: Duration(seconds: durationDouble3.toInt()),
-    //     curve: Curves.linear);
   }
 
   @override
@@ -83,9 +71,6 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
     );
     _scrollController2 = ScrollController(
         initialScrollOffset: (3000 + select) * (screenWidth - 40) / 7);
-
-    // _scrollController3 =
-    //     ScrollController(initialScrollOffset: (3000 + select) * (500 - 40) / 7);
   }
 
   Widget _formField(String lable, double width, double fontSize, String image) {
@@ -143,6 +128,7 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print("Amit" + DateTime.now().toIso8601String());
     _scrollController3.addListener(() async {
       // print(_scrollController3.position.pixels);
       var distance = oldValue - _scrollController3.position.pixels;
@@ -176,12 +162,7 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
         // print("distance");
         // print(distance);
         HapticFeedback.vibrate();
-        // if (await Vibration.hasAmplitudeControl()) {
-        //   Vibration.vibrate(duration: 100, amplitude: 128);
-        // }
-        // if (await Vibration.hasVibrator()) {
-        //   Vibration.vibrate();
-        // }
+
         oldValue = _scrollController4.position.pixels;
       }
 
@@ -202,12 +183,7 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
         print("distance");
         print(distance);
         HapticFeedback.lightImpact();
-        // if (await Vibration.hasAmplitudeControl()) {
-        //   Vibration.vibrate(duration: 100, amplitude: 128);
-        // }
-        // if (await Vibration.hasVibrator()) {
-        //   Vibration.vibrate();
-        // }
+
         oldValue = _scrollController5.position.pixels;
       }
 
@@ -238,19 +214,18 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      print("Amit1" + DateTime.now().toIso8601String());
+
       _scroll();
     });
 
-    final productData = Provider.of<IconProvider>(context);
-    final icon = productData.items;
-    final tabIconData = Provider.of<TabIconProvider>(context);
-    final tabIcon = tabIconData.items;
     final imageData = Provider.of<ImagesProvider>(context);
     final imageUrl = imageData.items;
     final sliderIconData = Provider.of<TopSliderIconProvider>(context);
     final slider = sliderIconData.items;
     final leftIconData = Provider.of<LeftSideSliderIconProvider>(context);
     final leftSlider = leftIconData.items;
+    final sLeftSlider = leftIconData.images;
     final rightIconData = Provider.of<RightSideSliderIconProvider>(context);
     final rightSlider = rightIconData.items;
     final bottomUpSliderData = Provider.of<BottomUpSliderProvider>(context);
@@ -325,7 +300,11 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
                                           radius: 30,
                                           image:
                                               slider[i % slider.length].image,
+                                          secondImage:
+                                              slider[i % slider.length].image,
                                           onTap: () {
+                                            Navigator.of(context)
+                                                .pushNamed('/room-details');
                                             print("Hello");
                                           }),
                                     ),
@@ -367,7 +346,11 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
                                   child: EaseInWidget(
                                       radius: 30,
                                       image: slider[i % slider.length].image,
+                                      secondImage:
+                                          slider[i % slider.length].image,
                                       onTap: () {
+                                        Navigator.of(context)
+                                            .pushNamed('/room-details');
                                         print("Hello");
                                       })),
                               itemCount: slider.length * 10000,
@@ -386,28 +369,11 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Container(
-                            height: size.height > divSize ? 480 : 200,
-                            width: size.height > divSize ? 80 : 60,
-                            child: ListView.builder(
-                              controller: _scrollController4,
-                              key: ValueKey(4),
-                              physics: BouncingScrollPhysics(),
-                              itemBuilder: (_, i) => Padding(
-                                padding: size.height > divSize
-                                    ? const EdgeInsets.symmetric(vertical: 5)
-                                    : const EdgeInsets.symmetric(vertical: 0),
-                                child: EaseInWidget(
-                                    radius: 30,
-                                    image: rightSlider[i % rightSlider.length]
-                                        .image,
-                                    onTap: () {
-                                      print(rightSlider[i % rightSlider.length]
-                                          .image);
-                                    }),
-                              ),
-                              itemCount: rightSlider.length * 100,
-                            ),
+                          LeftListView(
+                            size: size,
+                            divSize: divSize,
+                            scrollController4: _scrollController4,
+                            rightSlider: rightSlider,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -442,13 +408,22 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
                               SizedBox(
                                 height: size.height > divSize ? 30 : 10,
                               ),
-                              Text(
-                                "Hotels",
-                                style: TextStyle(
-                                    fontSize: size.height > divSize ? 22 : 15,
-                                    color: Colors.white54,
-                                    decoration: TextDecoration.underline,
-                                    letterSpacing: 1),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.amber[300],
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  "Hotels",
+                                  style: TextStyle(
+                                      fontSize: size.height > divSize ? 22 : 15,
+                                      color: Colors.white54,
+                                      // decoration: TextDecoration.underline,
+                                      letterSpacing: 1),
+                                ),
                               ),
                               size.height > divSize
                                   ? Container(
@@ -476,7 +451,7 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
                                                 borderRadius:
                                                     BorderRadius.circular(15),
                                                 child: Container(
-                                                  child: Image.network(
+                                                  child: Image.asset(
                                                       imageUrl[i].imageUrl),
                                                   height: 70,
                                                   width: 70,
@@ -526,18 +501,20 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
                                                 borderRadius:
                                                     BorderRadius.circular(15),
                                                 child: Container(
-                                                  child: Image.network(
-                                                      imageUrl[i].imageUrl),
+                                                  child: Image.asset(
+                                                    imageUrl[i].imageUrl,
+                                                    fit: BoxFit.fill,
+                                                  ),
                                                   height: 50,
                                                   width: 50,
-                                                  color: Colors.white,
+                                                  color: Colors.transparent,
                                                 ),
                                               ),
                                               SizedBox(
                                                 width: 5,
                                               ),
                                               Text(
-                                                "20% OFF",
+                                                imageUrl[i].offer,
                                                 style: TextStyle(
                                                     color: Colors.amberAccent,
                                                     fontWeight:
@@ -550,55 +527,14 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
                                     ),
                             ],
                           ),
-                          Container(
-                            height: size.height > divSize ? 480 : 200,
-                            width: size.height > divSize ? 80 : 60,
-                            // child: NotificationListener<ScrollNotification>(
-                            //   key: PageStorageKey(context),
-                            //   onNotification: (ScrollNotification scrollInfo) {
-                            //     if (scrollInfo is ScrollStartNotification) {
-                            //       _onStartScroll(scrollInfo.metrics);
-                            //       print(scrollInfo.metrics.axisDirection);
-                            //     } else if (scrollInfo
-                            //         is ScrollUpdateNotification) {
-                            //       _onUpdateScroll(scrollInfo.metrics);
-                            //     } else if (scrollInfo
-                            //         is ScrollEndNotification) {
-                            //       _onEndScroll(scrollInfo.metrics);
-                            //     }
-                            //     print(noti);
-                            //     return true;
-                            //   },
-                            child: ListView.builder(
-                              key: ValueKey(3),
-                              controller: _scrollController3,
-                              physics: BouncingScrollPhysics(),
-                              itemBuilder: (_, i) => Padding(
-                                padding: size.height > divSize
-                                    ? const EdgeInsets.symmetric(vertical: 5)
-                                    : const EdgeInsets.symmetric(vertical: 0),
-                                child: EaseInWidget(
-                                    radius: 30,
-                                    image:
-                                        leftSlider[i % leftSlider.length].image,
-                                    onTap: () {
-                                      print(leftSlider[i % leftSlider.length]
-                                          .image);
-                                    }),
-                                // child: RoundedButton(
-                                //   onTap: () {
-                                //     print(icon[i].icon.icon);
-                                //   },
-                                //   iconData: size.height > divSize
-                                //       ? tabIcon[i].icon
-                                //       : leftSlider[i].image,
-                                //   radius: size.height > divSize ? 50 : 30,
-                                // ),
-                              ),
-                              itemCount: leftSlider.length * 100,
-                            ),
-                            // ),
+                          RightListView(
+                            size: size,
+                            divSize: divSize,
+                            scrollController3: _scrollController3,
+                            leftSlider: leftSlider,
+                            secondSlider: sLeftSlider,
                           ),
+                          // ),
                         ],
                       ),
                       Padding(
@@ -637,6 +573,9 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
                                       child: EaseInWidget(
                                           radius: 30,
                                           image: bottomUpSlider[
+                                                  i % bottomUpSlider.length]
+                                              .image,
+                                          secondImage: bottomUpSlider[
                                                   i % bottomUpSlider.length]
                                               .image,
                                           onTap: () {
@@ -699,6 +638,9 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
                                             image: bottomDownSlider[
                                                     i % bottomDownSlider.length]
                                                 .image,
+                                            secondImage: bottomDownSlider[
+                                                    i % bottomDownSlider.length]
+                                                .image,
                                             onTap: () {
                                               print(bottomDownSlider[i %
                                                       bottomDownSlider.length]
@@ -725,24 +667,91 @@ class _PickRoomState extends State<PickRoom> with AfterLayoutMixin<PickRoom> {
       ),
     );
   }
+}
+
+class LeftListView extends StatelessWidget {
+  const LeftListView({
+    Key key,
+    @required this.size,
+    @required this.divSize,
+    @required ScrollController scrollController4,
+    @required this.rightSlider,
+  })  : _scrollController4 = scrollController4,
+        super(key: key);
+
+  final Size size;
+  final double divSize;
+  final ScrollController _scrollController4;
+  final List<SliderIcon> rightSlider;
 
   @override
-  void afterFirstLayout(BuildContext context) {
-    // Calling the same function "after layout" to resolve the issue.
-    showHelloWorld();
+  Widget build(BuildContext context) {
+    return Container(
+      height: size.height > divSize ? 480 : 200,
+      width: size.height > divSize ? 80 : 60,
+      child: ListView.builder(
+        controller: _scrollController4,
+        key: ValueKey(4),
+        physics: BouncingScrollPhysics(),
+        itemBuilder: (_, i) => Padding(
+          padding: size.height > divSize
+              ? const EdgeInsets.symmetric(vertical: 5)
+              : const EdgeInsets.symmetric(vertical: 0),
+          child: EaseInWidget(
+              radius: 30,
+              image: rightSlider[i % rightSlider.length].image,
+              secondImage: rightSlider[i % rightSlider.length].image,
+              onTap: () {
+                Navigator.of(context).pushNamed('/project-details');
+                print(rightSlider[i % rightSlider.length].image);
+              }),
+        ),
+        itemCount: rightSlider.length * 100,
+      ),
+    );
   }
+}
 
-  void showHelloWorld() {
-    showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        content: new Text('Hello World'),
-        actions: <Widget>[
-          new FlatButton(
-            child: new Text('DISMISS'),
-            onPressed: () => Navigator.of(context).pop(),
-          )
-        ],
+class RightListView extends StatelessWidget {
+  const RightListView({
+    Key key,
+    @required this.size,
+    @required this.divSize,
+    @required ScrollController scrollController3,
+    @required this.leftSlider,
+    @required this.secondSlider,
+  })  : _scrollController3 = scrollController3,
+        super(key: key);
+
+  final Size size;
+  final double divSize;
+  final ScrollController _scrollController3;
+  final List<SliderIcon> leftSlider;
+  final List<SliderIcon> secondSlider;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: size.height > divSize ? 480 : 200,
+      width: size.height > divSize ? 80 : 60,
+      child: ListView.builder(
+        key: ValueKey(3),
+        controller: _scrollController3,
+        physics: BouncingScrollPhysics(),
+        itemBuilder: (_, i) => Padding(
+          padding: size.height > divSize
+              ? const EdgeInsets.symmetric(vertical: 5)
+              : const EdgeInsets.symmetric(vertical: 0),
+          child: EaseInWidget(
+              radius: 30,
+              image: leftSlider[i % leftSlider.length].image,
+              secondImage: leftSlider[i % leftSlider.length].image,
+              onTap: () {
+                Navigator.of(context).pushNamed('/own-profile');
+                print(leftSlider[i % leftSlider.length].image);
+              }),
+        ),
+        itemCount: leftSlider.length * 100,
       ),
     );
   }

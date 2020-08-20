@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'ease_in_widget.dart';
 
 class RoundedButton extends StatelessWidget {
   final String text;

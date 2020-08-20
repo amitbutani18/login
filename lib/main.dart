@@ -11,7 +11,6 @@ import 'package:login/helpers/tabiconprovider.dart';
 import 'package:login/helpers/topslidericonprovider.dart';
 import 'package:login/screens/addproject.dart';
 import 'package:login/widgets/datepick.dart';
-import 'package:login/screens/detailsscreen.dart';
 import 'package:login/screens/loginscreen.dart';
 import 'package:login/screens/ownprofile.dart';
 import 'package:login/screens/pickroom.dart';

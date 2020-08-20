@@ -3,10 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:login/helpers/bottomdownsliderprovider.dart';
 import 'package:login/helpers/bottomupsliderprovider.dart';
-import 'package:login/helpers/iconprovider.dart';
-import 'package:login/helpers/tabiconprovider.dart';
 import 'package:login/widgets/ease_in_widget.dart';
-import 'package:login/widgets/rounded_button.dart';
 import 'package:provider/provider.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -114,6 +111,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   void _submit() {
+    print(DateTime.now());
     FocusScopeNode currentFocus = FocusScope.of(context);
     if (!currentFocus.hasPrimaryFocus) {
       currentFocus.unfocus();
@@ -126,8 +124,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
     print(_name);
     print(_email);
     print(_password);
-
+    // new Future.delayed(new Duration(seconds: 4), () {
+    //   setState(() {
+    //     _load = false;
+    //   });
     Navigator.of(context).pushNamed('/pickroom');
+    // });
   }
 
   @override
@@ -145,10 +147,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) => _scroll());
 
-    final productData = Provider.of<IconProvider>(context);
-    final icon = productData.items;
-    final tabIconData = Provider.of<TabIconProvider>(context);
-    final tabIcon = tabIconData.items;
     final bottomUpIconData = Provider.of<BottomUpSliderProvider>(context);
     final bottomUpSlider = bottomUpIconData.items;
     final bottomDownIconData = Provider.of<BottomDownSliderProvider>(context);
@@ -298,6 +296,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         image: bottomUpSlider[
                                                 i % bottomUpSlider.length]
                                             .image,
+                                        secondImage: bottomUpSlider[
+                                                i % bottomUpSlider.length]
+                                            .image,
                                         onTap: () {
                                           print(bottomUpSlider[
                                                   i % bottomUpSlider.length]
@@ -339,6 +340,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                     child: EaseInWidget(
                                         radius: 30,
                                         image: bottomDownSlider[
+                                                i % bottomDownSlider.length]
+                                            .image,
+                                        secondImage: bottomDownSlider[
                                                 i % bottomDownSlider.length]
                                             .image,
                                         onTap: () {

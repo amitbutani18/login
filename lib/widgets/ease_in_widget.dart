@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class EaseInWidget extends StatefulWidget {
   final String image;
+  final String secondImage;
   final Function onTap;
   final double radius;
 
   const EaseInWidget(
       {Key key,
       @required this.image,
+      @required this.secondImage,
       @required this.onTap,
       @required this.radius})
       : super(key: key);
@@ -84,7 +86,7 @@ class _EaseInWidgetState extends State<EaseInWidget>
             radius: size.height > 550 ? 50 : widget.radius,
             backgroundColor: Colors.transparent,
             child: Image.asset(
-              widget.image,
+              _selected ? widget.secondImage : widget.image,
               fit: BoxFit.cover,
             ),
           ),

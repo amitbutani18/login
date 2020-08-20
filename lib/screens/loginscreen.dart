@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:login/helpers/bottomdownsliderprovider.dart';
 import 'package:login/helpers/bottomupsliderprovider.dart';
@@ -196,8 +194,6 @@ class _LoginScreenState extends State<LoginScreen>
       clearData = false;
     }
 
-    bool click = false;
-
     return Scaffold(
       backgroundColor: Colors.black54,
       body: Stack(
@@ -369,6 +365,9 @@ class _LoginScreenState extends State<LoginScreen>
                                     image: bottomUpSlider[
                                             i % bottomUpSlider.length]
                                         .image,
+                                    secondImage: bottomUpSlider[
+                                            i % bottomUpSlider.length]
+                                        .image,
                                     onTap: () {
                                       print(bottomUpSlider[
                                               i % bottomUpSlider.length]
@@ -410,6 +409,9 @@ class _LoginScreenState extends State<LoginScreen>
                                   child: EaseInWidget(
                                       radius: 30,
                                       image: bottomDownSlider[
+                                              i % bottomDownSlider.length]
+                                          .image,
+                                      secondImage: bottomDownSlider[
                                               i % bottomDownSlider.length]
                                           .image,
                                       onTap: () {

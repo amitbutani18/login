@@ -84,7 +84,7 @@ class _DatePickState extends State<DatePick> {
                         child: Text(
                           _firstDate == null && _lastDate == null
                               ? ' '
-                              : '${DateFormat("MM-dd-yy").format(_firstDate)} - ${DateFormat("MM-dd-yy").format(_lastDate)}',
+                              : '${DateFormat("dd-MMM").format(_firstDate)} | ${DateFormat("dd-MMM-yyyy").format(_lastDate)}',
                           style: TextStyle(
                               fontSize: size.height > divSize ? 20 : 15,
                               color: Colors.yellow),
@@ -110,7 +110,8 @@ class _DatePickState extends State<DatePick> {
                                 width: 30,
                                 height: 30,
                                 child: Center(
-                                  child: Image.asset('assets/icons/What.png'),
+                                  child:
+                                      Image.asset('assets/icons/calender.png'),
                                 ),
                               ),
                             ),

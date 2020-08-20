@@ -60,7 +60,7 @@ flutter:
     - assets/icons/home.png
     - assets/icons/What.png
     - assets/icons/Where.png
-    - assets/icons/Calender.png
+    - assets/icons/calender.png
     - assets/icons/add.png
     - assets/icons/AddProject.png
     - assets/icons/Hired.png
@@ -84,6 +84,10 @@ flutter:
     - assets/icons/password.png
     - assets/icons/loginbackground.png
     - assets/icons/mail.png
+    - assets/images/oyoimg.png
+    - assets/images/Makemytripimg.png
+    - assets/images/expediaimg.png
+    - assets/images/bookingimg.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

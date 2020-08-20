@@ -17,4 +17,20 @@ class LeftSideSliderIconProvider with ChangeNotifier {
   List<SliderIcon> get items {
     return [..._items];
   }
+
+  List<SliderIcon> _images = [
+    SliderIcon(image: 'assets/icons/AddProject.png'),
+    SliderIcon(image: 'assets/icons/read.png'),
+    SliderIcon(image: 'assets/icons/add.png'),
+    SliderIcon(image: 'assets/icons/Hired.png'),
+    SliderIcon(image: 'assets/icons/AddProject.png'),
+    SliderIcon(image: 'assets/icons/AddProject.png'),
+    SliderIcon(image: 'assets/icons/read.png'),
+    SliderIcon(image: 'assets/icons/add.png'),
+    SliderIcon(image: 'assets/icons/Hired.png'),
+    SliderIcon(image: 'assets/icons/AddProject.png'),
+  ];
+  List<SliderIcon> get images {
+    return [..._images];
+  }
 }
