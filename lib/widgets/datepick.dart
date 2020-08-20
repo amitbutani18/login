@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 
@@ -71,104 +70,119 @@ class _DatePickState extends State<DatePick> {
                   },
                   child: Container(
                     width: size.height > divSize ? 320 : 200,
-                    height: size.height > divSize ? 80 : 50,
+                    height: size.height > divSize ? 80 : 60,
                     decoration: BoxDecoration(
                         color: Colors.transparent,
                         border:
                             Border(bottom: BorderSide(color: Colors.yellow))),
-                    child: ListTile(
-                      title: Padding(
-                        padding: size.height > divSize
-                            ? const EdgeInsets.only(top: 0.0)
-                            : const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          _firstDate == null && _lastDate == null
-                              ? ' '
-                              : '${DateFormat("dd-MMM").format(_firstDate)} | ${DateFormat("dd-MMM-yyyy").format(_lastDate)}',
-                          style: TextStyle(
-                              fontSize: size.height > divSize ? 20 : 15,
-                              color: Colors.yellow),
-                        ),
-                      ),
-                      leading: Container(
-                        child: ClipOval(
-                          child: Container(
-                            decoration: new BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
-                                  colors: [
-                                    Colors.white,
-                                    Colors.amber,
-                                  ]),
-                              borderRadius: new BorderRadius.all(
-                                  new Radius.circular(50.0)),
-                            ),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: SizedBox(
-                                width: 30,
-                                height: 30,
-                                child: Center(
-                                  child:
-                                      Image.asset('assets/icons/calender.png'),
-                                ),
-                              ),
-                            ),
+                    padding: EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(right: 8),
+                          margin: EdgeInsets.only(right: 0),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            radius: 15,
+                            child: Image.asset('assets/icons/calender.png'),
                           ),
                         ),
-                        // child: Material(
-                        //   // color: Colors.transparent,
-                        //   child: InkWell(
-                        //     // splashColor: Colors.blue,
-                        //     child: SizedBox(
-                        //         width: size.height > divSize ? 50 : 20,
-                        //         height: size.height > divSize ? 50 : 20,
-                        //         child: CircleAvatar(
-                        //           backgroundColor: Colors.transparent,
-                        //           child: Image.asset(
-                        //             'assets/icons/Calender.png',
-                        //             fit: BoxFit.cover,
+                        Padding(
+                          padding: size.height > divSize
+                              ? const EdgeInsets.only(top: 0.0)
+                              : const EdgeInsets.only(top: 8.0, bottom: 5),
+                          child: Text(
+                            _firstDate == null && _lastDate == null
+                                ? ' '
+                                : '${DateFormat("dd-MMM").format(_firstDate)} | ${DateFormat("dd-MMM-yyyy").format(_lastDate)}',
+                            style: TextStyle(
+                                fontSize: size.height > divSize ? 20 : 15,
+                                color: Colors.amber),
+                          ),
+                        ),
+                        // ListTile(
+                        //   leading: Container(
+                        //     child: ClipOval(
+                        //       child: Container(
+                        //         decoration: new BoxDecoration(
+                        //           gradient: LinearGradient(
+                        //               begin: Alignment.topRight,
+                        //               end: Alignment.bottomLeft,
+                        //               colors: [
+                        //                 Colors.white,
+                        //                 Colors.amber,
+                        //               ]),
+                        //           borderRadius: new BorderRadius.all(
+                        //               new Radius.circular(50.0)),
+                        //         ),
+                        //         child: Material(
+                        //           color: Colors.transparent,
+                        //           child: SizedBox(
+                        //             width: 30,
+                        //             height: 30,
+                        //             child: Center(
+                        //               child:
+                        //                   Image.asset('assets/icons/calender.png'),
+                        //             ),
                         //           ),
-                        //         )),
-                        //     onTap: () async {
-                        //       List<DateTime> dateTime =
-                        //           await DateRangePicker.showDatePicker(
-                        //               context: context,
-                        //               initialFirstDate: DateTime.now(),
-                        //               initialLastDate: DateTime.now().add(
-                        //                 Duration(days: 7),
-                        //               ),
-                        //               firstDate: DateTime.now()
-                        //                   .subtract(Duration(days: 1)),
-                        //               lastDate: DateTime(DateTime.now().year + 5));
-                        //       if (dateTime != null && dateTime.length == 2) {
-                        //         setState(() {
-                        //           _firstDate = dateTime[0];
-                        //           _lastDate = dateTime[1];
-                        //         });
-                        //         print(dateTime);
-                        //       }
-                        //       // DateTime datetime = await showRoundedDatePicker(
-                        //       //         context: context,
-                        //       //         initialDate: DateTime.now(),
-                        //       //         firstDate:
-                        //       //             DateTime.now().subtract(Duration(days: 1)),
-                        //       //         lastDate: DateTime(DateTime.now().year + 1),
-                        //       //         borderRadius: 16,
-                        //       //         theme: ThemeData.dark())
-                        //       //     .then((pickdate) {
-                        //       //   if (pickdate == null) {
-                        //       //     return;
-                        //       //   }
-                        //       //   setState(() {
-                        //       //     _dateTime = pickdate;
-                        //       //   });
-                        //       // });
-                        //     },
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     // child: Material(
+                        //     //   // color: Colors.transparent,
+                        //     //   child: InkWell(
+                        //     //     // splashColor: Colors.blue,
+                        //     //     child: SizedBox(
+                        //     //         width: size.height > divSize ? 50 : 20,
+                        //     //         height: size.height > divSize ? 50 : 20,
+                        //     //         child: CircleAvatar(
+                        //     //           backgroundColor: Colors.transparent,
+                        //     //           child: Image.asset(
+                        //     //             'assets/icons/Calender.png',
+                        //     //             fit: BoxFit.cover,
+                        //     //           ),
+                        //     //         )),
+                        //     //     onTap: () async {
+                        //     //       List<DateTime> dateTime =
+                        //     //           await DateRangePicker.showDatePicker(
+                        //     //               context: context,
+                        //     //               initialFirstDate: DateTime.now(),
+                        //     //               initialLastDate: DateTime.now().add(
+                        //     //                 Duration(days: 7),
+                        //     //               ),
+                        //     //               firstDate: DateTime.now()
+                        //     //                   .subtract(Duration(days: 1)),
+                        //     //               lastDate: DateTime(DateTime.now().year + 5));
+                        //     //       if (dateTime != null && dateTime.length == 2) {
+                        //     //         setState(() {
+                        //     //           _firstDate = dateTime[0];
+                        //     //           _lastDate = dateTime[1];
+                        //     //         });
+                        //     //         print(dateTime);
+                        //     //       }
+                        //     //       // DateTime datetime = await showRoundedDatePicker(
+                        //     //       //         context: context,
+                        //     //       //         initialDate: DateTime.now(),
+                        //     //       //         firstDate:
+                        //     //       //             DateTime.now().subtract(Duration(days: 1)),
+                        //     //       //         lastDate: DateTime(DateTime.now().year + 1),
+                        //     //       //         borderRadius: 16,
+                        //     //       //         theme: ThemeData.dark())
+                        //     //       //     .then((pickdate) {
+                        //     //       //   if (pickdate == null) {
+                        //     //       //     return;
+                        //     //       //   }
+                        //     //       //   setState(() {
+                        //     //       //     _dateTime = pickdate;
+                        //     //       //   });
+                        //     //       // });
+                        //     //     },
+                        //     //   ),
+                        //     // ),
                         //   ),
                         // ),
-                      ),
+                      ],
                     ),
                   ),
                 ),

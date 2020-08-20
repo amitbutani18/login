@@ -95,18 +95,13 @@ class _PickRoomState extends State<PickRoom> {
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.yellow),
           ),
-          icon: ClipOval(
-            child: Container(
-              child: Material(
-                color: Colors.transparent,
-                child: SizedBox(
-                  width: fontSize == 30 ? 50 : 30,
-                  height: fontSize == 30 ? 50 : 30,
-                  child: Center(
-                    child: Image.asset(image),
-                  ),
-                ),
-              ),
+          prefixIcon: Container(
+            padding: EdgeInsets.all(8),
+            margin: EdgeInsets.only(right: 0),
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: 10,
+              child: Image.asset(image),
             ),
           ),
           focusedBorder: UnderlineInputBorder(
