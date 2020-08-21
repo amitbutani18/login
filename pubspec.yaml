@@ -28,7 +28,6 @@ dependencies:
   flutter_rounded_date_picker: ^1.0.4
   intl: ^0.16.1
   date_range_picker: ^1.0.6
-  infinity_slider: ^1.0.0
   audioplayers: ^0.15.1
   vibration: ^1.4.0
   after_layout: ^1.0.7+2

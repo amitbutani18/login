@@ -16,6 +16,7 @@ import 'package:login/widgets/ease_in_widget.dart';
 import 'package:login/widgets/sliderightroute.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
+import 'package:vibration/vibration.dart';
 
 class PickRoom extends StatefulWidget {
   final int selectIndex = 0;
@@ -117,19 +118,15 @@ class _PickRoomState extends State<PickRoom> {
     // TODO: implement initState
     super.initState();
     print("Amit" + DateTime.now().toIso8601String());
+
     _scrollController3.addListener(() async {
       // print(_scrollController3.position.pixels);
       var distance = oldValue - _scrollController3.position.pixels;
       if (distance > 50 || distance < -50) {
         // print("distance");
         // print(distance);
-        HapticFeedback.vibrate();
-        // if (await Vibration.hasAmplitudeControl()) {
-        //   Vibration.vibrate(duration: 100, amplitude: 128);
-        // }
-        // if (await Vibration.hasVibrator()) {
-        //   Vibration.vibrate();
-        // }
+        HapticFeedback.lightImpact();
+
         oldValue = _scrollController3.position.pixels;
       }
 
@@ -144,12 +141,9 @@ class _PickRoomState extends State<PickRoom> {
       }
     });
     _scrollController4.addListener(() async {
-      // print(_scrollController4.position.pixels);
       var distance = oldValue - _scrollController4.position.pixels;
       if (distance > 50 || distance < -50) {
-        // print("distance");
-        // print(distance);
-        HapticFeedback.vibrate();
+        HapticFeedback.lightImpact();
 
         oldValue = _scrollController4.position.pixels;
       }
