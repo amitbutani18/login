@@ -5,7 +5,10 @@ import 'package:login/helpers/bottomupsliderprovider.dart';
 import 'package:login/helpers/iconprovider.dart';
 import 'package:login/helpers/imageprovider.dart';
 import 'package:login/helpers/leftsideslidericonprovider.dart';
+import 'package:login/helpers/membersprovider.dart';
+import 'package:login/helpers/projectdetailsprovider.dart';
 import 'package:login/helpers/rightsidesliderprovider.dart';
+import 'package:login/helpers/roomdetailsprovider.dart';
 import 'package:login/helpers/roomimageprovider.dart';
 import 'package:login/helpers/tabiconprovider.dart';
 import 'package:login/helpers/topslidericonprovider.dart';
@@ -44,6 +47,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: RightSideSliderIconProvider()),
         ChangeNotifierProvider.value(value: BottomUpSliderProvider()),
         ChangeNotifierProvider.value(value: BottomDownSliderProvider()),
+        ChangeNotifierProvider.value(value: RoomDetailsProvider()),
+        ChangeNotifierProvider.value(value: ProjectDetailsProvider()),
+        ChangeNotifierProvider.value(value: MembersProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

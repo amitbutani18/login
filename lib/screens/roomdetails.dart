@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login/helpers/roomdetailsprovider.dart';
 import 'package:login/helpers/roomimageprovider.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +14,8 @@ class _RoomDetailsState extends State<RoomDetails> {
   @override
   Widget build(BuildContext context) {
     final imageData = Provider.of<RoomImageProvider>(context).items;
+    final roomDetails = Provider.of<RoomDetailsProvider>(context);
+    final detailsData = roomDetails.items;
     var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
@@ -91,7 +94,7 @@ class _RoomDetailsState extends State<RoomDetails> {
                   Row(
                     children: <Widget>[
                       Text(
-                        "OYO ROOMS | ",
+                        detailsData[0].title + " | ",
                         style: TextStyle(
                             color: Colors.amber[300],
                             fontSize: size.height > diviceSize ? 35 : 22,
@@ -123,7 +126,8 @@ class _RoomDetailsState extends State<RoomDetails> {
                     height: size.height > diviceSize ? 15 : 10,
                   ),
                   Text(
-                    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful conten used to demonstrate the visual.",
+                    detailsData[0].organisationDetails,
+                    // "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful conten used to demonstrate the visual.",
                     style: TextStyle(
                         color: Colors.white54,
                         fontSize: size.height > diviceSize ? 25 : 15,
@@ -144,7 +148,8 @@ class _RoomDetailsState extends State<RoomDetails> {
                     height: size.height > diviceSize ? 15 : 10,
                   ),
                   Text(
-                    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful conten used to demonstrate the visual.",
+                    detailsData[0].discountDetails,
+                    // "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful conten used to demonstrate the visual.",
                     style: TextStyle(
                         color: Colors.white54,
                         fontSize: size.height > diviceSize ? 25 : 15,

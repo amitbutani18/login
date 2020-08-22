@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:login/helpers/projectdetailsprovider.dart';
+import 'package:provider/provider.dart';
 
-class ProjectDetails extends StatelessWidget {
+class ProjectDetails extends StatefulWidget {
+  @override
+  _ProjectDetailsState createState() => _ProjectDetailsState();
+}
+
+class _ProjectDetailsState extends State<ProjectDetails> {
   var diviceSize = 470;
+
   @override
   Widget build(BuildContext context) {
+    final projectDetails = Provider.of<ProjectDetailsProvider>(context).items;
     var size = MediaQuery.of(context).size;
     return Scaffold(
       floatingActionButton: ClipOval(
@@ -100,7 +110,7 @@ class ProjectDetails extends StatelessWidget {
                                 width: 35,
                               ),
                               Text(
-                                "Hotel",
+                                projectDetails[0].hotalName,
                                 style: TextStyle(
                                     color: Colors.white54,
                                     fontSize:
@@ -124,7 +134,7 @@ class ProjectDetails extends StatelessWidget {
                               width: 35,
                             ),
                             Text(
-                              "Mumbai",
+                              projectDetails[0].location,
                               style: TextStyle(
                                   color: Colors.white54,
                                   fontSize: size.height > diviceSize ? 25 : 18),
@@ -157,7 +167,11 @@ class ProjectDetails extends StatelessWidget {
                                 width: 35,
                               ),
                               Text(
-                                "20 - Jul | 1 - Aug - 2020",
+                                DateFormat("dd-MMM")
+                                        .format(projectDetails[0].dateTime[0]) +
+                                    " | " +
+                                    DateFormat("dd-MMM-yyyy")
+                                        .format(projectDetails[0].dateTime[1]),
                                 style: TextStyle(
                                     color: Colors.white54,
                                     fontSize:
@@ -181,7 +195,7 @@ class ProjectDetails extends StatelessWidget {
                               width: 35,
                             ),
                             Text(
-                              "\$ 250",
+                              "\$ ${projectDetails[0].price}",
                               style: TextStyle(
                                   color: Colors.white54,
                                   fontSize: size.height > diviceSize ? 25 : 18),
@@ -215,7 +229,7 @@ class ProjectDetails extends StatelessWidget {
                               ),
                               Expanded(
                                 child: Text(
-                                  "Smit S. William , Akash Gajera , Kapil Maheshvari",
+                                  projectDetails[0].names,
                                   style: TextStyle(
                                     color: Colors.white54,
                                     fontSize:
@@ -255,7 +269,7 @@ class ProjectDetails extends StatelessWidget {
                               ),
                               Container(
                                 child: Text(
-                                  "WWW.SUPERMECARD.COM",
+                                  projectDetails[0].website,
                                   style: TextStyle(
                                     color: Colors.white54,
                                     fontSize:
@@ -299,7 +313,8 @@ class ProjectDetails extends StatelessWidget {
                                 height: 150,
                                 child: Container(
                                   child: Text(
-                                    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful contentIn publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content",
+                                    projectDetails[0].uses,
+                                    // "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful contentIn publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content",
                                     style: TextStyle(
                                         color: Colors.white54,
                                         fontSize:
@@ -343,7 +358,8 @@ class ProjectDetails extends StatelessWidget {
                                 height: 150,
                                 child: Container(
                                   child: Text(
-                                    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful contentIn publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content",
+                                    projectDetails[0].notes,
+                                    // "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful contentIn publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content",
                                     style: TextStyle(
                                         color: Colors.white54,
                                         fontSize:

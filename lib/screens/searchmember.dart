@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:login/helpers/membersprovider.dart';
+import 'package:provider/provider.dart';
 
 class SearchMember extends StatefulWidget {
   @override
@@ -44,6 +46,7 @@ class _SearchMemberState extends State<SearchMember> {
 
   @override
   Widget build(BuildContext context) {
+    final memberData = Provider.of<MembersProvider>(context).items;
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -222,7 +225,7 @@ class _SearchMemberState extends State<SearchMember> {
                     color: Colors.transparent,
                     child: GridView.builder(
                       physics: BouncingScrollPhysics(),
-                      itemCount: 12,
+                      itemCount: memberData.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           // maxCrossAxisExtent: 200,
                           childAspectRatio: 1 / 0.43,
@@ -235,7 +238,7 @@ class _SearchMemberState extends State<SearchMember> {
                         children: <Widget>[
                           Container(
                             child: Text(
-                              "Akash Gajera",
+                              memberData[i].name,
                               style: TextStyle(
                                 color: Colors.amber[200],
                                 fontSize: size.height > diviceSize ? 35 : 20,
@@ -250,7 +253,7 @@ class _SearchMemberState extends State<SearchMember> {
                               color: Colors.white54,
                               size: size.height > diviceSize ? 25 : 15,
                             ),
-                            name: 'Akash Gajera',
+                            name: memberData[i].secondName,
                           ),
                           IconAndName(
                             size: size,
@@ -260,7 +263,7 @@ class _SearchMemberState extends State<SearchMember> {
                               color: Colors.white54,
                               size: size.height > diviceSize ? 25 : 15,
                             ),
-                            name: '\$ 240.00',
+                            name: '\$ ${memberData[i].amount}',
                           )
                         ],
                       ),
