@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:login/API/loginapi.dart';
+import 'package:login/API/logout.dart';
+import 'package:login/API/registerapi.dart';
 import 'package:login/helpers/bottomdownsliderprovider.dart';
 import 'package:login/helpers/bottomupsliderprovider.dart';
 import 'package:login/helpers/iconprovider.dart';
@@ -22,13 +25,38 @@ import 'package:login/screens/roomdetails.dart';
 import 'package:login/screens/searchmember.dart';
 import 'package:login/screens/whatscreen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _checkConfiguration() => true;
+  var user = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (_checkConfiguration()) {
+      Future.delayed(Duration.zero, () async {
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        setState(() {
+          user = sharedPreferences.getBool('login');
+        });
+        print(user);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -50,6 +78,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: RoomDetailsProvider()),
         ChangeNotifierProvider.value(value: ProjectDetailsProvider()),
         ChangeNotifierProvider.value(value: MembersProvider()),
+        ChangeNotifierProvider.value(value: LoginApi()),
+        ChangeNotifierProvider.value(value: RegisterApi()),
+        ChangeNotifierProvider.value(value: LogOut()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -58,10 +89,10 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             canvasColor: Colors.transparent),
-        home: LoginScreen(),
+        home: user ? PickRoom() : LoginScreen(),
         routes: {
           '/date': (context) => DatePick(),
-          // '/details': (context) => DetailsScreen(),
+          '/login': (context) => LoginScreen(),
           '/what': (context) => WhatScreen(),
           '/pickroom': (context) => PickRoom(),
           '/room-details': (context) => RoomDetails(),

@@ -1,7 +1,10 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:login/API/loginapi.dart';
 import 'package:login/helpers/bottomdownsliderprovider.dart';
 import 'package:login/helpers/bottomupsliderprovider.dart';
 import 'package:login/screens/detailsscreen.dart';
+import 'package:login/screens/pickroom.dart';
 import 'package:login/screens/roomdetails.dart';
 import 'package:login/widgets/ease_in_widget.dart';
 import 'package:login/widgets/sliderightroute.dart';
@@ -21,6 +24,9 @@ class _LoginScreenState extends State<LoginScreen>
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   double maxExtent;
 
@@ -60,8 +66,8 @@ class _LoginScreenState extends State<LoginScreen>
         initialScrollOffset: (3000 + select) * (screenWidth - 40) / 7);
   }
 
-  var _email = '';
-  var _password = '';
+  String _email = '';
+  String _password = '';
 
   int speedFactor = 20;
 
@@ -69,21 +75,300 @@ class _LoginScreenState extends State<LoginScreen>
 
   var end = false;
 
-  _scroll() {
-    maxExtent = _scrollController.position.maxScrollExtent;
-    double distanceDifference = maxExtent - _scrollController.offset;
-    double durationDouble = distanceDifference / speedFactor;
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _scrollController.dispose();
+    _scrollController2.dispose();
+    _controller.dispose();
+  }
 
-    _scrollController.animateTo(maxExtent,
-        duration: Duration(seconds: durationDouble.toInt()),
-        curve: Curves.linear);
+  @override
+  Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scroll());
 
-    double maxExtent2 = _scrollController2.position.maxScrollExtent;
-    double distanceDifference2 = maxExtent2 - _scrollController2.offset;
-    double durationDouble2 = distanceDifference2 / speedFactor;
-    _scrollController2.animateTo(maxExtent2,
-        duration: Duration(seconds: durationDouble2.toInt()),
-        curve: Curves.linear);
+    final bottomUpIconData = Provider.of<BottomUpSliderProvider>(context);
+    final bottomUpSlider = bottomUpIconData.items;
+    final bottomDownIconData = Provider.of<BottomDownSliderProvider>(context);
+    final bottomDownSlider = bottomDownIconData.items;
+
+    Size size = MediaQuery.of(context).size;
+    double boxSize = size.height > 470 ? 70 : 50;
+
+    if (clearData) {
+      _scrollController.jumpTo(3000 * (size.width - 40) / 7);
+      _scrollController2.jumpTo(3000 * (size.width - 40) / 7);
+
+      clearData = false;
+    }
+
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Colors.black54,
+      body: Stack(
+        children: <Widget>[
+          Container(
+            height: size.height,
+            width: size.width,
+            child: Image.asset(
+              'assets/icons/loginbackground.png',
+              fit: BoxFit.fill,
+            ),
+          ),
+          _load
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : SingleChildScrollView(
+                  child: Container(
+                    padding: size.height > diviceSize
+                        ? EdgeInsets.only(
+                            top: 108, left: 55, right: 55, bottom: 55)
+                        : EdgeInsets.all(28),
+                    child: Column(
+                      children: <Widget>[
+                        SingleChildScrollView(
+                          child: Container(
+                            width: size.height > diviceSize ? 650 : 400,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 20),
+                              child: Form(
+                                key: _formKey,
+                                child: Column(
+                                  children: <Widget>[
+                                    size.height > diviceSize
+                                        ? _formField('Email', 650, 30,
+                                            'assets/icons/user.png')
+                                        : _formField('Email', 450, 15,
+                                            'assets/icons/user.png'),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    size.height > diviceSize
+                                        ? _formField('Password', 650, 30,
+                                            'assets/icons/password.png')
+                                        : _formField('Password', 450, 15,
+                                            'assets/icons/password.png'),
+                                    SizedBox(
+                                      height: size.height > diviceSize ? 20 : 5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: size.height > diviceSize
+                                              ? const EdgeInsets.only(top: 18.0)
+                                              : const EdgeInsets.only(top: 8.0),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              _controller
+                                                  .forward()
+                                                  .then((value) {
+                                                _controller
+                                                    .reverse()
+                                                    .then((value) {
+                                                  _submit();
+                                                });
+                                              });
+                                            },
+                                            // child: ScaleTransition(
+                                            //   scale: _easeInAnimation,
+                                            child: Container(
+                                              child: CircleAvatar(
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  radius:
+                                                      size.height > diviceSize
+                                                          ? 40
+                                                          : 30,
+                                                  child: Image.asset(
+                                                      'assets/icons/loginbubble.png')),
+                                            ),
+                                            // ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          size.height > diviceSize ? 20 : 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        InkWell(
+                                          onTap: () => Navigator.of(context)
+                                              .pushNamed('/own-profile'),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  color: Colors.amber[300],
+                                                ),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              "Amneia?",
+                                              style: TextStyle(
+                                                  color: Colors.amber[300],
+                                                  fontSize:
+                                                      size.height > diviceSize
+                                                          ? 25
+                                                          : 15),
+                                            ),
+                                          ),
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              SlideRightRoute(
+                                                page: DetailsScreen(),
+                                              ),
+                                            );
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  color: Colors.amber[300],
+                                                ),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              "Join?",
+                                              style: TextStyle(
+                                                  color: Colors.amber[300],
+                                                  fontSize:
+                                                      size.height > diviceSize
+                                                          ? 25
+                                                          : 15),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: size.height > diviceSize
+                              ? const EdgeInsets.only(top: 88.0)
+                              : const EdgeInsets.only(top: 8.0),
+                          child: GestureDetector(
+                            onTapCancel: () {
+                              _scroll();
+                            },
+                            onTapDown: (d) {
+                              _controller.forward();
+                            },
+                            onTapUp: (d) {
+                              _scroll();
+                            },
+                            child: Container(
+                              height: size.height > diviceSize ? 100 : boxSize,
+                              width: size.height > diviceSize
+                                  ? size.width
+                                  : size.width,
+                              child: ListView.builder(
+                                controller: _scrollController,
+                                itemExtent: size.width / 9,
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemBuilder: (_, i) => Stack(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: size.height > diviceSize
+                                          ? EdgeInsets.symmetric(horizontal: 25)
+                                          : const EdgeInsets.symmetric(
+                                              horizontal: 0),
+                                      // child: ScaleTransition(
+                                      //   scale: _easeInAnimation,
+                                      child: EaseInWidget(
+                                          radius: 30,
+                                          image: bottomUpSlider[
+                                                  i % bottomUpSlider.length]
+                                              .image,
+                                          secondImage: bottomUpSlider[
+                                                  i % bottomUpSlider.length]
+                                              .image,
+                                          onTap: () {
+                                            print(bottomUpSlider[
+                                                    i % bottomUpSlider.length]
+                                                .image);
+                                            _scroll();
+                                          }),
+                                      // ),
+                                    ),
+                                  ],
+                                ),
+                                itemCount: bottomUpSlider.length * 10000,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: size.height > diviceSize
+                              ? const EdgeInsets.only(top: 0.0)
+                              : const EdgeInsets.only(top: 8.0),
+                          child: Center(
+                            child: Container(
+                              height: size.height > diviceSize ? 100 : boxSize,
+                              width: size.height > diviceSize
+                                  ? size.width
+                                  : size.width,
+                              child: ListView.builder(
+                                itemExtent: size.width / 9,
+                                controller: _scrollController2,
+                                scrollDirection: Axis.horizontal,
+                                reverse: true,
+                                shrinkWrap: true,
+                                itemBuilder: (_, i) => Container(
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: size.height > diviceSize
+                                            ? EdgeInsets.symmetric(
+                                                horizontal: 25)
+                                            : const EdgeInsets.symmetric(
+                                                horizontal: 0),
+                                        child: EaseInWidget(
+                                            radius: 30,
+                                            image: bottomDownSlider[
+                                                    i % bottomDownSlider.length]
+                                                .image,
+                                            secondImage: bottomDownSlider[
+                                                    i % bottomDownSlider.length]
+                                                .image,
+                                            onTap: () {
+                                              print(bottomDownSlider[i %
+                                                      bottomDownSlider.length]
+                                                  .image);
+                                              _scroll();
+                                            }),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                itemCount: bottomDownSlider.length * 10000,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+        ],
+      ),
+    );
   }
 
   Widget _formField(
@@ -95,10 +380,22 @@ class _LoginScreenState extends State<LoginScreen>
     return Container(
       width: width,
       child: TextFormField(
+        validator: lable == 'Email'
+            ? (value) {
+                if (!EmailValidator.validate(value) || value.isEmpty) {
+                  return 'Please enter Valid text';
+                }
+                return null;
+              }
+            : (value) {
+                if (value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
         cursorColor: Colors.white,
-        // focusNode: lable == 'Email' ? emialFocus : passFocus,
         controller: lable == 'Email' ? _emailController : _passwordController,
-        onChanged: (value) {
+        onSaved: (value) {
           setState(() {
             lable == 'Email' ? _email = value : _password = value;
           });
@@ -131,310 +428,61 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
-  void _submit() {
-    _emailController.clear();
-    _passwordController.clear();
+  _scroll() {
+    maxExtent = _scrollController.position.maxScrollExtent;
+    double distanceDifference = maxExtent - _scrollController.offset;
+    double durationDouble = distanceDifference / speedFactor;
 
-    FocusScopeNode currentFocus = FocusScope.of(context);
-    if (!currentFocus.hasPrimaryFocus) {
-      currentFocus.unfocus();
-    }
-    print(_email);
-    print(_password);
+    _scrollController.animateTo(maxExtent,
+        duration: Duration(seconds: durationDouble.toInt()),
+        curve: Curves.linear);
 
-    Navigator.of(context).push(_createRoute());
+    double maxExtent2 = _scrollController2.position.maxScrollExtent;
+    double distanceDifference2 = maxExtent2 - _scrollController2.offset;
+    double durationDouble2 = distanceDifference2 / speedFactor;
+    _scrollController2.animateTo(maxExtent2,
+        duration: Duration(seconds: durationDouble2.toInt()),
+        curve: Curves.linear);
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _scrollController.dispose();
-    _scrollController2.dispose();
-    _controller.dispose();
-  }
+  var _load = false;
+  void _submit() async {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
 
-  Route _createRoute() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => RoomDetails(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(1.0, 0.0);
-        var end = Offset(0.0, 0.0);
-        var curve = Curves.ease;
-
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => _scroll());
-
-    final bottomUpIconData = Provider.of<BottomUpSliderProvider>(context);
-    final bottomUpSlider = bottomUpIconData.items;
-    final bottomDownIconData = Provider.of<BottomDownSliderProvider>(context);
-    final bottomDownSlider = bottomDownIconData.items;
-
-    Size size = MediaQuery.of(context).size;
-    double boxSize = size.height > 470 ? 70 : 50;
-
-    if (clearData) {
-      _scrollController.jumpTo(3000 * (size.width - 40) / 7);
-      _scrollController2.jumpTo(3000 * (size.width - 40) / 7);
-
-      clearData = false;
-    }
-
-    return Scaffold(
-      backgroundColor: Colors.black54,
-      body: Stack(
-        children: <Widget>[
-          Container(
-            height: size.height,
-            width: size.width,
-            child: Image.asset(
-              'assets/icons/loginbackground.png',
-              fit: BoxFit.fill,
+      FocusScopeNode currentFocus = FocusScope.of(context);
+      if (!currentFocus.hasPrimaryFocus) {
+        currentFocus.unfocus();
+      }
+      // print(_email);
+      // print(_password);
+      try {
+        setState(() {
+          _load = true;
+        });
+        final statusCode = await Provider.of<LoginApi>(context, listen: false)
+            .signIn(_email, _password);
+        print(statusCode);
+        setState(() {
+          _load = false;
+        });
+        if (statusCode == 200) {
+          _emailController.clear();
+          _passwordController.clear();
+          Navigator.push(
+            context,
+            SlideRightRoute(
+              page: PickRoom(),
             ),
-          ),
-          SingleChildScrollView(
-            child: Container(
-              padding: size.height > diviceSize
-                  ? EdgeInsets.only(top: 108, left: 55, right: 55, bottom: 55)
-                  : EdgeInsets.all(28),
-              child: Column(
-                children: <Widget>[
-                  SingleChildScrollView(
-                    child: Container(
-                      width: size.height > diviceSize ? 650 : 400,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 20),
-                        child: Column(
-                          children: <Widget>[
-                            size.height > diviceSize
-                                ? _formField(
-                                    'Email', 650, 30, 'assets/icons/user.png')
-                                : _formField(
-                                    'Email', 450, 15, 'assets/icons/user.png'),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            size.height > diviceSize
-                                ? _formField('Password', 650, 30,
-                                    'assets/icons/password.png')
-                                : _formField('Password', 450, 15,
-                                    'assets/icons/password.png'),
-                            SizedBox(
-                              height: size.height > diviceSize ? 20 : 5,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Padding(
-                                  padding: size.height > diviceSize
-                                      ? const EdgeInsets.only(top: 18.0)
-                                      : const EdgeInsets.only(top: 8.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      _controller.forward().then((value) {
-                                        _controller.reverse().then((value) {
-                                          _submit();
-                                        });
-                                      });
-                                    },
-                                    // child: ScaleTransition(
-                                    //   scale: _easeInAnimation,
-                                    child: Container(
-                                      child: CircleAvatar(
-                                          backgroundColor: Colors.transparent,
-                                          radius: size.height > diviceSize
-                                              ? 40
-                                              : 30,
-                                          child: Image.asset(
-                                              'assets/icons/loginbubble.png')),
-                                    ),
-                                    // ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: size.height > diviceSize ? 20 : 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                InkWell(
-                                  onTap: () => Navigator.of(context)
-                                      .pushNamed('/own-profile'),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(
-                                          color: Colors.amber[300],
-                                        ),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      "Amneia?",
-                                      style: TextStyle(
-                                          color: Colors.amber[300],
-                                          fontSize: size.height > diviceSize
-                                              ? 25
-                                              : 15),
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: DetailsScreen(),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(
-                                          color: Colors.amber[300],
-                                        ),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      "Join?",
-                                      style: TextStyle(
-                                          color: Colors.amber[300],
-                                          fontSize: size.height > diviceSize
-                                              ? 25
-                                              : 15),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: size.height > diviceSize
-                        ? const EdgeInsets.only(top: 88.0)
-                        : const EdgeInsets.only(top: 8.0),
-                    child: GestureDetector(
-                      onTapCancel: () {
-                        _scroll();
-                      },
-                      onTapDown: (d) {
-                        _controller.forward();
-                      },
-                      onTapUp: (d) {
-                        _scroll();
-                      },
-                      child: Container(
-                        height: size.height > diviceSize ? 100 : boxSize,
-                        width:
-                            size.height > diviceSize ? size.width : size.width,
-                        child: ListView.builder(
-                          controller: _scrollController,
-                          itemExtent: size.width / 9,
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemBuilder: (_, i) => Stack(
-                            children: <Widget>[
-                              Padding(
-                                padding: size.height > diviceSize
-                                    ? EdgeInsets.symmetric(horizontal: 25)
-                                    : const EdgeInsets.symmetric(horizontal: 0),
-                                // child: ScaleTransition(
-                                //   scale: _easeInAnimation,
-                                child: EaseInWidget(
-                                    radius: 30,
-                                    image: bottomUpSlider[
-                                            i % bottomUpSlider.length]
-                                        .image,
-                                    secondImage: bottomUpSlider[
-                                            i % bottomUpSlider.length]
-                                        .image,
-                                    onTap: () {
-                                      print(bottomUpSlider[
-                                              i % bottomUpSlider.length]
-                                          .image);
-                                      _scroll();
-                                    }),
-                                // ),
-                              ),
-                            ],
-                          ),
-                          itemCount: bottomUpSlider.length * 10000,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: size.height > diviceSize
-                        ? const EdgeInsets.only(top: 0.0)
-                        : const EdgeInsets.only(top: 8.0),
-                    child: Center(
-                      child: Container(
-                        height: size.height > diviceSize ? 100 : boxSize,
-                        width:
-                            size.height > diviceSize ? size.width : size.width,
-                        child: ListView.builder(
-                          itemExtent: size.width / 9,
-                          controller: _scrollController2,
-                          scrollDirection: Axis.horizontal,
-                          reverse: true,
-                          shrinkWrap: true,
-                          itemBuilder: (_, i) => Container(
-                            child: Stack(
-                              children: <Widget>[
-                                Padding(
-                                  padding: size.height > diviceSize
-                                      ? EdgeInsets.symmetric(horizontal: 25)
-                                      : const EdgeInsets.symmetric(
-                                          horizontal: 0),
-                                  child: EaseInWidget(
-                                      radius: 30,
-                                      image: bottomDownSlider[
-                                              i % bottomDownSlider.length]
-                                          .image,
-                                      secondImage: bottomDownSlider[
-                                              i % bottomDownSlider.length]
-                                          .image,
-                                      onTap: () {
-                                        print(bottomDownSlider[
-                                                i % bottomDownSlider.length]
-                                            .image);
-                                        _scroll();
-                                      }),
-                                ),
-                              ],
-                            ),
-                          ),
-                          itemCount: bottomDownSlider.length * 10000,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+          );
+        }
+      } catch (error) {
+        setState(() {
+          _load = false;
+        });
+        _scaffoldKey.currentState
+            .showSnackBar(SnackBar(content: Text(error.toString())));
+      }
+    }
   }
 }

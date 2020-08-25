@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:login/API/logout.dart';
 import 'package:login/helpers/bottomdownsliderprovider.dart';
 import 'package:login/helpers/bottomupsliderprovider.dart';
 import 'package:login/helpers/imageprovider.dart';
@@ -16,6 +16,7 @@ import 'package:login/widgets/ease_in_widget.dart';
 import 'package:login/widgets/sliderightroute.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vibration/vibration.dart';
 
 class PickRoom extends StatefulWidget {
@@ -32,7 +33,8 @@ class _PickRoomState extends State<PickRoom> {
   ScrollController _scrollController4 = ScrollController();
   ScrollController _scrollController5 = ScrollController();
 
-  AudioPlayer audioPlayer = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   PageController _pagecon =
       new PageController(initialPage: 100, viewportFraction: 0.1);
 
@@ -224,6 +226,26 @@ class _PickRoomState extends State<PickRoom> {
     }
 
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: Container(
+        width: 70,
+        color: Colors.black54,
+        child: Drawer(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              color: Colors.amber,
+              icon: Icon(Icons.exit_to_app),
+              onPressed: () async {
+                await Provider.of<LogOut>(context, listen: false).logOut();
+                Navigator.of(context).pushReplacementNamed('/login');
+              },
+            ),
+          ],
+        )),
+      ),
       body: Stack(
         children: <Widget>[
           Container(
@@ -256,12 +278,18 @@ class _PickRoomState extends State<PickRoom> {
                               Colors.white
                             ],
                           ).createShader(bounds),
-                          child: CircleAvatar(
-                            radius: size.height > divSize ? 20 : 10,
-                            backgroundColor: Colors.transparent,
-                            child: Image.asset(
-                              'assets/icons/Sidebar.png',
-                              fit: BoxFit.fill,
+                          child: GestureDetector(
+                            onTap: () {
+                              print("hello");
+                              _scaffoldKey.currentState.openDrawer();
+                            },
+                            child: CircleAvatar(
+                              radius: size.height > divSize ? 20 : 10,
+                              backgroundColor: Colors.transparent,
+                              child: Image.asset(
+                                'assets/icons/Sidebar.png',
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                         ),

@@ -24,13 +24,13 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^4.3.1
-  carousel_slider: ^2.2.1
   flutter_rounded_date_picker: ^1.0.4
   intl: ^0.16.1
   date_range_picker: ^1.0.6
-  audioplayers: ^0.15.1
   vibration: ^1.4.0
-  after_layout: ^1.0.7+2
+  email_validator: ^1.0.0
+  http: ^0.12.2
+  shared_preferences: ^0.5.10
 
 
   # The following adds the Cupertino Icons font to your application.
