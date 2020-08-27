@@ -4,9 +4,10 @@ import 'package:login/helpers/slidericon.dart';
 
 class BottomDownSliderProvider with ChangeNotifier {
   List<SliderIcon> _items = [
-    SliderIcon(image: 'assets/icons/Electronicsbottom.png'),
-    SliderIcon(image: 'assets/icons/Clothesbottom.png'),
-    SliderIcon(image: 'assets/icons/jewellarybottom.png'),
+    SliderIcon(
+        title: 'Electronics', image: 'assets/icons/Electronicsbottom.png'),
+    SliderIcon(title: 'Electronics', image: 'assets/icons/Clothesbottom.png'),
+    SliderIcon(title: 'Electronics', image: 'assets/icons/jewellarybottom.png'),
     // SliderIcon(image: 'assets/icons/Goibibo.png'),
     // SliderIcon(image: 'assets/icons/Expedia.png'),
     // SliderIcon(image: 'assets/icons/Hotels.png'),

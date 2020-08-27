@@ -21,7 +21,7 @@ class _EaseInWidgetState extends State<EaseInWidget>
     with TickerProviderStateMixin<EaseInWidget> {
   AnimationController controller;
   Animation<double> easeInAnimation;
-  Animation _colorTween;
+  // Animation _colorTween;
   bool _selected = false;
   @override
   void initState() {
@@ -39,9 +39,9 @@ class _EaseInWidgetState extends State<EaseInWidget>
         curve: Curves.fastOutSlowIn,
       ),
     );
-    _colorTween =
-        ColorTween(begin: Colors.red, end: Colors.green).animate(controller);
-    controller.reverse();
+    // _colorTween =
+    //     ColorTween(begin: Colors.red, end: Colors.green).animate(controller);
+    // controller.reverse();
   }
 
   @override

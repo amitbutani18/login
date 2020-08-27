@@ -242,18 +242,16 @@ class _AddProjectState extends State<AddProject> {
                                               : 10),
                                     ),
                                     onPressed: () async {
-                                      DateTime datetime =
-                                          await showRoundedDatePicker(
-                                                  context: context,
-                                                  initialDate: DateTime.now(),
-                                                  firstDate: DateTime.now()
-                                                      .subtract(
-                                                          Duration(days: 1)),
-                                                  lastDate: DateTime(
-                                                      DateTime.now().year + 1),
-                                                  borderRadius: 16,
-                                                  theme: ThemeData.dark())
-                                              .then((pickdate) {
+                                      await showRoundedDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime.now()
+                                                  .subtract(Duration(days: 1)),
+                                              lastDate: DateTime(
+                                                  DateTime.now().year + 1),
+                                              borderRadius: 16,
+                                              theme: ThemeData.dark())
+                                          .then((pickdate) {
                                         if (pickdate == null) {
                                           return;
                                         }

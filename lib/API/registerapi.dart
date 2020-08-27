@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 class RegisterApi with ChangeNotifier {
   Future<List<dynamic>> signUp(
       String name, String email, String password) async {
-    final response = await http.post('http://13.234.34.241:3000/API/signup',
+    final response = await http.post('http://15.207.228.103:3000/API/signup',
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "email": email,

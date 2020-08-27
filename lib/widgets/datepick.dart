@@ -8,8 +8,6 @@ class DatePick extends StatefulWidget {
 }
 
 class _DatePickState extends State<DatePick> {
-  DateTime _dateTime;
-  TimeOfDay _timeOfDay;
   DateTime _firstDate;
   DateTime _lastDate;
   double divSize = 470;

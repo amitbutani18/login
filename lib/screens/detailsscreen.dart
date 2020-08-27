@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:login/API/registerapi.dart';
 import 'package:login/helpers/bottomdownsliderprovider.dart';
 import 'package:login/helpers/bottomupsliderprovider.dart';
-import 'package:login/screens/loginscreen.dart';
 import 'package:login/widgets/ease_in_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -51,7 +48,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _nameController.dispose();
     _emailController.dispose();

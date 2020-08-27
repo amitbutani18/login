@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:login/API/loginapi.dart';
 import 'package:login/helpers/bottomdownsliderprovider.dart';
 import 'package:login/helpers/bottomupsliderprovider.dart';
+import 'package:login/helpers/leftsideslidericonprovider.dart';
+import 'package:login/helpers/rightsidesliderprovider.dart';
 import 'package:login/screens/detailsscreen.dart';
 import 'package:login/screens/pickroom.dart';
-import 'package:login/screens/roomdetails.dart';
 import 'package:login/widgets/ease_in_widget.dart';
 import 'package:login/widgets/sliderightroute.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen>
   double maxExtent;
 
   AnimationController _controller;
-  Animation<double> _easeInAnimation;
+  // Animation<double> _easeInAnimation;
 
   bool clearData = false;
   var currentOffset;
@@ -45,12 +46,12 @@ class _LoginScreenState extends State<LoginScreen>
           milliseconds: 100,
         ),
         value: 0.1);
-    _easeInAnimation = Tween(begin: 0.8, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.fastOutSlowIn,
-      ),
-    );
+    // _easeInAnimation = Tween(begin: 0.8, end: 1.0).animate(
+    //   CurvedAnimation(
+    //     parent: _controller,
+    //     curve: Curves.fastOutSlowIn,
+    //   ),
+    // );
     _controller.reverse();
   }
 
@@ -476,6 +477,10 @@ class _LoginScreenState extends State<LoginScreen>
             ),
           );
         }
+        await Provider.of<RightSideSliderIconProvider>(context, listen: false)
+            .setIcon();
+        await Provider.of<LeftSideSliderIconProvider>(context, listen: false)
+            .setIcon();
       } catch (error) {
         setState(() {
           _load = false;

@@ -1,6 +1,36 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:login/helpers/roomimageprovider.dart';
+import 'package:provider/provider.dart';
 
-class ServiceProvider extends StatelessWidget {
+import 'contract.dart';
+
+class ServiceProvider extends StatefulWidget {
+  @override
+  _ServiceProviderState createState() => _ServiceProviderState();
+}
+
+class _ServiceProviderState extends State<ServiceProvider> {
+  var diviceSize = 470;
+
+  TextEditingController _selfController = TextEditingController();
+  TextEditingController _websiteController = TextEditingController();
+  TextEditingController _whoController = TextEditingController();
+  TextEditingController _whereController = TextEditingController();
+  TextEditingController _affiliatedController = TextEditingController();
+  TextEditingController _aboutUsController = TextEditingController();
+  TextEditingController _discountController = TextEditingController();
+  TextEditingController _coupenController = TextEditingController();
+
+  var _self = '';
+  var _website = '';
+  var _who = '';
+  var _where = '';
+  var _affiliated = '';
+  var _about = '';
+  var _discount = '';
+  var _coupen = '';
+
   InputDecoration _textDecoration(String lable, double fontSize, Icon icon) {
     return InputDecoration(
       hintText: lable,
@@ -37,6 +67,395 @@ class ServiceProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    Provider.of<RoomImageProvider>(context).items;
+
+    var size = MediaQuery.of(context).size;
+    return Scaffold(
+      floatingActionButton: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          GradientButton(
+            color1: Colors.green,
+            color2: Colors.greenAccent,
+            iconData: Icons.check,
+            size: size,
+            diviceSize: diviceSize,
+          ),
+          SizedBox(
+            width: 25,
+          ),
+          GestureDetector(
+            onTap: () {
+              _selfController.clear();
+              _whereController.clear();
+              _whoController.clear();
+              _aboutUsController.clear();
+              _affiliatedController.clear();
+              _discountController.clear();
+              _websiteController.clear();
+              FocusScopeNode currentFocus = FocusScope.of(context);
+              if (!currentFocus.hasPrimaryFocus) {
+                currentFocus.unfocus();
+              }
+              print(_self);
+              print(_where);
+              print(_about);
+              print(_who);
+              print(_affiliated);
+              print(_website);
+              print(_discount);
+              print(_coupen);
+
+              Navigator.of(context).pushNamed('/project-details');
+            },
+            child: GradientButton(
+              color1: Colors.red,
+              color2: Colors.redAccent,
+              iconData: Icons.close,
+              size: size,
+              diviceSize: diviceSize,
+            ),
+          ),
+        ],
+      ),
+      body: Stack(
+        children: <Widget>[
+          Container(
+            height: size.height,
+            width: size.width,
+            child: Image.asset(
+              'assets/background.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+          SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(28.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      IconButton(
+                        iconSize: size.height > diviceSize ? 50 : 30,
+                        icon: Icon(Icons.arrow_back),
+                        color: Colors.amber[200],
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "Service Provider",
+                              style: TextStyle(
+                                color: Colors.amber[200],
+                                fontSize: size.height > diviceSize ? 40 : 22,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: size.height > diviceSize
+                        ? const EdgeInsets.all(18.0)
+                        : const EdgeInsets.all(5.0),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          width: size.width / 2 - 55,
+                          child: TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  _self = value;
+                                });
+                              },
+                              controller: _selfController,
+                              style: TextStyle(
+                                  color: Colors.yellow[300],
+                                  fontSize: size.height > diviceSize ? 30 : 18),
+                              decoration: _textDecoration(
+                                  'Self',
+                                  size.height > diviceSize ? 30 : 18,
+                                  Icon(
+                                    Icons.help,
+                                    color: Colors.black87,
+                                    size: size.height > diviceSize ? 30 : 18,
+                                  ))),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Container(
+                          width: size.width / 2 - 50,
+                          child: TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  _website = value;
+                                });
+                              },
+                              controller: _websiteController,
+                              style: TextStyle(
+                                  color: Colors.yellow[300],
+                                  fontSize: size.height > diviceSize ? 30 : 18),
+                              decoration: _textDecoration(
+                                  'Website',
+                                  size.height > diviceSize ? 30 : 18,
+                                  Icon(
+                                    Icons.location_on,
+                                    color: Colors.black87,
+                                    size: size.height > diviceSize ? 30 : 18,
+                                  ))),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: size.height > diviceSize
+                        ? const EdgeInsets.all(18.0)
+                        : const EdgeInsets.all(5.0),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          width: size.width / 2 - 50,
+                          child: TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  _who = value;
+                                });
+                              },
+                              controller: _whoController,
+                              style: TextStyle(
+                                  color: Colors.yellow[300],
+                                  fontSize: size.height > diviceSize ? 30 : 18),
+                              decoration: _textDecoration(
+                                  'Who',
+                                  size.height > diviceSize ? 30 : 18,
+                                  Icon(
+                                    Icons.attach_money,
+                                    color: Colors.black87,
+                                    size: size.height > diviceSize ? 30 : 18,
+                                  ))),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Container(
+                          width: size.width / 2 - 50,
+                          child: TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  _where = value;
+                                });
+                              },
+                              controller: _whereController,
+                              style: TextStyle(
+                                  color: Colors.yellow[300],
+                                  fontSize: size.height > diviceSize ? 30 : 18),
+                              decoration: _textDecoration(
+                                  'Where',
+                                  size.height > diviceSize ? 30 : 18,
+                                  Icon(
+                                    Icons.attach_money,
+                                    color: Colors.black87,
+                                    size: size.height > diviceSize ? 30 : 18,
+                                  ))),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: size.height > diviceSize
+                        ? const EdgeInsets.all(18.0)
+                        : const EdgeInsets.all(5.0),
+                    child: Container(
+                      width: size.width - 50,
+                      child: TextFormField(
+                          onChanged: (value) {
+                            setState(() {
+                              _affiliated = value;
+                            });
+                          },
+                          controller: _affiliatedController,
+                          style: TextStyle(
+                              color: Colors.yellow[300],
+                              fontSize: size.height > diviceSize ? 30 : 18),
+                          decoration: _textDecoration(
+                              'Affiliated Program',
+                              size.height > diviceSize ? 30 : 18,
+                              Icon(
+                                Icons.portrait,
+                                color: Colors.black87,
+                                size: size.height > diviceSize ? 30 : 18,
+                              ))),
+                    ),
+                  ),
+                  Padding(
+                    padding: size.height > diviceSize
+                        ? const EdgeInsets.all(18.0)
+                        : const EdgeInsets.all(5.0),
+                    child: Container(
+                      width: size.width - 50,
+                      child: TextFormField(
+                          onChanged: (value) {
+                            setState(() {
+                              _about = value;
+                            });
+                          },
+                          controller: _aboutUsController,
+                          style: TextStyle(
+                              color: Colors.yellow[300],
+                              fontSize: size.height > diviceSize ? 30 : 18),
+                          decoration: _textDecoration(
+                              'About Us',
+                              size.height > diviceSize ? 30 : 18,
+                              Icon(
+                                Icons.link,
+                                color: Colors.black87,
+                                size: size.height > diviceSize ? 30 : 18,
+                              ))),
+                    ),
+                  ),
+                  Padding(
+                    padding: size.height > diviceSize
+                        ? const EdgeInsets.all(18.0)
+                        : const EdgeInsets.all(5.0),
+                    child: Container(
+                      width: size.width - 50,
+                      child: TextFormField(
+                          onChanged: (value) {
+                            setState(() {
+                              _discount = value;
+                            });
+                          },
+                          controller: _discountController,
+                          style: TextStyle(
+                              color: Colors.yellow[300],
+                              fontSize: size.height > diviceSize ? 30 : 18),
+                          decoration: _textDecoration(
+                              'Discount Details',
+                              size.height > diviceSize ? 30 : 18,
+                              Icon(
+                                Icons.map,
+                                color: Colors.black87,
+                                size: size.height > diviceSize ? 30 : 18,
+                              ))),
+                    ),
+                  ),
+                  // Padding(
+                  //   padding: size.height > diviceSize
+                  //       ? const EdgeInsets.all(18.0)
+                  //       : const EdgeInsets.all(5.0),
+                  //   child: Container(
+                  //     width: size.width - 50,
+                  //     child: TextFormField(
+                  //         keyboardType: TextInputType.multiline,
+                  //         onChanged: (value) {
+                  //           setState(() {
+                  //             _notes = value;
+                  //           });
+                  //         },
+                  //         controller: _notesController,
+                  //         style: TextStyle(
+                  //             color: Colors.yellow[300],
+                  //             fontSize: size.height > diviceSize ? 30 : 18),
+                  //         decoration: _textDecoration(
+                  //             'Notes',
+                  //             size.height > diviceSize ? 30 : 18,
+                  //             Icon(
+                  //               Icons.bookmark_border,
+                  //               color: Colors.black87,
+                  //               size: size.height > diviceSize ? 30 : 18,
+                  //             ))),
+                  //   ),
+                  // ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        height: size.height > diviceSize ? 300 : 170,
+                        width: size.height > diviceSize ? 800 : 500,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 3,
+                          itemBuilder: (context, i) => Padding(
+                            padding: size.height > diviceSize
+                                ? const EdgeInsets.all(28.0)
+                                : const EdgeInsets.all(8.0),
+                            child: DottedBorder(
+                              color: Colors.amber,
+                              borderType: BorderType.RRect,
+                              radius: Radius.circular(12),
+                              padding: EdgeInsets.all(6),
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12)),
+                                child: Container(
+                                  height: 200,
+                                  width: 120,
+                                  color: Colors.transparent,
+                                  child: Center(
+                                    child: Text(
+                                      "Upload Image",
+                                      style: TextStyle(color: Colors.amber),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 160,
+                        child: TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                _coupen = value;
+                              });
+                            },
+                            controller: _coupenController,
+                            style: TextStyle(
+                                color: Colors.yellow[300],
+                                fontSize: size.height > diviceSize ? 30 : 18),
+                            decoration: _textDecoration(
+                                'Coupon Code',
+                                size.height > diviceSize ? 30 : 18,
+                                Icon(
+                                  Icons.help,
+                                  color: Colors.black87,
+                                  size: size.height > diviceSize ? 30 : 18,
+                                ))),
+                      ),
+                    ],
+                  ),
+                  // Container(
+                  //   child: CheckboxListTile(
+                  //       title: Text("data"),
+                  //       value: _checked,
+                  //       onChanged: (bool value) {
+                  //         setState(() {
+                  //           _checked = value;
+                  //         });
+                  //       }),
+                  // )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

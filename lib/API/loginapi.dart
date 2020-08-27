@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginApi with ChangeNotifier {
   Future<int> signIn(String email, String password) async {
     final response = await http.post(
-      'http://13.234.34.241:3000/API/signin',
+      'http://15.207.228.103:3000/API/signin',
       body: {
         "email": email,
         "password": password,

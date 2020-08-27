@@ -16,6 +16,7 @@ import 'package:login/helpers/roomimageprovider.dart';
 import 'package:login/helpers/tabiconprovider.dart';
 import 'package:login/helpers/topslidericonprovider.dart';
 import 'package:login/screens/addproject.dart';
+import 'package:login/screens/serviceprovider.dart';
 import 'package:login/widgets/datepick.dart';
 import 'package:login/screens/loginscreen.dart';
 import 'package:login/screens/ownprofile.dart';
@@ -43,15 +44,20 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (_checkConfiguration()) {
       Future.delayed(Duration.zero, () async {
         SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
+        if (sharedPreferences.getBool('login') == null) {
+          setState(() {
+            sharedPreferences.setBool('login', false);
+          });
+        }
         setState(() {
           user = sharedPreferences.getBool('login');
         });
+
         print(user);
       });
     }
@@ -100,6 +106,7 @@ class _MyAppState extends State<MyApp> {
           '/project-details': (context) => ProjectDetails(),
           '/search-member': (context) => SearchMember(),
           '/own-profile': (context) => OwnProfile(),
+          '/service-provider': (context) => ServiceProvider(),
         },
       ),
     );
