@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/helpers/iconprovider.dart';
 import 'package:login/helpers/tabiconprovider.dart';
+import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/rounded_button.dart';
 import 'package:provider/provider.dart';
 
@@ -95,14 +96,7 @@ class _WhatScreenState extends State<WhatScreen> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Container(
-            height: size.height,
-            width: size.width,
-            child: Image.asset(
-              'assets/background.png',
-              fit: BoxFit.cover,
-            ),
-          ),
+          PageBackground(size: size, imagePath: 'assets/background.png'),
           SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(top: 0.0),

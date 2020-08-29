@@ -1,34 +1,34 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:login/helpers/slidericon.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-class BottomUpSliderProvider with ChangeNotifier {
-  List<SliderIcon> _items = [
-    // SliderIcon(title: 'Electronics', image: 'assets/icons/makemytrip.png'),
-    // SliderIcon(title: 'Electronics', image: 'assets/icons/booking.png'),
-    // SliderIcon(title: 'Electronics', image: 'assets/icons/oyo.png'),
-    // SliderIcon(title: 'Electronics', image: 'assets/icons/Goibibo.png'),
-    // SliderIcon(title: 'Electronics', image: 'assets/icons/Expedia.png'),
+class CityList with ChangeNotifier {
+  List<City> _items = [
+    City(cityName: "Surat"),
+    City(cityName: "bhavanagar"),
+    City(cityName: "Mumbai"),
+    City(cityName: "Delhi"),
+    City(cityName: "Surat"),
+    City(cityName: "bhavanagar"),
+    City(cityName: "Mumbai"),
+    City(cityName: "Delhi"),
   ];
-  List<SliderIcon> get items {
+  List<City> get items {
     return [..._items];
   }
 
-  Future<void> setIcon() async {
+  Future<void> fetchCity() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final api = sharedPreferences.getString('api');
     try {
       final response = await http.post(
-        '${api}companyandservicelist',
+        '${api}citylist',
         headers: {"Content-Type": "application/json"},
         body: json.encode(
           {
             "userid": "5f449a9036eb3907c617d369",
-            "type": 0,
           },
         ),
       );
@@ -42,14 +42,12 @@ class BottomUpSliderProvider with ChangeNotifier {
         if (response.statusCode == 200) {
           List<dynamic> list = map["data"];
           print(list.length);
-          List<SliderIcon> loadedList = [];
-
-          for (var i = 0; i < list.length / 2; i++) {
-            loadedList.add(
-              SliderIcon(
-                  title: '${list[i]['name']}',
-                  image: 'assets/icons/${list[i]['image']}.png'),
-            );
+          List<City> loadedList = [];
+          print(list);
+          for (var i = 0; i < list.length; i++) {
+            loadedList.add(City(
+              cityName: '${list[i]['name']}',
+            ));
             // print(list[i]);
           }
           _items = loadedList;
@@ -64,4 +62,9 @@ class BottomUpSliderProvider with ChangeNotifier {
       print(error);
     }
   }
+}
+
+class City {
+  final String cityName;
+  City({@required this.cityName});
 }

@@ -6,8 +6,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginApi with ChangeNotifier {
   Future<int> signIn(String email, String password) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final api = sharedPreferences.getString('api');
+
     final response = await http.post(
-      'http://15.207.228.103:3000/API/signin',
+      '${api}signin',
       body: {
         "email": email,
         "password": password,
@@ -42,5 +45,33 @@ class LoginApi with ChangeNotifier {
     }
 
     return response.statusCode;
+  }
+
+  Future<List<dynamic>> forgotPassword(String email) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final api = sharedPreferences.getString('api');
+
+    final response = await http.post(
+      '${api}forgotpassword',
+      body: {
+        "email": email,
+      },
+    );
+    Map<dynamic, dynamic> map = json.decode(response.body);
+
+    if (response.body.contains("err")) {
+      final err = map['err'];
+      print(err);
+      throw map['err'];
+    } else {
+      if (response.statusCode == 200) {
+        if (map.containsKey('data')) {
+          print(map["data"]);
+        }
+      } else {
+        throw Exception("Fail To Load");
+      }
+    }
+    return [response.statusCode, map["data"]];
   }
 }

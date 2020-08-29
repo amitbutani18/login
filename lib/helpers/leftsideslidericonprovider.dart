@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login/helpers/slidericon.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LeftSideSliderIconProvider with ChangeNotifier {
   List<SliderIcon> _items = [
@@ -27,9 +28,11 @@ class LeftSideSliderIconProvider with ChangeNotifier {
   }
 
   Future<void> setIcon() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final api = sharedPreferences.getString('api');
     try {
       final response = await http.post(
-        'http://15.207.228.103:3000/API/companyandservicelist',
+        '${api}companyandservicelist',
         headers: {"Content-Type": "application/json"},
         body: json.encode(
           {
@@ -40,7 +43,7 @@ class LeftSideSliderIconProvider with ChangeNotifier {
       );
       Map<String, dynamic> map = json.decode(response.body);
       List<dynamic> list = map["data"];
-      print(list.length);
+      // print(list.length);
       List<SliderIcon> loadedList = [];
       for (var i = (list.length / 2).round(); i < list.length; i++) {
         loadedList.add(
@@ -48,7 +51,7 @@ class LeftSideSliderIconProvider with ChangeNotifier {
               title: '${list[i]['name']}',
               image: 'assets/icons/${list[i]['image']}.png'),
         );
-        print(list[i]);
+        // print(list[i]);
       }
       _items = loadedList;
       notifyListeners();

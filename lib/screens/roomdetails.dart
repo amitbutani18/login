@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:login/helpers/roomdetailsprovider.dart';
 import 'package:login/helpers/roomimageprovider.dart';
+import 'package:login/widgets/pagebackground.dart';
+import 'package:login/widgets/pagetitle.dart';
 import 'package:provider/provider.dart';
 
 class RoomDetails extends StatefulWidget {
@@ -47,47 +49,15 @@ class _RoomDetailsState extends State<RoomDetails> {
       ),
       body: Stack(
         children: <Widget>[
-          Container(
-            height: size.height,
-            width: size.width,
-            child: Image.asset(
-              'assets/background.png',
-              fit: BoxFit.cover,
-            ),
-          ),
+          PageBackground(size: size, imagePath: 'assets/background.png'),
           SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(28.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      IconButton(
-                        iconSize: size.height > diviceSize ? 50 : 30,
-                        icon: Icon(Icons.arrow_back),
-                        color: Colors.amber[200],
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "Details",
-                              style: TextStyle(
-                                color: Colors.amber[200],
-                                fontSize: size.height > diviceSize ? 40 : 22,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  PageTitle(
+                      size: size, diviceSize: diviceSize, title: "Details"),
                   SizedBox(
                     height: 20,
                   ),

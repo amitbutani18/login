@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:login/helpers/roomimageprovider.dart';
+import 'package:login/widgets/pagebackground.dart';
+import 'package:login/widgets/pagetitle.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'contract.dart';
 
@@ -30,6 +35,18 @@ class _ServiceProviderState extends State<ServiceProvider> {
   var _about = '';
   var _discount = '';
   var _coupen = '';
+  bool _checked = false;
+
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = File(pickedFile.path);
+    });
+  }
 
   InputDecoration _textDecoration(String lable, double fontSize, Icon icon) {
     return InputDecoration(
@@ -75,12 +92,11 @@ class _ServiceProviderState extends State<ServiceProvider> {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          GradientButton(
-            color1: Colors.green,
-            color2: Colors.greenAccent,
-            iconData: Icons.check,
-            size: size,
-            diviceSize: diviceSize,
+          Container(
+            child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: size.height > diviceSize ? 40 : 30,
+                child: Image.asset('assets/icons/loginbubble.png')),
           ),
           SizedBox(
             width: 25,
@@ -109,26 +125,18 @@ class _ServiceProviderState extends State<ServiceProvider> {
 
               Navigator.of(context).pushNamed('/project-details');
             },
-            child: GradientButton(
-              color1: Colors.red,
-              color2: Colors.redAccent,
-              iconData: Icons.close,
-              size: size,
-              diviceSize: diviceSize,
+            child: Container(
+              child: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: size.height > diviceSize ? 40 : 30,
+                  child: Image.asset('assets/icons/loginbubble.png')),
             ),
           ),
         ],
       ),
       body: Stack(
         children: <Widget>[
-          Container(
-            height: size.height,
-            width: size.width,
-            child: Image.asset(
-              'assets/background.png',
-              fit: BoxFit.cover,
-            ),
-          ),
+          PageBackground(size: size, imagePath: 'assets/background.png'),
           SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Padding(
@@ -136,33 +144,10 @@ class _ServiceProviderState extends State<ServiceProvider> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      IconButton(
-                        iconSize: size.height > diviceSize ? 50 : 30,
-                        icon: Icon(Icons.arrow_back),
-                        color: Colors.amber[200],
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "Service Provider",
-                              style: TextStyle(
-                                color: Colors.amber[200],
-                                fontSize: size.height > diviceSize ? 40 : 22,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  PageTitle(
+                      size: size,
+                      diviceSize: diviceSize,
+                      title: "Service Provider"),
                   SizedBox(
                     height: 20,
                   ),
@@ -352,33 +337,6 @@ class _ServiceProviderState extends State<ServiceProvider> {
                               ))),
                     ),
                   ),
-                  // Padding(
-                  //   padding: size.height > diviceSize
-                  //       ? const EdgeInsets.all(18.0)
-                  //       : const EdgeInsets.all(5.0),
-                  //   child: Container(
-                  //     width: size.width - 50,
-                  //     child: TextFormField(
-                  //         keyboardType: TextInputType.multiline,
-                  //         onChanged: (value) {
-                  //           setState(() {
-                  //             _notes = value;
-                  //           });
-                  //         },
-                  //         controller: _notesController,
-                  //         style: TextStyle(
-                  //             color: Colors.yellow[300],
-                  //             fontSize: size.height > diviceSize ? 30 : 18),
-                  //         decoration: _textDecoration(
-                  //             'Notes',
-                  //             size.height > diviceSize ? 30 : 18,
-                  //             Icon(
-                  //               Icons.bookmark_border,
-                  //               color: Colors.black87,
-                  //               size: size.height > diviceSize ? 30 : 18,
-                  //             ))),
-                  //   ),
-                  // ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -393,22 +351,31 @@ class _ServiceProviderState extends State<ServiceProvider> {
                             padding: size.height > diviceSize
                                 ? const EdgeInsets.all(28.0)
                                 : const EdgeInsets.all(8.0),
-                            child: DottedBorder(
-                              color: Colors.amber,
-                              borderType: BorderType.RRect,
-                              radius: Radius.circular(12),
-                              padding: EdgeInsets.all(6),
-                              child: ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12)),
-                                child: Container(
-                                  height: 200,
-                                  width: 120,
-                                  color: Colors.transparent,
-                                  child: Center(
-                                    child: Text(
-                                      "Upload Image",
-                                      style: TextStyle(color: Colors.amber),
+                            child: GestureDetector(
+                              onTap: getImage,
+                              child: DottedBorder(
+                                color: Colors.amber,
+                                borderType: BorderType.RRect,
+                                radius: Radius.circular(12),
+                                padding: EdgeInsets.all(6),
+                                child: ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12)),
+                                  child: Container(
+                                    height: 200,
+                                    width: 120,
+                                    color: Colors.transparent,
+                                    child: Center(
+                                      child: _image == null
+                                          ? Text(
+                                              "Upload Image",
+                                              style: TextStyle(
+                                                  color: Colors.amber),
+                                            )
+                                          : Image.file(
+                                              _image,
+                                              fit: BoxFit.cover,
+                                            ),
                                     ),
                                   ),
                                 ),
@@ -440,16 +407,25 @@ class _ServiceProviderState extends State<ServiceProvider> {
                       ),
                     ],
                   ),
-                  // Container(
-                  //   child: CheckboxListTile(
-                  //       title: Text("data"),
-                  //       value: _checked,
-                  //       onChanged: (bool value) {
-                  //         setState(() {
-                  //           _checked = value;
-                  //         });
-                  //       }),
-                  // )
+                  Container(
+                    child: Theme(
+                      data: ThemeData(
+                        unselectedWidgetColor: Colors.amber,
+                      ),
+                      child: CheckboxListTile(
+                          controlAffinity: ListTileControlAffinity.leading,
+                          checkColor: Colors.black,
+                          activeColor: Colors.amber,
+                          title: Text("Agree To Superme Card Policy",
+                              style: TextStyle(color: Colors.amber)),
+                          value: _checked,
+                          onChanged: (bool value) {
+                            setState(() {
+                              _checked = value;
+                            });
+                          }),
+                    ),
+                  )
                 ],
               ),
             ),

@@ -5,6 +5,7 @@ import 'package:login/API/logout.dart';
 import 'package:login/API/registerapi.dart';
 import 'package:login/helpers/bottomdownsliderprovider.dart';
 import 'package:login/helpers/bottomupsliderprovider.dart';
+import 'package:login/helpers/citylist.dart';
 import 'package:login/helpers/iconprovider.dart';
 import 'package:login/helpers/imageprovider.dart';
 import 'package:login/helpers/leftsideslidericonprovider.dart';
@@ -15,7 +16,12 @@ import 'package:login/helpers/roomdetailsprovider.dart';
 import 'package:login/helpers/roomimageprovider.dart';
 import 'package:login/helpers/tabiconprovider.dart';
 import 'package:login/helpers/topslidericonprovider.dart';
+import 'package:login/helpers/transactionprovider.dart';
 import 'package:login/screens/addproject.dart';
+import 'package:login/screens/allcontract.dart';
+import 'package:login/screens/contractdetails.dart';
+import 'package:login/screens/endcontract.dart';
+import 'package:login/screens/projectadetails.dart';
 import 'package:login/screens/serviceprovider.dart';
 import 'package:login/widgets/datepick.dart';
 import 'package:login/screens/loginscreen.dart';
@@ -50,14 +56,16 @@ class _MyAppState extends State<MyApp> {
         SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
         if (sharedPreferences.getBool('login') == null) {
-          setState(() {
-            sharedPreferences.setBool('login', false);
-          });
+          sharedPreferences.setBool('login', false);
+          sharedPreferences.setString('api', "http://15.207.228.103:3000/API/");
         }
         setState(() {
           user = sharedPreferences.getBool('login');
+          sharedPreferences.setString('api', "http://15.207.228.103:3000/API/");
         });
 
+        final api = sharedPreferences.getString('api');
+        print(api);
         print(user);
       });
     }
@@ -87,6 +95,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider.value(value: LoginApi()),
         ChangeNotifierProvider.value(value: RegisterApi()),
         ChangeNotifierProvider.value(value: LogOut()),
+        ChangeNotifierProvider.value(value: CityList()),
+        ChangeNotifierProvider.value(value: TransactionProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -95,7 +105,7 @@ class _MyAppState extends State<MyApp> {
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             canvasColor: Colors.transparent),
-        home: user ? PickRoom() : LoginScreen(),
+        home: user ? PickRoom() : ProjectADetails(),
         routes: {
           '/date': (context) => DatePick(),
           '/login': (context) => LoginScreen(),
@@ -107,6 +117,8 @@ class _MyAppState extends State<MyApp> {
           '/search-member': (context) => SearchMember(),
           '/own-profile': (context) => OwnProfile(),
           '/service-provider': (context) => ServiceProvider(),
+          '/end-contract': (context) => EndContract(),
+          '/all-contract': (context) => AllContract(),
         },
       ),
     );

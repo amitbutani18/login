@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:login/API/logout.dart';
 import 'package:login/helpers/bottomdownsliderprovider.dart';
 import 'package:login/helpers/bottomupsliderprovider.dart';
+import 'package:login/helpers/citylist.dart';
 import 'package:login/helpers/imageprovider.dart';
 import 'package:login/helpers/leftsideslidericonprovider.dart';
 import 'package:login/helpers/rightsidesliderprovider.dart';
-import 'package:login/helpers/slidericon.dart';
 import 'package:login/helpers/topslidericonprovider.dart';
 import 'package:login/widgets/datepick.dart';
 import 'package:login/widgets/ease_in_widget.dart';
+import 'package:login/widgets/pagebackground.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
@@ -20,11 +21,11 @@ class PickRoom extends StatefulWidget {
 }
 
 class _PickRoomState extends State<PickRoom> {
-  ScrollController _scrollController = ScrollController();
-  ScrollController _scrollController2 = ScrollController();
-  ScrollController _scrollController3 = ScrollController();
-  ScrollController _scrollController4 = ScrollController();
-  ScrollController _scrollController5 = ScrollController();
+  ScrollController _scrollController;
+  ScrollController _scrollController2;
+  ScrollController _scrollController3;
+  ScrollController _scrollController4;
+  ScrollController _scrollController5;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -39,42 +40,37 @@ class _PickRoomState extends State<PickRoom> {
 
   String noti = '';
 
-  var _load = false;
-
   double oldValue = 0;
   var _hotelValue = 'Hotel';
+  var _location = 'London';
   var _isInit = true;
-
-  bool _checkConfiguration() => true;
-
-  _scroll() {
-    double maxExtent = _scrollController.position.maxScrollExtent;
-    double distanceDifference = maxExtent - _scrollController.offset;
-    double durationDouble = distanceDifference / speedFactor;
-    // print(maxExtent);
-    _scrollController
-        .animateTo(maxExtent,
-            duration: Duration(seconds: durationDouble.toInt()),
-            curve: Curves.linear)
-        .then((value) {});
-    double maxExtent2 = _scrollController.position.maxScrollExtent;
-    double distanceDifference2 = maxExtent - _scrollController.offset;
-    double durationDouble2 = distanceDifference2 / speedFactor;
-    // print(durationDouble2);
-    _scrollController2.animateTo(maxExtent2,
-        duration: Duration(seconds: durationDouble2.toInt()),
-        curve: Curves.linear);
-  }
+  var _isLoading = false;
 
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
+    print("In did");
     if (_isInit) {
-      await Provider.of<RightSideSliderIconProvider>(context, listen: false)
-          .setIcon();
-      await Provider.of<LeftSideSliderIconProvider>(context, listen: false)
-          .setIcon();
-      print('hello');
+      setState(() {
+        _isLoading = true;
+      });
+      try {
+        await Provider.of<RightSideSliderIconProvider>(context, listen: false)
+            .setIcon();
+        await Provider.of<LeftSideSliderIconProvider>(context, listen: false)
+            .setIcon();
+        await Provider.of<BottomUpSliderProvider>(context, listen: false)
+            .setIcon();
+        await Provider.of<BottomDownSliderProvider>(context, listen: false)
+            .setIcon();
+        await Provider.of<CityList>(context, listen: false).fetchCity();
+      } catch (error) {
+        print(error);
+      }
+
+      setState(() {
+        _isLoading = false;
+      });
     }
     _isInit = false;
     double screenWidth = MediaQuery.of(context).size.width;
@@ -86,61 +82,15 @@ class _PickRoomState extends State<PickRoom> {
         initialScrollOffset: (3000 + select) * (screenWidth - 40) / 7);
   }
 
-  Widget _formField(String lable, double width, double fontSize, String image) {
-    // FocusNode myFocusNode = new FocusNode();
-    return Container(
-      width: width,
-      child: TextFormField(
-        enabled: false,
-        cursorColor: Colors.black,
-        // focusNode: myFocusNode,
-        style: TextStyle(
-          color: Colors.yellow[300],
-          fontSize: fontSize,
-        ),
-
-        decoration: InputDecoration(
-          disabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.yellow)),
-          hintText: lable == 'Hotel' ? _hotelValue : lable,
-          hintStyle:
-              TextStyle(color: Colors.amber, height: 1.5, fontSize: fontSize),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.yellow),
-          ),
-          prefixIcon: Container(
-            padding: EdgeInsets.all(8),
-            margin: EdgeInsets.only(right: 0),
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: 10,
-              child: Image.asset(image),
-            ),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.yellow),
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   void initState() {
     super.initState();
-    print("Amit" + DateTime.now().toIso8601String());
-    if (_checkConfiguration()) {
-      Future.delayed(Duration.zero, () async {
-        setState(() {
-          _load = true;
-        });
-        // await Provider.of<RightSideSliderIconProvider>(context, listen: false)
-        //     .setIcon();
-        setState(() {
-          _load = false;
-        });
-      });
-    }
+    // print("Amit" + DateTime.now().toIso8601String());
+    _scrollController = ScrollController();
+    _scrollController2 = ScrollController();
+    _scrollController3 = ScrollController();
+    _scrollController4 = ScrollController();
+    _scrollController5 = ScrollController();
     _scrollController3.addListener(() async {
       // print(_scrollController3.position.pixels);
       var distance = oldValue - _scrollController3.position.pixels;
@@ -217,7 +167,7 @@ class _PickRoomState extends State<PickRoom> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      print("Amit1" + DateTime.now().toIso8601String());
+      // print("Amit1" + DateTime.now().toIso8601String());
 
       _scroll();
     });
@@ -235,6 +185,7 @@ class _PickRoomState extends State<PickRoom> {
     final bottomUpSlider = bottomUpSliderData.items;
     final bottomDownSliderData = Provider.of<BottomDownSliderProvider>(context);
     final bottomDownSlider = bottomDownSliderData.items;
+    final cityList = Provider.of<CityList>(context).items;
     Size size = MediaQuery.of(context).size;
 
     if (clearData) {
@@ -265,19 +216,16 @@ class _PickRoomState extends State<PickRoom> {
           ],
         )),
       ),
-      body: _load
-          ? Center(child: CircularProgressIndicator())
-          : Stack(
-              children: <Widget>[
-                Container(
-                  height: size.height,
-                  width: size.width,
-                  child: Image.asset(
-                    'assets/background.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SingleChildScrollView(
+      body: Stack(
+        children: <Widget>[
+          PageBackground(size: size, imagePath: 'assets/background.png'),
+          _isLoading
+              ? Center(
+                  child: CircularProgressIndicator(
+                  backgroundColor: Colors.black,
+                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.amber),
+                ))
+              : SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 0.0),
@@ -345,14 +293,9 @@ class _PickRoomState extends State<PickRoom> {
                                         ),
                                       ),
                                     ),
-                              ShaderMask(
-                                shaderCallback: (bounds) => RadialGradient(
-                                  colors: [
-                                    Colors.white,
-                                    Colors.yellow[400],
-                                    Colors.white
-                                  ],
-                                ).createShader(bounds),
+                              GestureDetector(
+                                onTap: () => Navigator.of(context)
+                                    .pushNamed('/service-provider'),
                                 child: CircleAvatar(
                                   radius: size.height > divSize ? 20 : 10,
                                   backgroundColor: Colors.transparent,
@@ -464,8 +407,15 @@ class _PickRoomState extends State<PickRoom> {
                                           child: size.height > divSize
                                               ? _formField('London', 350, 30,
                                                   'assets/icons/Where.png')
-                                              : _formField('London', 230, 18,
-                                                  'assets/icons/Where.png'),
+                                              : GestureDetector(
+                                                  onTap: () =>
+                                                      _showMyDialog(cityList),
+                                                  child: _formField(
+                                                      'London',
+                                                      230,
+                                                      18,
+                                                      'assets/icons/Where.png'),
+                                                ),
                                         ),
                                         SizedBox(
                                           width: 20,
@@ -781,97 +731,122 @@ class _PickRoomState extends State<PickRoom> {
                     ),
                   ),
                 )
-              ],
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showMyDialog(List<City> cityList) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0))),
+          backgroundColor: Color.fromRGBO(37, 36, 41, 1),
+          content: Container(
+            height: 200,
+            width: 200,
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              itemCount: cityList.length,
+              itemBuilder: (context, i) => Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _location = cityList[i].cityName;
+                      });
+                      Navigator.of(context).pop();
+                    },
+                    child: ListTile(
+                      title: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          cityList[i].cityName,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.white,
+                  ),
+                ],
+              ),
             ),
+          ),
+          // actions: <Widget>[
+          //   FlatButton(
+          //     child: Text(
+          //       'OK',
+          //       style: TextStyle(color: Colors.amber),
+          //     ),
+          //     onPressed: () {
+          //       Navigator.of(context).pop();
+          //     },
+          //   ),
+        );
+      },
     );
   }
-}
 
-class LeftListView extends StatelessWidget {
-  const LeftListView({
-    Key key,
-    @required this.size,
-    @required this.divSize,
-    @required ScrollController scrollController4,
-    @required this.rightSlider,
-    this.title,
-  })  : _scrollController4 = scrollController4,
-        super(key: key);
-
-  final Size size;
-  final double divSize;
-  final String title;
-  final ScrollController _scrollController4;
-  final List<SliderIcon> rightSlider;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _formField(String lable, double width, double fontSize, String image) {
+    // FocusNode myFocusNode = new FocusNode();
     return Container(
-      height: size.height > divSize ? 480 : 200,
-      width: size.height > divSize ? 80 : 60,
-      child: ListView.builder(
-        controller: _scrollController4,
-        key: ValueKey(4),
-        physics: BouncingScrollPhysics(),
-        itemBuilder: (_, i) => Padding(
-          padding: size.height > divSize
-              ? const EdgeInsets.symmetric(vertical: 5)
-              : const EdgeInsets.symmetric(vertical: 0),
-          child: EaseInWidget(
-              radius: 30,
-              image: rightSlider[i % rightSlider.length].image,
-              secondImage: rightSlider[i % rightSlider.length].image,
-              onTap: () {
-                print(rightSlider[i % rightSlider.length].title);
-                print(rightSlider[i % rightSlider.length].image);
-              }),
+      width: width,
+      child: TextFormField(
+        enabled: false,
+        cursorColor: Colors.black,
+        // focusNode: myFocusNode,
+        style: TextStyle(
+          color: Colors.yellow[300],
+          fontSize: fontSize,
         ),
-        itemCount: rightSlider.length * 100,
+
+        decoration: InputDecoration(
+          disabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.yellow)),
+          hintText: lable == 'Hotel' ? _hotelValue : _location,
+          hintStyle:
+              TextStyle(color: Colors.amber, height: 1.5, fontSize: fontSize),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.yellow),
+          ),
+          prefixIcon: Container(
+            padding: EdgeInsets.all(8),
+            margin: EdgeInsets.only(right: 0),
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: 10,
+              child: Image.asset(image),
+            ),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.yellow),
+          ),
+        ),
       ),
     );
   }
-}
 
-class RightListView extends StatelessWidget {
-  const RightListView({
-    Key key,
-    @required this.size,
-    @required this.divSize,
-    @required ScrollController scrollController3,
-    @required this.leftSlider,
-    @required this.secondSlider,
-  })  : _scrollController3 = scrollController3,
-        super(key: key);
-
-  final Size size;
-  final double divSize;
-  final ScrollController _scrollController3;
-  final List<SliderIcon> leftSlider;
-  final List<SliderIcon> secondSlider;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: size.height > divSize ? 480 : 200,
-      width: size.height > divSize ? 80 : 60,
-      child: ListView.builder(
-        key: ValueKey(3),
-        controller: _scrollController3,
-        physics: BouncingScrollPhysics(),
-        itemBuilder: (_, i) => Padding(
-          padding: size.height > divSize
-              ? const EdgeInsets.symmetric(vertical: 5)
-              : const EdgeInsets.symmetric(vertical: 0),
-          child: EaseInWidget(
-              radius: 30,
-              image: leftSlider[i % leftSlider.length].image,
-              secondImage: leftSlider[i % leftSlider.length].image,
-              onTap: () {
-                print(leftSlider[i % leftSlider.length].image);
-              }),
-        ),
-        itemCount: leftSlider.length * 100,
-      ),
-    );
+  _scroll() {
+    double maxExtent = _scrollController.position.maxScrollExtent;
+    double distanceDifference = maxExtent - _scrollController.offset;
+    double durationDouble = distanceDifference / speedFactor;
+    // print(maxExtent);
+    _scrollController
+        .animateTo(maxExtent,
+            duration: Duration(seconds: durationDouble.toInt()),
+            curve: Curves.linear)
+        .then((value) {});
+    double maxExtent2 = _scrollController.position.maxScrollExtent;
+    double distanceDifference2 = maxExtent - _scrollController.offset;
+    double durationDouble2 = distanceDifference2 / speedFactor;
+    // print(durationDouble2);
+    _scrollController2.animateTo(maxExtent2,
+        duration: Duration(seconds: durationDouble2.toInt()),
+        curve: Curves.linear);
   }
 }

@@ -4,16 +4,17 @@ import 'package:login/API/registerapi.dart';
 import 'package:login/helpers/bottomdownsliderprovider.dart';
 import 'package:login/helpers/bottomupsliderprovider.dart';
 import 'package:login/widgets/ease_in_widget.dart';
+import 'package:login/widgets/pagebackground.dart';
 import 'package:provider/provider.dart';
 
-class DetailsScreen extends StatefulWidget {
+class RegistrationScreen extends StatefulWidget {
   final int selectIndex = 0;
 
   @override
-  _DetailsScreenState createState() => _DetailsScreenState();
+  _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
+class _RegistrationScreenState extends State<RegistrationScreen> {
   ScrollController _scrollController = ScrollController();
   ScrollController _scrollController2 = ScrollController();
 
@@ -74,21 +75,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
     return Scaffold(
       key: _scaffoldKey,
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.black54,
       body: Stack(
         children: <Widget>[
-          Container(
-            height: size.height,
-            width: size.width,
-            child: Image.asset(
-              'assets/icons/loginbackground.png',
-              fit: BoxFit.fill,
-            ),
-          ),
+          PageBackground(
+              size: size, imagePath: 'assets/icons/loginbackground.png'),
           SingleChildScrollView(
             child: Container(
+              width: size.width,
               padding: size.height > diviceSize
-                  ? EdgeInsets.only(top: 98, left: 48, right: 48, bottom: 48)
+                  ? EdgeInsets.only(top: 98, left: 0, right: 0, bottom: 48)
                   : EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -188,7 +185,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         : const EdgeInsets.only(top: 0.0),
                     child: Center(
                       child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 80),
+                        margin: EdgeInsets.symmetric(horizontal: 20),
                         height: size.height > diviceSize ? 110 : 40,
                         width: size.height > diviceSize ? 1000 : size.width,
                         child: ListView.builder(
@@ -238,7 +235,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       child: Stack(
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsets.symmetric(horizontal: 80),
+                            margin: EdgeInsets.symmetric(horizontal: 20),
                             height: size.height > diviceSize ? 110 : 40,
                             width: size.height > diviceSize ? 1000 : size.width,
                             child: ListView.builder(
@@ -300,14 +297,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
         validator: lable == 'Name'
             ? (value) {
                 if (value.isEmpty) {
-                  return 'Please enter some text';
+                  return 'Please enter valid name';
                 }
                 return null;
               }
             : lable == 'Password'
                 ? (value) {
                     if (value.isEmpty) {
-                      return 'Please enter some text';
+                      return 'Please enter valid password';
                     }
                     return null;
                   }

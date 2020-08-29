@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/screens/contract.dart';
+import 'package:login/widgets/pagebackground.dart';
+import 'package:login/widgets/pagetitle.dart';
 
 class ContractDetails extends StatelessWidget {
   final diviceSize = 470;
@@ -40,14 +42,7 @@ class ContractDetails extends StatelessWidget {
       ),
       body: Stack(
         children: <Widget>[
-          Container(
-            height: size.height,
-            width: size.width,
-            child: Image.asset(
-              'assets/background.png',
-              fit: BoxFit.cover,
-            ),
-          ),
+          PageBackground(size: size, imagePath: 'assets/background.png'),
           Padding(
             padding: const EdgeInsets.all(28.0),
             child: SingleChildScrollView(
@@ -55,33 +50,10 @@ class ContractDetails extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      IconButton(
-                        iconSize: size.height > diviceSize ? 50 : 30,
-                        icon: Icon(Icons.arrow_back),
-                        color: Colors.amber[200],
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "Contract Detils",
-                              style: TextStyle(
-                                color: Colors.amber[200],
-                                fontSize: size.height > diviceSize ? 40 : 22,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  PageTitle(
+                      size: size,
+                      diviceSize: diviceSize,
+                      title: "Contract Detils"),
                   SizedBox(
                     height: size.height > diviceSize ? 20 : 8,
                   ),

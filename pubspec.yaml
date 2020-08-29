@@ -32,6 +32,7 @@ dependencies:
   http: ^0.12.2
   shared_preferences: ^0.5.10
   dotted_border: ^1.0.6
+  image_picker: ^0.6.7+7
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -88,6 +89,7 @@ flutter:
     - assets/images/Makemytripimg.png
     - assets/images/expediaimg.png
     - assets/images/bookingimg.png
+    - assets/supremecardimage.png
     
   #   - images/a_dot_ham.jpeg
 
