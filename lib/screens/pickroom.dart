@@ -609,7 +609,7 @@ class _PickRoomState extends State<PickRoom> {
                                   },
                                   child: Container(
                                     margin:
-                                        EdgeInsets.symmetric(horizontal: 40),
+                                        EdgeInsets.symmetric(horizontal: 30),
                                     height: size.height > divSize ? 80 : 40,
                                     width: size.height > divSize
                                         ? 680
@@ -666,7 +666,7 @@ class _PickRoomState extends State<PickRoom> {
                                   },
                                   child: Container(
                                     margin:
-                                        EdgeInsets.symmetric(horizontal: 40),
+                                        EdgeInsets.symmetric(horizontal: 30),
                                     height: size.height > divSize ? 80 : 40,
                                     width: size.height > divSize
                                         ? 680
@@ -739,7 +739,7 @@ class _PickRoomState extends State<PickRoom> {
   Future<void> _showMyDialog(List<City> cityList) async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(

@@ -105,7 +105,7 @@ class _MyAppState extends State<MyApp> {
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             canvasColor: Colors.transparent),
-        home: user ? PickRoom() : ProjectADetails(),
+        home: user ? PickRoom() : LoginScreen(),
         routes: {
           '/date': (context) => DatePick(),
           '/login': (context) => LoginScreen(),

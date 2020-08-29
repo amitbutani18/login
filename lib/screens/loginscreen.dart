@@ -22,8 +22,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen>
     with TickerProviderStateMixin {
-  ScrollController _scrollController2;
-  ScrollController _scrollController;
+  ScrollController _scrollController2 = ScrollController();
+  ScrollController _scrollController = ScrollController();
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -172,9 +172,9 @@ class _LoginScreenState extends State<LoginScreen>
                                   child: Column(
                                     children: <Widget>[
                                       size.height > diviceSize
-                                          ? _formField('Email', 650, 30,
+                                          ? _formField('Email Address', 650, 30,
                                               'assets/icons/user.png')
-                                          : _formField('Email', 450, 15,
+                                          : _formField('Email Address', 450, 15,
                                               'assets/icons/user.png'),
                                       SizedBox(
                                         height: 5,
@@ -444,14 +444,15 @@ class _LoginScreenState extends State<LoginScreen>
                 return null;
               },
         cursorColor: Colors.white,
-        controller: lable == 'Email' ? _emailController : _passwordController,
+        controller:
+            lable == 'Email Address' ? _emailController : _passwordController,
         onSaved: (value) {
           setState(() {
-            lable == 'Email' ? _email = value : _password = value;
+            lable == 'Email Address' ? _email = value : _password = value;
           });
         },
         style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
-        obscureText: lable == 'Email' ? false : true,
+        obscureText: lable == 'Email Address' ? false : true,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(
             top: 15,
@@ -511,7 +512,7 @@ class _LoginScreenState extends State<LoginScreen>
         //   _load = true;
         // });
         final statusCode = await Provider.of<LoginApi>(context, listen: false)
-            .signIn(_email, _password);
+            .signIn(_email.trim(), _password.trim());
         print(statusCode);
         setState(() {
           _load = false;

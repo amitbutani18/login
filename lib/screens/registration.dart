@@ -82,6 +82,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           PageBackground(
               size: size, imagePath: 'assets/icons/loginbackground.png'),
           SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Container(
               width: size.width,
               padding: size.height > diviceSize
@@ -151,8 +152,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
                                   InkWell(
-                                    onTap: () => Navigator.of(context)
-                                        .pushNamed('/what'),
+                                    onTap: () => Navigator.of(context).pop(),
                                     child: Container(
                                       decoration: BoxDecoration(
                                         border: Border(
