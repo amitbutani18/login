@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:login/helpers/images.dart';
-
 class ImagesProvider with ChangeNotifier {
   List<Images> _items = [
     Images(imageUrl: 'assets/images/Makemytripimg.png', offer: '20% OFF'),
@@ -13,4 +11,10 @@ class ImagesProvider with ChangeNotifier {
   List<Images> get items {
     return [..._items];
   }
+}
+
+class Images {
+  String imageUrl;
+  String offer;
+  Images({@required this.imageUrl, @required this.offer});
 }

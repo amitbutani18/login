@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:login/helpers/slidericon.dart';
+import 'package:login/helpers/slider/slidericon.dart';
 
 class TopSliderIconProvider with ChangeNotifier {
   List<SliderIcon> _items = [

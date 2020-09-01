@@ -1,8 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:login/API/registerapi.dart';
-import 'package:login/helpers/bottomdownsliderprovider.dart';
-import 'package:login/helpers/bottomupsliderprovider.dart';
+import 'package:login/helpers/slider/bottomdownsliderprovider.dart';
+import 'package:login/helpers/slider/bottomupsliderprovider.dart';
 import 'package:login/widgets/ease_in_widget.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:provider/provider.dart';

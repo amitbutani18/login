@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:login/helpers/images.dart';
+import 'package:login/helpers/imageprovider.dart';
 
 class RoomImageProvider with ChangeNotifier {
   List<Images> _items = [

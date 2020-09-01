@@ -3,19 +3,19 @@ import 'package:flutter/services.dart';
 import 'package:login/API/loginapi.dart';
 import 'package:login/API/logout.dart';
 import 'package:login/API/registerapi.dart';
-import 'package:login/helpers/bottomdownsliderprovider.dart';
-import 'package:login/helpers/bottomupsliderprovider.dart';
+import 'package:login/helpers/slider/bottomdownsliderprovider.dart';
+import 'package:login/helpers/slider/bottomupsliderprovider.dart';
 import 'package:login/helpers/citylist.dart';
 import 'package:login/helpers/iconprovider.dart';
 import 'package:login/helpers/imageprovider.dart';
-import 'package:login/helpers/leftsideslidericonprovider.dart';
+import 'package:login/helpers/slider/leftsideslidericonprovider.dart';
 import 'package:login/helpers/membersprovider.dart';
 import 'package:login/helpers/projectdetailsprovider.dart';
-import 'package:login/helpers/rightsidesliderprovider.dart';
+import 'package:login/helpers/slider/rightsidesliderprovider.dart';
 import 'package:login/helpers/roomdetailsprovider.dart';
 import 'package:login/helpers/roomimageprovider.dart';
 import 'package:login/helpers/tabiconprovider.dart';
-import 'package:login/helpers/topslidericonprovider.dart';
+import 'package:login/helpers/slider/topslidericonprovider.dart';
 import 'package:login/helpers/transactionprovider.dart';
 import 'package:login/screens/addproject.dart';
 import 'package:login/screens/allcontract.dart';
@@ -57,11 +57,11 @@ class _MyAppState extends State<MyApp> {
             await SharedPreferences.getInstance();
         if (sharedPreferences.getBool('login') == null) {
           sharedPreferences.setBool('login', false);
-          sharedPreferences.setString('api', "http://15.207.228.103:3000/API/");
+          sharedPreferences.setString('api', "http://3.15.39.127:3000/API/");
         }
         setState(() {
           user = sharedPreferences.getBool('login');
-          sharedPreferences.setString('api', "http://15.207.228.103:3000/API/");
+          sharedPreferences.setString('api', "http://3.15.39.127:3000/API/");
         });
 
         final api = sharedPreferences.getString('api');

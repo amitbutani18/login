@@ -1,10 +1,10 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:login/API/loginapi.dart';
-import 'package:login/helpers/bottomdownsliderprovider.dart';
-import 'package:login/helpers/bottomupsliderprovider.dart';
-import 'package:login/helpers/leftsideslidericonprovider.dart';
-import 'package:login/helpers/rightsidesliderprovider.dart';
+import 'package:login/helpers/slider/bottomdownsliderprovider.dart';
+import 'package:login/helpers/slider/bottomupsliderprovider.dart';
+import 'package:login/helpers/slider/leftsideslidericonprovider.dart';
+import 'package:login/helpers/slider/rightsidesliderprovider.dart';
 import 'package:login/screens/registration.dart';
 import 'package:login/screens/forgotpasswod.dart';
 import 'package:login/screens/pickroom.dart';
@@ -543,84 +543,4 @@ class _LoginScreenState extends State<LoginScreen>
       }
     }
   }
-
-  // Future<void> _showMyDialog() async {
-  //   bool _isLoading = false;
-  //   return showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: false, // user must tap button!
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         shape: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.all(Radius.circular(15.0))),
-  //         backgroundColor: Color.fromRGBO(37, 36, 41, 1),
-  //         content: Container(
-  //           height: 150,
-  //           width: 400,
-  //           child: SingleChildScrollView(
-  //             child: Column(
-  //               mainAxisAlignment: MainAxisAlignment.end,
-  //               children: [
-  //                 TextFormField(
-  //                   validator: (value) {
-  //                     if (!EmailValidator.validate(value) || value.isEmpty) {
-  //                       return 'Please enter Valid text';
-  //                     }
-  //                     return null;
-  //                   },
-  //                   cursorColor: Colors.white,
-  //                   controller: _forgotEmailController,
-  //                   onChanged: (value) {
-  //                     setState(() {
-  //                       _forgotEmail = value;
-  //                     });
-  //                   },
-  //                   style: TextStyle(color: Colors.yellow[300], fontSize: 15),
-  //                   decoration: InputDecoration(
-  //                     contentPadding: EdgeInsets.only(
-  //                       top: 15,
-  //                     ),
-  //                     hintText: "Email",
-  //                     hintStyle:
-  //                         TextStyle(color: Colors.amber[300], fontSize: 15),
-  //                     prefixIcon: Container(
-  //                       padding: EdgeInsets.all(8),
-  //                       margin: EdgeInsets.only(right: 0),
-  //                       child: CircleAvatar(
-  //                         backgroundColor: Colors.transparent,
-  //                         radius: 10,
-  //                         child: Image.asset('assets/icons/mail.png'),
-  //                       ),
-  //                     ),
-  //                     enabledBorder: UnderlineInputBorder(
-  //                       borderSide: BorderSide(color: Colors.amber),
-  //                     ),
-  //                     focusedBorder: UnderlineInputBorder(
-  //                       borderSide: BorderSide(color: Colors.yellow),
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 _isLoading
-  //                     ? Center(
-  //                         child: CircularProgressIndicator(),
-  //                       )
-  //                     : FlatButton(
-  //                         child: Text(
-  //                           'OK',
-  //                           style: TextStyle(color: Colors.amber),
-  //                         ),
-  //                         onPressed: () async {
-  //                           // _formKey.currentState.save();
-  //                           print(_forgotEmail);
-  //                         },
-  //                       ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
 }

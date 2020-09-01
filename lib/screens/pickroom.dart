@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:login/API/logout.dart';
-import 'package:login/helpers/bottomdownsliderprovider.dart';
-import 'package:login/helpers/bottomupsliderprovider.dart';
+import 'package:login/helpers/slider/bottomdownsliderprovider.dart';
+import 'package:login/helpers/slider/bottomupsliderprovider.dart';
 import 'package:login/helpers/citylist.dart';
 import 'package:login/helpers/imageprovider.dart';
-import 'package:login/helpers/leftsideslidericonprovider.dart';
-import 'package:login/helpers/rightsidesliderprovider.dart';
-import 'package:login/helpers/topslidericonprovider.dart';
+import 'package:login/helpers/slider/leftsideslidericonprovider.dart';
+import 'package:login/helpers/slider/rightsidesliderprovider.dart';
+import 'package:login/helpers/slider/topslidericonprovider.dart';
 import 'package:login/widgets/datepick.dart';
 import 'package:login/widgets/ease_in_widget.dart';
 import 'package:login/widgets/pagebackground.dart';
@@ -771,22 +771,12 @@ class _PickRoomState extends State<PickRoom> {
                     ),
                   ),
                   Divider(
-                    color: Colors.white,
+                    color: Colors.white24,
                   ),
                 ],
               ),
             ),
           ),
-          // actions: <Widget>[
-          //   FlatButton(
-          //     child: Text(
-          //       'OK',
-          //       style: TextStyle(color: Colors.amber),
-          //     ),
-          //     onPressed: () {
-          //       Navigator.of(context).pop();
-          //     },
-          //   ),
         );
       },
     );

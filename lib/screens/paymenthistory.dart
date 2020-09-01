@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:login/helpers/bottomdownsliderprovider.dart';
-import 'package:login/helpers/bottomupsliderprovider.dart';
+import 'package:login/helpers/slider/bottomdownsliderprovider.dart';
+import 'package:login/helpers/slider/bottomupsliderprovider.dart';
 import 'package:login/helpers/membersprovider.dart';
 import 'package:login/helpers/transactionprovider.dart';
 import 'package:login/screens/searchmember.dart';

@@ -2,17 +2,22 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:login/helpers/slidericon.dart';
+import 'package:login/helpers/slider/slidericon.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class BottomUpSliderProvider with ChangeNotifier {
+class BottomDownSliderProvider with ChangeNotifier {
   List<SliderIcon> _items = [
-    // SliderIcon(title: 'Electronics', image: 'assets/icons/makemytrip.png'),
-    // SliderIcon(title: 'Electronics', image: 'assets/icons/booking.png'),
-    // SliderIcon(title: 'Electronics', image: 'assets/icons/oyo.png'),
-    // SliderIcon(title: 'Electronics', image: 'assets/icons/Goibibo.png'),
-    // SliderIcon(title: 'Electronics', image: 'assets/icons/Expedia.png'),
+    // SliderIcon(
+    //     title: 'Electronics', image: 'assets/icons/Electronicsbottom.png'),
+    // SliderIcon(title: 'Electronics', image: 'assets/icons/Clothesbottom.png'),
+    // SliderIcon(title: 'Electronics', image: 'assets/icons/jewellarybottom.png'),
+    // SliderIcon(image: 'assets/icons/Goibibo.png'),
+    // SliderIcon(image: 'assets/icons/Expedia.png'),
+    // SliderIcon(image: 'assets/icons/Hotels.png'),
+    // SliderIcon(image: 'assets/icons/gym.png'),
+    // SliderIcon(image: 'assets/icons/retaurant.png'),
+    // SliderIcon(image: 'assets/icons/Hotels.png'),
   ];
   List<SliderIcon> get items {
     return [..._items];
@@ -44,7 +49,7 @@ class BottomUpSliderProvider with ChangeNotifier {
           print(list.length);
           List<SliderIcon> loadedList = [];
 
-          for (var i = 0; i < list.length / 2; i++) {
+          for (var i = (list.length / 2).round(); i < list.length; i++) {
             loadedList.add(
               SliderIcon(
                   title: '${list[i]['name']}',
@@ -59,8 +64,6 @@ class BottomUpSliderProvider with ChangeNotifier {
         }
       }
     } catch (error) {
-      print("Error");
-
       print(error);
     }
   }
