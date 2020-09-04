@@ -178,7 +178,6 @@ class _PickRoomState extends State<PickRoom> {
     final slider = sliderIconData.items;
     final leftIconData = Provider.of<LeftSideSliderIconProvider>(context);
     final leftSlider = leftIconData.items;
-    final sLeftSlider = leftIconData.images;
     final rightIconData = Provider.of<RightSideSliderIconProvider>(context);
     final rightSlider = rightIconData.items;
     final bottomUpSliderData = Provider.of<BottomUpSliderProvider>(context);

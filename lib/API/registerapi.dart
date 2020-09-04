@@ -2,12 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterApi with ChangeNotifier {
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  final api = sharedPreferences.getString('api');
   Future<List<dynamic>> signUp(
       String name, String email, String password) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final api = sharedPreferences.getString('api');
     final response = await http.post('${api}signup',
         headers: {"Content-Type": "application/json"},
         body: json.encode({

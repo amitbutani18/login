@@ -8,8 +8,6 @@ import 'package:login/widgets/pagetitle.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'contract.dart';
-
 class ServiceProvider extends StatefulWidget {
   @override
   _ServiceProviderState createState() => _ServiceProviderState();

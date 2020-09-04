@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:login/API/loginapi.dart';
 import 'package:login/API/logout.dart';
 import 'package:login/API/registerapi.dart';
+import 'package:login/API/setpinapi.dart';
+import 'package:login/API/verpinapi.dart';
 import 'package:login/helpers/slider/bottomdownsliderprovider.dart';
 import 'package:login/helpers/slider/bottomupsliderprovider.dart';
 import 'package:login/helpers/citylist.dart';
@@ -19,10 +21,10 @@ import 'package:login/helpers/slider/topslidericonprovider.dart';
 import 'package:login/helpers/transactionprovider.dart';
 import 'package:login/screens/addproject.dart';
 import 'package:login/screens/allcontract.dart';
-import 'package:login/screens/contractdetails.dart';
 import 'package:login/screens/endcontract.dart';
-import 'package:login/screens/projectadetails.dart';
 import 'package:login/screens/serviceprovider.dart';
+import 'package:login/screens/setpin.dart';
+import 'package:login/screens/verifypin.dart';
 import 'package:login/widgets/datepick.dart';
 import 'package:login/screens/loginscreen.dart';
 import 'package:login/screens/ownprofile.dart';
@@ -93,6 +95,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider.value(value: ProjectDetailsProvider()),
         ChangeNotifierProvider.value(value: MembersProvider()),
         ChangeNotifierProvider.value(value: LoginApi()),
+        ChangeNotifierProvider.value(value: VerPinApi()),
+        ChangeNotifierProvider.value(value: SetPinApi()),
         ChangeNotifierProvider.value(value: RegisterApi()),
         ChangeNotifierProvider.value(value: LogOut()),
         ChangeNotifierProvider.value(value: CityList()),
@@ -105,7 +109,7 @@ class _MyAppState extends State<MyApp> {
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             canvasColor: Colors.transparent),
-        home: user ? PickRoom() : LoginScreen(),
+        home: user ? SetPin() : LoginScreen(),
         routes: {
           '/date': (context) => DatePick(),
           '/login': (context) => LoginScreen(),

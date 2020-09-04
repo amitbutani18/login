@@ -8,8 +8,9 @@ import 'package:login/helpers/slider/rightsidesliderprovider.dart';
 import 'package:login/screens/registration.dart';
 import 'package:login/screens/forgotpasswod.dart';
 import 'package:login/screens/pickroom.dart';
+import 'package:login/screens/setpin.dart';
+import 'package:login/screens/verifypin.dart';
 import 'package:login/widgets/ease_in_widget.dart';
-import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/sliderightroute.dart';
 import 'package:provider/provider.dart';
 
@@ -41,6 +42,7 @@ class _LoginScreenState extends State<LoginScreen>
   bool clearData = false;
   var currentOffset;
   var _isLoading = false;
+  var _load = false;
 
   @override
   void initState() {
@@ -496,7 +498,6 @@ class _LoginScreenState extends State<LoginScreen>
         curve: Curves.linear);
   }
 
-  var _load = false;
   void _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
@@ -508,26 +509,35 @@ class _LoginScreenState extends State<LoginScreen>
       // print(_email);
       // print(_password);
       try {
-        // setState(() {
-        //   _load = true;
-        // });
+        setState(() {
+          _isLoading = false;
+        });
         final statusCode = await Provider.of<LoginApi>(context, listen: false)
             .signIn(_email.trim(), _password.trim());
         print(statusCode);
         setState(() {
-          _load = false;
+          _isLoading = false;
         });
-        if (statusCode == 200) {
+        if (statusCode[0] == 200) {
           _emailController.clear();
           _passwordController.clear();
           _scaffoldKey.currentState.hideCurrentSnackBar();
 
-          Navigator.push(
-            context,
-            SlideRightRoute(
-              page: PickRoom(),
-            ),
-          );
+          if (statusCode[1] == 0) {
+            Navigator.push(
+              context,
+              SlideRightRoute(
+                page: VerifyPin(),
+              ),
+            );
+          } else {
+            Navigator.push(
+              context,
+              SlideRightRoute(
+                page: SetPin(),
+              ),
+            );
+          }
         }
         await Provider.of<RightSideSliderIconProvider>(context, listen: false)
             .setIcon();

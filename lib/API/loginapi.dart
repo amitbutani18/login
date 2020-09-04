@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginApi with ChangeNotifier {
-  Future<int> signIn(String email, String password) async {
+  Future<List> signIn(String email, String password) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final api = sharedPreferences.getString('api');
 
@@ -34,17 +34,25 @@ class LoginApi with ChangeNotifier {
           sharedPreferences.setBool('login', true);
           sharedPreferences.setString('name', map['data']['name']);
           sharedPreferences.setString('email', map['data']['email']);
+          sharedPreferences.setString("userid", map['data']['userid']);
+          sharedPreferences.setInt("touchid", map['data']['touchid']);
+          sharedPreferences.setInt("pinstatus", map['data']['pinstatus']);
+          sharedPreferences.setInt("setpinscreen", map['data']['setpinscreen']);
 
           print(sharedPreferences.getString('name'));
           print(sharedPreferences.getString('email'));
           print(sharedPreferences.getBool('login'));
+          print(sharedPreferences.getString('userid'));
+          print(sharedPreferences.getInt('touchid'));
+          print(sharedPreferences.getInt('pinstatus'));
+          print(sharedPreferences.getInt('setpinscreen'));
         }
       } else {
         throw Exception("fail to load");
       }
     }
 
-    return response.statusCode;
+    return [response.statusCode, sharedPreferences.getInt('setpinscreen')];
   }
 
   Future<List<dynamic>> forgotPassword(String email) async {
