@@ -206,6 +206,13 @@ class _PickRoomState extends State<PickRoom> {
           children: [
             IconButton(
               color: Colors.amber,
+              icon: Icon(Icons.settings),
+              onPressed: () async {
+                Navigator.of(context).pushReplacementNamed('/settings');
+              },
+            ),
+            IconButton(
+              color: Colors.amber,
               icon: Icon(Icons.exit_to_app),
               onPressed: () async {
                 await Provider.of<LogOut>(context, listen: false).logOut();

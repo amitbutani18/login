@@ -512,24 +512,36 @@ class _LoginScreenState extends State<LoginScreen>
         setState(() {
           _isLoading = false;
         });
-        final statusCode = await Provider.of<LoginApi>(context, listen: false)
+        final response = await Provider.of<LoginApi>(context, listen: false)
             .signIn(_email.trim(), _password.trim());
-        print(statusCode);
+        print(response[1]);
+        final statusCode = response[0];
+        final setPinScreen = response[1];
+        final pinStatus = response[2];
         setState(() {
           _isLoading = false;
         });
-        if (statusCode[0] == 200) {
+        if (statusCode == 200) {
           _emailController.clear();
           _passwordController.clear();
           _scaffoldKey.currentState.hideCurrentSnackBar();
 
-          if (statusCode[1] == 0) {
-            Navigator.push(
-              context,
-              SlideRightRoute(
-                page: VerifyPin(),
-              ),
-            );
+          if (setPinScreen == 0) {
+            if (pinStatus == 0) {
+              Navigator.push(
+                context,
+                SlideRightRoute(
+                  page: PickRoom(),
+                ),
+              );
+            } else {
+              Navigator.push(
+                context,
+                SlideRightRoute(
+                  page: VerifyPin(),
+                ),
+              );
+            }
           } else {
             Navigator.push(
               context,

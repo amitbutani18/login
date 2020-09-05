@@ -23,7 +23,7 @@ import 'package:login/screens/addproject.dart';
 import 'package:login/screens/allcontract.dart';
 import 'package:login/screens/endcontract.dart';
 import 'package:login/screens/serviceprovider.dart';
-import 'package:login/screens/setpin.dart';
+import 'package:login/screens/settingscreen.dart';
 import 'package:login/screens/verifypin.dart';
 import 'package:login/widgets/datepick.dart';
 import 'package:login/screens/loginscreen.dart';
@@ -49,6 +49,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool _checkConfiguration() => true;
   var user = true;
+  var pinstatus = 1;
 
   @override
   void initState() {
@@ -63,10 +64,12 @@ class _MyAppState extends State<MyApp> {
         }
         setState(() {
           user = sharedPreferences.getBool('login');
+          pinstatus = sharedPreferences.getInt("pinstatus");
           sharedPreferences.setString('api', "http://3.15.39.127:3000/API/");
         });
 
         final api = sharedPreferences.getString('api');
+        print(pinstatus);
         print(api);
         print(user);
       });
@@ -109,7 +112,7 @@ class _MyAppState extends State<MyApp> {
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             canvasColor: Colors.transparent),
-        home: user ? SetPin() : LoginScreen(),
+        home: user ? pinstatus == 0 ? PickRoom() : VerifyPin() : LoginScreen(),
         routes: {
           '/date': (context) => DatePick(),
           '/login': (context) => LoginScreen(),
@@ -123,6 +126,7 @@ class _MyAppState extends State<MyApp> {
           '/service-provider': (context) => ServiceProvider(),
           '/end-contract': (context) => EndContract(),
           '/all-contract': (context) => AllContract(),
+          '/settings': (context) => SettingScreen(),
         },
       ),
     );

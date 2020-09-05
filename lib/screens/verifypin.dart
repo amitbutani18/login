@@ -4,6 +4,7 @@ import 'package:login/screens/pickroom.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyPin extends StatefulWidget {
   @override
@@ -184,7 +185,18 @@ class _VerifyPinState extends State<VerifyPin> {
         int statusCode = await Provider.of<VerPinApi>(context, listen: false)
             .verPin(int.parse(_pin));
         if (statusCode == 200) {
-          _authenticateMe();
+          SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
+          final touchid = sharedPreferences.getInt('touchid');
+          if (touchid == 0) {
+            _authenticateMe();
+          } else {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => PickRoom(),
+              ),
+            );
+          }
         }
         setState(() {
           _load = false;
@@ -217,6 +229,9 @@ class _VerifyPinState extends State<VerifyPin> {
         validator: (value) {
           if (value.isEmpty) {
             return 'Please Enter Valid PIN';
+          }
+          if (value.length != 4) {
+            return 'Please Enter 4 Digit PIN';
           }
           return null;
         },

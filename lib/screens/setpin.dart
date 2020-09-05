@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:login/API/setpinapi.dart';
-import 'package:login/screens/pickroom.dart';
 import 'package:login/screens/verifypin.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:local_auth/local_auth.dart';

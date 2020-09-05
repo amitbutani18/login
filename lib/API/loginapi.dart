@@ -52,7 +52,11 @@ class LoginApi with ChangeNotifier {
       }
     }
 
-    return [response.statusCode, sharedPreferences.getInt('setpinscreen')];
+    return [
+      response.statusCode,
+      sharedPreferences.getInt('setpinscreen'),
+      sharedPreferences.getInt('pinstatus')
+    ];
   }
 
   Future<List<dynamic>> forgotPassword(String email) async {
