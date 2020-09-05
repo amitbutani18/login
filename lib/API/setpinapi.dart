@@ -27,6 +27,7 @@ class SetPinApi with ChangeNotifier {
     } else {
       if (response.statusCode == 200) {
         print(map['data']);
+        sharedPreferences.setInt('setpinscreen', 0);
       } else {
         throw 'Failed To Load';
       }

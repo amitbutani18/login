@@ -12,8 +12,8 @@ class LoginApi with ChangeNotifier {
     final response = await http.post(
       '${api}signin',
       body: {
-        "email": email,
-        "password": password,
+        "email": "maulik334@gmail.com",
+        "password": "maulik@123",
         "deviceid": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
         "devicetype": "1",
         "fcm_token": "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

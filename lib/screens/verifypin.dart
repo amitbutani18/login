@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login/API/verpinapi.dart';
+import 'package:login/screens/fingerprintscreen.dart';
 import 'package:login/screens/pickroom.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:local_auth/local_auth.dart';
@@ -20,74 +21,12 @@ class _VerifyPinState extends State<VerifyPin> {
 
   TextEditingController _setPinController = TextEditingController();
 
-  final LocalAuthentication _localAuthentication = LocalAuthentication();
-
   var _pin = '';
   var _load = false;
-  String _authorizedOrNot = "Not Authorized";
-  bool _hasFingerPrintSupport = false;
-  List<BiometricType> _availableBuimetricType = List<BiometricType>();
 
   @override
   void initState() {
     super.initState();
-    _getBiometricsSupport();
-    _getAvailableSupport();
-  }
-
-  Future<void> _getBiometricsSupport() async {
-    // 6. this method checks whether your device has biometric support or not
-    bool hasFingerPrintSupport = false;
-    try {
-      hasFingerPrintSupport = await _localAuthentication.canCheckBiometrics;
-    } catch (e) {
-      print(e);
-    }
-    if (!mounted) return;
-    setState(() {
-      _hasFingerPrintSupport = hasFingerPrintSupport;
-    });
-  }
-
-  Future<void> _getAvailableSupport() async {
-    // 7. this method fetches all the available biometric supports of the device
-    List<BiometricType> availableBuimetricType = List<BiometricType>();
-    try {
-      availableBuimetricType =
-          await _localAuthentication.getAvailableBiometrics();
-    } catch (e) {
-      print(e);
-    }
-    if (!mounted) return;
-    setState(() {
-      _availableBuimetricType = availableBuimetricType;
-    });
-  }
-
-  Future<void> _authenticateMe() async {
-    // 8. this method opens a dialog for fingerprint authentication.
-    //    we do not need to create a dialog nut it popsup from device natively.
-    bool authenticated = false;
-    try {
-      authenticated = await _localAuthentication.authenticateWithBiometrics(
-        localizedReason: "Authenticate User", // message for dialog
-        useErrorDialogs: true, // show error in dialog
-        stickyAuth: true, // native process
-      );
-    } catch (e) {
-      print(e);
-    }
-    if (!mounted) return;
-    setState(() {
-      _authorizedOrNot = authenticated ? "Authorized" : "Not Authorized";
-    });
-    if (authenticated) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => PickRoom(),
-        ),
-      );
-    }
   }
 
   @override
@@ -188,8 +127,13 @@ class _VerifyPinState extends State<VerifyPin> {
           SharedPreferences sharedPreferences =
               await SharedPreferences.getInstance();
           final touchid = sharedPreferences.getInt('touchid');
-          if (touchid == 0) {
-            _authenticateMe();
+          print("TouchId" + touchid.toString());
+          if (touchid == 1) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => FingerPrintScreen(),
+              ),
+            );
           } else {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -235,6 +179,7 @@ class _VerifyPinState extends State<VerifyPin> {
           }
           return null;
         },
+        keyboardType: TextInputType.number,
         cursorColor: Colors.white,
         controller: _setPinController,
         onChanged: (value) {

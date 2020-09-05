@@ -206,9 +206,16 @@ class _PickRoomState extends State<PickRoom> {
           children: [
             IconButton(
               color: Colors.amber,
+              icon: Icon(Icons.perm_identity),
+              onPressed: () async {
+                Navigator.of(context).pushNamed('/own-profile');
+              },
+            ),
+            IconButton(
+              color: Colors.amber,
               icon: Icon(Icons.settings),
               onPressed: () async {
-                Navigator.of(context).pushReplacementNamed('/settings');
+                Navigator.of(context).pushNamed('/settings');
               },
             ),
             IconButton(

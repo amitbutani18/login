@@ -22,7 +22,7 @@ class _SettingScreenState extends State<SettingScreen> {
     super.didChangeDependencies();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final pinstatus = sharedPreferences.getInt('pinstatus');
-    final fingValue = sharedPreferences.getInt('pinstatus');
+    final fingValue = sharedPreferences.getInt('touchid');
     print("Current Pin status" + pinstatus.toString());
     setState(() {
       initialValuePin = pinstatus == 0 ? false : true;
@@ -62,7 +62,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         Container(
                           // width: size.height > diviceSize ? 650 : 400,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 "Security Pin Status",
@@ -86,6 +86,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                     });
                                     sharedPreferences.setInt(
                                         'pinstatus', value ? 1 : 0);
+                                    _submit('pin');
                                   },
                                 ),
                               ),
@@ -120,6 +121,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                   });
                                   sharedPreferences.setInt(
                                       'touchid', value ? 1 : 0);
+                                  _submit('finger');
                                 },
                               ),
                             ),
@@ -133,7 +135,10 @@ class _SettingScreenState extends State<SettingScreen> {
                                   ? const EdgeInsets.only(top: 18.0)
                                   : const EdgeInsets.only(top: 8.0),
                               child: GestureDetector(
-                                onTap: () => _submit(),
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed('/pickroom');
+                                },
                                 child: Container(
                                   child: CircleAvatar(
                                       backgroundColor: Colors.transparent,
@@ -155,19 +160,17 @@ class _SettingScreenState extends State<SettingScreen> {
     );
   }
 
-  Future<void> _submit() async {
+  Future<void> _submit(String type) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final api = sharedPreferences.getString('api');
     final userId = sharedPreferences.getString('userid');
-    // print(changedValue);
-    // sharedPreferences.setInt('pinstatus', changedValue ? 1 : 0);
     final response = await http.post(
       '${api}securitystatus',
       headers: {"Content-Type": "application/json"},
       body: json.encode(
         {
           "userid": userId,
-          "type": 0,
+          "type": type == 'finger' ? 1 : 0,
         },
       ),
     );
@@ -179,9 +182,10 @@ class _SettingScreenState extends State<SettingScreen> {
     } else {
       if (response.statusCode == 200) {
         print(map['data']);
+        _scaffoldKey.currentState.hideCurrentSnackBar();
+        _scaffoldKey.currentState
+            .showSnackBar(new SnackBar(content: Text(map['data'])));
       }
     }
-
-    Navigator.of(context).pushReplacementNamed('/pickroom');
   }
 }

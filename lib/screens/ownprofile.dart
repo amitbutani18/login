@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:login/screens/contractdetails.dart';
+import 'package:login/screens/editprofile.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 
@@ -10,16 +12,16 @@ class OwnProfile extends StatefulWidget {
 
 class _OwnProfileState extends State<OwnProfile> {
   var diviceSize = 470;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
     return Scaffold(
+      key: _scaffoldKey,
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (BuildContext context) => ContractDetails()),
+          MaterialPageRoute(builder: (BuildContext context) => EditProfile()),
         ),
       ),
       body: Stack(
@@ -93,6 +95,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                 diviceSize: diviceSize,
                                 heading: 'You Tube',
                                 link: 'WWW.Modalhire.com',
+                                scaffoldKey: _scaffoldKey,
                               ),
                               SizedBox(
                                 height: 10,
@@ -102,6 +105,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                 diviceSize: diviceSize,
                                 heading: 'Linkedin',
                                 link: 'WWW.Modalhire.com',
+                                scaffoldKey: _scaffoldKey,
                               ),
                               SizedBox(
                                 height: 20,
@@ -133,7 +137,7 @@ class _OwnProfileState extends State<OwnProfile> {
                         child: Container(
                           padding: size.height > diviceSize
                               ? const EdgeInsets.symmetric(horizontal: 150)
-                              : const EdgeInsets.symmetric(horizontal: 10),
+                              : const EdgeInsets.symmetric(horizontal: 90),
                           width:
                               size.height > diviceSize ? size.width / 2 : 200,
                           height: size.height > diviceSize
@@ -146,9 +150,7 @@ class _OwnProfileState extends State<OwnProfile> {
                               children: <Widget>[
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: size.height > diviceSize
-                                      ? CrossAxisAlignment.start
-                                      : CrossAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
                                       'Location',
@@ -163,9 +165,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                          size.height > diviceSize
-                                              ? MainAxisAlignment.start
-                                              : MainAxisAlignment.center,
+                                          MainAxisAlignment.start,
                                       children: <Widget>[
                                         Icon(
                                           Icons.location_on,
@@ -196,9 +196,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                 ),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: size.height > diviceSize
-                                      ? CrossAxisAlignment.start
-                                      : CrossAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
                                       'Occuption',
@@ -213,9 +211,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                          size.height > diviceSize
-                                              ? MainAxisAlignment.start
-                                              : MainAxisAlignment.center,
+                                          MainAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
                                           "Fashion Model",
@@ -366,12 +362,14 @@ class YouLink extends StatelessWidget {
     @required this.diviceSize,
     @required this.heading,
     @required this.link,
+    @required this.scaffoldKey,
   }) : super(key: key);
 
   final Size size;
   final int diviceSize;
   final String heading;
   final String link;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
   @override
   Widget build(BuildContext context) {
@@ -395,20 +393,29 @@ class YouLink extends StatelessWidget {
           height: size.height > diviceSize ? 80 : 40,
           decoration: BoxDecoration(
             color: Colors.grey[850],
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(8),
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
-                link,
-                style: TextStyle(
-                  color: Colors.white24,
-                  fontSize: size.height > diviceSize ? 23 : 10,
+              Padding(
+                padding: const EdgeInsets.only(left: 18.0),
+                child: Text(
+                  link,
+                  style: TextStyle(
+                    color: Colors.white24,
+                    fontSize: size.height > diviceSize ? 23 : 10,
+                  ),
                 ),
               ),
               FlatButton(
-                onPressed: null,
+                onPressed: () {
+                  Clipboard.setData(new ClipboardData(text: link));
+                  scaffoldKey.currentState.hideCurrentSnackBar();
+                  scaffoldKey.currentState.showSnackBar(new SnackBar(
+                    content: new Text("Copied to Clipboard"),
+                  ));
+                },
                 child: Text(
                   'Copy',
                   style: TextStyle(
