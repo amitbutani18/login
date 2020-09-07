@@ -27,6 +27,7 @@ class VerPinApi with ChangeNotifier {
       throw map['err'];
     } else {
       if (response.statusCode == 200) {
+        sharedPreferences.setInt('pinstatus', 1);
         print(map['data']);
       } else {
         throw "Failed to load";

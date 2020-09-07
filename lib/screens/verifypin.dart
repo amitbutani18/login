@@ -21,18 +21,105 @@ class _VerifyPinState extends State<VerifyPin> {
 
   TextEditingController _setPinController = TextEditingController();
 
+  final LocalAuthentication _localAuthentication = LocalAuthentication();
+
+  String _authorizedOrNot = "Not Authorized";
+  bool _hasFingerPrintSupport = false;
+  List<BiometricType> _availableBuimetricType = List<BiometricType>();
+
   var _pin = '';
   var _load = false;
+
+  bool _isinit = true;
+
+  Future<void> _getBiometricsSupport() async {
+    // 6. this method checks whether your device has biometric support or not
+    bool hasFingerPrintSupport = false;
+    try {
+      hasFingerPrintSupport = await _localAuthentication.canCheckBiometrics;
+    } catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+    setState(() {
+      _hasFingerPrintSupport = hasFingerPrintSupport;
+    });
+  }
+
+  Future<void> _getAvailableSupport() async {
+    // 7. this method fetches all the available biometric supports of the device
+    List<BiometricType> availableBuimetricType = List<BiometricType>();
+    try {
+      availableBuimetricType =
+          await _localAuthentication.getAvailableBiometrics();
+    } catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+    setState(() {
+      _availableBuimetricType = availableBuimetricType;
+    });
+  }
+
+  Future<void> _authenticateMe() async {
+    // 8. this method opens a dialog for fingerprint authentication.
+    //    we do not need to create a dialog nut it popsup from device natively.
+    bool authenticated = false;
+    try {
+      authenticated = await _localAuthentication.authenticateWithBiometrics(
+        localizedReason: "Authenticate User", // message for dialog
+        useErrorDialogs: true, // show error in dialog
+        stickyAuth: true, // native process
+      );
+    } catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+    setState(() {
+      _authorizedOrNot = authenticated ? "Authorized" : "Not Authorized";
+    });
+    if (authenticated) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => PickRoom(),
+        ),
+      );
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+
+    // _authenticateMe();
+    // WidgetsBinding.instance.addPostFrameCallback((_) => _authenticateMe());
+  }
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    print("Pick Room Did");
+    if (_isinit) {
+      _getBiometricsSupport();
+      _getAvailableSupport();
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      final fingStatus = sharedPreferences.getInt("touchid");
+      print("Touch Id In Pin" + fingStatus.toString());
+      if (fingStatus == 1) {
+        _authenticateMe();
+      }
+      // fingStatus == 1 ?
+      // _authenticateMe();
+    }
+    setState(() {
+      _isinit = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.black54,
@@ -41,69 +128,80 @@ class _VerifyPinState extends State<VerifyPin> {
         children: <Widget>[
           PageBackground(
               size: size, imagePath: 'assets/icons/loginbackground.png'),
-          _load
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Center(
-                  child: Container(
-                    padding: size.height > diviceSize
-                        ? EdgeInsets.only(
-                            top: 108, left: 55, right: 55, bottom: 55)
-                        : EdgeInsets.all(45),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          width: size.height > diviceSize ? 650 : 400,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 20),
-                            child: Form(
-                              key: _formKey,
-                              child: Column(
-                                children: <Widget>[
-                                  size.height > diviceSize
-                                      ? _formField('Enter Pin', 650, 30,
-                                          'assets/icons/user.png')
-                                      : _formField('Enter Pin', 450, 15,
-                                          'assets/icons/user.png'),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: size.height > diviceSize
-                                            ? const EdgeInsets.only(top: 18.0)
-                                            : const EdgeInsets.only(top: 8.0),
-                                        child: GestureDetector(
-                                          onTap: () => _submit(_pin),
-                                          child: Container(
-                                            child: CircleAvatar(
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                radius: size.height > diviceSize
-                                                    ? 40
-                                                    : 30,
-                                                child: Image.asset(
-                                                    'assets/icons/loginbubble.png')),
-                                          ),
+          // _load
+          //     ? Center(
+          //         child: CircularProgressIndicator(),
+          //       )
+          // :
+          Stack(
+            children: [
+              _load
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Container(),
+              Center(
+                child: Container(
+                  padding: size.height > diviceSize
+                      ? EdgeInsets.only(
+                          top: 108, left: 55, right: 55, bottom: 55)
+                      : EdgeInsets.all(45),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        width: size.height > diviceSize ? 650 : 400,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 20),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: <Widget>[
+                                size.height > diviceSize
+                                    ? _formField('Enter Pin', 650, 30,
+                                        'assets/icons/user.png')
+                                    : _formField('Enter Pin', 450, 15,
+                                        'assets/icons/user.png'),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: size.height > diviceSize
+                                          ? const EdgeInsets.only(top: 18.0)
+                                          : const EdgeInsets.only(top: 8.0),
+                                      child: GestureDetector(
+                                        onTap: () =>
+                                            _load ? null : _submit(_pin),
+                                        child: Container(
+                                          child: CircleAvatar(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              radius: size.height > diviceSize
+                                                  ? 40
+                                                  : 30,
+                                              child: Image.asset(
+                                                  'assets/icons/loginbubble.png')),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -128,19 +226,19 @@ class _VerifyPinState extends State<VerifyPin> {
               await SharedPreferences.getInstance();
           final touchid = sharedPreferences.getInt('touchid');
           print("TouchId" + touchid.toString());
-          if (touchid == 1) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => FingerPrintScreen(),
-              ),
-            );
-          } else {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => PickRoom(),
-              ),
-            );
-          }
+          // if (touchid == 1) {
+          //   Navigator.of(context).push(
+          //     MaterialPageRoute(
+          //       builder: (context) => FingerPrintScreen(),
+          //     ),
+          //   );
+          // } else {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => PickRoom(),
+            ),
+          );
+          // }
         }
         setState(() {
           _load = false;
@@ -150,6 +248,7 @@ class _VerifyPinState extends State<VerifyPin> {
           _load = false;
         });
         print(error.toString());
+        _scaffoldKey.currentState.hideCurrentSnackBar();
         _scaffoldKey.currentState.showSnackBar(
           SnackBar(
             content: Text(
@@ -170,6 +269,7 @@ class _VerifyPinState extends State<VerifyPin> {
     return Container(
       width: width,
       child: TextFormField(
+        enabled: _load ? false : true,
         validator: (value) {
           if (value.isEmpty) {
             return 'Please Enter Valid PIN';

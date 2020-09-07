@@ -15,10 +15,7 @@ class PageBackground extends StatelessWidget {
     return Container(
       height: size.height,
       width: size.width,
-      child: Image.asset(
-        imagePath,
-        fit: BoxFit.cover,
-      ),
+      child: Image.asset(imagePath, fit: BoxFit.fill),
     );
   }
 }

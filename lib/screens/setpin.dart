@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:login/API/setpinapi.dart';
+import 'package:login/screens/pickroom.dart';
 import 'package:login/screens/verifypin.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:login/widgets/sliderightroute.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class SetPin extends StatefulWidget {
   @override
@@ -51,7 +57,19 @@ class _SetPinState extends State<SetPin> {
     setState(() {
       _authorizedOrNot = authenticated ? "Authorized" : "Not Authorized";
     });
-    if (authenticated) {}
+    if (authenticated) {
+      enableFinger();
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => PickRoom(),
+        ),
+      );
+    }
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => PickRoom(),
+      ),
+    );
   }
 
   @override
@@ -91,17 +109,17 @@ class _SetPinState extends State<SetPin> {
                                 children: <Widget>[
                                   size.height > diviceSize
                                       ? _formField('Enter Pin', 650, 30,
-                                          'assets/icons/user.png')
+                                          'assets/icons/password.png')
                                       : _formField('Enter Pin', 450, 15,
-                                          'assets/icons/user.png'),
+                                          'assets/icons/password.png'),
                                   SizedBox(
                                     height: 5,
                                   ),
                                   size.height > diviceSize
                                       ? _formField('Reenter Pin', 650, 30,
-                                          'assets/icons/user.png')
+                                          'assets/icons/password.png')
                                       : _formField('Re Enter Pin', 450, 15,
-                                          'assets/icons/user.png'),
+                                          'assets/icons/password.png'),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
@@ -139,6 +157,93 @@ class _SetPinState extends State<SetPin> {
     );
   }
 
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0))),
+          backgroundColor: Color.fromRGBO(37, 36, 41, 1),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  "You Want To Add Fingerprint Authentication?",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            GestureDetector(
+              onTap: () {
+                _authenticateMe();
+              },
+              child: Container(
+                child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 30,
+                    child: Image.asset('assets/icons/Acept.png')),
+              ),
+            ),
+            SizedBox(
+              width: 25,
+            ),
+            GestureDetector(
+              onTap: () {
+                // sharedPreferences.setInt('touchid', 0);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => PickRoom(),
+                  ),
+                );
+              },
+              child: Container(
+                child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 30,
+                    child: Image.asset('assets/icons/Decline.png')),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> enableFinger() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final api = sharedPreferences.getString('api');
+    final userId = sharedPreferences.getString('userid');
+    final response = await http.post(
+      '${api}securitystatus',
+      headers: {"Content-Type": "application/json"},
+      body: json.encode(
+        {
+          "userid": userId,
+          "type": 1,
+        },
+      ),
+    );
+    Map<String, dynamic> map = json.decode(response.body);
+    print(map);
+    if (map.containsKey('err')) {
+      print(map['err']);
+      throw map['err'];
+    } else {
+      if (response.statusCode == 200) {
+        print(map['data']);
+        sharedPreferences.setInt('touchid', 1);
+
+        _scaffoldKey.currentState.hideCurrentSnackBar();
+        _scaffoldKey.currentState
+            .showSnackBar(new SnackBar(content: Text(map['data'])));
+      }
+    }
+  }
+
   Future<void> _submit(String pin) async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
@@ -153,11 +258,7 @@ class _SetPinState extends State<SetPin> {
         final response = await Provider.of<SetPinApi>(context, listen: false)
             .setPin(int.parse(_pin));
         if (response == 200) {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => VerifyPin(),
-            ),
-          );
+          _showMyDialog();
         }
         print(_pin);
         print(_verPin);
@@ -186,10 +287,14 @@ class _SetPinState extends State<SetPin> {
     return Container(
       width: width,
       child: TextFormField(
+        keyboardType: TextInputType.number,
         validator: lable == 'Enter Pin'
             ? (value) {
                 if (value.isEmpty) {
-                  return 'Please Enter Valid Email';
+                  return 'Please Enter Valid PIN';
+                }
+                if (value.length != 4) {
+                  return "PIN must be 4 digit";
                 }
                 return null;
               }

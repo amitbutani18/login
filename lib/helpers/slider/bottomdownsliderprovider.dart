@@ -26,14 +26,13 @@ class BottomDownSliderProvider with ChangeNotifier {
   Future<void> setIcon() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final api = sharedPreferences.getString('api');
-    final userId = sharedPreferences.getString('userid');
+    // final userId = sharedPreferences.getString('userid');
     try {
       final response = await http.post(
         '${api}companyandservicelist',
         headers: {"Content-Type": "application/json"},
         body: json.encode(
           {
-            "userid": userId,
             "type": 0,
           },
         ),

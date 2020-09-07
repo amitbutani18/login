@@ -42,9 +42,9 @@ class CityList with ChangeNotifier {
       } else {
         if (response.statusCode == 200) {
           List<dynamic> list = map["data"];
-          print(list.length);
+          // print(list.length);
           List<City> loadedList = [];
-          print(list);
+          // print(list);
           for (var i = 0; i < list.length; i++) {
             loadedList.add(City(
               cityName: '${list[i]['name']}',

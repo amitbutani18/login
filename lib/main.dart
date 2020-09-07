@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:login/API/loginapi.dart';
 import 'package:login/API/logout.dart';
+import 'package:login/API/profileapi.dart';
 import 'package:login/API/registerapi.dart';
 import 'package:login/API/setpinapi.dart';
 import 'package:login/API/verpinapi.dart';
@@ -22,9 +23,7 @@ import 'package:login/helpers/transactionprovider.dart';
 import 'package:login/screens/addproject.dart';
 import 'package:login/screens/allcontract.dart';
 import 'package:login/screens/endcontract.dart';
-import 'package:login/screens/fingerprintscreen.dart';
 import 'package:login/screens/serviceprovider.dart';
-import 'package:login/screens/setpin.dart';
 import 'package:login/screens/settingscreen.dart';
 import 'package:login/screens/verifypin.dart';
 import 'package:login/widgets/datepick.dart';
@@ -51,7 +50,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool _checkConfiguration() => true;
   var user = true;
-  var pinstatus = 1;
+  var pinstatus = 0;
   var fingStatus = 1;
   var setpinscreen = 1;
 
@@ -70,16 +69,14 @@ class _MyAppState extends State<MyApp> {
           user = sharedPreferences.getBool('login');
           pinstatus = sharedPreferences.getInt("pinstatus");
           fingStatus = sharedPreferences.getInt("touchid");
-          setpinscreen = sharedPreferences.getInt('setpinscreen');
           sharedPreferences.setString('api', "http://3.15.39.127:3000/API/");
         });
 
         final api = sharedPreferences.getString('api');
-        print(pinstatus);
+        print("Pin Status" + pinstatus.toString());
         print(api);
         print(user);
         print(fingStatus);
-        print(setpinscreen);
       });
     }
   }
@@ -109,6 +106,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider.value(value: VerPinApi()),
         ChangeNotifierProvider.value(value: SetPinApi()),
         ChangeNotifierProvider.value(value: RegisterApi()),
+        ChangeNotifierProvider.value(value: ProfileApi()),
         ChangeNotifierProvider.value(value: LogOut()),
         ChangeNotifierProvider.value(value: CityList()),
         ChangeNotifierProvider.value(value: TransactionProvider()),
@@ -120,13 +118,7 @@ class _MyAppState extends State<MyApp> {
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             canvasColor: Colors.transparent),
-        home: user
-            ? setpinscreen == 1
-                ? SetPin()
-                : pinstatus == 0
-                    ? fingStatus == 0 ? PickRoom() : FingerPrintScreen()
-                    : VerifyPin()
-            : LoginScreen(),
+        home: user ? pinstatus == 0 ? PickRoom() : VerifyPin() : LoginScreen(),
         routes: {
           '/date': (context) => DatePick(),
           '/login': (context) => LoginScreen(),

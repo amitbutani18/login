@@ -158,7 +158,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 style: TextStyle(color: Colors.amber),
               ),
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed('/');
+                Navigator.of(context).pushReplacementNamed('/login');
               },
             ),
           ],

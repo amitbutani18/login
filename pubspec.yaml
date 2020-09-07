@@ -85,10 +85,21 @@ flutter:
     - assets/icons/password.png
     - assets/icons/loginbackground.png
     - assets/icons/mail.png
+    - assets/icons/Usericon.png
+    - assets/icons/Lickicon.png
+    - assets/icons/Locationicon.png
+    - assets/icons/Acept.png
+    - assets/icons/Decline.png
+    - assets/icons/backicon.png
+    - assets/icons/addimgicon.png
     - assets/images/oyoimg.png
     - assets/images/Makemytripimg.png
     - assets/images/expediaimg.png
     - assets/images/bookingimg.png
+    - assets/images/qrcode.png
+    - assets/images/Barcode.png
+    - assets/images/editicon.png
+    - assets/images/profileimage.png
     - assets/supremecardimage.png
     
   #   - images/a_dot_ham.jpeg

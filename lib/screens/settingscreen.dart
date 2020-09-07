@@ -25,8 +25,8 @@ class _SettingScreenState extends State<SettingScreen> {
     final fingValue = sharedPreferences.getInt('touchid');
     print("Current Pin status" + pinstatus.toString());
     setState(() {
-      initialValuePin = pinstatus == 0 ? false : true;
-      initValFing = fingValue == 0 ? false : true;
+      initialValuePin = pinstatus == 1 ? true : false;
+      initValFing = fingValue == 1 ? true : false;
     });
     print(initialValuePin);
     print(initValFing);
@@ -136,8 +136,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                   : const EdgeInsets.only(top: 8.0),
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context)
-                                      .pushReplacementNamed('/pickroom');
+                                  Navigator.of(context).pop();
                                 },
                                 child: Container(
                                   child: CircleAvatar(

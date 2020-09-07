@@ -42,7 +42,6 @@ class _LoginScreenState extends State<LoginScreen>
   bool clearData = false;
   var currentOffset;
   var _isLoading = false;
-  var _load = false;
 
   @override
   void initState() {
@@ -257,7 +256,7 @@ class _LoginScreenState extends State<LoginScreen>
                                                 ),
                                               ),
                                               child: Text(
-                                                "Amneia?",
+                                                "Amnesia?",
                                                 style: TextStyle(
                                                     color: Colors.amber[300],
                                                     fontSize:
@@ -432,9 +431,9 @@ class _LoginScreenState extends State<LoginScreen>
     return Container(
       width: width,
       child: TextFormField(
-        validator: lable == 'Email'
+        validator: lable == 'Email Address'
             ? (value) {
-                if (!EmailValidator.validate(value) || value.isEmpty) {
+                if (!EmailValidator.validate(value.trim()) || value.isEmpty) {
                   return 'Please Enter Valid Email';
                 }
                 return null;
@@ -450,7 +449,9 @@ class _LoginScreenState extends State<LoginScreen>
             lable == 'Email Address' ? _emailController : _passwordController,
         onSaved: (value) {
           setState(() {
-            lable == 'Email Address' ? _email = value : _password = value;
+            lable == 'Email Address'
+                ? _email = value.trim()
+                : _password = value.trim();
           });
         },
         style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
@@ -510,37 +511,37 @@ class _LoginScreenState extends State<LoginScreen>
       // print(_password);
       try {
         setState(() {
-          _isLoading = false;
+          _isLoading = true;
         });
         final response = await Provider.of<LoginApi>(context, listen: false)
             .signIn(_email.trim(), _password.trim());
         print(response[1]);
         final statusCode = response[0];
-        final setPinScreen = response[1];
+        int setPinScreen = response[1];
         final pinStatus = response[2];
-        setState(() {
-          _isLoading = false;
-        });
-        if (statusCode == 200) {
-          _emailController.clear();
-          _passwordController.clear();
-          _scaffoldKey.currentState.hideCurrentSnackBar();
 
+        if (statusCode == 200) {
+          _scaffoldKey.currentState.hideCurrentSnackBar();
+          print("setpin screen  " + setPinScreen.toString());
           if (setPinScreen == 0) {
             if (pinStatus == 0) {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 SlideRightRoute(
                   page: PickRoom(),
                 ),
               );
+              _emailController.clear();
+              _passwordController.clear();
             } else {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 SlideRightRoute(
                   page: VerifyPin(),
                 ),
               );
+              _emailController.clear();
+              _passwordController.clear();
             }
           } else {
             Navigator.push(
@@ -551,14 +552,18 @@ class _LoginScreenState extends State<LoginScreen>
             );
           }
         }
+        setState(() {
+          _isLoading = false;
+        });
         await Provider.of<RightSideSliderIconProvider>(context, listen: false)
             .setIcon();
         await Provider.of<LeftSideSliderIconProvider>(context, listen: false)
             .setIcon();
       } catch (error) {
         setState(() {
-          _load = false;
+          _isLoading = false;
         });
+        print("eerrrsdfvsdgf");
         _scaffoldKey.currentState
             .showSnackBar(SnackBar(content: Text(error.toString())));
         // _scaffoldKey.currentState.hideCurrentSnackBar();

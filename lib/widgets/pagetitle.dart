@@ -17,23 +17,29 @@ class PageTitle extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        IconButton(
-          iconSize: size.height > diviceSize ? 50 : 30,
-          icon: Icon(Icons.arrow_back),
-          color: Colors.amber[200],
-          onPressed: () {
+        GestureDetector(
+          onTap: () {
             Navigator.of(context).pop();
+            // Navigator.of(context).pushNamed('/project-details');
           },
+          child: Container(
+              padding: EdgeInsets.only(top: 10),
+              height: 30,
+              width: 30,
+              child: Image.asset('assets/icons/backicon.png')),
         ),
         Expanded(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                title,
-                style: TextStyle(
-                  color: Colors.amber[200],
-                  fontSize: size.height > diviceSize ? 40 : 22,
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: Colors.amber[300],
+                    fontSize: size.height > diviceSize ? 40 : 22,
+                  ),
                 ),
               ),
             ],

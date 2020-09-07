@@ -12,8 +12,8 @@ class LoginApi with ChangeNotifier {
     final response = await http.post(
       '${api}signin',
       body: {
-        "email": "maulik334@gmail.com",
-        "password": "maulik@123",
+        "email": email,
+        "password": password,
         "deviceid": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
         "devicetype": "1",
         "fcm_token": "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -45,7 +45,8 @@ class LoginApi with ChangeNotifier {
           print(sharedPreferences.getString('userid'));
           print(sharedPreferences.getInt('touchid'));
           print(sharedPreferences.getInt('pinstatus'));
-          print(sharedPreferences.getInt('setpinscreen'));
+          print("setpinscreen  " +
+              sharedPreferences.getInt('setpinscreen').toString());
         }
       } else {
         throw Exception("fail to load");
@@ -54,7 +55,7 @@ class LoginApi with ChangeNotifier {
 
     return [
       response.statusCode,
-      sharedPreferences.getInt('setpinscreen'),
+      map['data']['setpinscreen'],
       sharedPreferences.getInt('pinstatus')
     ];
   }

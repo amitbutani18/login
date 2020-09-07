@@ -75,11 +75,10 @@ class _FingerPrintScreenState extends State<FingerPrintScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _getBiometricsSupport();
-    _getAvailableSupport();
-    _authenticateMe();
+    // _getBiometricsSupport();
+    // _getAvailableSupport();
+    // _authenticateMe();
   }
 
   @override
@@ -98,7 +97,12 @@ class _FingerPrintScreenState extends State<FingerPrintScreen> {
               ? Center(
                   child: CircularProgressIndicator(),
                 )
-              : Container()
+              : Center(
+                  child: RaisedButton(
+                    onPressed: () => _authenticateMe(),
+                    // child: Text("Authenticat with Fingerprint"),
+                  ),
+                ),
         ],
       ),
     );

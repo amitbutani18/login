@@ -49,12 +49,12 @@ class _PickRoomState extends State<PickRoom> {
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
-    print("In did");
+    // print("Pick Room Did");
     if (_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
       try {
+        setState(() {
+          _isLoading = true;
+        });
         await Provider.of<RightSideSliderIconProvider>(context, listen: false)
             .setIcon();
         await Provider.of<LeftSideSliderIconProvider>(context, listen: false)
@@ -63,14 +63,16 @@ class _PickRoomState extends State<PickRoom> {
             .setIcon();
         await Provider.of<BottomDownSliderProvider>(context, listen: false)
             .setIcon();
-        await Provider.of<CityList>(context, listen: false).fetchCity();
+        setState(() {
+          _isLoading = false;
+        });
+        // await Provider.of<CityList>(context, listen: false).fetchCity();
       } catch (error) {
+        setState(() {
+          _isLoading = false;
+        });
         print(error);
       }
-
-      setState(() {
-        _isLoading = false;
-      });
     }
     _isInit = false;
     double screenWidth = MediaQuery.of(context).size.width;
@@ -420,14 +422,20 @@ class _PickRoomState extends State<PickRoom> {
                                           child: size.height > divSize
                                               ? _formField('London', 350, 30,
                                                   'assets/icons/Where.png')
-                                              : GestureDetector(
-                                                  onTap: () =>
-                                                      _showMyDialog(cityList),
-                                                  child: _formField(
-                                                      'London',
-                                                      230,
-                                                      18,
-                                                      'assets/icons/Where.png'),
+                                              : FutureBuilder(
+                                                  future: Provider.of<CityList>(
+                                                          context)
+                                                      .fetchCity(),
+                                                  builder: (context, snap) =>
+                                                      GestureDetector(
+                                                    onTap: () =>
+                                                        _showMyDialog(cityList),
+                                                    child: _formField(
+                                                        'London',
+                                                        230,
+                                                        18,
+                                                        'assets/icons/Where.png'),
+                                                  ),
                                                 ),
                                         ),
                                         SizedBox(
