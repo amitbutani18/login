@@ -70,10 +70,10 @@ class _LoginScreenState extends State<LoginScreen>
         _isLoading = true;
       });
       try {
-        // await Provider.of<BottomUpSliderProvider>(context, listen: false)
-        //     .setIcon();
-        // await Provider.of<BottomDownSliderProvider>(context, listen: false)
-        //     .setIcon();
+        await Provider.of<BottomUpSliderProvider>(context, listen: false)
+            .setIcon();
+        await Provider.of<BottomDownSliderProvider>(context, listen: false)
+            .setIcon();
       } catch (error) {
         print(error);
       }
@@ -148,328 +148,283 @@ class _LoginScreenState extends State<LoginScreen>
         key: _scaffoldKey,
         backgroundColor: Colors.transparent,
         resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: <Widget>[
-            // PageBackground(size: size, imagePath: 'assets/icons/loginbackground.png'),
-            _isLoading
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    child: Container(
-                      padding: size.height > diviceSize
-                          ? EdgeInsets.only(
-                              top: 108, left: 55, right: 55, bottom: 55)
-                          : EdgeInsets.all(28),
-                      child: Column(
-                        children: <Widget>[
-                          SingleChildScrollView(
-                            child: Container(
-                              width: size.height > diviceSize ? 650 : 400,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 20),
-                                child: Form(
-                                  key: _formKey,
-                                  child: Column(
-                                    children: <Widget>[
-                                      size.height > diviceSize
-                                          ? _formField('Email', 650, 30,
-                                              'assets/icons/user.png')
-                                          : _formField('Email', 450, 15,
-                                              'assets/icons/user.png'),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      size.height > diviceSize
-                                          ? _formField('Password', 650, 30,
-                                              'assets/icons/password.png')
-                                          : _formField('Password', 450, 15,
-                                              'assets/icons/password.png'),
-                                      SizedBox(
-                                        height:
-                                            size.height > diviceSize ? 20 : 5,
-                                      ),
-                                      // Container(
-                                      //   child: Theme(
-                                      //     data: ThemeData(
-                                      //       unselectedWidgetColor: Colors.amber,
-                                      //     ),
-                                      //     child: CheckboxListTile(
-                                      //         controlAffinity:
-                                      //             ListTileControlAffinity
-                                      //                 .leading,
-                                      //         checkColor: Colors.black,
-                                      //         activeColor: Colors.amber,
-                                      //         title: Text(
-                                      //             "Agree To SUPREME Card Policy",
-                                      //             style: TextStyle(
-                                      //                 color: Colors.amber)),
-                                      //         value: _checked,
-                                      //         onChanged: (bool value) {
-                                      //           setState(() {
-                                      //             _checked = value;
-                                      //           });
-                                      //         }),
-                                      //   ),
-                                      // ),
-                                      Container(
-                                        width: size.width,
-                                        child: Row(
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Stack(
+            children: <Widget>[
+              // PageBackground(size: size, imagePath: 'assets/icons/loginbackground.png'),
+              _isLoading
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Container(
+                        padding: size.height > diviceSize
+                            ? EdgeInsets.only(
+                                top: 108, left: 55, right: 55, bottom: 55)
+                            : EdgeInsets.all(28),
+                        child: Column(
+                          children: <Widget>[
+                            SingleChildScrollView(
+                              child: Container(
+                                width: size.height > diviceSize ? 650 : 400,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 20),
+                                  child: Form(
+                                    key: _formKey,
+                                    child: Column(
+                                      children: <Widget>[
+                                        size.height > diviceSize
+                                            ? _formField('Email', 650, 30,
+                                                'assets/icons/user.png')
+                                            : _formField('Email', 450, 15,
+                                                'assets/icons/user.png'),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        size.height > diviceSize
+                                            ? _formField('Password', 650, 30,
+                                                'assets/icons/password.png')
+                                            : _formField('Password', 450, 15,
+                                                'assets/icons/password.png'),
+                                        SizedBox(
+                                          height:
+                                              size.height > diviceSize ? 20 : 5,
+                                        ),
+                                        // Container(
+                                        //   child: Theme(
+                                        //     data: ThemeData(
+                                        //       unselectedWidgetColor: Colors.amber,
+                                        //     ),
+                                        //     child: CheckboxListTile(
+                                        //         controlAffinity:
+                                        //             ListTileControlAffinity
+                                        //                 .leading,
+                                        //         checkColor: Colors.black,
+                                        //         activeColor: Colors.amber,
+                                        //         title: Text(
+                                        //             "Agree To SUPREME Card Policy",
+                                        //             style: TextStyle(
+                                        //                 color: Colors.amber)),
+                                        //         value: _checked,
+                                        //         onChanged: (bool value) {
+                                        //           setState(() {
+                                        //             _checked = value;
+                                        //           });
+                                        //         }),
+                                        //   ),
+                                        // ),
+                                        Container(
+                                          width: size.width,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    _checked
+                                                        ? _checked = false
+                                                        : _checked = true;
+                                                  });
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Container(
+                                                      height: 20,
+                                                      width: 20,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        border: Border(
+                                                          top: BorderSide(
+                                                              width: 1.0,
+                                                              color:
+                                                                  Colors.amber),
+                                                          left: BorderSide(
+                                                              width: 1.0,
+                                                              color:
+                                                                  Colors.amber),
+                                                          right: BorderSide(
+                                                              width: 1.0,
+                                                              color:
+                                                                  Colors.amber),
+                                                          bottom: BorderSide(
+                                                              width: 1.0,
+                                                              color:
+                                                                  Colors.amber),
+                                                        ),
+                                                      ),
+                                                      child: Checkbox(
+                                                          activeColor: Colors
+                                                              .transparent,
+                                                          checkColor:
+                                                              Colors.amber,
+                                                          value: _checked,
+                                                          onChanged: (value) {
+                                                            setState(() {
+                                                              _checked = value;
+                                                            });
+                                                          }),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Text(
+                                                      "Remember Me",
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .amber[300]),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    size.height > diviceSize
+                                                        ? const EdgeInsets.only(
+                                                            top: 18.0)
+                                                        : const EdgeInsets.only(
+                                                            top: 8.0),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    _controller
+                                                        .forward()
+                                                        .then((value) {
+                                                      _controller
+                                                          .reverse()
+                                                          .then((value) {
+                                                        _submit();
+                                                      });
+                                                    });
+                                                  },
+                                                  // child: ScaleTransition(
+                                                  //   scale: _easeInAnimation,
+                                                  child: Container(
+                                                    child: CircleAvatar(
+                                                        backgroundColor:
+                                                            Colors.transparent,
+                                                        radius: size.height >
+                                                                diviceSize
+                                                            ? 40
+                                                            : 30,
+                                                        child: Image.asset(
+                                                            'assets/icons/loginbubble.png')),
+                                                  ),
+                                                  // ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: size.height > diviceSize
+                                              ? 20
+                                              : 10,
+                                        ),
+                                        Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
-                                            GestureDetector(
+                                            InkWell(
                                               onTap: () {
-                                                setState(() {
-                                                  _checked
-                                                      ? _checked = false
-                                                      : _checked = true;
-                                                });
+                                                _scaffoldKey.currentState
+                                                    .hideCurrentSnackBar();
+                                                Navigator.of(context).push(
+                                                  SlideRightRoute(
+                                                    page: ForgotPassword(),
+                                                  ),
+                                                );
                                               },
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    height: 20,
-                                                    width: 20,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      border: Border(
-                                                        top: BorderSide(
-                                                            width: 1.0,
-                                                            color:
-                                                                Colors.amber),
-                                                        left: BorderSide(
-                                                            width: 1.0,
-                                                            color:
-                                                                Colors.amber),
-                                                        right: BorderSide(
-                                                            width: 1.0,
-                                                            color:
-                                                                Colors.amber),
-                                                        bottom: BorderSide(
-                                                            width: 1.0,
-                                                            color:
-                                                                Colors.amber),
-                                                      ),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border(
+                                                    bottom: BorderSide(
+                                                      color: Colors.amber[300],
                                                     ),
-                                                    child: Checkbox(
-                                                        activeColor:
-                                                            Colors.transparent,
-                                                        checkColor:
-                                                            Colors.amber,
-                                                        value: _checked,
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            _checked = value;
-                                                          });
-                                                        }),
                                                   ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text(
-                                                    "Remember Me",
-                                                    style: TextStyle(
-                                                        color:
-                                                            Colors.amber[300]),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: size.height > diviceSize
-                                                  ? const EdgeInsets.only(
-                                                      top: 18.0)
-                                                  : const EdgeInsets.only(
-                                                      top: 8.0),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  _controller
-                                                      .forward()
-                                                      .then((value) {
-                                                    _controller
-                                                        .reverse()
-                                                        .then((value) {
-                                                      _submit();
-                                                    });
-                                                  });
-                                                },
-                                                // child: ScaleTransition(
-                                                //   scale: _easeInAnimation,
-                                                child: Container(
-                                                  child: CircleAvatar(
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      radius: size.height >
+                                                ),
+                                                child: Text(
+                                                  "Amnesia?",
+                                                  style: TextStyle(
+                                                      color: Colors.amber[300],
+                                                      fontSize: size.height >
                                                               diviceSize
-                                                          ? 40
-                                                          : 30,
-                                                      child: Image.asset(
-                                                          'assets/icons/loginbubble.png')),
+                                                          ? 25
+                                                          : 15),
                                                 ),
-                                                // ),
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height:
-                                            size.height > diviceSize ? 20 : 10,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          InkWell(
-                                            onTap: () {
-                                              _scaffoldKey.currentState
-                                                  .hideCurrentSnackBar();
-                                              Navigator.of(context).push(
-                                                SlideRightRoute(
-                                                  page: ForgotPassword(),
-                                                ),
-                                              );
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                border: Border(
-                                                  bottom: BorderSide(
-                                                    color: Colors.amber[300],
-                                                  ),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                "Amnesia?",
-                                                style: TextStyle(
-                                                    color: Colors.amber[300],
-                                                    fontSize:
-                                                        size.height > diviceSize
-                                                            ? 25
-                                                            : 15),
-                                              ),
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              _scaffoldKey.currentState
-                                                  .hideCurrentSnackBar();
+                                            InkWell(
+                                              onTap: () {
+                                                _scaffoldKey.currentState
+                                                    .hideCurrentSnackBar();
 
-                                              Navigator.push(
-                                                context,
-                                                SlideRightRoute(
-                                                  page: RegistrationScreen(),
-                                                ),
-                                              );
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                border: Border(
-                                                  bottom: BorderSide(
-                                                    color: Colors.amber[300],
+                                                Navigator.push(
+                                                  context,
+                                                  SlideRightRoute(
+                                                    page: RegistrationScreen(),
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border(
+                                                    bottom: BorderSide(
+                                                      color: Colors.amber[300],
+                                                    ),
                                                   ),
                                                 ),
+                                                child: Text(
+                                                  "Join?",
+                                                  style: TextStyle(
+                                                      color: Colors.amber[300],
+                                                      fontSize: size.height >
+                                                              diviceSize
+                                                          ? 25
+                                                          : 15),
+                                                ),
                                               ),
-                                              child: Text(
-                                                "Join?",
-                                                style: TextStyle(
-                                                    color: Colors.amber[300],
-                                                    fontSize:
-                                                        size.height > diviceSize
-                                                            ? 25
-                                                            : 15),
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    ],
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: size.height > diviceSize
-                                ? const EdgeInsets.only(top: 88.0)
-                                : const EdgeInsets.only(top: 8.0),
-                            child: GestureDetector(
-                              onTapCancel: () {
-                                _scroll();
-                              },
-                              onTapDown: (d) {
-                                _controller.forward();
-                              },
-                              onTapUp: (d) {
-                                _scroll();
-                              },
-                              child: Container(
-                                height:
-                                    size.height > diviceSize ? 100 : boxSize,
-                                width: size.height > diviceSize
-                                    ? size.width
-                                    : size.width,
-                                child: ListView.builder(
-                                  controller: _scrollController,
-                                  itemExtent: size.width / 9,
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  itemBuilder: (_, i) => Stack(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: size.height > diviceSize
-                                            ? EdgeInsets.symmetric(
-                                                horizontal: 25)
-                                            : const EdgeInsets.symmetric(
-                                                horizontal: 0),
-                                        // child: ScaleTransition(
-                                        //   scale: _easeInAnimation,
-                                        child: EaseInWidget(
-                                            radius: 30,
-                                            image: bottomUpSlider[
-                                                    i % bottomUpSlider.length]
-                                                .image,
-                                            secondImage: bottomUpSlider[
-                                                    i % bottomUpSlider.length]
-                                                .image,
-                                            onTap: () {
-                                              print(bottomUpSlider[
-                                                      i % bottomUpSlider.length]
-                                                  .image);
-                                              _scroll();
-                                            }),
-                                        // ),
-                                      ),
-                                    ],
-                                  ),
-                                  itemCount: bottomUpSlider.length * 10000,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: size.height > diviceSize
-                                ? const EdgeInsets.only(top: 0.0)
-                                : const EdgeInsets.only(top: 8.0),
-                            child: Center(
-                              child: Container(
-                                height:
-                                    size.height > diviceSize ? 100 : boxSize,
-                                width: size.height > diviceSize
-                                    ? size.width
-                                    : size.width,
-                                child: ListView.builder(
-                                  itemExtent: size.width / 9,
-                                  controller: _scrollController2,
-                                  scrollDirection: Axis.horizontal,
-                                  reverse: true,
-                                  shrinkWrap: true,
-                                  itemBuilder: (_, i) => Container(
-                                    child: Stack(
+                            Padding(
+                              padding: size.height > diviceSize
+                                  ? const EdgeInsets.only(top: 88.0)
+                                  : const EdgeInsets.only(top: 8.0),
+                              child: GestureDetector(
+                                onTapCancel: () {
+                                  _scroll();
+                                },
+                                onTapDown: (d) {
+                                  _controller.forward();
+                                },
+                                onTapUp: (d) {
+                                  _scroll();
+                                },
+                                child: Container(
+                                  height:
+                                      size.height > diviceSize ? 100 : boxSize,
+                                  width: size.height > diviceSize
+                                      ? size.width
+                                      : size.width,
+                                  child: ListView.builder(
+                                    controller: _scrollController,
+                                    itemExtent: size.width / 9,
+                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    itemBuilder: (_, i) => Stack(
                                       children: <Widget>[
                                         Padding(
                                           padding: size.height > diviceSize
@@ -477,34 +432,89 @@ class _LoginScreenState extends State<LoginScreen>
                                                   horizontal: 25)
                                               : const EdgeInsets.symmetric(
                                                   horizontal: 0),
+                                          // child: ScaleTransition(
+                                          //   scale: _easeInAnimation,
                                           child: EaseInWidget(
                                               radius: 30,
-                                              image: bottomDownSlider[i %
-                                                      bottomDownSlider.length]
+                                              image: bottomUpSlider[
+                                                      i % bottomUpSlider.length]
                                                   .image,
-                                              secondImage: bottomDownSlider[i %
-                                                      bottomDownSlider.length]
+                                              secondImage: bottomUpSlider[
+                                                      i % bottomUpSlider.length]
                                                   .image,
                                               onTap: () {
-                                                print(bottomDownSlider[i %
-                                                        bottomDownSlider.length]
+                                                print(bottomUpSlider[i %
+                                                        bottomUpSlider.length]
                                                     .image);
                                                 _scroll();
                                               }),
+                                          // ),
                                         ),
                                       ],
                                     ),
+                                    itemCount: bottomUpSlider.length * 10000,
                                   ),
-                                  itemCount: bottomDownSlider.length * 10000,
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: size.height > diviceSize
+                                  ? const EdgeInsets.only(top: 0.0)
+                                  : const EdgeInsets.only(top: 8.0),
+                              child: Center(
+                                child: Container(
+                                  height:
+                                      size.height > diviceSize ? 100 : boxSize,
+                                  width: size.height > diviceSize
+                                      ? size.width
+                                      : size.width,
+                                  child: ListView.builder(
+                                    itemExtent: size.width / 9,
+                                    controller: _scrollController2,
+                                    scrollDirection: Axis.horizontal,
+                                    reverse: true,
+                                    shrinkWrap: true,
+                                    itemBuilder: (_, i) => Container(
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: size.height > diviceSize
+                                                ? EdgeInsets.symmetric(
+                                                    horizontal: 25)
+                                                : const EdgeInsets.symmetric(
+                                                    horizontal: 0),
+                                            child: EaseInWidget(
+                                                radius: 30,
+                                                image: bottomDownSlider[i %
+                                                        bottomDownSlider.length]
+                                                    .image,
+                                                secondImage: bottomDownSlider[
+                                                        i %
+                                                            bottomDownSlider
+                                                                .length]
+                                                    .image,
+                                                onTap: () {
+                                                  print(bottomDownSlider[i %
+                                                          bottomDownSlider
+                                                              .length]
+                                                      .image);
+                                                  _scroll();
+                                                }),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    itemCount: bottomDownSlider.length * 10000,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -522,7 +532,7 @@ class _LoginScreenState extends State<LoginScreen>
         validator: lable == 'Email'
             ? (value) {
                 if (!EmailValidator.validate(value.trim()) || value.isEmpty) {
-                  return 'Please Enter Valid Email';
+                  return 'Please enter valid email';
                 }
                 return null;
               }

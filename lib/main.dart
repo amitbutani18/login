@@ -24,6 +24,7 @@ import 'package:login/screens/addproject.dart';
 import 'package:login/screens/allcontract.dart';
 import 'package:login/screens/endcontract.dart';
 import 'package:login/screens/serviceprovider.dart';
+import 'package:login/screens/setpin.dart';
 import 'package:login/screens/settingscreen.dart';
 import 'package:login/screens/verifypin.dart';
 import 'package:login/widgets/datepick.dart';
@@ -69,6 +70,7 @@ class _MyAppState extends State<MyApp> {
           user = sharedPreferences.getBool('login');
           pinstatus = sharedPreferences.getInt("pinstatus");
           fingStatus = sharedPreferences.getInt("touchid");
+          setpinscreen = sharedPreferences.getInt("setpinscreen");
           sharedPreferences.setString('api', "http://3.15.39.127:3000/API/");
         });
 
@@ -77,6 +79,7 @@ class _MyAppState extends State<MyApp> {
         print(api);
         print(user);
         print(fingStatus);
+        print(setpinscreen);
       });
     }
   }
@@ -118,7 +121,11 @@ class _MyAppState extends State<MyApp> {
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             canvasColor: Colors.transparent),
-        home: user ? pinstatus == 0 ? PickRoom() : VerifyPin() : LoginScreen(),
+        home: user
+            ? setpinscreen == 1
+                ? SetPin()
+                : pinstatus == 0 ? PickRoom() : VerifyPin()
+            : LoginScreen(),
         routes: {
           '/date': (context) => DatePick(),
           '/login': (context) => LoginScreen(),

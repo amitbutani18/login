@@ -30,78 +30,84 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       key: _scaffoldKey,
       backgroundColor: Colors.black54,
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: <Widget>[
-          PageBackground(
-              size: size, imagePath: 'assets/icons/loginbackground.png'),
-          _load
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Center(
-                  child: Container(
-                    padding: size.height > diviceSize
-                        ? EdgeInsets.only(
-                            top: 108, left: 55, right: 55, bottom: 55)
-                        : EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        PageTitle(
-                            size: size,
-                            diviceSize: diviceSize,
-                            title: "Amnesia"),
-                        Container(
-                          width: size.height > diviceSize ? 650 : 400,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 20),
-                            child: Form(
-                              key: _formKey,
-                              child: Column(
-                                children: <Widget>[
-                                  size.height > diviceSize
-                                      ? _formField('Email', 650, 30,
-                                          'assets/icons/user.png')
-                                      : _formField('Email', 450, 15,
-                                          'assets/icons/user.png'),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: size.height > diviceSize
-                                            ? const EdgeInsets.only(top: 18.0)
-                                            : const EdgeInsets.only(top: 8.0),
-                                        child: GestureDetector(
-                                          onTap: () => _submit(_email),
-                                          child: Container(
-                                            child: CircleAvatar(
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                radius: size.height > diviceSize
-                                                    ? 40
-                                                    : 30,
-                                                child: Image.asset(
-                                                    'assets/icons/loginbubble.png')),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Stack(
+          children: <Widget>[
+            PageBackground(
+                size: size, imagePath: 'assets/icons/loginbackground.png'),
+            _load
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Center(
+                    child: Container(
+                      padding: size.height > diviceSize
+                          ? EdgeInsets.only(
+                              top: 108, left: 55, right: 55, bottom: 55)
+                          : EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          PageTitle(
+                              size: size,
+                              diviceSize: diviceSize,
+                              title: "Amnesia"),
+                          Container(
+                            width: size.height > diviceSize ? 650 : 400,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 20),
+                              child: Form(
+                                key: _formKey,
+                                child: Column(
+                                  children: <Widget>[
+                                    size.height > diviceSize
+                                        ? _formField('Email', 650, 30,
+                                            'assets/icons/user.png')
+                                        : _formField('Email', 450, 15,
+                                            'assets/icons/user.png'),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: size.height > diviceSize
+                                              ? const EdgeInsets.only(top: 18.0)
+                                              : const EdgeInsets.only(top: 8.0),
+                                          child: GestureDetector(
+                                            onTap: () => _submit(_email),
+                                            child: Container(
+                                              child: CircleAvatar(
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  radius:
+                                                      size.height > diviceSize
+                                                          ? 40
+                                                          : 30,
+                                                  child: Image.asset(
+                                                      'assets/icons/loginbubble.png')),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -183,7 +189,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       child: TextFormField(
         validator: (value) {
           if (!EmailValidator.validate(value) || value.isEmpty) {
-            return 'Please Enter Valid Email';
+            return 'Please enter valid email';
           }
           return null;
         },

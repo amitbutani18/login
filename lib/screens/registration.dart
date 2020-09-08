@@ -79,225 +79,242 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.black54,
-      body: Stack(
-        children: <Widget>[
-          PageBackground(
-              size: size, imagePath: 'assets/icons/loginbackground.png'),
-          _load
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: Container(
-                    width: size.width,
-                    padding: size.height > diviceSize
-                        ? EdgeInsets.only(
-                            top: 98, left: 0, right: 0, bottom: 48)
-                        : EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SingleChildScrollView(
-                          child: Container(
-                            width: size.height > diviceSize ? 700 : 450,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 20),
-                              child: Form(
-                                key: _formKey,
-                                child: Column(
-                                  children: <Widget>[
-                                    size.height > diviceSize
-                                        ? _formField('Name', 650, 30,
-                                            'assets/icons/user.png')
-                                        : _formField('Name', 450, 15,
-                                            'assets/icons/user.png'),
-                                    SizedBox(
-                                      height: size.height > diviceSize ? 15 : 5,
-                                    ),
-                                    size.height > diviceSize
-                                        ? _formField('Email', 650, 30,
-                                            'assets/icons/mail.png')
-                                        : _formField('Email', 450, 15,
-                                            'assets/icons/mail.png'),
-                                    SizedBox(
-                                      height: size.height > diviceSize ? 15 : 5,
-                                    ),
-                                    size.height > diviceSize
-                                        ? _formField('Password', 650, 30,
-                                            'assets/icons/password.png')
-                                        : _formField('Password', 450, 15,
-                                            'assets/icons/password.png'),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: size.height > diviceSize
-                                              ? const EdgeInsets.only(top: 18.0)
-                                              : const EdgeInsets.only(top: 8.0),
-                                          child: GestureDetector(
-                                            onTap: _submit,
-                                            child: Container(
-                                              child: CircleAvatar(
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  radius:
-                                                      size.height > diviceSize
-                                                          ? 40
-                                                          : 30,
-                                                  child: Image.asset(
-                                                      'assets/icons/loginbubble.png')),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height:
-                                          size.height > diviceSize ? 20 : 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget>[
-                                        InkWell(
-                                          onTap: () =>
-                                              Navigator.of(context).pop(),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              border: Border(
-                                                bottom: BorderSide(
-                                                  color: Colors.amber[300],
-                                                ),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Stack(
+          children: <Widget>[
+            PageBackground(
+                size: size, imagePath: 'assets/icons/loginbackground.png'),
+            _load
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Container(
+                      width: size.width,
+                      padding: size.height > diviceSize
+                          ? EdgeInsets.only(
+                              top: 98, left: 0, right: 0, bottom: 48)
+                          : EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SingleChildScrollView(
+                            child: Container(
+                              width: size.height > diviceSize ? 700 : 450,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 20),
+                                child: Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    children: <Widget>[
+                                      size.height > diviceSize
+                                          ? _formField('Name', 650, 30,
+                                              'assets/icons/user.png')
+                                          : _formField('Name', 450, 15,
+                                              'assets/icons/user.png'),
+                                      SizedBox(
+                                        height:
+                                            size.height > diviceSize ? 15 : 5,
+                                      ),
+                                      size.height > diviceSize
+                                          ? _formField('Email', 650, 30,
+                                              'assets/icons/mail.png')
+                                          : _formField('Email', 450, 15,
+                                              'assets/icons/mail.png'),
+                                      SizedBox(
+                                        height:
+                                            size.height > diviceSize ? 15 : 5,
+                                      ),
+                                      size.height > diviceSize
+                                          ? _formField('Password', 650, 30,
+                                              'assets/icons/password.png')
+                                          : _formField('Password', 450, 15,
+                                              'assets/icons/password.png'),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: size.height > diviceSize
+                                                ? const EdgeInsets.only(
+                                                    top: 18.0)
+                                                : const EdgeInsets.only(
+                                                    top: 8.0),
+                                            child: GestureDetector(
+                                              onTap: _submit,
+                                              child: Container(
+                                                child: CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    radius:
+                                                        size.height > diviceSize
+                                                            ? 40
+                                                            : 30,
+                                                    child: Image.asset(
+                                                        'assets/icons/loginbubble.png')),
                                               ),
                                             ),
-                                            child: Text(
-                                              "Members ?",
-                                              style: TextStyle(
-                                                  color: Colors.amber[300],
-                                                  fontSize:
-                                                      size.height > diviceSize
-                                                          ? 25
-                                                          : 15),
-                                            ),
                                           ),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: size.height > diviceSize
-                              ? const EdgeInsets.only(top: 98.0)
-                              : const EdgeInsets.only(top: 0.0),
-                          child: Center(
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 20),
-                              height: size.height > diviceSize ? 110 : 40,
-                              width:
-                                  size.height > diviceSize ? 1000 : size.width,
-                              child: ListView.builder(
-                                itemExtent: size.width / 9,
-                                controller: _scrollController,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (_, i) => Container(
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: size.height > diviceSize
-                                            ? EdgeInsets.symmetric(
-                                                horizontal: 10)
-                                            : const EdgeInsets.symmetric(
-                                                horizontal: 0),
-                                        child: Padding(
-                                          padding: size.height > diviceSize
-                                              ? EdgeInsets.symmetric(
-                                                  horizontal: 0)
-                                              : const EdgeInsets.symmetric(
-                                                  horizontal: 10),
-                                          child: EaseInWidget(
-                                              radius: 30,
-                                              image: bottomUpSlider[
-                                                      i % bottomUpSlider.length]
-                                                  .image,
-                                              secondImage: bottomUpSlider[
-                                                      i % bottomUpSlider.length]
-                                                  .image,
-                                              onTap: () {
-                                                print(bottomUpSlider[i %
-                                                        bottomUpSlider.length]
-                                                    .image);
-                                                _scroll();
-                                              }),
-                                        ),
+                                        ],
                                       ),
+                                      SizedBox(
+                                        height:
+                                            size.height > diviceSize ? 20 : 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          InkWell(
+                                            onTap: () =>
+                                                Navigator.of(context).pop(),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                border: Border(
+                                                  bottom: BorderSide(
+                                                    color: Colors.amber[300],
+                                                  ),
+                                                ),
+                                              ),
+                                              child: Text(
+                                                "Members ?",
+                                                style: TextStyle(
+                                                    color: Colors.amber[300],
+                                                    fontSize:
+                                                        size.height > diviceSize
+                                                            ? 25
+                                                            : 15),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      )
                                     ],
                                   ),
                                 ),
-                                itemCount: bottomUpSlider.length * 10000,
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5.0),
-                          child: Center(
-                            child: Stack(
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 20),
-                                  height: size.height > diviceSize ? 110 : 40,
-                                  width: size.height > diviceSize
-                                      ? 1000
-                                      : size.width,
-                                  child: ListView.builder(
-                                    controller: _scrollController2,
-                                    scrollDirection: Axis.horizontal,
-                                    itemExtent: size.width / 9,
-                                    reverse: true,
-                                    shrinkWrap: true,
-                                    itemBuilder: (_, i) => Stack(
+                          Padding(
+                            padding: size.height > diviceSize
+                                ? const EdgeInsets.only(top: 98.0)
+                                : const EdgeInsets.only(top: 0.0),
+                            child: Center(
+                              child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 20),
+                                height: size.height > diviceSize ? 110 : 40,
+                                width: size.height > diviceSize
+                                    ? 1000
+                                    : size.width,
+                                child: ListView.builder(
+                                  itemExtent: size.width / 9,
+                                  controller: _scrollController,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (_, i) => Container(
+                                    child: Stack(
                                       children: <Widget>[
                                         Padding(
                                           padding: size.height > diviceSize
                                               ? EdgeInsets.symmetric(
                                                   horizontal: 10)
                                               : const EdgeInsets.symmetric(
-                                                  horizontal: 10),
-                                          child: EaseInWidget(
-                                              radius: 30,
-                                              image: bottomDownSlider[i %
-                                                      bottomDownSlider.length]
-                                                  .image,
-                                              secondImage: bottomDownSlider[i %
-                                                      bottomDownSlider.length]
-                                                  .image,
-                                              onTap: () {
-                                                print(bottomDownSlider[i %
-                                                        bottomDownSlider.length]
-                                                    .image);
-                                                _scroll();
-                                              }),
+                                                  horizontal: 0),
+                                          child: Padding(
+                                            padding: size.height > diviceSize
+                                                ? EdgeInsets.symmetric(
+                                                    horizontal: 0)
+                                                : const EdgeInsets.symmetric(
+                                                    horizontal: 10),
+                                            child: EaseInWidget(
+                                                radius: 30,
+                                                image: bottomUpSlider[i %
+                                                        bottomUpSlider.length]
+                                                    .image,
+                                                secondImage: bottomUpSlider[i %
+                                                        bottomUpSlider.length]
+                                                    .image,
+                                                onTap: () {
+                                                  print(bottomUpSlider[i %
+                                                          bottomUpSlider.length]
+                                                      .image);
+                                                  _scroll();
+                                                }),
+                                          ),
                                         ),
                                       ],
                                     ),
-                                    itemCount: bottomDownSlider.length * 10000,
                                   ),
+                                  itemCount: bottomUpSlider.length * 10000,
                                 ),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: Center(
+                              child: Stack(
+                                children: <Widget>[
+                                  Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    height: size.height > diviceSize ? 110 : 40,
+                                    width: size.height > diviceSize
+                                        ? 1000
+                                        : size.width,
+                                    child: ListView.builder(
+                                      controller: _scrollController2,
+                                      scrollDirection: Axis.horizontal,
+                                      itemExtent: size.width / 9,
+                                      reverse: true,
+                                      shrinkWrap: true,
+                                      itemBuilder: (_, i) => Stack(
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: size.height > diviceSize
+                                                ? EdgeInsets.symmetric(
+                                                    horizontal: 10)
+                                                : const EdgeInsets.symmetric(
+                                                    horizontal: 10),
+                                            child: EaseInWidget(
+                                                radius: 30,
+                                                image: bottomDownSlider[i %
+                                                        bottomDownSlider.length]
+                                                    .image,
+                                                secondImage: bottomDownSlider[
+                                                        i %
+                                                            bottomDownSlider
+                                                                .length]
+                                                    .image,
+                                                onTap: () {
+                                                  print(bottomDownSlider[i %
+                                                          bottomDownSlider
+                                                              .length]
+                                                      .image);
+                                                  _scroll();
+                                                }),
+                                          ),
+                                        ],
+                                      ),
+                                      itemCount:
+                                          bottomDownSlider.length * 10000,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -328,7 +345,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   }
                 : (value) {
                     if (!EmailValidator.validate(value) || value.isEmpty) {
-                      return 'Please Enter Valid Email';
+                      return 'Please enter valid email';
                     }
                     return null;
                   },

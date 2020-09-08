@@ -44,9 +44,12 @@ class _SetPinState extends State<SetPin> {
     // 8. this method opens a dialog for fingerprint authentication.
     //    we do not need to create a dialog nut it popsup from device natively.
     bool authenticated = false;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final userName = sharedPreferences.getString("name");
     try {
       authenticated = await _localAuthentication.authenticateWithBiometrics(
-        localizedReason: "Authenticate User", // message for dialog
+        localizedReason:
+            "Hello $userName, Enter Fingerprint", // message for dialog
         useErrorDialogs: true, // show error in dialog
         stickyAuth: true, // native process
       );
@@ -80,79 +83,85 @@ class _SetPinState extends State<SetPin> {
       key: _scaffoldKey,
       backgroundColor: Colors.black54,
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: <Widget>[
-          PageBackground(
-              size: size, imagePath: 'assets/icons/loginbackground.png'),
-          _load
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Center(
-                  child: Container(
-                    padding: size.height > diviceSize
-                        ? EdgeInsets.only(
-                            top: 108, left: 55, right: 55, bottom: 55)
-                        : EdgeInsets.all(45),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          width: size.height > diviceSize ? 650 : 400,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 20),
-                            child: Form(
-                              key: _formKey,
-                              child: Column(
-                                children: <Widget>[
-                                  size.height > diviceSize
-                                      ? _formField('Enter Pin', 650, 30,
-                                          'assets/icons/password.png')
-                                      : _formField('Enter Pin', 450, 15,
-                                          'assets/icons/password.png'),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  size.height > diviceSize
-                                      ? _formField('Reenter Pin', 650, 30,
-                                          'assets/icons/password.png')
-                                      : _formField('Re Enter Pin', 450, 15,
-                                          'assets/icons/password.png'),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: size.height > diviceSize
-                                            ? const EdgeInsets.only(top: 18.0)
-                                            : const EdgeInsets.only(top: 8.0),
-                                        child: GestureDetector(
-                                          onTap: () => _submit(_pin),
-                                          child: Container(
-                                            child: CircleAvatar(
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                radius: size.height > diviceSize
-                                                    ? 40
-                                                    : 30,
-                                                child: Image.asset(
-                                                    'assets/icons/loginbubble.png')),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Stack(
+          children: <Widget>[
+            PageBackground(
+                size: size, imagePath: 'assets/icons/loginbackground.png'),
+            _load
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Center(
+                    child: Container(
+                      padding: size.height > diviceSize
+                          ? EdgeInsets.only(
+                              top: 108, left: 55, right: 55, bottom: 55)
+                          : EdgeInsets.all(45),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            width: size.height > diviceSize ? 650 : 400,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 20),
+                              child: Form(
+                                key: _formKey,
+                                child: Column(
+                                  children: <Widget>[
+                                    size.height > diviceSize
+                                        ? _formField('Enter Pin', 650, 30,
+                                            'assets/icons/password.png')
+                                        : _formField('Enter Pin', 450, 15,
+                                            'assets/icons/password.png'),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    size.height > diviceSize
+                                        ? _formField('Reenter Pin', 650, 30,
+                                            'assets/icons/password.png')
+                                        : _formField('Re Enter Pin', 450, 15,
+                                            'assets/icons/password.png'),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: size.height > diviceSize
+                                              ? const EdgeInsets.only(top: 18.0)
+                                              : const EdgeInsets.only(top: 8.0),
+                                          child: GestureDetector(
+                                            onTap: () => _submit(_pin),
+                                            child: Container(
+                                              child: CircleAvatar(
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  radius:
+                                                      size.height > diviceSize
+                                                          ? 40
+                                                          : 30,
+                                                  child: Image.asset(
+                                                      'assets/icons/loginbubble.png')),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -291,16 +300,16 @@ class _SetPinState extends State<SetPin> {
         validator: lable == 'Enter Pin'
             ? (value) {
                 if (value.isEmpty) {
-                  return 'Please Enter Valid PIN';
+                  return 'Please enter valid pin';
                 }
                 if (value.length != 4) {
-                  return "PIN must be 4 digit";
+                  return "Pin must be 4 digit";
                 }
                 return null;
               }
             : (value) {
                 if (_verPin != _pin || value.isEmpty) {
-                  return 'Please Enter Same Pin';
+                  return 'Please enter same pin';
                 }
                 return null;
               },
