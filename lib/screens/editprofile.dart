@@ -92,7 +92,8 @@ class _EditProfileState extends State<EditProfile> {
       ),
       body: Stack(
         children: <Widget>[
-          PageBackground(size: size, imagePath: 'assets/background.png'),
+          PageBackground(
+              size: size, imagePath: 'assets/images/profilebackground.png'),
           _isLoad
               ? Center(child: CircularProgressIndicator())
               : SingleChildScrollView(

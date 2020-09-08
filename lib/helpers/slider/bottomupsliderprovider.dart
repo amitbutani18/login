@@ -41,7 +41,7 @@ class BottomUpSliderProvider with ChangeNotifier {
       } else {
         if (response.statusCode == 200) {
           List<dynamic> list = map["data"];
-          print(list.length);
+          // print(list.length);
           List<SliderIcon> loadedList = [];
 
           for (var i = 0; i < list.length / 2; i++) {

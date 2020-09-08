@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:login/API/loginapi.dart';
 import 'package:login/widgets/pagebackground.dart';
+import 'package:login/widgets/pagetitle.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -12,7 +13,7 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  double diviceSize = 470;
+  int diviceSize = 470;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -42,11 +43,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     padding: size.height > diviceSize
                         ? EdgeInsets.only(
                             top: 108, left: 55, right: 55, bottom: 55)
-                        : EdgeInsets.all(45),
+                        : EdgeInsets.all(20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
+                        PageTitle(
+                            size: size,
+                            diviceSize: diviceSize,
+                            title: "Amnesia"),
                         Container(
                           width: size.height > diviceSize ? 650 : 400,
                           child: Padding(

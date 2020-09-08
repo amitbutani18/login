@@ -118,9 +118,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       height: size.height > diviceSize ? 15 : 5,
                                     ),
                                     size.height > diviceSize
-                                        ? _formField('Email Address', 650, 30,
+                                        ? _formField('Email', 650, 30,
                                             'assets/icons/mail.png')
-                                        : _formField('Email Address', 450, 15,
+                                        : _formField('Email', 450, 15,
                                             'assets/icons/mail.png'),
                                     SizedBox(
                                       height: size.height > diviceSize ? 15 : 5,
@@ -328,7 +328,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   }
                 : (value) {
                     if (!EmailValidator.validate(value) || value.isEmpty) {
-                      return 'Please Enter Valid Email Address';
+                      return 'Please Enter Valid Email';
                     }
                     return null;
                   },

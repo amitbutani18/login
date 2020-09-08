@@ -82,7 +82,8 @@ class _OwnProfileState extends State<OwnProfile> {
       ),
       body: Stack(
         children: <Widget>[
-          PageBackground(size: size, imagePath: 'assets/background.png'),
+          PageBackground(
+              size: size, imagePath: 'assets/images/profilebackground.png'),
           _load
               ? Center(
                   child: CircularProgressIndicator(),
@@ -198,7 +199,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                     PointCredit(
                                       size: size,
                                       diviceSize: diviceSize,
-                                      heading1: "SuperMe Card",
+                                      heading1: "SUPREME Card",
                                       value1: "\$ 500.00",
                                       heading2: "Credit Card",
                                       value2: "**** **** **** 5821",

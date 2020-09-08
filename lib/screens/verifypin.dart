@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:login/API/verpinapi.dart';
-import 'package:login/screens/fingerprintscreen.dart';
 import 'package:login/screens/pickroom.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:local_auth/local_auth.dart';
@@ -65,9 +64,12 @@ class _VerifyPinState extends State<VerifyPin> {
     // 8. this method opens a dialog for fingerprint authentication.
     //    we do not need to create a dialog nut it popsup from device natively.
     bool authenticated = false;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final userName = sharedPreferences.getString("name");
     try {
       authenticated = await _localAuthentication.authenticateWithBiometrics(
-        localizedReason: "Authenticate User", // message for dialog
+        localizedReason:
+            "Hello $userName, Enter Fingerprint", // message for dialog
         useErrorDialogs: true, // show error in dialog
         stickyAuth: true, // native process
       );
@@ -79,7 +81,7 @@ class _VerifyPinState extends State<VerifyPin> {
       _authorizedOrNot = authenticated ? "Authorized" : "Not Authorized";
     });
     if (authenticated) {
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => PickRoom(),
         ),
@@ -233,7 +235,7 @@ class _VerifyPinState extends State<VerifyPin> {
           //     ),
           //   );
           // } else {
-          Navigator.of(context).push(
+          Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => PickRoom(),
             ),

@@ -98,6 +98,7 @@ flutter:
     - assets/images/bookingimg.png
     - assets/images/qrcode.png
     - assets/images/Barcode.png
+    - assets/images/profilebackground.png
     - assets/images/editicon.png
     - assets/images/profileimage.png
     - assets/supremecardimage.png

@@ -52,19 +52,19 @@ class _DatePickState extends State<DatePick> {
                         await DateRangePicker.showDatePicker(
                             context: context,
                             initialFirstDate: DateTime.now(),
-                            initialLastDate: DateTime.now().add(
-                              Duration(days: 7),
-                            ),
+                            initialLastDate: DateTime.now(),
                             firstDate:
                                 DateTime.now().subtract(Duration(days: 1)),
                             lastDate: DateTime(DateTime.now().year + 5));
+                    print(dateTime[0]);
                     if (dateTime != null && dateTime.length == 2) {
                       setState(() {
                         _firstDate = dateTime[0];
                         _lastDate = dateTime[1];
                       });
-                      print(dateTime);
+                      print(_firstDate);
                     }
+                    print(_firstDate);
                   },
                   child: Container(
                     width: size.height > divSize ? 320 : 200,
@@ -92,7 +92,7 @@ class _DatePickState extends State<DatePick> {
                               : const EdgeInsets.only(top: 8.0, bottom: 5),
                           child: Text(
                             _firstDate == null && _lastDate == null
-                                ? ' '
+                                ? ' ${DateFormat("dd-MMM-yyyy").format(DateTime.now())} '
                                 : '${DateFormat("dd-MMM").format(_firstDate)} | ${DateFormat("dd-MMM-yyyy").format(_lastDate)}',
                             style: TextStyle(
                                 fontSize: size.height > divSize ? 20 : 15,

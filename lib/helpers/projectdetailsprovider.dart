@@ -29,7 +29,7 @@ class ProjectDetailsProvider with ChangeNotifier {
         location: 'Mumbai',
         dateTime: [DateTime.now(), DateTime.now().add(Duration(days: 7))],
         names: 'Smit S. William , Akash Gajera , Kapil Maheshvari',
-        website: 'WWW.SUPERMECARD.COM',
+        website: 'WWW.SUPREMECARD.COM',
         price: 250.00,
         uses:
             'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful conten used to demonstrate the visual.',

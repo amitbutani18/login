@@ -27,7 +27,7 @@ class LeftSideSliderIconProvider with ChangeNotifier {
     return [..._images];
   }
 
-  Future<void> setIcon() async {
+  Future<LeftSideSliderIconProvider> setIcon() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final api = sharedPreferences.getString('api');
     final userId = sharedPreferences.getString('userid');

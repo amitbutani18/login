@@ -70,10 +70,10 @@ class _LoginScreenState extends State<LoginScreen>
         _isLoading = true;
       });
       try {
-        await Provider.of<BottomUpSliderProvider>(context, listen: false)
-            .setIcon();
-        await Provider.of<BottomDownSliderProvider>(context, listen: false)
-            .setIcon();
+        // await Provider.of<BottomUpSliderProvider>(context, listen: false)
+        //     .setIcon();
+        // await Provider.of<BottomDownSliderProvider>(context, listen: false)
+        //     .setIcon();
       } catch (error) {
         print(error);
       }
@@ -102,6 +102,8 @@ class _LoginScreenState extends State<LoginScreen>
   double diviceSize = 470;
 
   var end = false;
+
+  bool _checked = true;
 
   @override
   void dispose() {
@@ -173,9 +175,9 @@ class _LoginScreenState extends State<LoginScreen>
                                   child: Column(
                                     children: <Widget>[
                                       size.height > diviceSize
-                                          ? _formField('Email Address', 650, 30,
+                                          ? _formField('Email', 650, 30,
                                               'assets/icons/user.png')
-                                          : _formField('Email Address', 450, 15,
+                                          : _formField('Email', 450, 15,
                                               'assets/icons/user.png'),
                                       SizedBox(
                                         height: 5,
@@ -189,45 +191,131 @@ class _LoginScreenState extends State<LoginScreen>
                                         height:
                                             size.height > diviceSize ? 20 : 5,
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: size.height > diviceSize
-                                                ? const EdgeInsets.only(
-                                                    top: 18.0)
-                                                : const EdgeInsets.only(
-                                                    top: 8.0),
-                                            child: GestureDetector(
+                                      // Container(
+                                      //   child: Theme(
+                                      //     data: ThemeData(
+                                      //       unselectedWidgetColor: Colors.amber,
+                                      //     ),
+                                      //     child: CheckboxListTile(
+                                      //         controlAffinity:
+                                      //             ListTileControlAffinity
+                                      //                 .leading,
+                                      //         checkColor: Colors.black,
+                                      //         activeColor: Colors.amber,
+                                      //         title: Text(
+                                      //             "Agree To SUPREME Card Policy",
+                                      //             style: TextStyle(
+                                      //                 color: Colors.amber)),
+                                      //         value: _checked,
+                                      //         onChanged: (bool value) {
+                                      //           setState(() {
+                                      //             _checked = value;
+                                      //           });
+                                      //         }),
+                                      //   ),
+                                      // ),
+                                      Container(
+                                        width: size.width,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            GestureDetector(
                                               onTap: () {
-                                                _controller
-                                                    .forward()
-                                                    .then((value) {
-                                                  _controller
-                                                      .reverse()
-                                                      .then((value) {
-                                                    _submit();
-                                                  });
+                                                setState(() {
+                                                  _checked
+                                                      ? _checked = false
+                                                      : _checked = true;
                                                 });
                                               },
-                                              // child: ScaleTransition(
-                                              //   scale: _easeInAnimation,
-                                              child: Container(
-                                                child: CircleAvatar(
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    radius:
-                                                        size.height > diviceSize
-                                                            ? 40
-                                                            : 30,
-                                                    child: Image.asset(
-                                                        'assets/icons/loginbubble.png')),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    height: 20,
+                                                    width: 20,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      border: Border(
+                                                        top: BorderSide(
+                                                            width: 1.0,
+                                                            color:
+                                                                Colors.amber),
+                                                        left: BorderSide(
+                                                            width: 1.0,
+                                                            color:
+                                                                Colors.amber),
+                                                        right: BorderSide(
+                                                            width: 1.0,
+                                                            color:
+                                                                Colors.amber),
+                                                        bottom: BorderSide(
+                                                            width: 1.0,
+                                                            color:
+                                                                Colors.amber),
+                                                      ),
+                                                    ),
+                                                    child: Checkbox(
+                                                        activeColor:
+                                                            Colors.transparent,
+                                                        checkColor:
+                                                            Colors.amber,
+                                                        value: _checked,
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            _checked = value;
+                                                          });
+                                                        }),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    "Remember Me",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Colors.amber[300]),
+                                                  ),
+                                                ],
                                               ),
-                                              // ),
                                             ),
-                                          ),
-                                        ],
+                                            Padding(
+                                              padding: size.height > diviceSize
+                                                  ? const EdgeInsets.only(
+                                                      top: 18.0)
+                                                  : const EdgeInsets.only(
+                                                      top: 8.0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  _controller
+                                                      .forward()
+                                                      .then((value) {
+                                                    _controller
+                                                        .reverse()
+                                                        .then((value) {
+                                                      _submit();
+                                                    });
+                                                  });
+                                                },
+                                                // child: ScaleTransition(
+                                                //   scale: _easeInAnimation,
+                                                child: Container(
+                                                  child: CircleAvatar(
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      radius: size.height >
+                                                              diviceSize
+                                                          ? 40
+                                                          : 30,
+                                                      child: Image.asset(
+                                                          'assets/icons/loginbubble.png')),
+                                                ),
+                                                // ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
                                         height:
@@ -431,7 +519,7 @@ class _LoginScreenState extends State<LoginScreen>
     return Container(
       width: width,
       child: TextFormField(
-        validator: lable == 'Email Address'
+        validator: lable == 'Email'
             ? (value) {
                 if (!EmailValidator.validate(value.trim()) || value.isEmpty) {
                   return 'Please Enter Valid Email';
@@ -445,17 +533,14 @@ class _LoginScreenState extends State<LoginScreen>
                 return null;
               },
         cursorColor: Colors.white,
-        controller:
-            lable == 'Email Address' ? _emailController : _passwordController,
+        controller: lable == 'Email' ? _emailController : _passwordController,
         onSaved: (value) {
           setState(() {
-            lable == 'Email Address'
-                ? _email = value.trim()
-                : _password = value.trim();
+            lable == 'Email' ? _email = value.trim() : _password = value.trim();
           });
         },
         style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
-        obscureText: lable == 'Email Address' ? false : true,
+        obscureText: lable == 'Email' ? false : true,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(
             top: 15,

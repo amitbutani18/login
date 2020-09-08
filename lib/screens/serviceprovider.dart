@@ -414,7 +414,7 @@ class _ServiceProviderState extends State<ServiceProvider> {
                           controlAffinity: ListTileControlAffinity.leading,
                           checkColor: Colors.black,
                           activeColor: Colors.amber,
-                          title: Text("Agree To Superme Card Policy",
+                          title: Text("Agree To SUPREME Card Policy",
                               style: TextStyle(color: Colors.amber)),
                           value: _checked,
                           onChanged: (bool value) {
