@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:login/API/profileapi.dart';
@@ -6,6 +7,9 @@ import 'package:login/screens/editprofile.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:flutter/rendering.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OwnProfile extends StatefulWidget {
   @override
@@ -21,7 +25,10 @@ class _OwnProfileState extends State<OwnProfile> {
   var _linkedLink = '';
   var _profileImage = '';
   var _location = '';
+  var _creditcard = '';
+  var _occupation = '';
   bool _load = false;
+  String _qrData = "Amit Butani";
 
   @override
   void didChangeDependencies() async {
@@ -34,12 +41,9 @@ class _OwnProfileState extends State<OwnProfile> {
         setState(() {
           _load = true;
         });
-
-        // SharedPreferences sharedPreferences =
-        //     await SharedPreferences.getInstance();
-        // _api = sharedPreferences.getString('api');
-        // _userId = sharedPreferences.getString('userid');
-        // _profileImage = 'http://3.15.39.127:3000//$_userId.jpg';
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        final _userEmail = sharedPreferences.getString('email');
         final map =
             await Provider.of<ProfileApi>(context, listen: false).getProfile();
         print("In Profile Map" + map.toString());
@@ -50,6 +54,9 @@ class _OwnProfileState extends State<OwnProfile> {
           _linkedLink = map['linkdin'];
           _youLink = map['youtube'];
           _profileImage = map['profileimg'];
+          _creditcard = map['creditcard'];
+          _occupation = map['occupation'];
+          _qrData = _userEmail;
         });
         print(_profileImage);
         setState(() {
@@ -164,7 +171,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                     YouLink(
                                       size: size,
                                       diviceSize: diviceSize,
-                                      heading: 'You Tube',
+                                      heading: 'Youtube',
                                       link: _youLink == ""
                                           ? "WWW.YOUTUBE.COM"
                                           : _youLink,
@@ -202,7 +209,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                       heading1: "SUPREME Card",
                                       value1: "\$ 500.00",
                                       heading2: "Credit Card",
-                                      value2: "**** **** **** 5821",
+                                      value2: _creditcard,
                                     )
                                   ],
                                 ),
@@ -303,7 +310,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                                 MainAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
-                                                "Fashion Model",
+                                                _occupation,
                                                 style: TextStyle(
                                                     color: Colors.white24,
                                                     fontSize:
@@ -326,10 +333,10 @@ class _OwnProfileState extends State<OwnProfile> {
                                         width: size.height > diviceSize
                                             ? size.width
                                             : 200,
+                                        color: Colors.amber[300],
                                         // color: Colors.amber[300],
-                                        child: Image.asset(
-                                          'assets/images/qrcode.png',
-                                          fit: BoxFit.cover,
+                                        child: QrImage(
+                                          data: _qrData,
                                         ),
                                       ),
                                       SizedBox(

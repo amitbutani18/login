@@ -7,7 +7,6 @@ class LogOut with ChangeNotifier {
     sharedPreferences.setBool('login', false);
     sharedPreferences.setString('name', '');
     sharedPreferences.setString('email', '');
-
     print(sharedPreferences.getBool('login'));
   }
 }

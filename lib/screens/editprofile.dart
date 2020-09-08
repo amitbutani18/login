@@ -21,12 +21,16 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _ytLinkController;
   TextEditingController _linkedinController;
   TextEditingController _locationController;
+  TextEditingController _creditController;
+  TextEditingController _occuptionController;
 
   String _name;
   String _ytLink;
   String _linkedinLink;
   String _location;
   String _initialImage;
+  String _creditcard;
+  String _occuption;
 
   File _image;
   final picker = ImagePicker();
@@ -50,6 +54,13 @@ class _EditProfileState extends State<EditProfile> {
           text: map['linkdin'] == null ? 'www.linkedin.com' : map['linkdin']);
       _locationController = TextEditingController(
           text: map['location'] == null ? 'London' : map['location']);
+      _creditController = TextEditingController(
+          text: map['creditcard'] == null
+              ? '1234 5678 9102 1212'
+              : map['creditcard']);
+      _occuptionController = TextEditingController(
+          text:
+              map['occupation'] == null ? 'Fashion Model' : map['occupation']);
       _initialImage = map["profileimg"];
       setState(() {
         _isLoad = false;
@@ -82,11 +93,14 @@ class _EditProfileState extends State<EditProfile> {
           SizedBox(
             width: 25,
           ),
-          Container(
-            child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: size.height > diviceSize ? 40 : 30,
-                child: Image.asset('assets/icons/Decline.png')),
+          GestureDetector(
+            onTap: () => Navigator.of(context).pop(),
+            child: Container(
+              child: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: size.height > diviceSize ? 40 : 30,
+                  child: Image.asset('assets/icons/Decline.png')),
+            ),
           ),
         ],
       ),
@@ -97,6 +111,7 @@ class _EditProfileState extends State<EditProfile> {
           _isLoad
               ? Center(child: CircularProgressIndicator())
               : SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
                   child: Padding(
                     padding: size.height > diviceSize
                         ? const EdgeInsets.all(28.0)
@@ -268,6 +283,49 @@ class _EditProfileState extends State<EditProfile> {
                                           ),
                                   ],
                                 ),
+                                SizedBox(height: 20),
+                                Row(
+                                  children: [
+                                    size.height > diviceSize
+                                        ? _formField(
+                                            'Credit Card',
+                                            size.width / 2 - 42,
+                                            30,
+                                            'assets/icons/Usericon.png',
+                                            _creditcard,
+                                            _creditController,
+                                          )
+                                        : _formField(
+                                            'Credit Card',
+                                            size.width / 2 - 42,
+                                            15,
+                                            'assets/icons/Usericon.png',
+                                            _creditcard,
+                                            _creditController,
+                                          ),
+                                    SizedBox(
+                                      width: 12,
+                                    ),
+                                    size.height > diviceSize
+                                        ? _formField(
+                                            'Occuption',
+                                            size.width / 2 - 42,
+                                            30,
+                                            'assets/icons/Lickicon.png',
+                                            _occuption,
+                                            _occuptionController)
+                                        : _formField(
+                                            'Occuption',
+                                            size.width / 2 - 42,
+                                            15,
+                                            'assets/icons/Lickicon.png',
+                                            _occuption,
+                                            _occuptionController),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 80,
+                                ),
                               ],
                             ),
                           ),
@@ -292,7 +350,10 @@ class _EditProfileState extends State<EditProfile> {
     return Container(
       width: width,
       child: TextFormField(
-        validator: lable == 'Name' || lable == 'Location'
+        validator: lable == 'Name' ||
+                lable == 'Location' ||
+                lable == 'Occuption' ||
+                lable == 'Credit Card'
             ? (value) {
                 if (value.isEmpty) {
                   return 'Please Enter Valid Text';
@@ -308,6 +369,8 @@ class _EditProfileState extends State<EditProfile> {
                 }
                 return null;
               },
+        keyboardType:
+            lable == 'Credit Card' ? TextInputType.number : TextInputType.text,
         cursorColor: Colors.white,
         controller: controller,
         onSaved: (value) {
@@ -323,6 +386,12 @@ class _EditProfileState extends State<EditProfile> {
             }
             if (lable == 'Location') {
               _location = value;
+            }
+            if (lable == 'Occuption') {
+              _occuption = value;
+            }
+            if (lable == 'Credit Card') {
+              _creditcard = value;
             }
           });
         },
@@ -431,11 +500,16 @@ class _EditProfileState extends State<EditProfile> {
           _isLoad = true;
         });
         _image == null
-            ? await Provider.of<ProfileApi>(context, listen: false)
-                .updatePro(_name, _ytLink, _linkedinLink, _location)
+            ? await Provider.of<ProfileApi>(context, listen: false).updatePro(
+                _name,
+                _ytLink,
+                _linkedinLink,
+                _location,
+                _creditcard,
+                _occuption)
             : await Provider.of<ProfileApi>(context, listen: false)
-                .updateProWithimg(
-                    _name, _ytLink, _linkedinLink, _location, _image);
+                .updateProWithimg(_name, _ytLink, _linkedinLink, _location,
+                    _image, _creditcard, _occuption);
         setState(() {
           _isLoad = true;
         });

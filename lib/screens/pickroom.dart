@@ -6,6 +6,7 @@ import 'package:login/helpers/citylist.dart';
 import 'package:login/helpers/imageprovider.dart';
 import 'package:login/helpers/slider/leftsideslidericonprovider.dart';
 import 'package:login/helpers/slider/rightsidesliderprovider.dart';
+import 'package:login/helpers/slider/slidericon.dart';
 import 'package:login/helpers/slider/topslidericonprovider.dart';
 import 'package:login/widgets/datepick.dart';
 import 'package:login/widgets/ease_in_widget.dart';
@@ -46,6 +47,7 @@ class _PickRoomState extends State<PickRoom> {
   var _isInit = true;
   var _isLoading = false;
 
+  List<DateTime> dateList;
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
@@ -298,9 +300,9 @@ class _PickRoomState extends State<PickRoom> {
                                                     slider[i % slider.length]
                                                         .image,
                                                 onTap: () {
-                                                  Navigator.of(context)
-                                                      .pushNamed(
-                                                          '/room-details');
+                                                  // Navigator.of(context)
+                                                  //     .pushNamed(
+                                                  //         '/room-details');
                                                   print("Hello");
                                                 }),
                                           ),
@@ -309,8 +311,8 @@ class _PickRoomState extends State<PickRoom> {
                                       ),
                                     ),
                               GestureDetector(
-                                onTap: () => Navigator.of(context)
-                                    .pushNamed('/service-provider'),
+                                // onTap: () => Navigator.of(context)
+                                //     .pushNamed('/service-provider'),
                                 child: CircleAvatar(
                                   radius: size.height > divSize ? 20 : 10,
                                   backgroundColor: Colors.transparent,
@@ -364,6 +366,20 @@ class _PickRoomState extends State<PickRoom> {
                                 Container(
                                   height: size.height > divSize ? 480 : 200,
                                   width: size.height > divSize ? 80 : 60,
+                                  // child: ListWheelScrollView(
+                                  //   // useMagnifier: _magnification > 1,
+                                  //   magnification: 3,
+                                  //   // diameterRatio: _diameterRatio,
+                                  //   // offAxisFraction: _offAxisFraction,
+                                  //   itemExtent: 50,
+                                  //   controller: _scrollController4,
+                                  //   children: <Widget>[
+                                  //     for (int i = 0;
+                                  //         i < rightSlider.length;
+                                  //         i++)
+                                  //       rightslider(i: i, list: rightSlider)
+                                  //   ],
+                                  // ),
                                   child: ListView.builder(
                                     controller: _scrollController4,
                                     key: ValueKey(4),
@@ -441,7 +457,7 @@ class _PickRoomState extends State<PickRoom> {
                                         SizedBox(
                                           width: 20,
                                         ),
-                                        DatePick(),
+                                        DatePick()
                                       ],
                                     ),
                                     SizedBox(
@@ -859,5 +875,26 @@ class _PickRoomState extends State<PickRoom> {
     _scrollController2.animateTo(maxExtent2,
         duration: Duration(seconds: durationDouble2.toInt()),
         curve: Curves.linear);
+  }
+
+  rightslider({int i, List<SliderIcon> list}) {
+    return Padding(
+      padding:
+          //  size.height > divSize
+          // ? const EdgeInsets.symmetric(vertical: 5)
+          // :
+          const EdgeInsets.symmetric(vertical: 0),
+      child: EaseInWidget(
+          radius: 30,
+          image: list[i % list.length].image,
+          secondImage: list[i % list.length].image,
+          onTap: () {
+            setState(() {
+              _hotelValue = list[i % list.length].title;
+            });
+            print(list[i % list.length].title);
+            print(list[i % list.length].image);
+          }),
+    );
   }
 }

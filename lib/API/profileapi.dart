@@ -31,7 +31,7 @@ class ProfileApi with ChangeNotifier {
   }
 
   Future<void> updateProWithimg(String name, String ytLink, String lkdinLink,
-      String location, File image) async {
+      String location, File image, String creditcard, String occupation) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final api = sharedPreferences.getString('api');
     final userId = sharedPreferences.getString('userid');
@@ -48,6 +48,8 @@ class ProfileApi with ChangeNotifier {
         "youtube": ytLink,
         "linkdin": lkdinLink,
         "location": location,
+        "creditcard": creditcard,
+        "occupation": occupation,
       },
     );
     Map<dynamic, dynamic> map = json.decode(response.body);
@@ -65,8 +67,8 @@ class ProfileApi with ChangeNotifier {
     }
   }
 
-  Future<void> updatePro(
-      String name, String ytLink, String lkdinLink, String location) async {
+  Future<void> updatePro(String name, String ytLink, String lkdinLink,
+      String location, String creditcard, String occupation) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final api = sharedPreferences.getString('api');
     final userId = sharedPreferences.getString('userid');
@@ -79,6 +81,8 @@ class ProfileApi with ChangeNotifier {
         "youtube": ytLink,
         "linkdin": lkdinLink,
         "location": location,
+        "creditcard": creditcard,
+        "occupation": occupation,
       },
     );
     Map<dynamic, dynamic> map = json.decode(response.body);
@@ -90,6 +94,7 @@ class ProfileApi with ChangeNotifier {
     } else {
       if (response.statusCode == 200) {
         print(map['data']);
+        sharedPreferences.setString('name', name);
       } else {
         throw "Fail to load";
       }
