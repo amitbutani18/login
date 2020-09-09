@@ -209,7 +209,9 @@ class _OwnProfileState extends State<OwnProfile> {
                                       heading1: "SUPREME Card",
                                       value1: "\$ 500.00",
                                       heading2: "Credit Card",
-                                      value2: _creditcard,
+                                      value2: _creditcard == ''
+                                          ? "**** **** **** 1234"
+                                          : _creditcard,
                                     )
                                   ],
                                 ),
@@ -260,7 +262,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                                 size: size.height > diviceSize
                                                     ? 20
                                                     : 10,
-                                                color: Colors.white24,
+                                                color: Colors.white,
                                               ),
                                               SizedBox(
                                                 width: size.height > diviceSize
@@ -272,7 +274,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                                     ? "London , Europ"
                                                     : _location,
                                                 style: TextStyle(
-                                                  color: Colors.white24,
+                                                  color: Colors.white,
                                                   fontSize:
                                                       size.height > diviceSize
                                                           ? 25
@@ -310,9 +312,11 @@ class _OwnProfileState extends State<OwnProfile> {
                                                 MainAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
-                                                _occupation,
+                                                _occupation == ""
+                                                    ? "Fashion Model"
+                                                    : _occupation,
                                                 style: TextStyle(
-                                                    color: Colors.white24,
+                                                    color: Colors.white,
                                                     fontSize:
                                                         size.height > diviceSize
                                                             ? 25
@@ -327,15 +331,16 @@ class _OwnProfileState extends State<OwnProfile> {
                                             size.height > diviceSize ? 50 : 10,
                                       ),
                                       Container(
-                                        height: size.height > diviceSize
-                                            ? 250
-                                            : 200,
-                                        width: size.height > diviceSize
-                                            ? size.width
-                                            : 200,
+                                        // height: size.height > diviceSize
+                                        //     ? 250
+                                        //     : 200,
+                                        // width: size.height > diviceSize
+                                        //     ? size.width
+                                        //     : 200,
                                         color: Colors.amber[300],
                                         // color: Colors.amber[300],
                                         child: QrImage(
+                                          size: 200,
                                           data: _qrData,
                                         ),
                                       ),
@@ -422,7 +427,7 @@ class PointCredit extends StatelessWidget {
             Text(
               value1,
               style: TextStyle(
-                color: Colors.white24,
+                color: Colors.white,
                 fontSize: size.height > diviceSize ? 20 : 15,
               ),
             ),
@@ -447,7 +452,7 @@ class PointCredit extends StatelessWidget {
             Text(
               value2,
               style: TextStyle(
-                color: Colors.white24,
+                color: Colors.white,
                 fontSize: size.height > diviceSize ? 20 : 15,
               ),
             ),

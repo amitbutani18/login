@@ -23,6 +23,10 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _locationController;
   TextEditingController _creditController;
   TextEditingController _occuptionController;
+  TextEditingController _cvvController;
+  TextEditingController _pinController;
+  TextEditingController _dailyChargeController;
+  TextEditingController _dateController;
 
   String _name;
   String _ytLink;
@@ -31,6 +35,10 @@ class _EditProfileState extends State<EditProfile> {
   String _initialImage;
   String _creditcard;
   String _occuption;
+  String _cvv;
+  String _pin;
+  String _dailyCharge;
+  String _date;
 
   File _image;
   final picker = ImagePicker();
@@ -61,6 +69,9 @@ class _EditProfileState extends State<EditProfile> {
       _occuptionController = TextEditingController(
           text:
               map['occupation'] == null ? 'Fashion Model' : map['occupation']);
+      _cvvController = TextEditingController(text: '');
+      _pinController = TextEditingController(text: '');
+      _dailyChargeController = TextEditingController(text: '');
       _initialImage = map["profileimg"];
       setState(() {
         _isLoad = false;
@@ -286,26 +297,26 @@ class _EditProfileState extends State<EditProfile> {
                                 SizedBox(height: 20),
                                 Row(
                                   children: [
-                                    size.height > diviceSize
-                                        ? _formField(
-                                            'Credit Card',
-                                            size.width / 2 - 42,
-                                            30,
-                                            'assets/icons/Usericon.png',
-                                            _creditcard,
-                                            _creditController,
-                                          )
-                                        : _formField(
-                                            'Credit Card',
-                                            size.width / 2 - 42,
-                                            15,
-                                            'assets/icons/Usericon.png',
-                                            _creditcard,
-                                            _creditController,
-                                          ),
-                                    SizedBox(
-                                      width: 12,
-                                    ),
+                                    // size.height > diviceSize
+                                    //     ? _formField(
+                                    //         'Credit Card',
+                                    //         size.width / 2 - 42,
+                                    //         30,
+                                    //         'assets/icons/Usericon.png',
+                                    //         _creditcard,
+                                    //         _creditController,
+                                    //       )
+                                    //     : _formField(
+                                    //         'Credit Card',
+                                    //         size.width / 2 - 42,
+                                    //         15,
+                                    //         'assets/icons/Usericon.png',
+                                    //         _creditcard,
+                                    //         _creditController,
+                                    //       ),
+                                    // SizedBox(
+                                    //   width: 12,
+                                    // ),
                                     size.height > diviceSize
                                         ? _formField(
                                             'Occuption',
@@ -324,8 +335,142 @@ class _EditProfileState extends State<EditProfile> {
                                   ],
                                 ),
                                 SizedBox(
-                                  height: 80,
+                                  height: 20,
                                 ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Credit Card Details",
+                                      style: TextStyle(
+                                          color: Colors.amber[300],
+                                          fontSize: size.height > diviceSize
+                                              ? 20
+                                              : 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    size.height > diviceSize
+                                        ? _formField(
+                                            'Credit card number',
+                                            size.width / 2 - 42,
+                                            30,
+                                            'assets/icons/Lickicon.png',
+                                            _creditcard,
+                                            _creditController)
+                                        : _formField(
+                                            'Credit card number',
+                                            size.width / 2 - 42,
+                                            15,
+                                            'assets/icons/Lickicon.png',
+                                            _creditcard,
+                                            _creditController),
+                                    SizedBox(
+                                      width: 12,
+                                    ),
+                                    size.height > diviceSize
+                                        ? _formField(
+                                            'CVV',
+                                            size.width / 2 - 42,
+                                            30,
+                                            'assets/icons/password.png',
+                                            _cvv,
+                                            _cvvController,
+                                          )
+                                        : _formField(
+                                            'CVV',
+                                            size.width / 2 - 42,
+                                            15,
+                                            'assets/icons/password.png',
+                                            _cvv,
+                                            _cvvController,
+                                          ),
+                                  ],
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  children: [
+                                    size.height > diviceSize
+                                        ? _formField(
+                                            'Pin',
+                                            size.width / 2 - 42,
+                                            30,
+                                            'assets/icons/password.png',
+                                            _pin,
+                                            _pinController)
+                                        : _formField(
+                                            'Pin',
+                                            size.width / 2 - 42,
+                                            15,
+                                            'assets/icons/password.png',
+                                            _pin,
+                                            _pinController),
+                                    SizedBox(
+                                      width: 12,
+                                    ),
+                                    size.height > diviceSize
+                                        ? _formField(
+                                            'Expiry date',
+                                            size.width / 2 - 42,
+                                            30,
+                                            'assets/icons/calender.png',
+                                            _date,
+                                            _dailyChargeController,
+                                          )
+                                        : _formField(
+                                            'Expiry date',
+                                            size.width / 2 - 42,
+                                            15,
+                                            'assets/icons/calender.png',
+                                            _date,
+                                            _dateController,
+                                          ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Daily Charge",
+                                      style: TextStyle(
+                                          color: Colors.amber[300],
+                                          fontSize: size.height > diviceSize
+                                              ? 20
+                                              : 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    size.height > diviceSize
+                                        ? _formField(
+                                            'Daily Charge',
+                                            size.width / 2 - 42,
+                                            30,
+                                            'assets/icons/calender.png',
+                                            _location,
+                                            _locationController,
+                                          )
+                                        : _formField(
+                                            'Daily Charge',
+                                            size.width / 2 - 42,
+                                            15,
+                                            'assets/icons/calender.png',
+                                            _dailyCharge,
+                                            _dailyChargeController,
+                                          ),
+                                  ],
+                                ),
+                                SizedBox(height: 80),
                               ],
                             ),
                           ),
@@ -350,10 +495,7 @@ class _EditProfileState extends State<EditProfile> {
     return Container(
       width: width,
       child: TextFormField(
-        validator: lable == 'Name' ||
-                lable == 'Location' ||
-                lable == 'Occuption' ||
-                lable == 'Credit Card'
+        validator: lable == 'Name'
             ? (value) {
                 if (value.isEmpty) {
                   return 'Please Enter Valid Text';
@@ -361,17 +503,18 @@ class _EditProfileState extends State<EditProfile> {
                 return null;
               }
             : (value) {
-                Pattern pattern =
-                    r'^((?:.|\n)*?)((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?)';
-                RegExp regex = new RegExp(pattern);
-                if (!regex.hasMatch(value) || value.isEmpty) {
-                  return 'Please Enter Valid Link';
-                }
                 return null;
               },
-        keyboardType:
-            lable == 'Credit Card' ? TextInputType.number : TextInputType.text,
-        cursorColor: Colors.white,
+        // : (value) {
+        //     Pattern pattern =
+        //         r'^((?:.|\n)*?)((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?)';
+        //     RegExp regex = new RegExp(pattern);
+        //     if (!regex.hasMatch(value)) {
+        //       return 'Please Enter Valid Link';
+        //     }
+        //     return null;
+        //   },
+
         controller: controller,
         onSaved: (value) {
           setState(() {
@@ -390,8 +533,17 @@ class _EditProfileState extends State<EditProfile> {
             if (lable == 'Occuption') {
               _occuption = value;
             }
-            if (lable == 'Credit Card') {
+            if (lable == 'Credit card number') {
               _creditcard = value;
+            }
+            if (lable == 'CVV') {
+              _cvv = value;
+            }
+            if (lable == 'Pin') {
+              _pin = value;
+            }
+            if (lable == 'Daily Charge') {
+              _dailyCharge = value;
             }
           });
         },
@@ -424,7 +576,8 @@ class _EditProfileState extends State<EditProfile> {
 
   Future getImageFromCam() async {
     Navigator.of(context).pop();
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final pickedFile =
+        await picker.getImage(source: ImageSource.camera, imageQuality: 10);
     setState(() {
       _image = File(pickedFile.path);
     });
@@ -432,7 +585,8 @@ class _EditProfileState extends State<EditProfile> {
 
   Future getImageFromGal() async {
     Navigator.of(context).pop();
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile =
+        await picker.getImage(source: ImageSource.gallery, imageQuality: 10);
     setState(() {
       _image = File(pickedFile.path);
     });
@@ -521,10 +675,14 @@ class _EditProfileState extends State<EditProfile> {
         });
       }
 
-      print(_name);
-      print(_ytLink);
-      print(_linkedinLink);
-      print(_location);
+      print("_name" + _name);
+      print("_ytLink" + _ytLink);
+      print("_linkedinLink" + _linkedinLink);
+      print("_location" + _location);
+      print("_creditcard" + _creditcard);
+      print("_cvv" + _cvv);
+      print("_pin" + _pin);
+      print("_dailyCharge" + _dailyCharge);
       print(_image);
     }
   }

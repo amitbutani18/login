@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:login/widgets/pagebackground.dart';
+import 'package:login/widgets/pagetitle.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -48,111 +49,124 @@ class _SettingScreenState extends State<SettingScreen> {
               ? Center(
                   child: CircularProgressIndicator(),
                 )
-              : Center(
-                  child: Container(
-                    width: size.width / 2,
-                    padding: size.height > diviceSize
-                        ? EdgeInsets.only(
-                            top: 108, left: 55, right: 55, bottom: 55)
-                        : EdgeInsets.all(45),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          // width: size.height > diviceSize ? 650 : 400,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Security Pin Status",
-                                style: TextStyle(
-                                  color: Colors.yellow[300],
-                                  fontSize: 15,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 0),
-                                child: Switch(
-                                  value: initialValuePin,
-                                  activeTrackColor: Colors.lightGreenAccent,
-                                  activeColor: Colors.green,
-                                  onChanged: (value) async {
-                                    SharedPreferences sharedPreferences =
-                                        await SharedPreferences.getInstance();
-                                    setState(() {
-                                      initialValuePin = value;
-                                    });
-                                    sharedPreferences.setInt(
-                                        'pinstatus', value ? 1 : 0);
-                                    _submit('pin');
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "FingerPrint Security Status",
-                              style: TextStyle(
-                                color: Colors.yellow[300],
-                                fontSize: 15,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 0),
-                              child: Switch(
-                                value: initValFing,
-                                activeTrackColor: Colors.lightGreenAccent,
-                                activeColor: Colors.green,
-                                onChanged: (value) async {
-                                  SharedPreferences sharedPreferences =
-                                      await SharedPreferences.getInstance();
-                                  setState(() {
-                                    initValFing = value;
-                                  });
-                                  sharedPreferences.setInt(
-                                      'touchid', value ? 1 : 0);
-                                  _submit('finger');
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Padding(
-                              padding: size.height > diviceSize
-                                  ? const EdgeInsets.only(top: 18.0)
-                                  : const EdgeInsets.only(top: 8.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Container(
-                                  child: CircleAvatar(
-                                      backgroundColor: Colors.transparent,
-                                      radius:
-                                          size.height > diviceSize ? 40 : 30,
-                                      child: Image.asset(
-                                          'assets/icons/loginbubble.png')),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+              : Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 18.0, left: 10),
+                      child: PageTitle(
+                          size: size, diviceSize: 470, title: "Settings"),
                     ),
-                  ),
+                    Center(
+                      child: Container(
+                        width: size.width,
+                        padding: size.height > diviceSize
+                            ? EdgeInsets.only(
+                                top: 108, left: 105, right: 105, bottom: 55)
+                            : EdgeInsets.only(
+                                top: 35, right: 250, left: 150, bottom: 45),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              // width: size.height > diviceSize ? 650 : 400,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Security Pin Status",
+                                    style: TextStyle(
+                                      color: Colors.yellow[300],
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 0),
+                                    child: Switch(
+                                      value: initialValuePin,
+                                      activeTrackColor: Colors.lightGreenAccent,
+                                      activeColor: Colors.green,
+                                      onChanged: (value) async {
+                                        SharedPreferences sharedPreferences =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        setState(() {
+                                          initialValuePin = value;
+                                        });
+                                        sharedPreferences.setInt(
+                                            'pinstatus', value ? 1 : 0);
+                                        _submit('pin');
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "FingerPrint Security Status",
+                                  style: TextStyle(
+                                    color: Colors.yellow[300],
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 0),
+                                  child: Switch(
+                                    value: initValFing,
+                                    activeTrackColor: Colors.lightGreenAccent,
+                                    activeColor: Colors.green,
+                                    onChanged: (value) async {
+                                      SharedPreferences sharedPreferences =
+                                          await SharedPreferences.getInstance();
+                                      setState(() {
+                                        initValFing = value;
+                                      });
+                                      sharedPreferences.setInt(
+                                          'touchid', value ? 1 : 0);
+                                      _submit('finger');
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Padding(
+                                  padding: size.height > diviceSize
+                                      ? const EdgeInsets.only(top: 18.0)
+                                      : const EdgeInsets.only(top: 8.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Container(
+                                      child: CircleAvatar(
+                                          backgroundColor: Colors.transparent,
+                                          radius: size.height > diviceSize
+                                              ? 40
+                                              : 30,
+                                          child: Image.asset(
+                                              'assets/icons/loginbubble.png')),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
         ],
       ),

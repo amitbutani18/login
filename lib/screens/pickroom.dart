@@ -30,8 +30,8 @@ class _PickRoomState extends State<PickRoom> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  PageController _pagecon =
-      new PageController(initialPage: 100, viewportFraction: 0.1);
+  // PageController _pagecon =
+  //     new PageController(initialPage: 100, viewportFraction: 0.1);
 
   double divSize = 550;
 
@@ -48,43 +48,6 @@ class _PickRoomState extends State<PickRoom> {
   var _isLoading = false;
 
   List<DateTime> dateList;
-  @override
-  void didChangeDependencies() async {
-    super.didChangeDependencies();
-    // print("Pick Room Did");
-    if (_isInit) {
-      try {
-        setState(() {
-          _isLoading = true;
-        });
-        await Provider.of<RightSideSliderIconProvider>(context, listen: false)
-            .setIcon();
-        await Provider.of<LeftSideSliderIconProvider>(context, listen: false)
-            .setIcon();
-        await Provider.of<BottomUpSliderProvider>(context, listen: false)
-            .setIcon();
-        await Provider.of<BottomDownSliderProvider>(context, listen: false)
-            .setIcon();
-        setState(() {
-          _isLoading = false;
-        });
-        // await Provider.of<CityList>(context, listen: false).fetchCity();
-      } catch (error) {
-        setState(() {
-          _isLoading = false;
-        });
-        print(error);
-      }
-    }
-    _isInit = false;
-    double screenWidth = MediaQuery.of(context).size.width;
-    int select = widget.selectIndex > 0 ? widget.selectIndex : 0;
-    _scrollController = ScrollController(
-      initialScrollOffset: (3000 + select) * (screenWidth - 40) / 7,
-    );
-    _scrollController2 = ScrollController(
-        initialScrollOffset: (3000 + select) * (screenWidth - 40) / 7);
-  }
 
   @override
   void initState() {
@@ -158,6 +121,63 @@ class _PickRoomState extends State<PickRoom> {
   }
 
   @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    // print("Pick Room Did");
+    if (_isInit) {
+      try {
+        setState(() {
+          _isLoading = true;
+        });
+        await Provider.of<RightSideSliderIconProvider>(context, listen: false)
+            .setIcon();
+        await Provider.of<LeftSideSliderIconProvider>(context, listen: false)
+            .setIcon();
+        await Provider.of<BottomUpSliderProvider>(context, listen: false)
+            .setIcon();
+        await Provider.of<BottomDownSliderProvider>(context, listen: false)
+            .setIcon();
+        setState(() {
+          _isLoading = false;
+        });
+        // await Provider.of<CityList>(context, listen: false).fetchCity();
+      } catch (error) {
+        setState(() {
+          _isLoading = false;
+        });
+        print(error);
+      }
+    }
+    _isInit = false;
+    double screenWidth = MediaQuery.of(context).size.width;
+    int select = widget.selectIndex > 0 ? widget.selectIndex : 0;
+    _scrollController = ScrollController(
+      initialScrollOffset: (3000 + select) * (screenWidth - 40) / 7,
+    );
+    _scrollController2 = ScrollController(
+        initialScrollOffset: (3000 + select) * (screenWidth - 40) / 7);
+  }
+
+  _scroll() {
+    double maxExtent = _scrollController.position.maxScrollExtent;
+    double distanceDifference = maxExtent - _scrollController.offset;
+    double durationDouble = distanceDifference / speedFactor;
+    // print(maxExtent);
+    _scrollController
+        .animateTo(maxExtent,
+            duration: Duration(seconds: durationDouble.toInt()),
+            curve: Curves.linear)
+        .then((value) {});
+    double maxExtent2 = _scrollController.position.maxScrollExtent;
+    double distanceDifference2 = maxExtent - _scrollController.offset;
+    double durationDouble2 = distanceDifference2 / speedFactor;
+    // print(durationDouble2);
+    _scrollController2.animateTo(maxExtent2,
+        duration: Duration(seconds: durationDouble2.toInt()),
+        curve: Curves.linear);
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _scrollController.dispose();
@@ -165,16 +185,12 @@ class _PickRoomState extends State<PickRoom> {
     _scrollController3.dispose();
     _scrollController4.dispose();
     _scrollController5.dispose();
-    _pagecon.dispose();
+    // _pagecon.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // print("Amit1" + DateTime.now().toIso8601String());
-
-      _scroll();
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scroll());
 
     final imageData = Provider.of<ImagesProvider>(context);
     final imageUrl = imageData.items;
@@ -306,7 +322,7 @@ class _PickRoomState extends State<PickRoom> {
                                                   print("Hello");
                                                 }),
                                           ),
-                                          itemCount: slider.length * 10000,
+                                          itemCount: slider.length * 100,
                                         ),
                                       ),
                                     ),
@@ -347,7 +363,7 @@ class _PickRoomState extends State<PickRoom> {
                                                   .pushNamed('/room-details');
                                               print("Hello");
                                             })),
-                                    itemCount: slider.length * 10000,
+                                    itemCount: slider.length * 100,
                                   ),
                                 ),
                               )
@@ -856,25 +872,6 @@ class _PickRoomState extends State<PickRoom> {
         ),
       ),
     );
-  }
-
-  _scroll() {
-    double maxExtent = _scrollController.position.maxScrollExtent;
-    double distanceDifference = maxExtent - _scrollController.offset;
-    double durationDouble = distanceDifference / speedFactor;
-    // print(maxExtent);
-    _scrollController
-        .animateTo(maxExtent,
-            duration: Duration(seconds: durationDouble.toInt()),
-            curve: Curves.linear)
-        .then((value) {});
-    double maxExtent2 = _scrollController.position.maxScrollExtent;
-    double distanceDifference2 = maxExtent - _scrollController.offset;
-    double durationDouble2 = distanceDifference2 / speedFactor;
-    // print(durationDouble2);
-    _scrollController2.animateTo(maxExtent2,
-        duration: Duration(seconds: durationDouble2.toInt()),
-        curve: Curves.linear);
   }
 
   rightslider({int i, List<SliderIcon> list}) {
