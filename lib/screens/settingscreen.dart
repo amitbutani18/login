@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
+import 'package:flutter/cupertino.dart' as ios;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -63,7 +65,10 @@ class _SettingScreenState extends State<SettingScreen> {
                             ? EdgeInsets.only(
                                 top: 108, left: 105, right: 105, bottom: 55)
                             : EdgeInsets.only(
-                                top: 35, right: 250, left: 150, bottom: 45),
+                                top: 35,
+                                right: size.width < 600 ? 130 : 200,
+                                left: size.width < 600 ? 130 : 200,
+                                bottom: 45),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -84,22 +89,40 @@ class _SettingScreenState extends State<SettingScreen> {
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 15, vertical: 0),
-                                    child: Switch(
-                                      value: initialValuePin,
-                                      activeTrackColor: Colors.lightGreenAccent,
-                                      activeColor: Colors.green,
-                                      onChanged: (value) async {
-                                        SharedPreferences sharedPreferences =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        setState(() {
-                                          initialValuePin = value;
-                                        });
-                                        sharedPreferences.setInt(
-                                            'pinstatus', value ? 1 : 0);
-                                        _submit('pin');
-                                      },
-                                    ),
+                                    child: Platform.isIOS
+                                        ? ios.CupertinoSwitch(
+                                            value: initialValuePin,
+                                            activeColor: Colors.green,
+                                            onChanged: (value) async {
+                                              SharedPreferences
+                                                  sharedPreferences =
+                                                  await SharedPreferences
+                                                      .getInstance();
+                                              setState(() {
+                                                initialValuePin = value;
+                                              });
+                                              sharedPreferences.setInt(
+                                                  'pinstatus', value ? 1 : 0);
+                                              _submit('pin');
+                                            })
+                                        : Switch(
+                                            value: initialValuePin,
+                                            activeTrackColor:
+                                                Colors.lightGreenAccent,
+                                            activeColor: Colors.green,
+                                            onChanged: (value) async {
+                                              SharedPreferences
+                                                  sharedPreferences =
+                                                  await SharedPreferences
+                                                      .getInstance();
+                                              setState(() {
+                                                initialValuePin = value;
+                                              });
+                                              sharedPreferences.setInt(
+                                                  'pinstatus', value ? 1 : 0);
+                                              _submit('pin');
+                                            },
+                                          ),
                                   ),
                                 ],
                               ),
@@ -120,21 +143,40 @@ class _SettingScreenState extends State<SettingScreen> {
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 15, vertical: 0),
-                                  child: Switch(
-                                    value: initValFing,
-                                    activeTrackColor: Colors.lightGreenAccent,
-                                    activeColor: Colors.green,
-                                    onChanged: (value) async {
-                                      SharedPreferences sharedPreferences =
-                                          await SharedPreferences.getInstance();
-                                      setState(() {
-                                        initValFing = value;
-                                      });
-                                      sharedPreferences.setInt(
-                                          'touchid', value ? 1 : 0);
-                                      _submit('finger');
-                                    },
-                                  ),
+                                  child: Platform.isIOS
+                                      ? ios.CupertinoSwitch(
+                                          value: initValFing,
+                                          activeColor: Colors.green,
+                                          onChanged: (value) async {
+                                            SharedPreferences
+                                                sharedPreferences =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            setState(() {
+                                              initValFing = value;
+                                            });
+                                            sharedPreferences.setInt(
+                                                'touchid', value ? 1 : 0);
+                                            _submit('finger');
+                                          })
+                                      : Switch(
+                                          value: initValFing,
+                                          activeTrackColor:
+                                              Colors.lightGreenAccent,
+                                          activeColor: Colors.green,
+                                          onChanged: (value) async {
+                                            SharedPreferences
+                                                sharedPreferences =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            setState(() {
+                                              initValFing = value;
+                                            });
+                                            sharedPreferences.setInt(
+                                                'touchid', value ? 1 : 0);
+                                            _submit('finger');
+                                          },
+                                        ),
                                 ),
                               ],
                             ),

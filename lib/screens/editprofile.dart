@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:login/API/profileapi.dart';
 import 'package:login/screens/ownprofile.dart';
 import 'package:login/widgets/pagebackground.dart';
@@ -26,7 +28,6 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _cvvController;
   TextEditingController _pinController;
   TextEditingController _dailyChargeController;
-  TextEditingController _dateController;
 
   String _name;
   String _ytLink;
@@ -38,7 +39,7 @@ class _EditProfileState extends State<EditProfile> {
   String _cvv;
   String _pin;
   String _dailyCharge;
-  String _date;
+  DateTime _date = DateTime.now();
 
   File _image;
   final picker = ImagePicker();
@@ -69,9 +70,15 @@ class _EditProfileState extends State<EditProfile> {
       _occuptionController = TextEditingController(
           text:
               map['occupation'] == null ? 'Fashion Model' : map['occupation']);
-      _cvvController = TextEditingController(text: '');
-      _pinController = TextEditingController(text: '');
-      _dailyChargeController = TextEditingController(text: '');
+      _cvvController = TextEditingController(
+          text: map['cardcvv'] == null ? '' : map['cardcvv']);
+      _pinController = TextEditingController(
+          text: map['cardpin'] == null ? '' : map['cardpin']);
+      _dailyChargeController = TextEditingController(
+          text: map['dailycharge'] == null ? '' : map['dailycharge']);
+      _date = map['cardexpirydate'] == ""
+          ? DateTime.now()
+          : DateTime.parse(map['cardexpirydate']);
       _initialImage = map["profileimg"];
       setState(() {
         _isLoad = false;
@@ -83,6 +90,80 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var expiryDate = Center(
+      child: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Builder(
+              builder: (context) => GestureDetector(
+                onTap: () async {
+                  DateTime datetime = await showRoundedDatePicker(
+                    context: context,
+                    initialDate: _date,
+                    firstDate: DateTime.now().subtract(Duration(days: 1)),
+                    lastDate: DateTime(DateTime.now().year + 1),
+                    borderRadius: 16,
+                    theme: ThemeData.dark().copyWith(
+                      accentColor: Color.fromRGBO(201, 163, 66, 1),
+                      canvasColor: Color.fromRGBO(201, 163, 66, 1),
+                      backgroundColor: Color.fromRGBO(201, 163, 66, 1),
+                      buttonTheme: ButtonThemeData(
+                        colorScheme: Theme.of(context).colorScheme.copyWith(
+                              primary: Colors.amber,
+                            ),
+                      ),
+                    ),
+                  ).then((pickdate) {
+                    if (pickdate == null) {
+                      return;
+                    }
+                    setState(() {
+                      _date = pickdate;
+                    });
+                  });
+                },
+                child: Container(
+                  width: size.height > diviceSize ? 320 : size.width / 2 - 42,
+                  height: size.height > diviceSize ? 80 : 50,
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border(bottom: BorderSide(color: Colors.amber))),
+                  padding: EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(right: 8),
+                        margin: EdgeInsets.only(right: 0),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          radius: 15,
+                          child: Image.asset('assets/icons/calender.png'),
+                        ),
+                      ),
+                      Padding(
+                        padding: size.height > diviceSize
+                            ? const EdgeInsets.only(top: 0.0)
+                            : const EdgeInsets.only(top: 0.0, bottom: 5),
+                        child: Text(
+                          ' ${DateFormat("dd-MMM-yyyy").format(_date)} ',
+                          style: TextStyle(
+                              fontSize: size.height > diviceSize ? 20 : 15,
+                              color: Colors.amber[300]),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            // ),
+          ],
+        ),
+      ),
+    );
     return Scaffold(
       key: _scaffoldKey,
       floatingActionButton: Row(
@@ -115,371 +196,344 @@ class _EditProfileState extends State<EditProfile> {
           ),
         ],
       ),
-      body: Stack(
-        children: <Widget>[
-          PageBackground(
-              size: size, imagePath: 'assets/images/profilebackground.png'),
-          _isLoad
-              ? Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: Padding(
-                    padding: size.height > diviceSize
-                        ? const EdgeInsets.all(28.0)
-                        : const EdgeInsets.only(top: 18, right: 18, left: 18),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            OwnProfile()));
-                                // Navigator.of(context).pushNamed('/project-details');
-                              },
-                              child: Container(
-                                  padding: EdgeInsets.only(top: 10),
-                                  height: 30,
-                                  width: 30,
-                                  child:
-                                      Image.asset('assets/icons/backicon.png')),
-                            ),
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10.0),
-                                    child: Text(
-                                      "Edit Profile",
-                                      style: TextStyle(
-                                        color: Colors.amber[300],
-                                        fontSize:
-                                            size.height > diviceSize ? 40 : 22,
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+        child: Stack(
+          children: <Widget>[
+            PageBackground(
+                size: size, imagePath: 'assets/images/profilebackground.png'),
+            _isLoad
+                ? Center(child: CircularProgressIndicator())
+                : SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Padding(
+                      padding: size.height > diviceSize
+                          ? const EdgeInsets.all(28.0)
+                          : const EdgeInsets.only(top: 18, right: 18, left: 18),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              OwnProfile()));
+                                  // Navigator.of(context).pushNamed('/project-details');
+                                },
+                                child: Container(
+                                    padding: EdgeInsets.only(top: 10),
+                                    height: 30,
+                                    width: 30,
+                                    child: Image.asset(
+                                        'assets/icons/backicon.png')),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text(
+                                        "Edit Profile",
+                                        style: TextStyle(
+                                          color: Colors.amber[300],
+                                          fontSize: size.height > diviceSize
+                                              ? 40
+                                              : 22,
+                                        ),
                                       ),
                                     ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: size.height > diviceSize
+                                ? const EdgeInsets.symmetric(horizontal: 28.0)
+                                : const EdgeInsets.symmetric(horizontal: 18.0),
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: _showMyDialog,
+                                    child: Container(
+                                        padding: EdgeInsets.only(left: 50),
+                                        child: Stack(
+                                          children: [
+                                            CircleAvatar(
+                                              radius: size.height > diviceSize
+                                                  ? 70
+                                                  : 50,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              backgroundImage: _image == null
+                                                  ? _initialImage == ''
+                                                      ? AssetImage(
+                                                          'assets/images/profileimage.png')
+                                                      : NetworkImage(
+                                                          _initialImage)
+                                                  : FileImage(_image),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 65.0, left: 72),
+                                              child: CircleAvatar(
+                                                radius: 15,
+                                                child: Image.asset(
+                                                    'assets/icons/addimgicon.png'),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
                                   ),
+                                  SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      size.height > diviceSize
+                                          ? _formField(
+                                              'Name',
+                                              size.width / 2 - 42,
+                                              30,
+                                              'assets/icons/Usericon.png',
+                                              _nameController,
+                                            )
+                                          : _formField(
+                                              'Name',
+                                              size.width / 2 - 42,
+                                              15,
+                                              'assets/icons/Usericon.png',
+                                              _nameController,
+                                            ),
+                                      SizedBox(
+                                        width: 12,
+                                      ),
+                                      size.height > diviceSize
+                                          ? _formField(
+                                              'Youtube Link(optional)',
+                                              size.width / 2 - 42,
+                                              30,
+                                              'assets/icons/Lickicon.png',
+                                              _ytLinkController)
+                                          : _formField(
+                                              'Youtube Link(optional)',
+                                              size.width / 2 - 42,
+                                              15,
+                                              'assets/icons/Lickicon.png',
+                                              _ytLinkController),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    children: [
+                                      size.height > diviceSize
+                                          ? _formField(
+                                              'Linkedin(optional)',
+                                              size.width / 2 - 42,
+                                              30,
+                                              'assets/icons/Lickicon.png',
+                                              _linkedinController)
+                                          : _formField(
+                                              'Linkedin(optional)',
+                                              size.width / 2 - 42,
+                                              15,
+                                              'assets/icons/Lickicon.png',
+                                              _linkedinController),
+                                      SizedBox(
+                                        width: 12,
+                                      ),
+                                      size.height > diviceSize
+                                          ? _formField(
+                                              'Location',
+                                              size.width / 2 - 42,
+                                              30,
+                                              'assets/icons/Locationicon.png',
+                                              _locationController,
+                                            )
+                                          : _formField(
+                                              'Location',
+                                              size.width / 2 - 42,
+                                              15,
+                                              'assets/icons/Locationicon.png',
+                                              _locationController,
+                                            ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      // size.height > diviceSize
+                                      //     ? _formField(
+                                      //         'Credit Card',
+                                      //         size.width / 2 - 42,
+                                      //         30,
+                                      //         'assets/icons/Usericon.png',
+                                      //         _creditcard,
+                                      //         _creditController,
+                                      //       )
+                                      //     : _formField(
+                                      //         'Credit Card',
+                                      //         size.width / 2 - 42,
+                                      //         15,
+                                      //         'assets/icons/Usericon.png',
+                                      //         _creditcard,
+                                      //         _creditController,
+                                      //       ),
+                                      // SizedBox(
+                                      //   width: 12,
+                                      // ),
+                                      size.height > diviceSize
+                                          ? _formField(
+                                              'Occuption',
+                                              size.width / 2 - 42,
+                                              30,
+                                              'assets/icons/Lickicon.png',
+                                              _occuptionController)
+                                          : _formField(
+                                              'Occuption',
+                                              size.width / 2 - 42,
+                                              15,
+                                              'assets/icons/Lickicon.png',
+                                              _occuptionController),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Credit Card Details",
+                                        style: TextStyle(
+                                            color: Colors.amber[300],
+                                            fontSize: size.height > diviceSize
+                                                ? 20
+                                                : 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      size.height > diviceSize
+                                          ? _formField(
+                                              'Credit card number',
+                                              size.width / 2 - 42,
+                                              30,
+                                              'assets/icons/Lickicon.png',
+                                              _creditController)
+                                          : _formField(
+                                              'Credit card number',
+                                              size.width / 2 - 42,
+                                              15,
+                                              'assets/icons/Lickicon.png',
+                                              _creditController),
+                                      SizedBox(
+                                        width: 12,
+                                      ),
+                                      size.height > diviceSize
+                                          ? _formField(
+                                              'CVV',
+                                              size.width / 2 - 42,
+                                              30,
+                                              'assets/icons/password.png',
+                                              _cvvController,
+                                            )
+                                          : _formField(
+                                              'CVV',
+                                              size.width / 2 - 42,
+                                              15,
+                                              'assets/icons/password.png',
+                                              _cvvController,
+                                            ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      size.height > diviceSize
+                                          ? _formField(
+                                              'Pin',
+                                              size.width / 2 - 42,
+                                              30,
+                                              'assets/icons/password.png',
+                                              _pinController)
+                                          : _formField(
+                                              'Pin',
+                                              size.width / 2 - 42,
+                                              15,
+                                              'assets/icons/password.png',
+                                              _pinController),
+                                      SizedBox(
+                                        width: 12,
+                                      ),
+                                      expiryDate,
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Daily Charge",
+                                        style: TextStyle(
+                                            color: Colors.amber[300],
+                                            fontSize: size.height > diviceSize
+                                                ? 20
+                                                : 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      size.height > diviceSize
+                                          ? _formField(
+                                              'Daily Charge',
+                                              size.width / 2 - 42,
+                                              30,
+                                              'assets/icons/calender.png',
+                                              _dailyChargeController,
+                                            )
+                                          : _formField(
+                                              'Daily Charge',
+                                              size.width / 2 - 42,
+                                              15,
+                                              'assets/icons/calender.png',
+                                              _dailyChargeController,
+                                            ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 80),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: size.height > diviceSize
-                              ? const EdgeInsets.symmetric(horizontal: 28.0)
-                              : const EdgeInsets.symmetric(horizontal: 18.0),
-                          child: Form(
-                            key: _formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: _showMyDialog,
-                                  child: Container(
-                                      padding: EdgeInsets.only(left: 50),
-                                      child: Stack(
-                                        children: [
-                                          CircleAvatar(
-                                            radius: size.height > diviceSize
-                                                ? 70
-                                                : 50,
-                                            backgroundColor: Colors.transparent,
-                                            backgroundImage: _image == null
-                                                ? _initialImage == ''
-                                                    ? AssetImage(
-                                                        'assets/images/profileimage.png')
-                                                    : NetworkImage(
-                                                        _initialImage)
-                                                : FileImage(_image),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 65.0, left: 72),
-                                            child: CircleAvatar(
-                                              radius: 15,
-                                              child: Image.asset(
-                                                  'assets/icons/addimgicon.png'),
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                ),
-                                SizedBox(height: 20),
-                                Row(
-                                  children: [
-                                    size.height > diviceSize
-                                        ? _formField(
-                                            'Name',
-                                            size.width / 2 - 42,
-                                            30,
-                                            'assets/icons/Usericon.png',
-                                            _name,
-                                            _nameController,
-                                          )
-                                        : _formField(
-                                            'Name',
-                                            size.width / 2 - 42,
-                                            15,
-                                            'assets/icons/Usericon.png',
-                                            _name,
-                                            _nameController,
-                                          ),
-                                    SizedBox(
-                                      width: 12,
-                                    ),
-                                    size.height > diviceSize
-                                        ? _formField(
-                                            'Youtube Link',
-                                            size.width / 2 - 42,
-                                            30,
-                                            'assets/icons/Lickicon.png',
-                                            _ytLink,
-                                            _ytLinkController)
-                                        : _formField(
-                                            'Youtube Link',
-                                            size.width / 2 - 42,
-                                            15,
-                                            'assets/icons/Lickicon.png',
-                                            _ytLink,
-                                            _ytLinkController),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  children: [
-                                    size.height > diviceSize
-                                        ? _formField(
-                                            'Linkedin',
-                                            size.width / 2 - 42,
-                                            30,
-                                            'assets/icons/Lickicon.png',
-                                            _linkedinLink,
-                                            _linkedinController)
-                                        : _formField(
-                                            'Linkedin',
-                                            size.width / 2 - 42,
-                                            15,
-                                            'assets/icons/Lickicon.png',
-                                            _linkedinLink,
-                                            _linkedinController),
-                                    SizedBox(
-                                      width: 12,
-                                    ),
-                                    size.height > diviceSize
-                                        ? _formField(
-                                            'Location',
-                                            size.width / 2 - 42,
-                                            30,
-                                            'assets/icons/Locationicon.png',
-                                            _location,
-                                            _locationController,
-                                          )
-                                        : _formField(
-                                            'Location',
-                                            size.width / 2 - 42,
-                                            15,
-                                            'assets/icons/Locationicon.png',
-                                            _location,
-                                            _locationController,
-                                          ),
-                                  ],
-                                ),
-                                SizedBox(height: 20),
-                                Row(
-                                  children: [
-                                    // size.height > diviceSize
-                                    //     ? _formField(
-                                    //         'Credit Card',
-                                    //         size.width / 2 - 42,
-                                    //         30,
-                                    //         'assets/icons/Usericon.png',
-                                    //         _creditcard,
-                                    //         _creditController,
-                                    //       )
-                                    //     : _formField(
-                                    //         'Credit Card',
-                                    //         size.width / 2 - 42,
-                                    //         15,
-                                    //         'assets/icons/Usericon.png',
-                                    //         _creditcard,
-                                    //         _creditController,
-                                    //       ),
-                                    // SizedBox(
-                                    //   width: 12,
-                                    // ),
-                                    size.height > diviceSize
-                                        ? _formField(
-                                            'Occuption',
-                                            size.width / 2 - 42,
-                                            30,
-                                            'assets/icons/Lickicon.png',
-                                            _occuption,
-                                            _occuptionController)
-                                        : _formField(
-                                            'Occuption',
-                                            size.width / 2 - 42,
-                                            15,
-                                            'assets/icons/Lickicon.png',
-                                            _occuption,
-                                            _occuptionController),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Credit Card Details",
-                                      style: TextStyle(
-                                          color: Colors.amber[300],
-                                          fontSize: size.height > diviceSize
-                                              ? 20
-                                              : 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 10),
-                                Row(
-                                  children: [
-                                    size.height > diviceSize
-                                        ? _formField(
-                                            'Credit card number',
-                                            size.width / 2 - 42,
-                                            30,
-                                            'assets/icons/Lickicon.png',
-                                            _creditcard,
-                                            _creditController)
-                                        : _formField(
-                                            'Credit card number',
-                                            size.width / 2 - 42,
-                                            15,
-                                            'assets/icons/Lickicon.png',
-                                            _creditcard,
-                                            _creditController),
-                                    SizedBox(
-                                      width: 12,
-                                    ),
-                                    size.height > diviceSize
-                                        ? _formField(
-                                            'CVV',
-                                            size.width / 2 - 42,
-                                            30,
-                                            'assets/icons/password.png',
-                                            _cvv,
-                                            _cvvController,
-                                          )
-                                        : _formField(
-                                            'CVV',
-                                            size.width / 2 - 42,
-                                            15,
-                                            'assets/icons/password.png',
-                                            _cvv,
-                                            _cvvController,
-                                          ),
-                                  ],
-                                ),
-                                SizedBox(height: 20),
-                                Row(
-                                  children: [
-                                    size.height > diviceSize
-                                        ? _formField(
-                                            'Pin',
-                                            size.width / 2 - 42,
-                                            30,
-                                            'assets/icons/password.png',
-                                            _pin,
-                                            _pinController)
-                                        : _formField(
-                                            'Pin',
-                                            size.width / 2 - 42,
-                                            15,
-                                            'assets/icons/password.png',
-                                            _pin,
-                                            _pinController),
-                                    SizedBox(
-                                      width: 12,
-                                    ),
-                                    size.height > diviceSize
-                                        ? _formField(
-                                            'Expiry date',
-                                            size.width / 2 - 42,
-                                            30,
-                                            'assets/icons/calender.png',
-                                            _date,
-                                            _dailyChargeController,
-                                          )
-                                        : _formField(
-                                            'Expiry date',
-                                            size.width / 2 - 42,
-                                            15,
-                                            'assets/icons/calender.png',
-                                            _date,
-                                            _dateController,
-                                          ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Daily Charge",
-                                      style: TextStyle(
-                                          color: Colors.amber[300],
-                                          fontSize: size.height > diviceSize
-                                              ? 20
-                                              : 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 10),
-                                Row(
-                                  children: [
-                                    size.height > diviceSize
-                                        ? _formField(
-                                            'Daily Charge',
-                                            size.width / 2 - 42,
-                                            30,
-                                            'assets/icons/calender.png',
-                                            _location,
-                                            _locationController,
-                                          )
-                                        : _formField(
-                                            'Daily Charge',
-                                            size.width / 2 - 42,
-                                            15,
-                                            'assets/icons/calender.png',
-                                            _dailyCharge,
-                                            _dailyChargeController,
-                                          ),
-                                  ],
-                                ),
-                                SizedBox(height: 80),
-                              ],
-                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -489,22 +543,32 @@ class _EditProfileState extends State<EditProfile> {
     double width,
     double fontSize,
     String image,
-    String usrVal,
     TextEditingController controller,
   ) {
     return Container(
       width: width,
       child: TextFormField(
+        obscureText: lable == 'CVV' || lable == 'Pin' ? true : false,
         validator: lable == 'Name'
             ? (value) {
                 if (value.isEmpty) {
-                  return 'Please Enter Valid Text';
+                  return 'Please enter valid text';
                 }
                 return null;
               }
-            : (value) {
-                return null;
-              },
+            : lable == 'Credit card number' ||
+                    lable == 'CVV' ||
+                    lable == 'Pin' ||
+                    lable == 'Daily Charge'
+                ? (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter valid number';
+                    }
+                    return null;
+                  }
+                : (value) {
+                    return null;
+                  },
         // : (value) {
         //     Pattern pattern =
         //         r'^((?:.|\n)*?)((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?)';
@@ -514,17 +578,22 @@ class _EditProfileState extends State<EditProfile> {
         //     }
         //     return null;
         //   },
-
+        keyboardType: lable == 'Credit card number' ||
+                lable == 'CVV' ||
+                lable == 'Pin' ||
+                lable == 'Daily Charge'
+            ? TextInputType.number
+            : TextInputType.text,
         controller: controller,
         onSaved: (value) {
           setState(() {
             if (lable == 'Name') {
               _name = value;
             }
-            if (lable == 'Youtube Link') {
+            if (lable == 'Youtube Link(optional)') {
               _ytLink = value;
             }
-            if (lable == 'Linkedin') {
+            if (lable == 'Linkedin(optional)') {
               _linkedinLink = value;
             }
             if (lable == 'Location') {
@@ -576,8 +645,11 @@ class _EditProfileState extends State<EditProfile> {
 
   Future getImageFromCam() async {
     Navigator.of(context).pop();
-    final pickedFile =
-        await picker.getImage(source: ImageSource.camera, imageQuality: 10);
+    final pickedFile = await picker.getImage(
+        source: ImageSource.camera,
+        imageQuality: 10,
+        maxHeight: 200,
+        maxWidth: 200);
     setState(() {
       _image = File(pickedFile.path);
     });
@@ -585,8 +657,11 @@ class _EditProfileState extends State<EditProfile> {
 
   Future getImageFromGal() async {
     Navigator.of(context).pop();
-    final pickedFile =
-        await picker.getImage(source: ImageSource.gallery, imageQuality: 10);
+    final pickedFile = await picker.getImage(
+        source: ImageSource.gallery,
+        imageQuality: 10,
+        maxHeight: 200,
+        maxWidth: 200);
     setState(() {
       _image = File(pickedFile.path);
     });
@@ -660,18 +735,33 @@ class _EditProfileState extends State<EditProfile> {
                 _linkedinLink,
                 _location,
                 _creditcard,
-                _occuption)
+                _occuption,
+                _cvv,
+                _pin,
+                _date.toIso8601String(),
+                _dailyCharge,
+              )
             : await Provider.of<ProfileApi>(context, listen: false)
-                .updateProWithimg(_name, _ytLink, _linkedinLink, _location,
-                    _image, _creditcard, _occuption);
+                .updateProWithimg(
+                    _name,
+                    _ytLink,
+                    _linkedinLink,
+                    _location,
+                    _image,
+                    _creditcard,
+                    _occuption,
+                    _cvv,
+                    _pin,
+                    _date.toIso8601String(),
+                    _dailyCharge);
         setState(() {
-          _isLoad = true;
+          _isLoad = false;
         });
         Navigator.of(context).pushReplacementNamed('/own-profile');
       } catch (e) {
-        print(e);
+        print("Error" + e);
         setState(() {
-          _isLoad = true;
+          _isLoad = false;
         });
       }
 

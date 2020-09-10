@@ -54,11 +54,11 @@ class _OwnProfileState extends State<OwnProfile> {
           _linkedLink = map['linkdin'];
           _youLink = map['youtube'];
           _profileImage = map['profileimg'];
-          _creditcard = map['creditcard'];
+          _creditcard = map['creditcard'].toString();
           _occupation = map['occupation'];
           _qrData = _userEmail;
         });
-        print(_profileImage);
+        print("_profileImage" + _profileImage);
         setState(() {
           _load = false;
         });
@@ -340,7 +340,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                         color: Colors.amber[300],
                                         // color: Colors.amber[300],
                                         child: QrImage(
-                                          size: 200,
+                                          size: size.width < 600 ? 100 : 200,
                                           data: _qrData,
                                         ),
                                       ),
@@ -418,7 +418,8 @@ class PointCredit extends StatelessWidget {
               heading1,
               style: TextStyle(
                 color: Colors.amber[300],
-                fontSize: size.height > diviceSize ? 25 : 15,
+                fontSize:
+                    size.height > diviceSize ? 25 : size.width < 600 ? 10 : 15,
               ),
             ),
             SizedBox(
@@ -428,7 +429,8 @@ class PointCredit extends StatelessWidget {
               value1,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: size.height > diviceSize ? 20 : 15,
+                fontSize:
+                    size.height > diviceSize ? 20 : size.width < 600 ? 10 : 15,
               ),
             ),
           ],
@@ -443,7 +445,8 @@ class PointCredit extends StatelessWidget {
               heading2,
               style: TextStyle(
                 color: Colors.amber[300],
-                fontSize: size.height > diviceSize ? 25 : 15,
+                fontSize:
+                    size.height > diviceSize ? 25 : size.width < 600 ? 10 : 15,
               ),
             ),
             SizedBox(
@@ -453,7 +456,8 @@ class PointCredit extends StatelessWidget {
               value2,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: size.height > diviceSize ? 20 : 15,
+                fontSize:
+                    size.height > diviceSize ? 20 : size.width < 600 ? 10 : 15,
               ),
             ),
           ],

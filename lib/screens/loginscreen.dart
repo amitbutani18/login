@@ -639,7 +639,7 @@ class _LoginScreenState extends State<LoginScreen>
               _passwordController.clear();
             }
           } else {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               SlideRightRoute(
                 page: SetPin(),

@@ -62,13 +62,13 @@ class _SetPinState extends State<SetPin> {
     });
     if (authenticated) {
       enableFinger();
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => PickRoom(),
         ),
       );
     }
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => PickRoom(),
       ),
@@ -203,7 +203,7 @@ class _SetPinState extends State<SetPin> {
             GestureDetector(
               onTap: () {
                 // sharedPreferences.setInt('touchid', 0);
-                Navigator.of(context).push(
+                Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => PickRoom(),
                   ),

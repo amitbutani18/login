@@ -8,9 +8,11 @@ import 'package:login/helpers/slider/leftsideslidericonprovider.dart';
 import 'package:login/helpers/slider/rightsidesliderprovider.dart';
 import 'package:login/helpers/slider/slidericon.dart';
 import 'package:login/helpers/slider/topslidericonprovider.dart';
+import 'package:login/screens/searchchatemember.dart';
 import 'package:login/widgets/datepick.dart';
 import 'package:login/widgets/ease_in_widget.dart';
 import 'package:login/widgets/pagebackground.dart';
+import 'package:login/widgets/sliderightroute.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
@@ -196,6 +198,7 @@ class _PickRoomState extends State<PickRoom> {
     final imageUrl = imageData.items;
     final sliderIconData = Provider.of<TopSliderIconProvider>(context);
     final slider = sliderIconData.items;
+    final topSecSlider = sliderIconData.images;
     final leftIconData = Provider.of<LeftSideSliderIconProvider>(context);
     final leftSlider = leftIconData.items;
     final rightIconData = Provider.of<RightSideSliderIconProvider>(context);
@@ -224,12 +227,19 @@ class _PickRoomState extends State<PickRoom> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconButton(
-              color: Colors.amber,
-              icon: Icon(Icons.perm_identity),
-              onPressed: () async {
+            GestureDetector(
+              onTap: () async {
                 Navigator.of(context).pushNamed('/own-profile');
               },
+              child: Container(
+                padding: EdgeInsets.all(8),
+                margin: EdgeInsets.only(right: 0),
+                child: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 15,
+                  child: Image.asset('assets/icons/profileIcon.png'),
+                ),
+              ),
             ),
             IconButton(
               color: Colors.amber,
@@ -238,14 +248,43 @@ class _PickRoomState extends State<PickRoom> {
                 Navigator.of(context).pushNamed('/settings');
               },
             ),
-            IconButton(
-              color: Colors.amber,
-              icon: Icon(Icons.exit_to_app),
-              onPressed: () async {
+            GestureDetector(
+              onTap: () async {
                 await Provider.of<LogOut>(context, listen: false).logOut();
                 Navigator.of(context).pushReplacementNamed('/login');
               },
+              child: Container(
+                padding: EdgeInsets.all(8),
+                margin: EdgeInsets.only(right: 0),
+                child: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 15,
+                  child: Image.asset('assets/icons/logout.png'),
+                ),
+              ),
             ),
+            // IconButton(
+            //   color: Colors.amber,
+            //   icon: Icon(Icons.perm_identity),
+            //   onPressed: () async {
+            //     Navigator.of(context).pushNamed('/own-profile');
+            //   },
+            // ),
+            // IconButton(
+            //   color: Colors.amber,
+            //   icon: Icon(Icons.settings),
+            //   onPressed: () async {
+            //     Navigator.of(context).pushNamed('/settings');
+            //   },
+            // ),
+            // IconButton(
+            //   color: Colors.amber,
+            //   icon: Icon(Icons.exit_to_app),
+            //   onPressed: () async {
+            //     await Provider.of<LogOut>(context, listen: false).logOut();
+            //     Navigator.of(context).pushReplacementNamed('/login');
+            //   },
+            // ),
           ],
         )),
       ),
@@ -327,8 +366,12 @@ class _PickRoomState extends State<PickRoom> {
                                       ),
                                     ),
                               GestureDetector(
-                                // onTap: () => Navigator.of(context)
-                                //     .pushNamed('/service-provider'),
+                                // onTap: () => Navigator.push(
+                                //   context,
+                                //   SlideRightRoute(
+                                //     page: SearchChateMember(),
+                                //   ),
+                                // ),
                                 child: CircleAvatar(
                                   radius: size.height > divSize ? 20 : 10,
                                   backgroundColor: Colors.transparent,
@@ -609,7 +652,7 @@ class _PickRoomState extends State<PickRoom> {
                                 ),
                                 Container(
                                   height: size.height > divSize ? 480 : 200,
-                                  width: size.height > divSize ? 80 : 60,
+                                  width: size.height > divSize ? 80 : 58,
                                   child: ListView.builder(
                                     key: ValueKey(3),
                                     controller: _scrollController3,

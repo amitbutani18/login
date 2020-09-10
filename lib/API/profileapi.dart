@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -30,8 +31,19 @@ class ProfileApi with ChangeNotifier {
     }
   }
 
-  Future<void> updateProWithimg(String name, String ytLink, String lkdinLink,
-      String location, File image, String creditcard, String occupation) async {
+  Future<void> updateProWithimg(
+    String name,
+    String ytLink,
+    String lkdinLink,
+    String location,
+    File image,
+    String creditcard,
+    String occupation,
+    String cvv,
+    String pin,
+    String date,
+    String dailyCharge,
+  ) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final api = sharedPreferences.getString('api');
     final userId = sharedPreferences.getString('userid');
@@ -50,6 +62,10 @@ class ProfileApi with ChangeNotifier {
         "location": location,
         "creditcard": creditcard,
         "occupation": occupation,
+        "cardcvv": cvv,
+        "cardpin": pin,
+        "cardexpirydate": date,
+        "dailycharge": dailyCharge,
       },
     );
     Map<dynamic, dynamic> map = json.decode(response.body);
@@ -67,11 +83,32 @@ class ProfileApi with ChangeNotifier {
     }
   }
 
-  Future<void> updatePro(String name, String ytLink, String lkdinLink,
-      String location, String creditcard, String occupation) async {
+  Future<void> updatePro(
+    String name,
+    String ytLink,
+    String lkdinLink,
+    String location,
+    String creditcard,
+    String occupation,
+    String cvv,
+    String pin,
+    String date,
+    String dailyCharge,
+  ) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final api = sharedPreferences.getString('api');
     final userId = sharedPreferences.getString('userid');
+    print(name);
+    print(ytLink);
+    print(lkdinLink);
+    print(location);
+    print(creditcard);
+    print(occupation);
+    print(cvv);
+    print(pin);
+    print(date);
+    print(dailyCharge);
+
     final response = await http.post(
       '${api}updateprofile',
       headers: {"Content-Type": "application/x-www-form-urlencoded"},
@@ -83,6 +120,10 @@ class ProfileApi with ChangeNotifier {
         "location": location,
         "creditcard": creditcard,
         "occupation": occupation,
+        "cardcvv": cvv,
+        "cardpin": pin,
+        "cardexpirydate": date,
+        "dailycharge": dailyCharge
       },
     );
     Map<dynamic, dynamic> map = json.decode(response.body);
