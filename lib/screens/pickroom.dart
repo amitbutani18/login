@@ -8,11 +8,12 @@ import 'package:login/helpers/slider/leftsideslidericonprovider.dart';
 import 'package:login/helpers/slider/rightsidesliderprovider.dart';
 import 'package:login/helpers/slider/slidericon.dart';
 import 'package:login/helpers/slider/topslidericonprovider.dart';
-import 'package:login/screens/searchchatemember.dart';
+import 'package:login/widgets/dashbord_widgets/dashborddrawer.dart';
+import 'package:login/widgets/dashbord_widgets/topsliderformobile.dart';
+import 'package:login/widgets/dashbord_widgets/topsliderfortab.dart';
 import 'package:login/widgets/datepick.dart';
 import 'package:login/widgets/ease_in_widget.dart';
 import 'package:login/widgets/pagebackground.dart';
-import 'package:login/widgets/sliderightroute.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
@@ -154,10 +155,10 @@ class _PickRoomState extends State<PickRoom> {
     double screenWidth = MediaQuery.of(context).size.width;
     int select = widget.selectIndex > 0 ? widget.selectIndex : 0;
     _scrollController = ScrollController(
-      initialScrollOffset: (3000 + select) * (screenWidth - 40) / 7,
+      initialScrollOffset: (90 + select) * (screenWidth - 30) / 7,
     );
     _scrollController2 = ScrollController(
-        initialScrollOffset: (3000 + select) * (screenWidth - 40) / 7);
+        initialScrollOffset: (90 + select) * (screenWidth - 30) / 7);
   }
 
   _scroll() {
@@ -222,71 +223,7 @@ class _PickRoomState extends State<PickRoom> {
       drawer: Container(
         width: 70,
         color: Color.fromRGBO(49, 49, 49, 0.7),
-        child: Drawer(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () async {
-                Navigator.of(context).pushNamed('/own-profile');
-              },
-              child: Container(
-                padding: EdgeInsets.all(8),
-                margin: EdgeInsets.only(right: 0),
-                child: CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: 15,
-                  child: Image.asset('assets/icons/profileIcon.png'),
-                ),
-              ),
-            ),
-            IconButton(
-              color: Colors.amber,
-              icon: Icon(Icons.settings),
-              onPressed: () async {
-                Navigator.of(context).pushNamed('/settings');
-              },
-            ),
-            GestureDetector(
-              onTap: () async {
-                await Provider.of<LogOut>(context, listen: false).logOut();
-                Navigator.of(context).pushReplacementNamed('/login');
-              },
-              child: Container(
-                padding: EdgeInsets.all(8),
-                margin: EdgeInsets.only(right: 0),
-                child: CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: 15,
-                  child: Image.asset('assets/icons/logout.png'),
-                ),
-              ),
-            ),
-            // IconButton(
-            //   color: Colors.amber,
-            //   icon: Icon(Icons.perm_identity),
-            //   onPressed: () async {
-            //     Navigator.of(context).pushNamed('/own-profile');
-            //   },
-            // ),
-            // IconButton(
-            //   color: Colors.amber,
-            //   icon: Icon(Icons.settings),
-            //   onPressed: () async {
-            //     Navigator.of(context).pushNamed('/settings');
-            //   },
-            // ),
-            // IconButton(
-            //   color: Colors.amber,
-            //   icon: Icon(Icons.exit_to_app),
-            //   onPressed: () async {
-            //     await Provider.of<LogOut>(context, listen: false).logOut();
-            //     Navigator.of(context).pushReplacementNamed('/login');
-            //   },
-            // ),
-          ],
-        )),
+        child: DashbordDrawer(),
       ),
       body: Stack(
         children: <Widget>[
@@ -311,60 +248,25 @@ class _PickRoomState extends State<PickRoom> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              ShaderMask(
-                                shaderCallback: (bounds) => RadialGradient(
-                                  colors: [
-                                    Colors.white,
-                                    Colors.yellow[400],
-                                    Colors.white
-                                  ],
-                                ).createShader(bounds),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    print("hello");
-                                    _scaffoldKey.currentState.openDrawer();
-                                  },
-                                  child: CircleAvatar(
-                                    radius: size.height > divSize ? 20 : 10,
-                                    backgroundColor: Colors.transparent,
-                                    child: Image.asset(
-                                      'assets/icons/Sidebar.png',
-                                      fit: BoxFit.fill,
-                                    ),
+                              GestureDetector(
+                                onTap: () {
+                                  print("hello");
+                                  _scaffoldKey.currentState.openDrawer();
+                                },
+                                child: CircleAvatar(
+                                  radius: size.height > divSize ? 20 : 10,
+                                  backgroundColor: Colors.transparent,
+                                  child: Image.asset(
+                                    'assets/icons/Sidebar.png',
+                                    fit: BoxFit.fill,
                                   ),
                                 ),
                               ),
                               size.height > divSize
                                   ? Container()
-                                  : Center(
-                                      child: Container(
-                                        height: 50,
-                                        width: 480,
-                                        child: ListView.builder(
-                                          controller: _scrollController5,
-                                          physics: BouncingScrollPhysics(),
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder: (_, i) => Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 0),
-                                            child: EaseInWidget(
-                                                radius: 30,
-                                                image: slider[i % slider.length]
-                                                    .image,
-                                                secondImage:
-                                                    slider[i % slider.length]
-                                                        .image,
-                                                onTap: () {
-                                                  // Navigator.of(context)
-                                                  //     .pushNamed(
-                                                  //         '/room-details');
-                                                  print("Hello");
-                                                }),
-                                          ),
-                                          itemCount: slider.length * 100,
-                                        ),
-                                      ),
-                                    ),
+                                  : TopSliderForMobile(
+                                      scrollController5: _scrollController5,
+                                      slider: slider),
                               GestureDetector(
                                 // onTap: () => Navigator.push(
                                 //   context,
@@ -385,31 +287,8 @@ class _PickRoomState extends State<PickRoom> {
                           ),
                         ),
                         size.height > divSize
-                            ? Center(
-                                child: Container(
-                                  height: size.height > divSize ? 80 : 40,
-                                  width: size.height > divSize ? 550 : 100,
-                                  child: ListView.builder(
-                                    physics: BouncingScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (_, i) => Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 0),
-                                        child: EaseInWidget(
-                                            radius: 30,
-                                            image:
-                                                slider[i % slider.length].image,
-                                            secondImage:
-                                                slider[i % slider.length].image,
-                                            onTap: () {
-                                              Navigator.of(context)
-                                                  .pushNamed('/room-details');
-                                              print("Hello");
-                                            })),
-                                    itemCount: slider.length * 100,
-                                  ),
-                                ),
-                              )
+                            ? TopSliderForTab(
+                                size: size, divSize: divSize, slider: slider)
                             : Container(),
                         size.height > divSize
                             ? SizedBox(
@@ -516,7 +395,7 @@ class _PickRoomState extends State<PickRoom> {
                                         SizedBox(
                                           width: 20,
                                         ),
-                                        DatePick()
+                                        DatePick(),
                                       ],
                                     ),
                                     SizedBox(
@@ -741,7 +620,7 @@ class _PickRoomState extends State<PickRoom> {
                                           ),
                                         ],
                                       ),
-                                      itemCount: bottomUpSlider.length * 10000,
+                                      itemCount: bottomUpSlider.length * 300,
                                     ),
                                   ),
                                 ),
@@ -767,55 +646,42 @@ class _PickRoomState extends State<PickRoom> {
                                     width: size.height > divSize
                                         ? 680
                                         : size.width,
-                                    child: NotificationListener<
-                                        ScrollNotification>(
-                                      onNotification: (notification) {
-                                        if (notification
-                                            is ScrollEndNotification) {
-                                          print("End");
-                                          _scroll();
-                                        }
-                                        return true;
-                                      },
-                                      child: ListView.builder(
-                                        key: ValueKey(2),
-                                        itemExtent: size.width / 9,
-                                        controller: _scrollController2,
-                                        reverse: true,
-                                        scrollDirection: Axis.horizontal,
-                                        shrinkWrap: true,
-                                        itemBuilder: (_, i) => Stack(
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: size.height > divSize
-                                                  ? const EdgeInsets.symmetric(
-                                                      horizontal: 15)
-                                                  : const EdgeInsets.symmetric(
-                                                      horizontal: 5),
-                                              child: EaseInWidget(
-                                                  radius: 30,
-                                                  image: bottomDownSlider[i %
-                                                          bottomDownSlider
-                                                              .length]
-                                                      .image,
-                                                  secondImage: bottomDownSlider[
-                                                          i %
-                                                              bottomDownSlider
-                                                                  .length]
-                                                      .image,
-                                                  onTap: () {
-                                                    print(bottomDownSlider[i %
+                                    child: ListView.builder(
+                                      key: ValueKey(2),
+                                      itemExtent: size.width / 9,
+                                      controller: _scrollController2,
+                                      reverse: true,
+                                      scrollDirection: Axis.horizontal,
+                                      shrinkWrap: true,
+                                      itemBuilder: (_, i) => Stack(
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: size.height > divSize
+                                                ? const EdgeInsets.symmetric(
+                                                    horizontal: 15)
+                                                : const EdgeInsets.symmetric(
+                                                    horizontal: 5),
+                                            child: EaseInWidget(
+                                                radius: 30,
+                                                image: bottomDownSlider[i %
+                                                        bottomDownSlider.length]
+                                                    .image,
+                                                secondImage: bottomDownSlider[
+                                                        i %
                                                             bottomDownSlider
                                                                 .length]
-                                                        .image);
-                                                    _scroll();
-                                                  }),
-                                            ),
-                                          ],
-                                        ),
-                                        itemCount:
-                                            bottomDownSlider.length * 10000,
+                                                    .image,
+                                                onTap: () {
+                                                  print(bottomDownSlider[i %
+                                                          bottomDownSlider
+                                                              .length]
+                                                      .image);
+                                                  _scroll();
+                                                }),
+                                          ),
+                                        ],
                                       ),
+                                      itemCount: bottomDownSlider.length * 300,
                                     ),
                                   ),
                                 ),
@@ -914,27 +780,6 @@ class _PickRoomState extends State<PickRoom> {
           ),
         ),
       ),
-    );
-  }
-
-  rightslider({int i, List<SliderIcon> list}) {
-    return Padding(
-      padding:
-          //  size.height > divSize
-          // ? const EdgeInsets.symmetric(vertical: 5)
-          // :
-          const EdgeInsets.symmetric(vertical: 0),
-      child: EaseInWidget(
-          radius: 30,
-          image: list[i % list.length].image,
-          secondImage: list[i % list.length].image,
-          onTap: () {
-            setState(() {
-              _hotelValue = list[i % list.length].title;
-            });
-            print(list[i % list.length].title);
-            print(list[i % list.length].image);
-          }),
     );
   }
 }

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:login/helpers/membersprovider.dart';
 import 'package:login/screens/teammateprofile.dart';
 import 'package:login/widgets/pagebackground.dart';
-import 'package:login/widgets/pagetitle.dart';
 import 'package:login/widgets/sliderightroute.dart';
-import 'package:provider/provider.dart';
 
 class SearchChateMember extends StatefulWidget {
   @override
@@ -43,7 +40,6 @@ class _SearchChateMemberState extends State<SearchChateMember> {
 
   @override
   Widget build(BuildContext context) {
-    final memberData = Provider.of<MembersProvider>(context).items;
     var size = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,

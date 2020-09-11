@@ -29,6 +29,7 @@ class _OwnProfileState extends State<OwnProfile> {
   var _occupation = '';
   bool _load = false;
   String _qrData = "Amit Butani";
+  ProfileModal objProfileModal;
 
   @override
   void didChangeDependencies() async {
@@ -44,18 +45,18 @@ class _OwnProfileState extends State<OwnProfile> {
         SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
         final _userEmail = sharedPreferences.getString('email');
-        final map =
+        objProfileModal =
             await Provider.of<ProfileApi>(context, listen: false).getProfile();
-        print("In Profile Map" + map.toString());
-        print(map['profileimg']);
+        print("In Profile Map" + objProfileModal.name);
+        // print(map['profileimg']);
         setState(() {
-          _name = map['name'];
-          _location = map['location'];
-          _linkedLink = map['linkdin'];
-          _youLink = map['youtube'];
-          _profileImage = map['profileimg'];
-          _creditcard = map['creditcard'].toString();
-          _occupation = map['occupation'];
+          _name = objProfileModal.name;
+          _location = objProfileModal.location;
+          _linkedLink = objProfileModal.linkdin;
+          _youLink = objProfileModal.youtube;
+          _profileImage = objProfileModal.profileimg;
+          _creditcard = objProfileModal.creditcard;
+          _occupation = objProfileModal.occupation;
           _qrData = _userEmail;
         });
         print("_profileImage" + _profileImage);
@@ -77,7 +78,8 @@ class _OwnProfileState extends State<OwnProfile> {
       floatingActionButton: GestureDetector(
         onTap: () {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) => EditProfile()));
+              builder: (BuildContext context) =>
+                  EditProfile(objProfileModal: objProfileModal)));
           // Navigator.of(context).pushNamed('/project-details');
         },
         child: Container(
@@ -278,7 +280,9 @@ class _OwnProfileState extends State<OwnProfile> {
                                                   fontSize:
                                                       size.height > diviceSize
                                                           ? 25
-                                                          : 10,
+                                                          : size.width < 600
+                                                              ? 8
+                                                              : 10,
                                                 ),
                                               ),
                                             ],

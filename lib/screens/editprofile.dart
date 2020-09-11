@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,6 +11,9 @@ import 'package:login/widgets/pagebackground.dart';
 import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
+  ProfileModal objProfileModal;
+
+  EditProfile({this.objProfileModal});
   @override
   _EditProfileState createState() => _EditProfileState();
 }
@@ -51,38 +55,26 @@ class _EditProfileState extends State<EditProfile> {
     super.didChangeDependencies();
     if (_isinit) {
       print("Initial Value");
-      setState(() {
-        _isLoad = true;
-      });
-      final map =
-          await Provider.of<ProfileApi>(context, listen: false).getProfile();
-      _nameController = TextEditingController(text: map['name']);
-      _ytLinkController = TextEditingController(
-          text: map['youtube'] == null ? 'www.youtube.com' : map['youtube']);
-      _linkedinController = TextEditingController(
-          text: map['linkdin'] == null ? 'www.linkedin.com' : map['linkdin']);
-      _locationController = TextEditingController(
-          text: map['location'] == null ? 'London' : map['location']);
-      _creditController = TextEditingController(
-          text: map['creditcard'] == null
-              ? '1234 5678 9102 1212'
-              : map['creditcard']);
-      _occuptionController = TextEditingController(
-          text:
-              map['occupation'] == null ? 'Fashion Model' : map['occupation']);
-      _cvvController = TextEditingController(
-          text: map['cardcvv'] == null ? '' : map['cardcvv']);
-      _pinController = TextEditingController(
-          text: map['cardpin'] == null ? '' : map['cardpin']);
-      _dailyChargeController = TextEditingController(
-          text: map['dailycharge'] == null ? '' : map['dailycharge']);
-      _date = map['cardexpirydate'] == ""
-          ? DateTime.now()
-          : DateTime.parse(map['cardexpirydate']);
-      _initialImage = map["profileimg"];
-      setState(() {
-        _isLoad = false;
-      });
+      _nameController =
+          TextEditingController(text: widget.objProfileModal.name);
+      _ytLinkController =
+          TextEditingController(text: widget.objProfileModal.youtube);
+      _linkedinController =
+          TextEditingController(text: widget.objProfileModal.linkdin);
+      _locationController =
+          TextEditingController(text: widget.objProfileModal.location);
+      _creditController =
+          TextEditingController(text: widget.objProfileModal.creditcard);
+      _occuptionController =
+          TextEditingController(text: widget.objProfileModal.occupation);
+      _cvvController =
+          TextEditingController(text: widget.objProfileModal.cardcvv);
+      _pinController =
+          TextEditingController(text: widget.objProfileModal.cardpin);
+      _dailyChargeController =
+          TextEditingController(text: widget.objProfileModal.dailycharge);
+      _date = DateTime.parse(widget.objProfileModal.cardexpirydate);
+      _initialImage = widget.objProfileModal.profileimg;
     }
     _isinit = false;
   }
@@ -98,32 +90,52 @@ class _EditProfileState extends State<EditProfile> {
           children: <Widget>[
             Builder(
               builder: (context) => GestureDetector(
-                onTap: () async {
-                  DateTime datetime = await showRoundedDatePicker(
-                    context: context,
-                    initialDate: _date,
-                    firstDate: DateTime.now().subtract(Duration(days: 1)),
-                    lastDate: DateTime(DateTime.now().year + 1),
-                    borderRadius: 16,
-                    theme: ThemeData.dark().copyWith(
-                      accentColor: Color.fromRGBO(201, 163, 66, 1),
-                      canvasColor: Color.fromRGBO(201, 163, 66, 1),
-                      backgroundColor: Color.fromRGBO(201, 163, 66, 1),
-                      buttonTheme: ButtonThemeData(
-                        colorScheme: Theme.of(context).colorScheme.copyWith(
-                              primary: Colors.amber,
+                onTap: Platform.isIOS
+                    ? () async {
+                        CupertinoRoundedDatePicker.show(context,
+                            fontFamily: "Mali",
+                            maximumYear: 2055,
+                            initialDate: _date,
+                            textColor: Colors.black,
+                            background: Color.fromRGBO(201, 163, 66, 1),
+                            borderRadius: 16,
+                            initialDatePickerMode: CupertinoDatePickerMode.date,
+                            onDateTimeChanged: (newDateTime) {
+                          if (newDateTime == null) {
+                            return;
+                          }
+                          setState(() {
+                            _date = newDateTime;
+                          });
+                        });
+                      }
+                    : () async {
+                        await showRoundedDatePicker(
+                          context: context,
+                          initialDate: _date,
+                          firstDate: DateTime.now().subtract(Duration(days: 1)),
+                          lastDate: DateTime(DateTime.now().year + 1),
+                          borderRadius: 16,
+                          theme: ThemeData.dark().copyWith(
+                            accentColor: Color.fromRGBO(201, 163, 66, 1),
+                            canvasColor: Color.fromRGBO(201, 163, 66, 1),
+                            backgroundColor: Color.fromRGBO(201, 163, 66, 1),
+                            buttonTheme: ButtonThemeData(
+                              colorScheme:
+                                  Theme.of(context).colorScheme.copyWith(
+                                        primary: Colors.amber,
+                                      ),
                             ),
-                      ),
-                    ),
-                  ).then((pickdate) {
-                    if (pickdate == null) {
-                      return;
-                    }
-                    setState(() {
-                      _date = pickdate;
-                    });
-                  });
-                },
+                          ),
+                        ).then((pickdate) {
+                          if (pickdate == null) {
+                            return;
+                          }
+                          setState(() {
+                            _date = pickdate;
+                          });
+                        });
+                      },
                 child: Container(
                   width: size.height > diviceSize ? 320 : size.width / 2 - 42,
                   height: size.height > diviceSize ? 80 : 50,
@@ -556,19 +568,9 @@ class _EditProfileState extends State<EditProfile> {
                 }
                 return null;
               }
-            : lable == 'Credit card number' ||
-                    lable == 'CVV' ||
-                    lable == 'Pin' ||
-                    lable == 'Daily Charge'
-                ? (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter valid number';
-                    }
-                    return null;
-                  }
-                : (value) {
-                    return null;
-                  },
+            : (value) {
+                return null;
+              },
         // : (value) {
         //     Pattern pattern =
         //         r'^((?:.|\n)*?)((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?)';
