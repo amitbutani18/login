@@ -47,7 +47,7 @@ class ProfileModal {
     cardpin = json['cardpin'];
     cardexpirydate = json['cardexpirydate'];
     dailycharge = json['dailycharge'];
-    occupation = json['occupation'];
+    occupation = json['occupation'] == null ? '' : json['occupation'];
   }
 
   Map<String, dynamic> toJson() {

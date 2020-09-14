@@ -132,6 +132,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         print(response[1]);
         _showMyDialogMsg(response[1]);
       } catch (error) {
+        setState(() {
+          _load = false;
+        });
         _scaffoldKey.currentState.showSnackBar(
           SnackBar(
             content: Text(

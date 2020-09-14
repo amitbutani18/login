@@ -474,6 +474,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 style: TextStyle(color: Colors.amber),
               ),
               onPressed: () {
+                Navigator.of(context).pop();
                 Navigator.of(context).pushReplacementNamed('/login');
               },
             ),

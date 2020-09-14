@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  flutter_launcher_icons: "^0.7.3"
   flutter:
     sdk: flutter
   provider: ^4.3.1
@@ -36,6 +37,7 @@ dependencies:
   local_auth: ^0.6.3
   qr_flutter: ^3.2.0
   flutter_rating_bar: ^3.0.1+1
+  native_device_orientation: ^0.4.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -45,6 +47,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+flutter_icons:
+    android: "launcher_icon"
+    ios: true
+    image_path: "assets/icons/appIcon.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -114,6 +120,7 @@ flutter:
     - assets/images/profileimage.png
     - assets/supremecardimage.png
     
+ 
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

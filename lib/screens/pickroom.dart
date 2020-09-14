@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:login/API/logout.dart';
 import 'package:login/helpers/slider/bottomdownsliderprovider.dart';
 import 'package:login/helpers/slider/bottomupsliderprovider.dart';
 import 'package:login/helpers/citylist.dart';
@@ -27,8 +26,8 @@ class PickRoom extends StatefulWidget {
 class _PickRoomState extends State<PickRoom> {
   ScrollController _scrollController;
   ScrollController _scrollController2;
-  ScrollController _scrollController3;
-  ScrollController _scrollController4;
+  FixedExtentScrollController _scrollController3;
+  FixedExtentScrollController _scrollController4;
   ScrollController _scrollController5;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -41,14 +40,17 @@ class _PickRoomState extends State<PickRoom> {
   int speedFactor = 20;
 
   bool clearData = false;
-
   String noti = '';
 
+  bool _tempFlag = true;
   double oldValue = 0;
-  var _hotelValue = 'Hotel';
-  var _location = 'London';
+  String _hotelValue;
+  String _location;
   var _isInit = true;
   var _isLoading = false;
+
+  bool _whatSelect = false;
+  bool _whereSelect = false;
 
   List<DateTime> dateList;
 
@@ -58,9 +60,10 @@ class _PickRoomState extends State<PickRoom> {
     // print("Amit" + DateTime.now().toIso8601String());
     _scrollController = ScrollController();
     _scrollController2 = ScrollController();
-    _scrollController3 = ScrollController();
-    _scrollController4 = ScrollController();
+    _scrollController3 = FixedExtentScrollController();
+    _scrollController4 = FixedExtentScrollController();
     _scrollController5 = ScrollController();
+
     _scrollController3.addListener(() async {
       // print(_scrollController3.position.pixels);
       var distance = oldValue - _scrollController3.position.pixels;
@@ -74,10 +77,8 @@ class _PickRoomState extends State<PickRoom> {
 
       if (_scrollController3.position.atEdge) {
         if (_scrollController3.position.pixels == 0) {
-          // you are at top position
           print("top");
         } else {
-          // you are at bottom position
           print("bottom");
         }
       }
@@ -86,18 +87,18 @@ class _PickRoomState extends State<PickRoom> {
       var distance = oldValue - _scrollController4.position.pixels;
       if (distance > 50 || distance < -50) {
         HapticFeedback.lightImpact();
-
         oldValue = _scrollController4.position.pixels;
       }
-
       if (_scrollController4.position.atEdge) {
         if (_scrollController4.position.pixels == 0) {
-          // you are at top position
           print("top");
         } else {
-          // you are at bottom position
           print("bottom");
         }
+      }
+      int currentDistance = _scrollController4.position.pixels.toInt();
+      if (currentDistance % 30 == 0) {
+        print("currentDistance" + currentDistance.toString());
       }
     });
     _scrollController5.addListener(() async {
@@ -140,6 +141,7 @@ class _PickRoomState extends State<PickRoom> {
             .setIcon();
         await Provider.of<BottomDownSliderProvider>(context, listen: false)
             .setIcon();
+
         setState(() {
           _isLoading = false;
         });
@@ -210,20 +212,22 @@ class _PickRoomState extends State<PickRoom> {
     final bottomDownSlider = bottomDownSliderData.items;
     final cityList = Provider.of<CityList>(context).items;
     Size size = MediaQuery.of(context).size;
-
     if (clearData) {
       _scrollController.jumpTo(3000 * (size.width - 40) / 7);
       _scrollController2.jumpTo(3000 * (size.width - 40) / 7);
       // _scrollController3.jumpTo(3000 * (size.width - 40) / 7);
       clearData = false;
     }
-
     return Scaffold(
       key: _scaffoldKey,
-      drawer: Container(
-        width: 70,
-        color: Color.fromRGBO(49, 49, 49, 0.7),
-        child: DashbordDrawer(),
+      drawer: SafeArea(
+        bottom: false,
+        top: false,
+        child: Container(
+          width: 70,
+          color: Color.fromRGBO(49, 49, 49, 0.7),
+          child: DashbordDrawer(),
+        ),
       ),
       body: Stack(
         children: <Widget>[
@@ -239,8 +243,8 @@ class _PickRoomState extends State<PickRoom> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 0.0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.only(
@@ -295,400 +299,379 @@ class _PickRoomState extends State<PickRoom> {
                                 height: 10,
                               )
                             : Container(),
-                        Stack(
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  height: size.height > divSize ? 480 : 200,
-                                  width: size.height > divSize ? 80 : 60,
-                                  // child: ListWheelScrollView(
-                                  //   // useMagnifier: _magnification > 1,
-                                  //   magnification: 3,
-                                  //   // diameterRatio: _diameterRatio,
-                                  //   // offAxisFraction: _offAxisFraction,
-                                  //   itemExtent: 50,
-                                  //   controller: _scrollController4,
-                                  //   children: <Widget>[
-                                  //     for (int i = 0;
-                                  //         i < rightSlider.length;
-                                  //         i++)
-                                  //       rightslider(i: i, list: rightSlider)
-                                  //   ],
-                                  // ),
-                                  child: ListView.builder(
-                                    controller: _scrollController4,
-                                    key: ValueKey(4),
-                                    physics: BouncingScrollPhysics(),
-                                    itemBuilder: (_, i) => Padding(
-                                      padding: size.height > divSize
-                                          ? const EdgeInsets.symmetric(
-                                              vertical: 5)
-                                          : const EdgeInsets.symmetric(
-                                              vertical: 0),
-                                      child: EaseInWidget(
-                                          radius: 30,
-                                          image: rightSlider[
-                                                  i % rightSlider.length]
-                                              .image,
-                                          secondImage: rightSlider[
-                                                  i % rightSlider.length]
-                                              .image,
-                                          onTap: () {
-                                            setState(() {
-                                              _hotelValue = rightSlider[
-                                                      i % rightSlider.length]
-                                                  .title;
-                                            });
-                                            print(rightSlider[
-                                                    i % rightSlider.length]
-                                                .title);
-                                            print(rightSlider[
-                                                    i % rightSlider.length]
-                                                .image);
-                                          }),
+                            Container(
+                              height: size.height > divSize ? 480 : 200,
+                              width: size.height > divSize ? 80 : 60,
+                              child: ListWheelScrollView.useDelegate(
+                                overAndUnderCenterOpacity: 0.7,
+                                magnification: 1.2,
+                                useMagnifier: true,
+                                itemExtent: 50,
+                                physics: FixedExtentScrollPhysics(),
+                                controller: _scrollController4,
+                                onSelectedItemChanged: (value) {
+                                  print("onSelectedItemChanged" +
+                                      value.toString());
+                                  setState(() {
+                                    _hotelValue = rightSlider[value].title;
+                                  });
+                                  _whatSelect = true;
+                                },
+                                childDelegate:
+                                    ListWheelChildLoopingListDelegate(
+                                  children: List<Widget>.generate(
+                                    rightSlider.length,
+                                    (i) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5.0),
+                                      child: CircleAvatar(
+                                        radius: 20,
+                                        backgroundColor: Colors.transparent,
+                                        backgroundImage: AssetImage(
+                                          rightSlider[i].image,
+                                        ),
+                                      ),
                                     ),
-                                    itemCount: rightSlider.length * 100,
                                   ),
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                  padding: size.height > divSize
+                                      ? const EdgeInsets.only(top: 48.0)
+                                      : const EdgeInsets.only(top: 18.0),
+                                  child: size.height > divSize
+                                      ? _formField('What', 650, 30,
+                                          'assets/icons/What.png')
+                                      : _formField('What', 450, 18,
+                                          'assets/icons/What.png'),
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: <Widget>[
-                                    Padding(
-                                      padding: size.height > divSize
-                                          ? const EdgeInsets.only(top: 48.0)
-                                          : const EdgeInsets.only(top: 18.0),
-                                      child: size.height > divSize
-                                          ? _formField('Hotel', 650, 30,
-                                              'assets/icons/What.png')
-                                          : _formField('Hotel', 450, 18,
-                                              'assets/icons/What.png'),
+                                    !_whatSelect
+                                        ? Container()
+                                        : Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 18.0),
+                                            child: size.height > divSize
+                                                ? _formField('Where', 350, 30,
+                                                    'assets/icons/Where.png')
+                                                : FutureBuilder(
+                                                    future:
+                                                        Provider.of<CityList>(
+                                                                context)
+                                                            .fetchCity(),
+                                                    builder: (context, snap) =>
+                                                        GestureDetector(
+                                                      onTap: () =>
+                                                          _showMyDialog(
+                                                              cityList),
+                                                      child: _formField(
+                                                          'Where',
+                                                          230,
+                                                          18,
+                                                          'assets/icons/Where.png'),
+                                                    ),
+                                                  ),
+                                          ),
+                                    SizedBox(
+                                      width: 20,
                                     ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 18.0),
-                                          child: size.height > divSize
-                                              ? _formField('London', 350, 30,
-                                                  'assets/icons/Where.png')
-                                              : FutureBuilder(
-                                                  future: Provider.of<CityList>(
-                                                          context)
-                                                      .fetchCity(),
-                                                  builder: (context, snap) =>
-                                                      GestureDetector(
-                                                    onTap: () =>
-                                                        _showMyDialog(cityList),
-                                                    child: _formField(
-                                                        'London',
-                                                        230,
-                                                        18,
-                                                        'assets/icons/Where.png'),
+                                    !_whereSelect
+                                        ? Container(
+                                            height: 65,
+                                          )
+                                        : DatePick(
+                                            hotel: _hotelValue,
+                                            city: _location,
+                                          ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: size.height > divSize ? 30 : 10,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                        color: Colors.amber[300],
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    "Hotels",
+                                    style: TextStyle(
+                                        fontSize:
+                                            size.height > divSize ? 22 : 15,
+                                        color: Colors.white54,
+                                        // decoration: TextDecoration.underline,
+                                        letterSpacing: 1),
+                                  ),
+                                ),
+                                size.height > divSize
+                                    ? Container(
+                                        width: 700,
+                                        height: 200,
+                                        color: Colors.transparent,
+                                        child: GridView.builder(
+                                          // controller: _scrollController3,
+                                          itemCount: imageUrl.length,
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                                  // maxCrossAxisExtent: 200,
+                                                  childAspectRatio: 0.7 / 0.2,
+                                                  crossAxisSpacing: 10,
+                                                  mainAxisSpacing: 10,
+                                                  crossAxisCount: 3),
+                                          itemBuilder: (_, i) => Container(
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  child: Container(
+                                                    child: Image.asset(
+                                                        imageUrl[i].imageUrl),
+                                                    height: 70,
+                                                    width: 70,
+                                                    color: Colors.grey[850],
                                                   ),
                                                 ),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        DatePick(),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: size.height > divSize ? 30 : 10,
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          bottom: BorderSide(
-                                            color: Colors.amber[300],
-                                          ),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        "Hotels",
-                                        style: TextStyle(
-                                            fontSize:
-                                                size.height > divSize ? 22 : 15,
-                                            color: Colors.white54,
-                                            // decoration: TextDecoration.underline,
-                                            letterSpacing: 1),
-                                      ),
-                                    ),
-                                    size.height > divSize
-                                        ? Container(
-                                            width: 700,
-                                            height: 200,
-                                            color: Colors.transparent,
-                                            child: GridView.builder(
-                                              // controller: _scrollController3,
-                                              itemCount: imageUrl.length,
-                                              gridDelegate:
-                                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                                      // maxCrossAxisExtent: 200,
-                                                      childAspectRatio:
-                                                          0.7 / 0.2,
-                                                      crossAxisSpacing: 10,
-                                                      mainAxisSpacing: 10,
-                                                      crossAxisCount: 3),
-                                              itemBuilder: (_, i) => Container(
-                                                child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
+                                                SizedBox(
+                                                  width: 15,
+                                                ),
+                                                Column(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: <Widget>[
-                                                    ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                      child: Container(
-                                                        child: Image.asset(
-                                                            imageUrl[i]
-                                                                .imageUrl),
-                                                        height: 70,
-                                                        width: 70,
-                                                        color: Colors.grey[850],
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 15,
-                                                    ),
-                                                    Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          "20% OFF",
-                                                          style: TextStyle(
-                                                              fontSize: 23,
-                                                              color: Colors
-                                                                  .amberAccent,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : Container(
-                                            width: 450,
-                                            height: 60,
-                                            padding: EdgeInsets.only(top: 10),
-                                            child: ListView.builder(
-                                              key: ValueKey(5),
-                                              physics: BouncingScrollPhysics(),
-                                              // controller: _scrollController3,
-                                              scrollDirection: Axis.horizontal,
-                                              itemCount: imageUrl.length,
-                                              itemBuilder: (_, i) => Container(
-                                                width: 150,
-                                                height: 450,
-                                                color: Colors.transparent,
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                      child: Container(
-                                                        child: Image.asset(
-                                                          imageUrl[i].imageUrl,
-                                                          fit: BoxFit.fill,
-                                                        ),
-                                                        height: 50,
-                                                        width: 50,
-                                                        color:
-                                                            Colors.transparent,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
                                                     Text(
-                                                      imageUrl[i].offer,
+                                                      "20% OFF",
                                                       style: TextStyle(
+                                                          fontSize: 23,
                                                           color: Colors
                                                               .amberAccent,
                                                           fontWeight:
                                                               FontWeight.bold),
-                                                    )
+                                                    ),
                                                   ],
-                                                ),
-                                              ),
+                                                )
+                                              ],
                                             ),
                                           ),
-                                  ],
-                                ),
-                                Container(
-                                  height: size.height > divSize ? 480 : 200,
-                                  width: size.height > divSize ? 80 : 58,
-                                  child: ListView.builder(
-                                    key: ValueKey(3),
-                                    controller: _scrollController3,
-                                    physics: BouncingScrollPhysics(),
-                                    itemBuilder: (_, i) => Padding(
-                                      padding: size.height > divSize
-                                          ? const EdgeInsets.symmetric(
-                                              vertical: 5)
-                                          : const EdgeInsets.symmetric(
-                                              vertical: 0),
-                                      child: EaseInWidget(
-                                          radius: 30,
-                                          image:
-                                              leftSlider[i % leftSlider.length]
-                                                  .image,
-                                          secondImage:
-                                              leftSlider[i % leftSlider.length]
-                                                  .image,
-                                          onTap: () {
-                                            setState(() {
-                                              _hotelValue = leftSlider[
-                                                      i % leftSlider.length]
-                                                  .title;
-                                            });
-                                            print(leftSlider[
-                                                    i % leftSlider.length]
-                                                .image);
-                                          }),
-                                    ),
-                                    itemCount: leftSlider.length * 100,
-                                  ),
-                                ),
-                                // ),
+                                        ),
+                                      )
+                                    : Container(
+                                        width: 450,
+                                        height: 60,
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: ListView.builder(
+                                          key: ValueKey(5),
+                                          physics: BouncingScrollPhysics(),
+                                          // controller: _scrollController3,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: imageUrl.length,
+                                          itemBuilder: (_, i) => Container(
+                                            width: 150,
+                                            height: 450,
+                                            color: Colors.transparent,
+                                            child: Row(
+                                              children: <Widget>[
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  child: Container(
+                                                    child: Image.asset(
+                                                      imageUrl[i].imageUrl,
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                    height: 50,
+                                                    width: 50,
+                                                    color: Colors.transparent,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  imageUrl[i].offer,
+                                                  style: TextStyle(
+                                                      color: Colors.amberAccent,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                               ],
                             ),
-                            Padding(
-                              padding: size.height > divSize
-                                  ? const EdgeInsets.only(top: 480.0)
-                                  : const EdgeInsets.only(top: 240.0),
-                              child: Center(
-                                child: GestureDetector(
-                                  onTapCancel: () {
-                                    _scroll();
-                                  },
-                                  onTapDown: (d) {
-                                    // .forward();
-                                  },
-                                  onTapUp: (d) {
-                                    _scroll();
-                                  },
-                                  child: Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 30),
-                                    height: size.height > divSize ? 80 : 40,
-                                    width: size.height > divSize
-                                        ? 680
-                                        : size.width,
-                                    child: ListView.builder(
-                                      key: ValueKey(1),
-                                      itemExtent: size.width / 9,
-                                      controller: _scrollController,
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      itemBuilder: (_, i) => Stack(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: size.height > divSize
-                                                ? const EdgeInsets.symmetric(
-                                                    horizontal: 15)
-                                                : const EdgeInsets.symmetric(
-                                                    horizontal: 5),
-                                            child: EaseInWidget(
-                                                radius: 30,
-                                                image: bottomUpSlider[i %
-                                                        bottomUpSlider.length]
-                                                    .image,
-                                                secondImage: bottomUpSlider[i %
-                                                        bottomUpSlider.length]
-                                                    .image,
-                                                onTap: () {
-                                                  print(bottomUpSlider[i %
-                                                          bottomUpSlider.length]
-                                                      .image);
-                                                  _scroll();
-                                                }),
-                                          ),
-                                        ],
+                            Container(
+                              height: size.height > divSize ? 480 : 200,
+                              width: size.height > divSize ? 80 : 58,
+                              child: ListWheelScrollView.useDelegate(
+                                overAndUnderCenterOpacity: 0.7,
+                                magnification: 1.2,
+                                useMagnifier: true,
+                                itemExtent: 50,
+                                physics: FixedExtentScrollPhysics(),
+                                controller: _scrollController3,
+                                onSelectedItemChanged: (value) {
+                                  print("onSelectedItemChanged" +
+                                      value.toString());
+                                  setState(() {
+                                    _hotelValue = leftSlider[value].title;
+                                  });
+                                  _whatSelect = true;
+                                },
+                                childDelegate:
+                                    ListWheelChildLoopingListDelegate(
+                                  children: List<Widget>.generate(
+                                    leftSlider.length,
+                                    (i) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5.0),
+                                      child: CircleAvatar(
+                                        radius: 20,
+                                        backgroundColor: Colors.transparent,
+                                        backgroundImage: AssetImage(
+                                          leftSlider[i].image,
+                                        ),
                                       ),
-                                      itemCount: bottomUpSlider.length * 300,
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: size.height > divSize
-                                  ? const EdgeInsets.only(top: 570.0)
-                                  : const EdgeInsets.only(top: 280.0),
-                              child: Center(
-                                child: GestureDetector(
-                                  onTapCancel: () {
-                                    _scroll();
-                                  },
-                                  onTapDown: (d) {},
-                                  onTapUp: (d) {
-                                    _scroll();
-                                  },
-                                  child: Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 30),
-                                    height: size.height > divSize ? 80 : 40,
-                                    width: size.height > divSize
-                                        ? 680
-                                        : size.width,
-                                    child: ListView.builder(
-                                      key: ValueKey(2),
-                                      itemExtent: size.width / 9,
-                                      controller: _scrollController2,
-                                      reverse: true,
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      itemBuilder: (_, i) => Stack(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: size.height > divSize
-                                                ? const EdgeInsets.symmetric(
-                                                    horizontal: 15)
-                                                : const EdgeInsets.symmetric(
-                                                    horizontal: 5),
-                                            child: EaseInWidget(
-                                                radius: 30,
-                                                image: bottomDownSlider[i %
-                                                        bottomDownSlider.length]
-                                                    .image,
-                                                secondImage: bottomDownSlider[
-                                                        i %
-                                                            bottomDownSlider
-                                                                .length]
-                                                    .image,
-                                                onTap: () {
-                                                  print(bottomDownSlider[i %
-                                                          bottomDownSlider
-                                                              .length]
-                                                      .image);
-                                                  _scroll();
-                                                }),
-                                          ),
-                                        ],
-                                      ),
-                                      itemCount: bottomDownSlider.length * 300,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // ),
                           ],
                         ),
+                        Padding(
+                          padding: size.height > divSize
+                              ? const EdgeInsets.only(top: 480.0)
+                              : const EdgeInsets.only(top: 0.0),
+                          child: Center(
+                            child: GestureDetector(
+                              onTapCancel: () {
+                                _scroll();
+                              },
+                              onTapDown: (d) {
+                                // .forward();
+                              },
+                              onTapUp: (d) {
+                                _scroll();
+                              },
+                              child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 30),
+                                height: size.height > divSize ? 80 : 40,
+                                width: size.height > divSize ? 680 : size.width,
+                                child: ListView.builder(
+                                  key: ValueKey(1),
+                                  itemExtent: size.width / 9,
+                                  controller: _scrollController,
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemBuilder: (_, i) => Stack(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: size.height > divSize
+                                            ? const EdgeInsets.symmetric(
+                                                horizontal: 15)
+                                            : const EdgeInsets.symmetric(
+                                                horizontal: 5),
+                                        child: EaseInWidget(
+                                            radius: 30,
+                                            image: bottomUpSlider[
+                                                    i % bottomUpSlider.length]
+                                                .image,
+                                            secondImage: bottomUpSlider[
+                                                    i % bottomUpSlider.length]
+                                                .image,
+                                            onTap: () {
+                                              print(bottomUpSlider[
+                                                      i % bottomUpSlider.length]
+                                                  .image);
+                                              _scroll();
+                                            }),
+                                      ),
+                                    ],
+                                  ),
+                                  itemCount: bottomUpSlider.length * 300,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: size.height > divSize
+                              ? const EdgeInsets.only(top: 570.0)
+                              : const EdgeInsets.only(top: 0.0),
+                          child: Center(
+                            child: GestureDetector(
+                              onTapCancel: () {
+                                _scroll();
+                              },
+                              onTapDown: (d) {},
+                              onTapUp: (d) {
+                                _scroll();
+                              },
+                              child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 30),
+                                height: size.height > divSize ? 80 : 40,
+                                width: size.height > divSize ? 680 : size.width,
+                                child: ListView.builder(
+                                  key: ValueKey(2),
+                                  itemExtent: size.width / 9,
+                                  controller: _scrollController2,
+                                  reverse: true,
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemBuilder: (_, i) => Stack(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: size.height > divSize
+                                            ? const EdgeInsets.symmetric(
+                                                horizontal: 15)
+                                            : const EdgeInsets.symmetric(
+                                                horizontal: 5),
+                                        child: EaseInWidget(
+                                            radius: 30,
+                                            image: bottomDownSlider[
+                                                    i % bottomDownSlider.length]
+                                                .image,
+                                            secondImage: bottomDownSlider[
+                                                    i % bottomDownSlider.length]
+                                                .image,
+                                            onTap: () {
+                                              print(bottomDownSlider[i %
+                                                      bottomDownSlider.length]
+                                                  .image);
+                                              _scroll();
+                                            }),
+                                      ),
+                                    ],
+                                  ),
+                                  itemCount: bottomDownSlider.length * 300,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),
@@ -719,6 +702,7 @@ class _PickRoomState extends State<PickRoom> {
                     onTap: () {
                       setState(() {
                         _location = cityList[i].cityName;
+                        _whereSelect = true;
                       });
                       Navigator.of(context).pop();
                     },
@@ -760,7 +744,9 @@ class _PickRoomState extends State<PickRoom> {
         decoration: InputDecoration(
           disabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.yellow)),
-          hintText: lable == 'Hotel' ? _hotelValue : _location,
+          hintText: lable == 'What'
+              ? _hotelValue == null ? 'What' : _hotelValue
+              : _location == null ? 'Where' : _location,
           hintStyle:
               TextStyle(color: Colors.amber, height: 1.5, fontSize: fontSize),
           enabledBorder: UnderlineInputBorder(

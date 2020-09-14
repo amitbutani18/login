@@ -186,6 +186,7 @@ class _SetPinState extends State<SetPin> {
           actions: <Widget>[
             GestureDetector(
               onTap: () {
+                Navigator.of(context).pop();
                 _authenticateMe();
               },
               child: Container(
@@ -201,6 +202,7 @@ class _SetPinState extends State<SetPin> {
             GestureDetector(
               onTap: () {
                 // sharedPreferences.setInt('touchid', 0);
+                Navigator.of(context).pop();
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => PickRoom(),

@@ -66,7 +66,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                 top: 108, left: 105, right: 105, bottom: 55)
                             : EdgeInsets.only(
                                 top: 35,
-                                right: size.width < 600 ? 130 : 200,
+                                right: size.width < 600 ? 130 : 150,
                                 left: size.width < 600 ? 130 : 200,
                                 bottom: 45),
                         child: Column(

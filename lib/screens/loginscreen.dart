@@ -165,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen>
                         padding: size.height > diviceSize
                             ? EdgeInsets.only(
                                 top: 108, left: 55, right: 55, bottom: 55)
-                            : EdgeInsets.all(28),
+                            : EdgeInsets.all(21),
                         child: Column(
                           children: <Widget>[
                             SingleChildScrollView(
@@ -195,29 +195,6 @@ class _LoginScreenState extends State<LoginScreen>
                                           height:
                                               size.height > diviceSize ? 20 : 5,
                                         ),
-                                        // Container(
-                                        //   child: Theme(
-                                        //     data: ThemeData(
-                                        //       unselectedWidgetColor: Colors.amber,
-                                        //     ),
-                                        //     child: CheckboxListTile(
-                                        //         controlAffinity:
-                                        //             ListTileControlAffinity
-                                        //                 .leading,
-                                        //         checkColor: Colors.black,
-                                        //         activeColor: Colors.amber,
-                                        //         title: Text(
-                                        //             "Agree To SUPREME Card Policy",
-                                        //             style: TextStyle(
-                                        //                 color: Colors.amber)),
-                                        //         value: _checked,
-                                        //         onChanged: (bool value) {
-                                        //           setState(() {
-                                        //             _checked = value;
-                                        //           });
-                                        //         }),
-                                        //   ),
-                                        // ),
                                         Container(
                                           width: size.width,
                                           child: Row(
@@ -460,7 +437,7 @@ class _LoginScreenState extends State<LoginScreen>
                             Padding(
                               padding: size.height > diviceSize
                                   ? const EdgeInsets.only(top: 0.0)
-                                  : const EdgeInsets.only(top: 8.0),
+                                  : const EdgeInsets.only(top: 0.0),
                               child: Center(
                                 child: Container(
                                   height:

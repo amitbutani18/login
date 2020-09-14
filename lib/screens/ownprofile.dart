@@ -64,6 +64,9 @@ class _OwnProfileState extends State<OwnProfile> {
           _load = false;
         });
       } catch (error) {
+        setState(() {
+          _load = false;
+        });
         print(error);
       }
     }
@@ -163,7 +166,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                           color: Colors.amber[200],
                                           fontSize: size.height > diviceSize
                                               ? 25
-                                              : 10,
+                                              : 15,
                                         ),
                                       ),
                                     ),
@@ -211,9 +214,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                       heading1: "SUPREME Card",
                                       value1: "\$ 500.00",
                                       heading2: "Credit Card",
-                                      value2: _creditcard == ''
-                                          ? "**** **** **** 1234"
-                                          : _creditcard,
+                                      value2: _creditcard,
                                     )
                                   ],
                                 ),
@@ -272,9 +273,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                                     : 5,
                                               ),
                                               Text(
-                                                _location == ""
-                                                    ? "London , Europ"
-                                                    : _location,
+                                                _location,
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize:
@@ -282,7 +281,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                                           ? 25
                                                           : size.width < 600
                                                               ? 8
-                                                              : 10,
+                                                              : 12,
                                                 ),
                                               ),
                                             ],
@@ -316,15 +315,13 @@ class _OwnProfileState extends State<OwnProfile> {
                                                 MainAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
-                                                _occupation == ""
-                                                    ? "Fashion Model"
-                                                    : _occupation,
+                                                _occupation,
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize:
                                                         size.height > diviceSize
                                                             ? 25
-                                                            : 10),
+                                                            : 12),
                                               ),
                                             ],
                                           ),

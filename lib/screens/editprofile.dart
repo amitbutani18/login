@@ -2,11 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:login/API/profileapi.dart';
 import 'package:login/screens/ownprofile.dart';
+import 'package:login/widgets/cardmonthinputformatter.dart';
+import 'package:login/widgets/cardnumberinputformateer.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:provider/provider.dart';
 
@@ -32,6 +35,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _cvvController;
   TextEditingController _pinController;
   TextEditingController _dailyChargeController;
+  TextEditingController _dateChangeController;
 
   String _name;
   String _ytLink;
@@ -43,7 +47,7 @@ class _EditProfileState extends State<EditProfile> {
   String _cvv;
   String _pin;
   String _dailyCharge;
-  DateTime _date = DateTime.now();
+  String _date;
 
   File _image;
   final picker = ImagePicker();
@@ -73,7 +77,8 @@ class _EditProfileState extends State<EditProfile> {
           TextEditingController(text: widget.objProfileModal.cardpin);
       _dailyChargeController =
           TextEditingController(text: widget.objProfileModal.dailycharge);
-      _date = DateTime.parse(widget.objProfileModal.cardexpirydate);
+      _dateChangeController =
+          TextEditingController(text: widget.objProfileModal.cardexpirydate);
       _initialImage = widget.objProfileModal.profileimg;
     }
     _isinit = false;
@@ -82,100 +87,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var expiryDate = Center(
-      child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Builder(
-              builder: (context) => GestureDetector(
-                onTap: Platform.isIOS
-                    ? () async {
-                        CupertinoRoundedDatePicker.show(context,
-                            fontFamily: "Mali",
-                            maximumYear: 2055,
-                            initialDate: _date,
-                            textColor: Colors.black,
-                            background: Color.fromRGBO(201, 163, 66, 1),
-                            borderRadius: 16,
-                            initialDatePickerMode: CupertinoDatePickerMode.date,
-                            onDateTimeChanged: (newDateTime) {
-                          if (newDateTime == null) {
-                            return;
-                          }
-                          setState(() {
-                            _date = newDateTime;
-                          });
-                        });
-                      }
-                    : () async {
-                        await showRoundedDatePicker(
-                          context: context,
-                          initialDate: _date,
-                          firstDate: DateTime.now().subtract(Duration(days: 1)),
-                          lastDate: DateTime(DateTime.now().year + 1),
-                          borderRadius: 16,
-                          theme: ThemeData.dark().copyWith(
-                            accentColor: Color.fromRGBO(201, 163, 66, 1),
-                            canvasColor: Color.fromRGBO(201, 163, 66, 1),
-                            backgroundColor: Color.fromRGBO(201, 163, 66, 1),
-                            buttonTheme: ButtonThemeData(
-                              colorScheme:
-                                  Theme.of(context).colorScheme.copyWith(
-                                        primary: Colors.amber,
-                                      ),
-                            ),
-                          ),
-                        ).then((pickdate) {
-                          if (pickdate == null) {
-                            return;
-                          }
-                          setState(() {
-                            _date = pickdate;
-                          });
-                        });
-                      },
-                child: Container(
-                  width: size.height > diviceSize ? 320 : size.width / 2 - 42,
-                  height: size.height > diviceSize ? 80 : 50,
-                  decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      border: Border(bottom: BorderSide(color: Colors.amber))),
-                  padding: EdgeInsets.only(bottom: 8),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(right: 8),
-                        margin: EdgeInsets.only(right: 0),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          radius: 15,
-                          child: Image.asset('assets/icons/calender.png'),
-                        ),
-                      ),
-                      Padding(
-                        padding: size.height > diviceSize
-                            ? const EdgeInsets.only(top: 0.0)
-                            : const EdgeInsets.only(top: 0.0, bottom: 5),
-                        child: Text(
-                          ' ${DateFormat("dd-MMM-yyyy").format(_date)} ',
-                          style: TextStyle(
-                              fontSize: size.height > diviceSize ? 20 : 15,
-                              color: Colors.amber[300]),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            // ),
-          ],
-        ),
-      ),
-    );
+
     return Scaffold(
       key: _scaffoldKey,
       floatingActionButton: Row(
@@ -198,7 +110,8 @@ class _EditProfileState extends State<EditProfile> {
             width: 25,
           ),
           GestureDetector(
-            onTap: () => Navigator.of(context).pop(),
+            onTap: () =>
+                Navigator.of(context).pushReplacementNamed('/own-profile'),
             child: Container(
               child: CircleAvatar(
                   backgroundColor: Colors.transparent,
@@ -494,7 +407,58 @@ class _EditProfileState extends State<EditProfile> {
                                       SizedBox(
                                         width: 12,
                                       ),
-                                      expiryDate,
+                                      Container(
+                                        width: size.width / 2 - 42,
+                                        child: TextFormField(
+                                          controller: _dateChangeController,
+                                          keyboardType: TextInputType.number,
+                                          inputFormatters: [
+                                            WhitelistingTextInputFormatter
+                                                .digitsOnly,
+                                            new LengthLimitingTextInputFormatter(
+                                                4),
+                                            CardMonthInputFormatter()
+                                          ],
+                                          onSaved: (value) {
+                                            setState(() {
+                                              _date = value;
+                                            });
+                                            print(value);
+                                            print(_date);
+                                          },
+                                          style: TextStyle(
+                                              color: Colors.yellow[300],
+                                              fontSize: 15),
+                                          decoration: InputDecoration(
+                                            contentPadding: EdgeInsets.only(
+                                              top: 15,
+                                            ),
+                                            hintText: "MM / YY",
+                                            hintStyle: TextStyle(
+                                                color: Colors.amber[300],
+                                                fontSize: 15),
+                                            prefixIcon: Container(
+                                              padding: EdgeInsets.all(8),
+                                              margin: EdgeInsets.only(right: 0),
+                                              child: CircleAvatar(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                radius: 10,
+                                                child: Image.asset(
+                                                    "assets/icons/password.png"),
+                                              ),
+                                            ),
+                                            enabledBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.amber),
+                                            ),
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.yellow),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   SizedBox(
@@ -560,6 +524,13 @@ class _EditProfileState extends State<EditProfile> {
     return Container(
       width: width,
       child: TextFormField(
+        inputFormatters: lable == 'Credit card number'
+            ? [
+                WhitelistingTextInputFormatter.digitsOnly,
+                new LengthLimitingTextInputFormatter(16),
+                CardNumberInputFormatter()
+              ]
+            : [],
         obscureText: lable == 'CVV' || lable == 'Pin' ? true : false,
         validator: lable == 'Name'
             ? (value) {
@@ -740,7 +711,7 @@ class _EditProfileState extends State<EditProfile> {
                 _occuption,
                 _cvv,
                 _pin,
-                _date.toIso8601String(),
+                _date,
                 _dailyCharge,
               )
             : await Provider.of<ProfileApi>(context, listen: false)
@@ -754,7 +725,7 @@ class _EditProfileState extends State<EditProfile> {
                     _occuption,
                     _cvv,
                     _pin,
-                    _date.toIso8601String(),
+                    _date,
                     _dailyCharge);
         setState(() {
           _isLoad = false;
