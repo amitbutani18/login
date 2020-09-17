@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:login/API/setpinapi.dart';
 import 'package:login/screens/pickroom.dart';
+import 'package:login/widgets/customcircularprogressindicator.dart';
+import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
@@ -19,26 +21,17 @@ class _SetPinState extends State<SetPin> {
 
   double diviceSize = 470;
 
-  final _formKey = GlobalKey<FormState>();
-
   TextEditingController _setPinController = TextEditingController();
   TextEditingController _verPinController = TextEditingController();
 
   final LocalAuthentication _localAuthentication = LocalAuthentication();
 
-  var _pin = '';
-  var _verPin = '';
   var _load = false;
   String _authorizedOrNot = "Not Authorized";
   bool _hasFingerPrintSupport = false;
   List<BiometricType> _availableBuimetricType = List<BiometricType>();
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<void> _authenticateMe() async {
+  Future<void> _authenticateMe(BuildContext context) async {
     // 8. this method opens a dialog for fingerprint authentication.
     //    we do not need to create a dialog nut it popsup from device natively.
     bool authenticated = false;
@@ -59,7 +52,7 @@ class _SetPinState extends State<SetPin> {
       _authorizedOrNot = authenticated ? "Authorized" : "Not Authorized";
     });
     if (authenticated) {
-      enableFinger();
+      enableFinger(context);
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => PickRoom(),
@@ -81,50 +74,63 @@ class _SetPinState extends State<SetPin> {
       key: _scaffoldKey,
       backgroundColor: Colors.black54,
       resizeToAvoidBottomInset: false,
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
-        },
-        child: Stack(
-          children: <Widget>[
-            PageBackground(
-                size: size, imagePath: 'assets/icons/loginbackground.png'),
-            _load
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Center(
-                    child: Container(
-                      padding: size.height > diviceSize
-                          ? EdgeInsets.only(
-                              top: 108, left: 55, right: 55, bottom: 55)
-                          : EdgeInsets.all(45),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            width: size.height > diviceSize ? 650 : 400,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 20),
-                              child: Form(
-                                key: _formKey,
+      body: Builder(
+        builder: (context) => GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Stack(
+            children: <Widget>[
+              PageBackground(
+                  size: size, imagePath: 'assets/icons/loginbackground.png'),
+              _load
+                  ? CustomCircularProgressIndicator()
+                  : Center(
+                      child: Container(
+                        padding: size.height > diviceSize
+                            ? EdgeInsets.only(
+                                top: 108, left: 55, right: 55, bottom: 55)
+                            : EdgeInsets.all(45),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              width: size.height > diviceSize ? 650 : 400,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 20),
                                 child: Column(
                                   children: <Widget>[
                                     size.height > diviceSize
-                                        ? _formField('Enter Pin', 650, 30,
-                                            'assets/icons/password.png')
-                                        : _formField('Enter Pin', 450, 15,
-                                            'assets/icons/password.png'),
+                                        ? _formField(
+                                            'Enter Pin',
+                                            650,
+                                            30,
+                                            'assets/icons/password.png',
+                                            _setPinController)
+                                        : _formField(
+                                            'Enter Pin',
+                                            450,
+                                            15,
+                                            'assets/icons/password.png',
+                                            _setPinController),
                                     SizedBox(
                                       height: 5,
                                     ),
                                     size.height > diviceSize
-                                        ? _formField('Reenter Pin', 650, 30,
-                                            'assets/icons/password.png')
-                                        : _formField('Re Enter Pin', 450, 15,
-                                            'assets/icons/password.png'),
+                                        ? _formField(
+                                            'Reenter Pin',
+                                            650,
+                                            30,
+                                            'assets/icons/password.png',
+                                            _verPinController)
+                                        : _formField(
+                                            'Re Enter Pin',
+                                            450,
+                                            15,
+                                            'assets/icons/password.png',
+                                            _verPinController),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
@@ -133,7 +139,11 @@ class _SetPinState extends State<SetPin> {
                                               ? const EdgeInsets.only(top: 18.0)
                                               : const EdgeInsets.only(top: 8.0),
                                           child: GestureDetector(
-                                            onTap: () => _submit(_pin),
+                                            onTap: () {
+                                              if (validateField(context)) {
+                                                _submit(context);
+                                              }
+                                            },
                                             child: Container(
                                               child: CircleAvatar(
                                                   backgroundColor:
@@ -153,18 +163,18 @@ class _SetPinState extends State<SetPin> {
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Future<void> _showMyDialog() async {
+  Future<void> _showMyDialog(BuildContext pageContext) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -187,7 +197,7 @@ class _SetPinState extends State<SetPin> {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-                _authenticateMe();
+                _authenticateMe(pageContext);
               },
               child: Container(
                 child: CircleAvatar(
@@ -222,7 +232,7 @@ class _SetPinState extends State<SetPin> {
     );
   }
 
-  Future<void> enableFinger() async {
+  Future<void> enableFinger(BuildContext context) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final api = sharedPreferences.getString('api');
     final userId = sharedPreferences.getString('userid');
@@ -246,44 +256,55 @@ class _SetPinState extends State<SetPin> {
         print(map['data']);
         sharedPreferences.setInt('touchid', 1);
 
-        _scaffoldKey.currentState.hideCurrentSnackBar();
-        _scaffoldKey.currentState
-            .showSnackBar(new SnackBar(content: Text(map['data'])));
+        // _scaffoldKey.currentState.hideCurrentSnackBar();
+        // _scaffoldKey.currentState
+        //     .showSnackBar(new SnackBar(content: Text(map['data'])));
+        CustomSnackBar(context, map['data'], SnackBartype.positive);
       }
     }
   }
 
-  Future<void> _submit(String pin) async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      FocusScopeNode currentFocus = FocusScope.of(context);
-      if (!currentFocus.hasPrimaryFocus) {
-        currentFocus.unfocus();
+  Future<void> _submit(BuildContext context) async {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+    try {
+      setState(() {
+        _load = true;
+      });
+      final response = await Provider.of<SetPinApi>(context, listen: false)
+          .setPin(int.parse(_setPinController.text));
+      if (response == 200) {
+        _showMyDialog(context);
       }
-      try {
-        setState(() {
-          _load = true;
-        });
-        final response = await Provider.of<SetPinApi>(context, listen: false)
-            .setPin(int.parse(_pin));
-        if (response == 200) {
-          _showMyDialog();
-        }
-        print(_pin);
-        print(_verPin);
-        setState(() {
-          _load = false;
-        });
-      } catch (error) {
-        print(error);
-        _scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            content: Text(
-              error.toString(),
-            ),
+      setState(() {
+        _load = false;
+      });
+    } catch (error) {
+      print(error);
+      setState(() {
+        _load = false;
+      });
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text(
+            error.toString(),
           ),
-        );
-      }
+        ),
+      );
+    }
+  }
+
+  bool validateField(BuildContext context) {
+    if (_setPinController.text.length != 4) {
+      CustomSnackBar(context, 'Pin must be 4 digit', SnackBartype.nagetive);
+      return false;
+    } else if (_setPinController.text != _verPinController.text) {
+      CustomSnackBar(context, 'Please enter same pin', SnackBartype.nagetive);
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -292,35 +313,14 @@ class _SetPinState extends State<SetPin> {
     double width,
     double fontSize,
     String image,
+    TextEditingController controller,
   ) {
     return Container(
       width: width,
       child: TextFormField(
         keyboardType: TextInputType.number,
-        validator: lable == 'Enter Pin'
-            ? (value) {
-                if (value.isEmpty) {
-                  return 'Please enter valid pin';
-                }
-                if (value.length != 4) {
-                  return "Pin must be 4 digit";
-                }
-                return null;
-              }
-            : (value) {
-                if (_verPin != _pin || value.isEmpty) {
-                  return 'Please enter same pin';
-                }
-                return null;
-              },
         cursorColor: Colors.white,
-        controller:
-            lable == 'Enter Pin' ? _setPinController : _verPinController,
-        onChanged: (value) {
-          setState(() {
-            lable == 'Enter Pin' ? _pin = value : _verPin = value;
-          });
-        },
+        controller: controller,
         style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
         obscureText: true,
         decoration: InputDecoration(

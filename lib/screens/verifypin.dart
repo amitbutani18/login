@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:login/API/verpinapi.dart';
 import 'package:login/screens/pickroom.dart';
+import 'package:login/widgets/customcircularprogressindicator.dart';
+import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +29,7 @@ class _VerifyPinState extends State<VerifyPin> {
   bool _hasFingerPrintSupport = false;
   List<BiometricType> _availableBuimetricType = List<BiometricType>();
 
-  var _pin = '';
+  // var _pin = '';
   var _load = false;
 
   bool _isinit = true;
@@ -126,95 +129,96 @@ class _VerifyPinState extends State<VerifyPin> {
       key: _scaffoldKey,
       backgroundColor: Colors.black54,
       resizeToAvoidBottomInset: false,
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
-        },
-        child: Stack(
-          children: <Widget>[
-            PageBackground(
-                size: size, imagePath: 'assets/icons/loginbackground.png'),
-            // _load
-            //     ? Center(
-            //         child: CircularProgressIndicator(),
-            //       )
-            // :
-            Stack(
-              children: [
-                _load
-                    ? Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : Container(),
-                Center(
-                  child: Container(
-                    padding: size.height > diviceSize
-                        ? EdgeInsets.only(
-                            top: 108, left: 55, right: 55, bottom: 55)
-                        : EdgeInsets.all(45),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          width: size.height > diviceSize ? 650 : 400,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 20),
-                            child: Form(
-                              key: _formKey,
-                              child: Column(
-                                children: <Widget>[
-                                  size.height > diviceSize
-                                      ? _formField('Enter Pin', 650, 30,
-                                          'assets/icons/user.png')
-                                      : _formField('Enter Pin', 450, 15,
-                                          'assets/icons/user.png'),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: size.height > diviceSize
-                                            ? const EdgeInsets.only(top: 18.0)
-                                            : const EdgeInsets.only(top: 8.0),
-                                        child: GestureDetector(
-                                          onTap: () =>
-                                              _load ? null : _submit(_pin),
-                                          child: Container(
-                                            child: CircleAvatar(
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                radius: size.height > diviceSize
-                                                    ? 40
-                                                    : 30,
-                                                child: Image.asset(
-                                                    'assets/icons/loginbubble.png')),
+      body: Builder(
+        builder: (context) => GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Stack(
+            children: <Widget>[
+              PageBackground(
+                  size: size, imagePath: 'assets/icons/loginbackground.png'),
+              Stack(
+                children: [
+                  _load ? CustomCircularProgressIndicator() : Container(),
+                  Center(
+                    child: Container(
+                      padding: size.height > diviceSize
+                          ? EdgeInsets.only(
+                              top: 108, left: 55, right: 55, bottom: 55)
+                          : EdgeInsets.all(45),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            width: size.height > diviceSize ? 650 : 400,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 20),
+                              child: Form(
+                                key: _formKey,
+                                child: Column(
+                                  children: <Widget>[
+                                    size.height > diviceSize
+                                        ? _formField('Enter Pin', 650, 30,
+                                            'assets/icons/user.png')
+                                        : _formField('Enter Pin', 450, 15,
+                                            'assets/icons/user.png'),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: size.height > diviceSize
+                                              ? const EdgeInsets.only(top: 18.0)
+                                              : const EdgeInsets.only(top: 8.0),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              if (_load) {
+                                                return null;
+                                              } else {
+                                                if (validateField(context)) {
+                                                  _submit(context);
+                                                }
+                                              }
+                                            },
+                                            child: Container(
+                                              child: CircleAvatar(
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  radius:
+                                                      size.height > diviceSize
+                                                          ? 40
+                                                          : 30,
+                                                  child: Image.asset(
+                                                      'assets/icons/loginbubble.png')),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Future<void> _submit(String pin) async {
+  Future<void> _submit(BuildContext context) async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       FocusScopeNode currentFocus = FocusScope.of(context);
@@ -225,21 +229,14 @@ class _VerifyPinState extends State<VerifyPin> {
         setState(() {
           _load = true;
         });
-        print(_pin);
+        // print(_pin);
         int statusCode = await Provider.of<VerPinApi>(context, listen: false)
-            .verPin(int.parse(_pin));
+            .verPin(int.parse(_setPinController.text.trim()));
         if (statusCode == 200) {
           SharedPreferences sharedPreferences =
               await SharedPreferences.getInstance();
           final touchid = sharedPreferences.getInt('touchid');
           print("TouchId" + touchid.toString());
-          // if (touchid == 1) {
-          //   Navigator.of(context).push(
-          //     MaterialPageRoute(
-          //       builder: (context) => FingerPrintScreen(),
-          //     ),
-          //   );
-          // } else {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => PickRoom(),
@@ -256,14 +253,18 @@ class _VerifyPinState extends State<VerifyPin> {
         });
         print(error.toString());
         _scaffoldKey.currentState.hideCurrentSnackBar();
-        _scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            content: Text(
-              error.toString(),
-            ),
-          ),
-        );
+        CustomSnackBar(context, error.toString(), SnackBartype.nagetive);
       }
+    }
+  }
+
+  bool validateField(BuildContext context) {
+    FocusScope.of(context).unfocus();
+    if (_setPinController.text.length != 4) {
+      CustomSnackBar(context, 'Please enter valid pin', SnackBartype.nagetive);
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -277,23 +278,10 @@ class _VerifyPinState extends State<VerifyPin> {
       width: width,
       child: TextFormField(
         enabled: _load ? false : true,
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Please Enter Valid PIN';
-          }
-          if (value.length != 4) {
-            return 'Please Enter 4 Digit PIN';
-          }
-          return null;
-        },
+        inputFormatters: [LengthLimitingTextInputFormatter(4)],
         keyboardType: TextInputType.number,
         cursorColor: Colors.white,
         controller: _setPinController,
-        onChanged: (value) {
-          setState(() {
-            _pin = value;
-          });
-        },
         style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
         obscureText: true,
         decoration: InputDecoration(

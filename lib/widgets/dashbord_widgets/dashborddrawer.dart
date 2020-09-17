@@ -33,6 +33,7 @@ class DashbordDrawer extends StatelessWidget {
           color: Colors.amber,
           icon: Icon(Icons.settings),
           onPressed: () async {
+            Navigator.of(context).pop();
             Navigator.of(context).pushNamed('/settings');
           },
         ),

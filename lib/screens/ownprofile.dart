@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:login/API/profileapi.dart';
 import 'package:login/screens/editprofile.dart';
+import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 import 'package:provider/provider.dart';
@@ -38,37 +39,7 @@ class _OwnProfileState extends State<OwnProfile> {
     imageCache.clear();
     imageCache.clearLiveImages();
     if (_isInit) {
-      try {
-        setState(() {
-          _load = true;
-        });
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
-        final _userEmail = sharedPreferences.getString('email');
-        objProfileModal =
-            await Provider.of<ProfileApi>(context, listen: false).getProfile();
-        print("In Profile Map" + objProfileModal.name);
-        // print(map['profileimg']);
-        setState(() {
-          _name = objProfileModal.name;
-          _location = objProfileModal.location;
-          _linkedLink = objProfileModal.linkdin;
-          _youLink = objProfileModal.youtube;
-          _profileImage = objProfileModal.profileimg;
-          _creditcard = objProfileModal.creditcard;
-          _occupation = objProfileModal.occupation;
-          _qrData = _userEmail;
-        });
-        print("_profileImage" + _profileImage);
-        setState(() {
-          _load = false;
-        });
-      } catch (error) {
-        setState(() {
-          _load = false;
-        });
-        print(error);
-      }
+      await tryToGetProfile();
     }
     _isInit = false;
   }
@@ -97,9 +68,7 @@ class _OwnProfileState extends State<OwnProfile> {
           PageBackground(
               size: size, imagePath: 'assets/images/profilebackground.png'),
           _load
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
+              ? CustomCircularProgressIndicator()
               : Padding(
                   padding: size.height > diviceSize
                       ? const EdgeInsets.all(28.0)
@@ -142,10 +111,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                               'assets/images/profileimage.png')
                                           : NetworkImage(_profileImage),
                                     ),
-                                    SizedBox(
-                                      height:
-                                          size.height > diviceSize ? 20 : 10,
-                                    ),
+                                    customSizedBox(size, 10),
                                     Text(
                                       _name,
                                       style: TextStyle(
@@ -154,10 +120,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                             size.height > diviceSize ? 35 : 20,
                                       ),
                                     ),
-                                    SizedBox(
-                                      height:
-                                          size.height > diviceSize ? 30 : 10,
-                                    ),
+                                    customSizedBox(size, 10),
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: Text(
@@ -170,9 +133,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
+                                    customSizedBox(size, 10),
                                     YouLink(
                                       size: size,
                                       diviceSize: diviceSize,
@@ -182,9 +143,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                           : _youLink,
                                       scaffoldKey: _scaffoldKey,
                                     ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
+                                    customSizedBox(size, 10),
                                     YouLink(
                                       size: size,
                                       diviceSize: diviceSize,
@@ -194,9 +153,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                           : _linkedLink,
                                       scaffoldKey: _scaffoldKey,
                                     ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
+                                    customSizedBox(size, 20),
                                     PointCredit(
                                       size: size,
                                       diviceSize: diviceSize,
@@ -205,9 +162,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                       heading2: "Total Earned Amount",
                                       value2: "\$ 1000.00",
                                     ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
+                                    customSizedBox(size, 20),
                                     PointCredit(
                                       size: size,
                                       diviceSize: diviceSize,
@@ -244,48 +199,13 @@ class _OwnProfileState extends State<OwnProfile> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          Text(
-                                            'Location',
-                                            style: TextStyle(
-                                              color: Colors.amber[300],
-                                              fontSize: size.height > diviceSize
-                                                  ? 25
-                                                  : 15,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: <Widget>[
-                                              Icon(
-                                                Icons.location_on,
-                                                size: size.height > diviceSize
-                                                    ? 20
-                                                    : 10,
-                                                color: Colors.white,
-                                              ),
-                                              SizedBox(
-                                                width: size.height > diviceSize
-                                                    ? 20
-                                                    : 5,
-                                              ),
-                                              Text(
-                                                _location,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize:
-                                                      size.height > diviceSize
-                                                          ? 25
-                                                          : size.width < 600
-                                                              ? 8
-                                                              : 12,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                          CustomHeading(
+                                              size: size,
+                                              diviceSize: diviceSize,
+                                              title: 'Location'),
+                                          customSizedBox(size, 10),
+                                          locationOccupation(
+                                              size, _location, true),
                                         ],
                                       ),
                                       SizedBox(
@@ -298,68 +218,30 @@ class _OwnProfileState extends State<OwnProfile> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          Text(
-                                            'Occuption',
-                                            style: TextStyle(
-                                              color: Colors.amber[300],
-                                              fontSize: size.height > diviceSize
-                                                  ? 25
-                                                  : 15,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(
-                                                _occupation,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize:
-                                                        size.height > diviceSize
-                                                            ? 25
-                                                            : 12),
-                                              ),
-                                            ],
-                                          ),
+                                          CustomHeading(
+                                              size: size,
+                                              diviceSize: diviceSize,
+                                              title: 'Occuption'),
+                                          customSizedBox(size, 10),
+                                          locationOccupation(
+                                              size, _occupation, false),
                                         ],
                                       ),
-                                      SizedBox(
-                                        height:
-                                            size.height > diviceSize ? 50 : 10,
-                                      ),
+                                      customSizedBox(size, 10),
                                       Container(
-                                        // height: size.height > diviceSize
-                                        //     ? 250
-                                        //     : 200,
-                                        // width: size.height > diviceSize
-                                        //     ? size.width
-                                        //     : 200,
                                         color: Colors.amber[300],
-                                        // color: Colors.amber[300],
                                         child: QrImage(
                                           size: size.width < 600 ? 100 : 200,
                                           data: _qrData,
                                         ),
                                       ),
-                                      SizedBox(
-                                        height:
-                                            size.height > diviceSize ? 30 : 10,
-                                      ),
-                                      Container(
+                                      customSizedBox(size, 10),
+                                      Divider(
                                         height: 3,
-                                        width: size.height > diviceSize
-                                            ? size.width
-                                            : 200,
+                                        thickness: 2,
                                         color: Colors.amber[300],
                                       ),
-                                      SizedBox(
-                                        height:
-                                            size.height > diviceSize ? 30 : 10,
-                                      ),
+                                      customSizedBox(size, 10),
                                       Container(
                                         height:
                                             size.height > diviceSize ? 100 : 50,
@@ -384,6 +266,99 @@ class _OwnProfileState extends State<OwnProfile> {
                   ),
                 ),
         ],
+      ),
+    );
+  }
+
+  SizedBox customSizedBox(Size size, double sizeHeight) {
+    return SizedBox(
+      height: size.height > diviceSize ? 20 : sizeHeight,
+    );
+  }
+
+  Row locationOccupation(
+    Size size,
+    String _location,
+    bool showIcon,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        showIcon
+            ? Icon(
+                Icons.location_on,
+                size: size.height > diviceSize ? 20 : 10,
+                color: Colors.white,
+              )
+            : Container(),
+        SizedBox(
+          width: size.height > diviceSize ? 20 : 5,
+        ),
+        Text(
+          _location,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: size.height > diviceSize ? 25 : size.width < 600 ? 8 : 12,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> tryToGetProfile() async {
+    try {
+      setState(() {
+        _load = true;
+      });
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      final _userEmail = sharedPreferences.getString('email');
+      objProfileModal =
+          await Provider.of<ProfileApi>(context, listen: false).getProfile();
+      print("In Profile Map" + objProfileModal.name);
+      // print(map['profileimg']);
+      setState(() {
+        _name = objProfileModal.name;
+        _location = objProfileModal.location;
+        _linkedLink = objProfileModal.linkdin;
+        _youLink = objProfileModal.youtube;
+        _profileImage = objProfileModal.profileimg;
+        _creditcard = objProfileModal.creditcard;
+        _occupation = objProfileModal.occupation;
+        _qrData = _userEmail;
+      });
+      print("_profileImage" + _profileImage);
+      setState(() {
+        _load = false;
+      });
+    } catch (error) {
+      setState(() {
+        _load = false;
+      });
+      print(error);
+    }
+  }
+}
+
+class CustomHeading extends StatelessWidget {
+  const CustomHeading({
+    Key key,
+    @required this.size,
+    @required this.diviceSize,
+    @required this.title,
+  }) : super(key: key);
+
+  final Size size;
+  final int diviceSize;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'Occuption',
+      style: TextStyle(
+        color: Colors.amber[300],
+        fontSize: size.height > diviceSize ? 25 : 15,
       ),
     );
   }

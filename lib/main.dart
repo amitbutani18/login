@@ -34,7 +34,6 @@ import 'package:login/screens/pickroom.dart';
 import 'package:login/screens/projectDetails.dart';
 import 'package:login/screens/roomdetails.dart';
 import 'package:login/screens/searchmember.dart';
-import 'package:login/screens/whatscreen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -129,7 +128,6 @@ class _MyAppState extends State<MyApp> {
         routes: {
           '/date': (context) => DatePick(),
           '/login': (context) => LoginScreen(),
-          '/what': (context) => WhatScreen(),
           '/pickroom': (context) => PickRoom(),
           '/room-details': (context) => RoomDetails(),
           '/add-project': (context) => AddProject(),

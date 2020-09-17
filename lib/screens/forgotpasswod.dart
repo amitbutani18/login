@@ -1,8 +1,10 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:login/API/loginapi.dart';
+import 'package:login/widgets/customcircularprogressindicator.dart';
+import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
+import 'package:login/widgets/validation.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -19,7 +21,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   TextEditingController _emailController = TextEditingController();
 
-  var _email = '';
   var _load = false;
 
   @override
@@ -30,89 +31,114 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       key: _scaffoldKey,
       backgroundColor: Colors.black54,
       resizeToAvoidBottomInset: false,
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
-        },
-        child: Stack(
-          children: <Widget>[
-            PageBackground(
-                size: size, imagePath: 'assets/icons/loginbackground.png'),
-            _load
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Center(
-                    child: Container(
-                      padding: size.height > diviceSize
-                          ? EdgeInsets.only(
-                              top: 108, left: 55, right: 55, bottom: 55)
-                          : EdgeInsets.all(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          PageTitle(
-                              size: size,
-                              diviceSize: diviceSize,
-                              title: "Amnesia"),
-                          Container(
-                            width: size.height > diviceSize ? 650 : 400,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 20),
-                              child: Form(
-                                key: _formKey,
-                                child: Column(
-                                  children: <Widget>[
-                                    size.height > diviceSize
-                                        ? _formField('Email', 650, 30,
-                                            'assets/icons/user.png')
-                                        : _formField('Email', 450, 15,
-                                            'assets/icons/user.png'),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: size.height > diviceSize
-                                              ? const EdgeInsets.only(top: 18.0)
-                                              : const EdgeInsets.only(top: 8.0),
-                                          child: GestureDetector(
-                                            onTap: () => _submit(_email),
-                                            child: Container(
-                                              child: CircleAvatar(
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  radius:
-                                                      size.height > diviceSize
-                                                          ? 40
-                                                          : 30,
-                                                  child: Image.asset(
-                                                      'assets/icons/loginbubble.png')),
+      body: Builder(
+        builder: (context) => GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Stack(
+            children: <Widget>[
+              PageBackground(
+                  size: size, imagePath: 'assets/icons/loginbackground.png'),
+              _load
+                  ? CustomCircularProgressIndicator()
+                  : Center(
+                      child: Container(
+                        padding: size.height > diviceSize
+                            ? EdgeInsets.only(
+                                top: 108, left: 55, right: 55, bottom: 55)
+                            : EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            PageTitle(
+                                size: size,
+                                diviceSize: diviceSize,
+                                title: "Amnesia"),
+                            Container(
+                              width: size.height > diviceSize ? 650 : 400,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 20),
+                                child: Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    children: <Widget>[
+                                      size.height > diviceSize
+                                          ? _formField(
+                                              'Email',
+                                              650,
+                                              30,
+                                              'assets/icons/user.png',
+                                              _emailController)
+                                          : _formField(
+                                              'Email',
+                                              450,
+                                              15,
+                                              'assets/icons/user.png',
+                                              _emailController),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: size.height > diviceSize
+                                                ? const EdgeInsets.only(
+                                                    top: 18.0)
+                                                : const EdgeInsets.only(
+                                                    top: 8.0),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                if (validateField(context)) {
+                                                  _submit(context);
+                                                }
+                                              },
+                                              child: Container(
+                                                child: CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    radius:
+                                                        size.height > diviceSize
+                                                            ? 40
+                                                            : 30,
+                                                    child: Image.asset(
+                                                        'assets/icons/loginbubble.png')),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Future<void> _submit(String email) async {
+  bool validateField(BuildContext context) {
+    if (!Validation.shared.isEmailValidation(_emailController.text)) {
+      CustomSnackBar(
+          context, 'Please enter valid email', SnackBartype.nagetive);
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  Future<void> _submit(BuildContext context) async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       FocusScopeNode currentFocus = FocusScope.of(context);
@@ -124,8 +150,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           _load = true;
         });
         final response = await Provider.of<LoginApi>(context, listen: false)
-            .forgotPassword(email);
-
+            .forgotPassword(_emailController.text.trim());
         setState(() {
           _load = false;
         });
@@ -135,13 +160,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         setState(() {
           _load = false;
         });
-        _scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            content: Text(
-              error.toString(),
-            ),
-          ),
-        );
+        CustomSnackBar(context, error.toString(), SnackBartype.nagetive);
       }
     }
   }
@@ -186,25 +205,25 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     double width,
     double fontSize,
     String image,
+    TextEditingController controller,
   ) {
     return Container(
       width: width,
       child: TextFormField(
-        validator: (value) {
-          if (!EmailValidator.validate(value) || value.isEmpty) {
-            return 'Please enter valid email';
-          }
-          return null;
-        },
+        // validator: (value) {
+        //   if (!EmailValidator.validate(value) || value.isEmpty) {
+        //     return 'Please enter valid email';
+        //   }
+        //   return null;
+        // },
         cursorColor: Colors.white,
-        controller: _emailController,
-        onChanged: (value) {
-          setState(() {
-            _email = value;
-          });
-        },
+        controller: controller,
+        // onChanged: (value) {
+        //   setState(() {
+        //     _email = value;
+        //   });
+        // },
         style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
-        obscureText: lable == 'Email' ? false : true,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(
             top: 15,

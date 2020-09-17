@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:login/widgets/customcircularprogressindicator.dart';
+import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 import 'package:flutter/cupertino.dart' as ios;
@@ -17,8 +19,8 @@ class _SettingScreenState extends State<SettingScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   double diviceSize = 470;
   bool _load = false;
-  var initialValuePin;
-  var initValFing;
+  var initialValuePin = false;
+  var initValFing = false;
 
   @override
   void didChangeDependencies() async {
@@ -43,44 +45,98 @@ class _SettingScreenState extends State<SettingScreen> {
       key: _scaffoldKey,
       backgroundColor: Colors.black54,
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: <Widget>[
-          PageBackground(
-              size: size, imagePath: 'assets/icons/loginbackground.png'),
-          _load
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 18.0, left: 10),
-                      child: PageTitle(
-                          size: size, diviceSize: 470, title: "Settings"),
-                    ),
-                    Center(
-                      child: Container(
-                        width: size.width,
-                        padding: size.height > diviceSize
-                            ? EdgeInsets.only(
-                                top: 108, left: 105, right: 105, bottom: 55)
-                            : EdgeInsets.only(
-                                top: 35,
-                                right: size.width < 600 ? 130 : 150,
-                                left: size.width < 600 ? 130 : 200,
-                                bottom: 45),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              // width: size.height > diviceSize ? 650 : 400,
-                              child: Row(
+      body: Builder(
+        builder: (context) => Stack(
+          children: <Widget>[
+            PageBackground(
+                size: size, imagePath: 'assets/icons/loginbackground.png'),
+            _load
+                ? CustomCircularProgressIndicator()
+                : Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 18.0, left: 10),
+                        child: PageTitle(
+                            size: size, diviceSize: 470, title: "Settings"),
+                      ),
+                      Center(
+                        child: Container(
+                          width: size.width,
+                          padding: size.height > diviceSize
+                              ? EdgeInsets.only(
+                                  top: 108, left: 105, right: 105, bottom: 55)
+                              : EdgeInsets.only(
+                                  top: 35,
+                                  right: size.width < 600 ? 130 : 150,
+                                  left: size.width < 600 ? 130 : 200,
+                                  bottom: 45),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                // width: size.height > diviceSize ? 650 : 400,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Security Pin Status",
+                                      style: TextStyle(
+                                        color: Colors.yellow[300],
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15, vertical: 0),
+                                      child: Platform.isIOS
+                                          ? ios.CupertinoSwitch(
+                                              value: initialValuePin,
+                                              activeColor: Colors.green,
+                                              onChanged: (value) async {
+                                                SharedPreferences
+                                                    sharedPreferences =
+                                                    await SharedPreferences
+                                                        .getInstance();
+                                                setState(() {
+                                                  initialValuePin = value;
+                                                });
+                                                sharedPreferences.setInt(
+                                                    'pinstatus', value ? 1 : 0);
+                                                _submit(context, 'pin');
+                                              })
+                                          : Switch(
+                                              value: initialValuePin,
+                                              activeTrackColor:
+                                                  Colors.lightGreenAccent,
+                                              activeColor: Colors.green,
+                                              onChanged: (value) async {
+                                                SharedPreferences
+                                                    sharedPreferences =
+                                                    await SharedPreferences
+                                                        .getInstance();
+                                                setState(() {
+                                                  initialValuePin = value;
+                                                });
+                                                sharedPreferences.setInt(
+                                                    'pinstatus', value ? 1 : 0);
+                                                _submit(context, 'pin');
+                                              },
+                                            ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Security Pin Status",
+                                    "FingerPrint Security Status",
                                     style: TextStyle(
                                       color: Colors.yellow[300],
                                       fontSize: 15,
@@ -91,7 +147,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                         horizontal: 15, vertical: 0),
                                     child: Platform.isIOS
                                         ? ios.CupertinoSwitch(
-                                            value: initialValuePin,
+                                            value: initValFing,
                                             activeColor: Colors.green,
                                             onChanged: (value) async {
                                               SharedPreferences
@@ -99,14 +155,14 @@ class _SettingScreenState extends State<SettingScreen> {
                                                   await SharedPreferences
                                                       .getInstance();
                                               setState(() {
-                                                initialValuePin = value;
+                                                initValFing = value;
                                               });
                                               sharedPreferences.setInt(
-                                                  'pinstatus', value ? 1 : 0);
-                                              _submit('pin');
+                                                  'touchid', value ? 1 : 0);
+                                              _submit(context, 'finger');
                                             })
                                         : Switch(
-                                            value: initialValuePin,
+                                            value: initValFing,
                                             activeTrackColor:
                                                 Colors.lightGreenAccent,
                                             activeColor: Colors.green,
@@ -116,106 +172,53 @@ class _SettingScreenState extends State<SettingScreen> {
                                                   await SharedPreferences
                                                       .getInstance();
                                               setState(() {
-                                                initialValuePin = value;
+                                                initValFing = value;
                                               });
                                               sharedPreferences.setInt(
-                                                  'pinstatus', value ? 1 : 0);
-                                              _submit('pin');
+                                                  'touchid', value ? 1 : 0);
+                                              _submit(context, 'finger');
                                             },
                                           ),
                                   ),
                                 ],
                               ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "FingerPrint Security Status",
-                                  style: TextStyle(
-                                    color: Colors.yellow[300],
-                                    fontSize: 15,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 0),
-                                  child: Platform.isIOS
-                                      ? ios.CupertinoSwitch(
-                                          value: initValFing,
-                                          activeColor: Colors.green,
-                                          onChanged: (value) async {
-                                            SharedPreferences
-                                                sharedPreferences =
-                                                await SharedPreferences
-                                                    .getInstance();
-                                            setState(() {
-                                              initValFing = value;
-                                            });
-                                            sharedPreferences.setInt(
-                                                'touchid', value ? 1 : 0);
-                                            _submit('finger');
-                                          })
-                                      : Switch(
-                                          value: initValFing,
-                                          activeTrackColor:
-                                              Colors.lightGreenAccent,
-                                          activeColor: Colors.green,
-                                          onChanged: (value) async {
-                                            SharedPreferences
-                                                sharedPreferences =
-                                                await SharedPreferences
-                                                    .getInstance();
-                                            setState(() {
-                                              initValFing = value;
-                                            });
-                                            sharedPreferences.setInt(
-                                                'touchid', value ? 1 : 0);
-                                            _submit('finger');
-                                          },
-                                        ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Padding(
-                                  padding: size.height > diviceSize
-                                      ? const EdgeInsets.only(top: 18.0)
-                                      : const EdgeInsets.only(top: 8.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Container(
-                                      child: CircleAvatar(
-                                          backgroundColor: Colors.transparent,
-                                          radius: size.height > diviceSize
-                                              ? 40
-                                              : 30,
-                                          child: Image.asset(
-                                              'assets/icons/loginbubble.png')),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: size.height > diviceSize
+                                        ? const EdgeInsets.only(top: 18.0)
+                                        : const EdgeInsets.only(top: 8.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Container(
+                                        child: CircleAvatar(
+                                            backgroundColor: Colors.transparent,
+                                            radius: size.height > diviceSize
+                                                ? 40
+                                                : 30,
+                                            child: Image.asset(
+                                                'assets/icons/loginbubble.png')),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-        ],
+                    ],
+                  ),
+          ],
+        ),
       ),
     );
   }
 
-  Future<void> _submit(String type) async {
+  Future<void> _submit(BuildContext context, String type) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final api = sharedPreferences.getString('api');
     final userId = sharedPreferences.getString('userid');
@@ -238,8 +241,13 @@ class _SettingScreenState extends State<SettingScreen> {
       if (response.statusCode == 200) {
         print(map['data']);
         _scaffoldKey.currentState.hideCurrentSnackBar();
-        _scaffoldKey.currentState
-            .showSnackBar(new SnackBar(content: Text(map['data'])));
+        CustomSnackBar(
+            context,
+            map['data'],
+            map['data'] == 'pin enable successfully' ||
+                    map['data'] == 'Fingarprint enable successfully'
+                ? SnackBartype.positive
+                : SnackBartype.nagetive);
       }
     }
   }
