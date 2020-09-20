@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login/screens/projectDetails.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 import 'package:login/widgets/task.dart';
@@ -25,7 +26,7 @@ class Contract extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed('/project-details');
+              Navigator.of(context).pushNamed(ProjectDetails.routeName);
             },
             child: Container(
               child: CircleAvatar(

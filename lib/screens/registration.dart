@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:login/API/registerapi.dart';
+import 'package:login/screens/loginscreen.dart';
 import 'package:login/widgets/bottomfirstslider.dart';
 import 'package:login/widgets/bottomsecslider.dart';
+import 'package:login/widgets/custom_input_decoration.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
@@ -128,7 +130,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               15,
                                               'assets/icons/password.png',
                                               _passwordController,
-                                              true),
+                                              true,
+                                              ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
@@ -247,33 +250,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Container(
       width: width,
       child: TextFormField(
-        controller: controller,
-        style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
-        obscureText: isSecure,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(
-            top: 15,
-          ),
-          hintText: lable,
-          hintStyle: TextStyle(
-              color: Colors.amber[300], height: 1, fontSize: fontSize),
-          prefixIcon: Container(
-            padding: EdgeInsets.all(8),
-            margin: EdgeInsets.only(right: 0),
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: 10,
-              child: Image.asset(image),
-            ),
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.amber),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.yellow),
-          ),
-        ),
-      ),
+          controller: controller,
+          style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
+          obscureText: isSecure,
+          decoration: CustomInputDecoration.customInputDecoration(
+              lable, fontSize, image)),
     );
   }
 
@@ -339,7 +320,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pushReplacementNamed('/login');
+                Navigator.of(context)
+                    .pushReplacementNamed(LoginScreen.routeName);
               },
             ),
           ],

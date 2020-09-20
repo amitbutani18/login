@@ -7,6 +7,7 @@ import 'package:login/API/profileapi.dart';
 import 'package:login/screens/ownprofile.dart';
 import 'package:login/widgets/cardmonthinputformatter.dart';
 import 'package:login/widgets/cardnumberinputformateer.dart';
+import 'package:login/widgets/custom_input_decoration.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
@@ -98,8 +99,8 @@ class _EditProfileState extends State<EditProfile> {
               width: 25,
             ),
             GestureDetector(
-              onTap: () =>
-                  Navigator.of(context).pushReplacementNamed('/own-profile'),
+              onTap: () => Navigator.of(context)
+                  .pushReplacementNamed(OwnProfile.routeName),
               child: Container(
                 child: CircleAvatar(
                     backgroundColor: Colors.transparent,
@@ -473,45 +474,24 @@ class _EditProfileState extends State<EditProfile> {
     return Container(
       width: width,
       child: TextFormField(
-        inputFormatters: lable == 'Credit card number'
-            ? [
-                WhitelistingTextInputFormatter.digitsOnly,
-                new LengthLimitingTextInputFormatter(16),
-                CardNumberInputFormatter()
-              ]
-            : [],
-        obscureText: lable == 'CVV' || lable == 'Pin' ? true : false,
-        keyboardType: lable == 'Credit card number' ||
-                lable == 'CVV' ||
-                lable == 'Pin' ||
-                lable == 'Daily Charge'
-            ? TextInputType.number
-            : TextInputType.text,
-        controller: controller,
-        style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(
-            top: 15,
-          ),
-          hintText: lable,
-          hintStyle: TextStyle(color: Colors.amber[300], fontSize: fontSize),
-          prefixIcon: Container(
-            padding: EdgeInsets.all(8),
-            margin: EdgeInsets.only(right: 0),
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: 10,
-              child: Image.asset(image),
-            ),
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.amber),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.yellow),
-          ),
-        ),
-      ),
+          inputFormatters: lable == 'Credit card number'
+              ? [
+                  WhitelistingTextInputFormatter.digitsOnly,
+                  new LengthLimitingTextInputFormatter(16),
+                  CardNumberInputFormatter()
+                ]
+              : [],
+          obscureText: lable == 'CVV' || lable == 'Pin' ? true : false,
+          keyboardType: lable == 'Credit card number' ||
+                  lable == 'CVV' ||
+                  lable == 'Pin' ||
+                  lable == 'Daily Charge'
+              ? TextInputType.number
+              : TextInputType.text,
+          controller: controller,
+          style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
+          decoration: CustomInputDecoration.customInputDecoration(
+              lable, fontSize, image)),
     );
   }
 
@@ -637,7 +617,7 @@ class _EditProfileState extends State<EditProfile> {
       setState(() {
         _isLoad = false;
       });
-      Navigator.of(context).pushReplacementNamed('/own-profile');
+      Navigator.of(context).pushReplacementNamed(OwnProfile.routeName);
     } catch (e) {
       print("Error" + e);
       setState(() {

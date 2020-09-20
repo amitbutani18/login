@@ -5,6 +5,8 @@ class Validation {
   Validation._internal();
   static Validation get shared => _singleton;
 
+  static hello() {}
+
   bool isEmailValidation(String txtEmail) {
     return RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")

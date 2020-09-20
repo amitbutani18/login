@@ -9,13 +9,16 @@ import 'package:login/screens/setpin.dart';
 import 'package:login/screens/verifypin.dart';
 import 'package:login/widgets/bottomfirstslider.dart';
 import 'package:login/widgets/bottomsecslider.dart';
+import 'package:login/widgets/custom_input_decoration.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/customsnackbar.dart';
+import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/sliderightroute.dart';
 import 'package:login/widgets/validation.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const routeName = '/login';
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -75,185 +78,172 @@ class _LoginScreenState extends State<LoginScreen>
     Size size = MediaQuery.of(context).size;
     double boxSize = size.height > 470 ? 70 : 50;
 
-    return Container(
-      height: size.height,
-      width: size.width,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/icons/loginbackground.png'),
-          fit: BoxFit.fill,
-          alignment: Alignment.topCenter,
-        ),
-      ),
-      child: Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: Colors.transparent,
-        resizeToAvoidBottomInset: false,
-        body: Builder(
-          builder: (context) => GestureDetector(
-            onTap: () {
-              FocusScope.of(context).requestFocus(new FocusNode());
-            },
-            child: Stack(
-              children: <Widget>[
-                // PageBackground(size: size, imagePath: 'assets/icons/loginbackground.png'),
-                _isLoading
-                    ? CustomCircularProgressIndicator()
-                    : SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
-                        child: Container(
-                          padding: size.height > diviceSize
-                              ? EdgeInsets.only(
-                                  top: 108, left: 55, right: 55, bottom: 55)
-                              : EdgeInsets.all(21),
-                          child: Column(
-                            children: <Widget>[
-                              SingleChildScrollView(
-                                child: Container(
-                                  width: size.height > diviceSize ? 650 : 400,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 20),
-                                    child: Column(
-                                      children: <Widget>[
-                                        size.height > diviceSize
-                                            ? _formField(
-                                                'Email',
-                                                650,
-                                                30,
-                                                'assets/icons/user.png',
-                                                _emailController,
-                                                false)
-                                            : _formField(
-                                                'Email',
-                                                450,
-                                                15,
-                                                'assets/icons/user.png',
-                                                _emailController,
-                                                false),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        size.height > diviceSize
-                                            ? _formField(
-                                                'Password',
-                                                650,
-                                                30,
-                                                'assets/icons/password.png',
-                                                _passwordController,
-                                                true)
-                                            : _formField(
-                                                'Password',
-                                                450,
-                                                15,
-                                                'assets/icons/password.png',
-                                                _passwordController,
-                                                true),
-                                        SizedBox(
-                                          height:
-                                              size.height > diviceSize ? 20 : 5,
-                                        ),
-                                        Container(
-                                          width: size.width,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              rememberMeBox(),
-                                              Padding(
-                                                padding:
-                                                    size.height > diviceSize
-                                                        ? const EdgeInsets.only(
-                                                            top: 18.0)
-                                                        : const EdgeInsets.only(
-                                                            top: 8.0),
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    if (validateField(
-                                                        context)) {
-                                                      _submit(context);
-                                                    }
-                                                  },
-                                                  child: Container(
-                                                    child: CircleAvatar(
-                                                        backgroundColor:
-                                                            Colors.transparent,
-                                                        radius: size.height >
-                                                                diviceSize
-                                                            ? 40
-                                                            : 30,
-                                                        child: Image.asset(
-                                                            'assets/icons/loginbubble.png')),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: size.height > diviceSize
-                                              ? 20
-                                              : 10,
-                                        ),
-                                        Row(
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Colors.transparent,
+      resizeToAvoidBottomInset: false,
+      body: Builder(
+        builder: (context) => GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Stack(
+            children: <Widget>[
+              PageBackground(
+                  size: size, imagePath: 'assets/icons/loginbackground.png'),
+              _isLoading
+                  ? CustomCircularProgressIndicator()
+                  : SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Container(
+                        padding: size.height > diviceSize
+                            ? EdgeInsets.only(
+                                top: 108, left: 55, right: 55, bottom: 0)
+                            : EdgeInsets.all(21),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            SingleChildScrollView(
+                              child: Container(
+                                width: size.height > diviceSize ? 650 : 400,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 20),
+                                  child: Column(
+                                    children: <Widget>[
+                                      size.height > diviceSize
+                                          ? _formField(
+                                              'Email',
+                                              650,
+                                              30,
+                                              'assets/icons/user.png',
+                                              _emailController,
+                                              false)
+                                          : _formField(
+                                              'Email',
+                                              450,
+                                              15,
+                                              'assets/icons/user.png',
+                                              _emailController,
+                                              false),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      size.height > diviceSize
+                                          ? _formField(
+                                              'Password',
+                                              650,
+                                              30,
+                                              'assets/icons/password.png',
+                                              _passwordController,
+                                              true)
+                                          : _formField(
+                                              'Password',
+                                              450,
+                                              15,
+                                              'assets/icons/password.png',
+                                              _passwordController,
+                                              true),
+                                      SizedBox(
+                                        height:
+                                            size.height > diviceSize ? 20 : 5,
+                                      ),
+                                      Container(
+                                        width: size.width,
+                                        child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
-                                            InkWell(
-                                              onTap: () {
-                                                _scaffoldKey.currentState
-                                                    .hideCurrentSnackBar();
-                                                Navigator.of(context).push(
-                                                  SlideRightRoute(
-                                                    page: ForgotPassword(),
-                                                  ),
-                                                );
-                                              },
-                                              //Forgot Password
-                                              child:
-                                                  customText(size, "Amnesia?"),
+                                            rememberMeBox(),
+                                            Padding(
+                                              padding: size.height > diviceSize
+                                                  ? const EdgeInsets.only(
+                                                      top: 18.0)
+                                                  : const EdgeInsets.only(
+                                                      top: 8.0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  if (validateField(context)) {
+                                                    _submit(context);
+                                                  }
+                                                },
+                                                child: Container(
+                                                  child: CircleAvatar(
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      radius: size.height >
+                                                              diviceSize
+                                                          ? 40
+                                                          : 30,
+                                                      child: Image.asset(
+                                                          'assets/icons/loginbubble.png')),
+                                                ),
+                                              ),
                                             ),
-                                            InkWell(
-                                              onTap: () {
-                                                _scaffoldKey.currentState
-                                                    .hideCurrentSnackBar();
-                                                Navigator.push(
-                                                  context,
-                                                  SlideRightRoute(
-                                                    page: RegistrationScreen(),
-                                                  ),
-                                                );
-                                              },
-                                              //Join
-                                              child: customText(size, "Join?"),
-                                            )
                                           ],
-                                        )
-                                      ],
-                                    ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            size.height > diviceSize ? 20 : 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          InkWell(
+                                            onTap: () {
+                                              _scaffoldKey.currentState
+                                                  .hideCurrentSnackBar();
+                                              Navigator.of(context).push(
+                                                SlideRightRoute(
+                                                  page: ForgotPassword(),
+                                                ),
+                                              );
+                                            },
+                                            //Forgot Password
+                                            child: customText(size, "Amnesia?"),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              _scaffoldKey.currentState
+                                                  .hideCurrentSnackBar();
+                                              Navigator.push(
+                                                context,
+                                                SlideRightRoute(
+                                                  page: RegistrationScreen(),
+                                                ),
+                                              );
+                                            },
+                                            //Join
+                                            child: customText(size, "Join?"),
+                                          )
+                                        ],
+                                      )
+                                    ],
                                   ),
                                 ),
                               ),
-                              BottomFirstSlider(
-                                boxSize: boxSize,
-                                size: size,
-                                deviceSize: diviceSize,
-                                controller: _scrollController,
-                                isLoading: _isLoading,
-                              ),
-                              BottomSecSlider(
-                                size: size,
-                                boxSize: boxSize,
-                                controller: _scrollController2,
-                                deviceSize: diviceSize,
-                                isLoading: _isLoading,
-                              )
-                            ],
-                          ),
+                            ),
+                            BottomFirstSlider(
+                              boxSize: boxSize,
+                              size: size,
+                              deviceSize: diviceSize,
+                              controller: _scrollController,
+                              isLoading: _isLoading,
+                            ),
+                            BottomSecSlider(
+                              size: size,
+                              boxSize: boxSize,
+                              controller: _scrollController2,
+                              deviceSize: diviceSize,
+                              isLoading: _isLoading,
+                            )
+                          ],
                         ),
                       ),
-              ],
-            ),
+                    ),
+            ],
           ),
         ),
       ),
@@ -275,28 +265,8 @@ class _LoginScreenState extends State<LoginScreen>
         controller: controller,
         style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
         obscureText: isSecure,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(
-            top: 15,
-          ),
-          hintText: lable,
-          hintStyle: TextStyle(color: Colors.amber[300], fontSize: fontSize),
-          prefixIcon: Container(
-            padding: EdgeInsets.all(8),
-            margin: EdgeInsets.only(right: 0),
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: 10,
-              child: Image.asset(image),
-            ),
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.amber),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.yellow),
-          ),
-        ),
+        decoration:
+            CustomInputDecoration.customInputDecoration(lable, fontSize, image),
       ),
     );
   }
@@ -327,11 +297,9 @@ class _LoginScreenState extends State<LoginScreen>
       final response = await Provider.of<LoginApi>(context, listen: false)
           .signIn(
               _emailController.text.trim(), _passwordController.text.trim());
-      // print(response[1]);
       final statusCode = response[0];
       int setPinScreen = response[1];
       final pinStatus = response[2];
-
       if (statusCode == 200) {
         _scaffoldKey.currentState.hideCurrentSnackBar();
         print("setpin screen  " + setPinScreen.toString());

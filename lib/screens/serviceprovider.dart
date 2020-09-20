@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ServiceProvider extends StatefulWidget {
+  static const routeName = '/serviceProvider';
   @override
   _ServiceProviderState createState() => _ServiceProviderState();
 }

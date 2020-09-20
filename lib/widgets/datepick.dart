@@ -3,8 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 
 class DatePick extends StatefulWidget {
-  String hotel;
-  String city;
+  static const roteName = '/datepicker';
+  final String hotel;
+  final String city;
   DatePick({this.hotel, this.city});
   @override
   _DatePickState createState() => _DatePickState();

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:login/API/verpinapi.dart';
 import 'package:login/screens/pickroom.dart';
+import 'package:login/widgets/custom_input_decoration.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
@@ -277,36 +278,15 @@ class _VerifyPinState extends State<VerifyPin> {
     return Container(
       width: width,
       child: TextFormField(
-        enabled: _load ? false : true,
-        inputFormatters: [LengthLimitingTextInputFormatter(4)],
-        keyboardType: TextInputType.number,
-        cursorColor: Colors.white,
-        controller: _setPinController,
-        style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
-        obscureText: true,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(
-            top: 15,
-          ),
-          hintText: lable,
-          hintStyle: TextStyle(color: Colors.amber[300], fontSize: fontSize),
-          prefixIcon: Container(
-            padding: EdgeInsets.all(8),
-            margin: EdgeInsets.only(right: 0),
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: 10,
-              child: Image.asset(image),
-            ),
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.amber),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.yellow),
-          ),
-        ),
-      ),
+          enabled: _load ? false : true,
+          inputFormatters: [LengthLimitingTextInputFormatter(4)],
+          keyboardType: TextInputType.number,
+          cursorColor: Colors.white,
+          controller: _setPinController,
+          style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
+          obscureText: true,
+          decoration: CustomInputDecoration.customInputDecoration(
+              lable, fontSize, image)),
     );
   }
 }

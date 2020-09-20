@@ -5,6 +5,7 @@ import 'package:login/widgets/pagetitle.dart';
 import 'package:provider/provider.dart';
 
 class SearchMember extends StatefulWidget {
+  static const routeName = '/searchMember';
   @override
   _SearchMemberState createState() => _SearchMemberState();
 }

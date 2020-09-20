@@ -8,6 +8,7 @@ import 'package:login/widgets/sliderightroute.dart';
 import 'package:provider/provider.dart';
 
 class AllContract extends StatelessWidget {
+  static const routeName = '/allContract';
   final divSize = 470;
 
   @override

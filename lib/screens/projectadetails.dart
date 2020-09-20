@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:login/helpers/membersprovider.dart';
+import 'package:login/screens/allcontract.dart';
 import 'package:login/screens/searchmember.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
@@ -31,7 +32,7 @@ class ProjectADetails extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed('/all-contract');
+              Navigator.of(context).pushNamed(AllContract.routeName);
             },
             child: Container(
               child: CircleAvatar(

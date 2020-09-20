@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:login/helpers/roomdetailsprovider.dart';
 import 'package:login/helpers/roomimageprovider.dart';
+import 'package:login/screens/addproject.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 import 'package:provider/provider.dart';
 
 class RoomDetails extends StatefulWidget {
+  static const routeName = '/roomDetails';
   @override
   _RoomDetailsState createState() => _RoomDetailsState();
 }
@@ -42,7 +44,7 @@ class _RoomDetailsState extends State<RoomDetails> {
               ),
             ),
             onTap: () {
-              Navigator.of(context).pushNamed('/add-project');
+              Navigator.of(context).pushNamed(AddProject.routeName);
             },
           ),
         ),

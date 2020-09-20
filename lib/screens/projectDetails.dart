@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:login/helpers/projectdetailsprovider.dart';
+import 'package:login/screens/searchmember.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 import 'package:provider/provider.dart';
 
 class ProjectDetails extends StatefulWidget {
+  static const routeName = 'projectDetails';
   @override
   _ProjectDetailsState createState() => _ProjectDetailsState();
 }
@@ -39,7 +41,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                     size: size.height > diviceSize ? 40 : 20,
                   )),
               onTap: () {
-                Navigator.of(context).pushNamed('/search-member');
+                Navigator.of(context).pushNamed(SearchMember.routeName);
               },
             ),
           ),

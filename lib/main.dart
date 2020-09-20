@@ -20,20 +20,11 @@ import 'package:login/helpers/roomimageprovider.dart';
 import 'package:login/helpers/tabiconprovider.dart';
 import 'package:login/helpers/slider/topslidericonprovider.dart';
 import 'package:login/helpers/transactionprovider.dart';
-import 'package:login/screens/addproject.dart';
-import 'package:login/screens/allcontract.dart';
-import 'package:login/screens/endcontract.dart';
-import 'package:login/screens/serviceprovider.dart';
 import 'package:login/screens/setpin.dart';
-import 'package:login/screens/settingscreen.dart';
 import 'package:login/screens/verifypin.dart';
-import 'package:login/widgets/datepick.dart';
+import 'package:login/widgets/Routes/routes.dart';
 import 'package:login/screens/loginscreen.dart';
-import 'package:login/screens/ownprofile.dart';
 import 'package:login/screens/pickroom.dart';
-import 'package:login/screens/projectDetails.dart';
-import 'package:login/screens/roomdetails.dart';
-import 'package:login/screens/searchmember.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -125,20 +116,7 @@ class _MyAppState extends State<MyApp> {
                 ? SetPin()
                 : pinstatus == 0 ? PickRoom() : VerifyPin()
             : LoginScreen(),
-        routes: {
-          '/date': (context) => DatePick(),
-          '/login': (context) => LoginScreen(),
-          '/pickroom': (context) => PickRoom(),
-          '/room-details': (context) => RoomDetails(),
-          '/add-project': (context) => AddProject(),
-          '/project-details': (context) => ProjectDetails(),
-          '/search-member': (context) => SearchMember(),
-          '/own-profile': (context) => OwnProfile(),
-          '/service-provider': (context) => ServiceProvider(),
-          '/end-contract': (context) => EndContract(),
-          '/all-contract': (context) => AllContract(),
-          '/settings': (context) => SettingScreen(),
-        },
+        routes: Routes.routes(),
       ),
     );
   }

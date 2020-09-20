@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/API/loginapi.dart';
+import 'package:login/screens/loginscreen.dart';
+import 'package:login/widgets/custom_input_decoration.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
@@ -16,8 +18,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   int diviceSize = 470;
-
-  final _formKey = GlobalKey<FormState>();
 
   TextEditingController _emailController = TextEditingController();
 
@@ -61,59 +61,53 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 15, vertical: 20),
-                                child: Form(
-                                  key: _formKey,
-                                  child: Column(
-                                    children: <Widget>[
-                                      size.height > diviceSize
-                                          ? _formField(
-                                              'Email',
-                                              650,
-                                              30,
-                                              'assets/icons/user.png',
-                                              _emailController)
-                                          : _formField(
-                                              'Email',
-                                              450,
-                                              15,
-                                              'assets/icons/user.png',
-                                              _emailController),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: size.height > diviceSize
-                                                ? const EdgeInsets.only(
-                                                    top: 18.0)
-                                                : const EdgeInsets.only(
-                                                    top: 8.0),
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                if (validateField(context)) {
-                                                  _submit(context);
-                                                }
-                                              },
-                                              child: Container(
-                                                child: CircleAvatar(
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    radius:
-                                                        size.height > diviceSize
-                                                            ? 40
-                                                            : 30,
-                                                    child: Image.asset(
-                                                        'assets/icons/loginbubble.png')),
-                                              ),
+                                child: Column(
+                                  children: <Widget>[
+                                    size.height > diviceSize
+                                        ? _formField(
+                                            'Email',
+                                            650,
+                                            30,
+                                            'assets/icons/user.png',
+                                            _emailController)
+                                        : _formField(
+                                            'Email',
+                                            450,
+                                            15,
+                                            'assets/icons/user.png',
+                                            _emailController),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: size.height > diviceSize
+                                              ? const EdgeInsets.only(top: 18.0)
+                                              : const EdgeInsets.only(top: 8.0),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              if (validateField(context)) {
+                                                _submit(context);
+                                              }
+                                            },
+                                            child: Container(
+                                              child: CircleAvatar(
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  radius:
+                                                      size.height > diviceSize
+                                                          ? 40
+                                                          : 30,
+                                                  child: Image.asset(
+                                                      'assets/icons/loginbubble.png')),
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -139,29 +133,26 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   Future<void> _submit(BuildContext context) async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      FocusScopeNode currentFocus = FocusScope.of(context);
-      if (!currentFocus.hasPrimaryFocus) {
-        currentFocus.unfocus();
-      }
-      try {
-        setState(() {
-          _load = true;
-        });
-        final response = await Provider.of<LoginApi>(context, listen: false)
-            .forgotPassword(_emailController.text.trim());
-        setState(() {
-          _load = false;
-        });
-        print(response[1]);
-        _showMyDialogMsg(response[1]);
-      } catch (error) {
-        setState(() {
-          _load = false;
-        });
-        CustomSnackBar(context, error.toString(), SnackBartype.nagetive);
-      }
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+    try {
+      setState(() {
+        _load = true;
+      });
+      final response = await Provider.of<LoginApi>(context, listen: false)
+          .forgotPassword(_emailController.text.trim());
+      setState(() {
+        _load = false;
+      });
+      print(response[1]);
+      _showMyDialogMsg(response[1]);
+    } catch (error) {
+      setState(() {
+        _load = false;
+      });
+      CustomSnackBar(context, error.toString(), SnackBartype.nagetive);
     }
   }
 
@@ -191,7 +182,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 style: TextStyle(color: Colors.amber),
               ),
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed('/login');
+                Navigator.of(context)
+                    .pushReplacementNamed(LoginScreen.routeName);
               },
             ),
           ],
@@ -210,42 +202,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return Container(
       width: width,
       child: TextFormField(
-        // validator: (value) {
-        //   if (!EmailValidator.validate(value) || value.isEmpty) {
-        //     return 'Please enter valid email';
-        //   }
-        //   return null;
-        // },
         cursorColor: Colors.white,
         controller: controller,
-        // onChanged: (value) {
-        //   setState(() {
-        //     _email = value;
-        //   });
-        // },
         style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(
-            top: 15,
-          ),
-          hintText: lable,
-          hintStyle: TextStyle(color: Colors.amber[300], fontSize: fontSize),
-          prefixIcon: Container(
-            padding: EdgeInsets.all(8),
-            margin: EdgeInsets.only(right: 0),
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: 10,
-              child: Image.asset(image),
-            ),
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.amber),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.yellow),
-          ),
-        ),
+        decoration:
+            CustomInputDecoration.customInputDecoration(lable, fontSize, image),
       ),
     );
   }

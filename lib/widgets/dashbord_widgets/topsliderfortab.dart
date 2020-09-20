@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login/helpers/slider/slidericon.dart';
+import 'package:login/screens/roomdetails.dart';
 
 import '../ease_in_widget.dart';
 
@@ -31,7 +32,7 @@ class TopSliderForTab extends StatelessWidget {
                   image: slider[i % slider.length].image,
                   secondImage: slider[i % slider.length].image,
                   onTap: () {
-                    Navigator.of(context).pushNamed('/room-details');
+                    Navigator.of(context).pushNamed(RoomDetails.routeName);
                     print("Hello");
                   })),
           itemCount: slider.length * 100,

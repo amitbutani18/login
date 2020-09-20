@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:login/screens/projectDetails.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 
 class EndContract extends StatefulWidget {
+  static const routeName = '/endContract';
   @override
   _EndContractState createState() => _EndContractState();
 }
@@ -31,7 +33,7 @@ class _EndContractState extends State<EndContract> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed('/project-details');
+              Navigator.of(context).pushNamed(ProjectDetails.routeName);
             },
             child: Container(
               child: CircleAvatar(

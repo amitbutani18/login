@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:login/screens/projectDetails.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 
 class AddProject extends StatefulWidget {
+  static const routeName = 'addProject';
   @override
   _AddProjectState createState() => _AddProjectState();
 }
@@ -417,7 +419,7 @@ class _AddProjectState extends State<AddProject> {
                                   print(_notes);
 
                                   Navigator.of(context)
-                                      .pushNamed('/project-details');
+                                      .pushNamed(ProjectDetails.routeName);
                                 },
                               ),
                             ),

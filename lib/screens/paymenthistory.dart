@@ -4,7 +4,9 @@ import 'package:login/helpers/slider/bottomdownsliderprovider.dart';
 import 'package:login/helpers/slider/bottomupsliderprovider.dart';
 import 'package:login/helpers/membersprovider.dart';
 import 'package:login/helpers/transactionprovider.dart';
+import 'package:login/screens/projectDetails.dart';
 import 'package:login/screens/searchmember.dart';
+import 'package:login/screens/serviceprovider.dart';
 import 'package:login/widgets/ease_in_widget.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:provider/provider.dart';
@@ -177,7 +179,8 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushNamed('/project-details');
+                          Navigator.of(context)
+                              .pushNamed(ProjectDetails.routeName);
                         },
                         child: Container(
                           child: CircleAvatar(
@@ -356,7 +359,8 @@ class TitleBar extends StatelessWidget {
           ),
         ),
         GestureDetector(
-          onTap: () => Navigator.of(context).pushNamed('/service-provider'),
+          onTap: () =>
+              Navigator.of(context).pushNamed(ServiceProvider.routeName),
           child: CircleAvatar(
             radius: size.height > divSize ? 20 : 10,
             backgroundColor: Colors.transparent,

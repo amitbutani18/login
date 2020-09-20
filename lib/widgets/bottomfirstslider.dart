@@ -61,8 +61,6 @@ class _BottomFirstSliderState extends State<BottomFirstSlider> {
                 padding: widget.size.height > widget.deviceSize
                     ? EdgeInsets.symmetric(horizontal: 25)
                     : const EdgeInsets.symmetric(horizontal: 0),
-                // child: ScaleTransition(
-                //   scale: _easeInAnimation,
                 child: EaseInWidget(
                     radius: 30,
                     image: bottomUpSlider[i % bottomUpSlider.length].image,
@@ -72,7 +70,6 @@ class _BottomFirstSliderState extends State<BottomFirstSlider> {
                       print(bottomUpSlider[i % bottomUpSlider.length].image);
                       _scroll(widget.controller);
                     }),
-                // ),
               ),
             ],
           ),

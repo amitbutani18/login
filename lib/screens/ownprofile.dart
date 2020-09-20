@@ -13,6 +13,7 @@ import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OwnProfile extends StatefulWidget {
+  static const routeName = '/ownProfile';
   @override
   _OwnProfileState createState() => _OwnProfileState();
 }

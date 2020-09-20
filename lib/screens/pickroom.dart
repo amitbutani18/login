@@ -21,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
 class PickRoom extends StatefulWidget {
+  static const routeName = '/dashbord';
   @override
   _PickRoomState createState() => _PickRoomState();
 }
@@ -157,149 +158,167 @@ class _PickRoomState extends State<PickRoom> {
               ? CustomCircularProgressIndicator()
               : SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20.0, left: 18, right: 18),
-                        child: dashbordAppBar(size, slider, context),
-                      ),
-                      size.height > divSize
-                          ? TopSliderForTab(
-                              size: size, divSize: divSize, slider: slider)
-                          : Container(),
-                      size.height > divSize
-                          ? SizedBox(
-                              height: 10,
-                            )
-                          : Container(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          //LeftSlider
-                          leftRightSericesSlider(
-                            size,
-                            divSize,
-                            _scrollController4,
-                            rightSlider,
+                  child: Container(
+                    height: size.height,
+                    width: size.width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 20.0, left: 18, right: 18),
+                            child: dashbordAppBar(size, slider, context),
                           ),
-                          Column(
+                        ),
+                        size.height > divSize
+                            ? TopSliderForTab(
+                                size: size, divSize: divSize, slider: slider)
+                            : Container(),
+                        size.height > divSize
+                            ? SizedBox(
+                                height: 10,
+                              )
+                            : Container(),
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              //Services
-                              Padding(
-                                padding: size.height > divSize
-                                    ? const EdgeInsets.only(top: 48.0)
-                                    : const EdgeInsets.only(top: 18.0),
-                                child: size.height > divSize
-                                    ? _formField('What', 650, 30,
-                                        'assets/icons/What.png')
-                                    : _formField('What', 450, 18,
-                                        'assets/icons/What.png'),
+                              //LeftSlider
+                              leftRightSericesSlider(
+                                size,
+                                divSize,
+                                _scrollController4,
+                                rightSlider,
                               ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  //CityList
-                                  !_whatSelect
-                                      ? Container()
-                                      : Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 18.0),
-                                          child: size.height > divSize
-                                              ? _formField('Where', 350, 30,
-                                                  'assets/icons/Where.png')
-                                              : FutureBuilder(
-                                                  future: Provider.of<CityList>(
-                                                          context)
-                                                      .fetchCity(),
-                                                  builder: (context, snap) =>
-                                                      GestureDetector(
-                                                    onTap: () =>
-                                                        _showMyDialog(cityList),
-                                                    child: _formField(
-                                                        'Where',
-                                                        230,
-                                                        18,
-                                                        'assets/icons/Where.png'),
-                                                  ),
-                                                ),
-                                        ),
-                                  SizedBox(
-                                    width: 20,
+                                  //Services
+                                  Padding(
+                                    padding: size.height > divSize
+                                        ? const EdgeInsets.only(top: 48.0)
+                                        : const EdgeInsets.only(top: 18.0),
+                                    child: size.height > divSize
+                                        ? _formField('What', 650, 30,
+                                            'assets/icons/What.png')
+                                        : _formField('What', 450, 18,
+                                            'assets/icons/What.png'),
                                   ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget>[
+                                      //CityList
+                                      !_whatSelect
+                                          ? Container()
+                                          : Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 18.0),
+                                              child: size.height > divSize
+                                                  ? _formField('Where', 350, 30,
+                                                      'assets/icons/Where.png')
+                                                  : FutureBuilder(
+                                                      future:
+                                                          Provider.of<CityList>(
+                                                                  context)
+                                                              .fetchCity(),
+                                                      builder:
+                                                          (context, snap) =>
+                                                              GestureDetector(
+                                                        onTap: () =>
+                                                            _showMyDialog(
+                                                                cityList),
+                                                        child: _formField(
+                                                            'Where',
+                                                            230,
+                                                            18,
+                                                            'assets/icons/Where.png'),
+                                                      ),
+                                                    ),
+                                            ),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
 
-                                  //DatePicker
-                                  !_whereSelect
-                                      ? Container(
-                                          height: 65,
-                                        )
-                                      : DatePick(
-                                          hotel: _hotelValue,
-                                          city: _location,
+                                      //DatePicker
+                                      !_whereSelect
+                                          ? Container(
+                                              height: 65,
+                                            )
+                                          : DatePick(
+                                              hotel: _hotelValue,
+                                              city: _location,
+                                            ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: size.height > divSize ? 30 : 10,
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Colors.amber[300],
                                         ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: size.height > divSize ? 30 : 10,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: Colors.amber[300],
+                                      ),
+                                    ),
+                                    child: Text(
+                                      "Hotels",
+                                      style: TextStyle(
+                                          fontSize:
+                                              size.height > divSize ? 22 : 15,
+                                          color: Colors.white54,
+                                          letterSpacing: 1),
                                     ),
                                   ),
-                                ),
-                                child: Text(
-                                  "Hotels",
-                                  style: TextStyle(
-                                      fontSize: size.height > divSize ? 22 : 15,
-                                      color: Colors.white54,
-                                      letterSpacing: 1),
-                                ),
+
+                                  //HotelsList
+                                  size.height > divSize
+                                      ? hotelsListForTab(imageUrl)
+                                      : hotelsListForMobile(imageUrl),
+                                ],
                               ),
 
-                              //HotelsList
-                              size.height > divSize
-                                  ? hotelsListForTab(imageUrl)
-                                  : hotelsListForMobile(imageUrl),
+                              //RightSlider
+                              leftRightSericesSlider(
+                                size,
+                                divSize,
+                                _scrollController3,
+                                leftSlider,
+                              )
                             ],
                           ),
-
-                          //RightSlider
-                          leftRightSericesSlider(
-                            size,
-                            divSize,
-                            _scrollController3,
-                            leftSlider,
-                          )
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                        child: BottomFirstSlider(
-                          size: size,
-                          boxSize: 40.0,
-                          controller: _scrollController,
-                          deviceSize: divSize,
-                          isLoading: _isLoading,
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                        child: BottomSecSlider(
-                          size: size,
-                          boxSize: 40.0,
-                          controller: _scrollController2,
-                          deviceSize: divSize,
-                          isLoading: _isLoading,
+                        Container(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(left: 30.0, right: 30.0),
+                            child: BottomFirstSlider(
+                              size: size,
+                              boxSize: 40.0,
+                              controller: _scrollController,
+                              deviceSize: divSize,
+                              isLoading: _isLoading,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(left: 30.0, right: 30.0),
+                            child: BottomSecSlider(
+                              size: size,
+                              boxSize: 40.0,
+                              controller: _scrollController2,
+                              deviceSize: divSize,
+                              isLoading: _isLoading,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
         ],

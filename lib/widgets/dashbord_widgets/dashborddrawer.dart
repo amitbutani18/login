@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:login/API/logout.dart';
+import 'package:login/screens/loginscreen.dart';
+import 'package:login/screens/ownprofile.dart';
+import 'package:login/screens/settingscreen.dart';
 import 'package:provider/provider.dart';
 
 class DashbordDrawer extends StatelessWidget {
@@ -17,7 +20,7 @@ class DashbordDrawer extends StatelessWidget {
         GestureDetector(
           onTap: () async {
             Navigator.of(context).pop();
-            Navigator.of(context).pushNamed('/own-profile');
+            Navigator.of(context).pushNamed(OwnProfile.routeName);
           },
           child: Container(
             padding: EdgeInsets.all(8),
@@ -34,7 +37,7 @@ class DashbordDrawer extends StatelessWidget {
           icon: Icon(Icons.settings),
           onPressed: () async {
             Navigator.of(context).pop();
-            Navigator.of(context).pushNamed('/settings');
+            Navigator.of(context).pushNamed(SettingScreen.routeName);
           },
         ),
         GestureDetector(
@@ -79,7 +82,8 @@ class DashbordDrawer extends StatelessWidget {
               onTap: () async {
                 await Provider.of<LogOut>(context, listen: false).logOut();
                 Navigator.of(context).pop();
-                Navigator.of(context).pushReplacementNamed('/login');
+                Navigator.of(context)
+                    .pushReplacementNamed(LoginScreen.routeName);
               },
               child: Container(
                 child: CircleAvatar(
