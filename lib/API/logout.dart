@@ -5,8 +5,7 @@ class LogOut with ChangeNotifier {
   Future<void> logOut() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setBool('login', false);
-    sharedPreferences.setString('name', '');
-    sharedPreferences.setString('email', '');
-    print(sharedPreferences.getBool('login'));
+    sharedPreferences.clear();
+    sharedPreferences.setString('api', "http://3.15.39.127:3000/API/");
   }
 }

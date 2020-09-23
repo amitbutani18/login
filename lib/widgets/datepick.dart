@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
+import 'package:login/helpers/constant.dart' as Constant;
 
 class DatePick extends StatefulWidget {
   static const roteName = '/datepicker';
@@ -31,7 +32,7 @@ class _DatePickState extends State<DatePick> {
                 backgroundColor: Color.fromRGBO(201, 163, 66, 1),
                 buttonTheme: ButtonThemeData(
                   colorScheme: Theme.of(context).colorScheme.copyWith(
-                        primary: Colors.amber,
+                        primary: Constant.primaryColor,
                       ),
                 ),
               ),
@@ -99,7 +100,7 @@ class _DatePickState extends State<DatePick> {
                                     : '${DateFormat("dd-MMM").format(_firstDate)} | ${DateFormat("dd-MMM-yyyy").format(_lastDate)}',
                             style: TextStyle(
                                 fontSize: size.height > divSize ? 20 : 14,
-                                color: Colors.amber),
+                                color: Constant.primaryColor),
                           ),
                         ),
                       ],

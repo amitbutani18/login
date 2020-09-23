@@ -9,6 +9,7 @@ import 'package:login/widgets/pagetitle.dart';
 import 'package:flutter/cupertino.dart' as ios;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:login/helpers/constant.dart' as Constant;
 
 class SettingScreen extends StatefulWidget {
   static const routeName = '/settings';
@@ -84,7 +85,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                     Text(
                                       "Security Pin Status",
                                       style: TextStyle(
-                                        color: Colors.yellow[300],
+                                        color: Constant.primaryColor,
                                         fontSize: 15,
                                       ),
                                     ),
@@ -139,7 +140,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                   Text(
                                     "FingerPrint Security Status",
                                     style: TextStyle(
-                                      color: Colors.yellow[300],
+                                      color: Constant.primaryColor,
                                       fontSize: 15,
                                     ),
                                   ),
@@ -224,7 +225,7 @@ class _SettingScreenState extends State<SettingScreen> {
     final api = sharedPreferences.getString('api');
     final userId = sharedPreferences.getString('userid');
     final response = await http.post(
-      '${api}securitystatus',
+      '${Constant.apiLink}securitystatus',
       headers: {"Content-Type": "application/json"},
       body: json.encode(
         {

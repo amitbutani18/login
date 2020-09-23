@@ -7,9 +7,11 @@ import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 import 'package:login/widgets/validation.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 import 'package:provider/provider.dart';
 
 class ForgotPassword extends StatefulWidget {
+  static const roteName = '/forgotPassowrd';
   @override
   _ForgotPasswordState createState() => _ForgotPasswordState();
 }
@@ -179,7 +181,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             FlatButton(
               child: Text(
                 'OK',
-                style: TextStyle(color: Colors.amber),
+                style: TextStyle(color: Constant.primaryColor),
               ),
               onPressed: () {
                 Navigator.of(context)
@@ -204,7 +206,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       child: TextFormField(
         cursorColor: Colors.white,
         controller: controller,
-        style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
+        style: TextStyle(color: Constant.primaryColor, fontSize: fontSize),
         decoration:
             CustomInputDecoration.customInputDecoration(lable, fontSize, image),
       ),

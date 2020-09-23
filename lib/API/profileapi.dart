@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class ProfileModal {
   String id;
@@ -18,6 +19,11 @@ class ProfileModal {
   String cardexpirydate;
   String dailycharge;
   String occupation;
+  String serviceproviderid;
+  String aboutus;
+  String workinghistory;
+  List<Map<String, dynamic>> otherlink;
+  String companyname;
 
   ProfileModal({
     this.id,
@@ -32,6 +38,11 @@ class ProfileModal {
     this.cardexpirydate,
     this.dailycharge,
     this.occupation,
+    this.serviceproviderid,
+    this.aboutus,
+    this.companyname,
+    this.otherlink,
+    this.workinghistory,
   });
 
   ProfileModal.fromJson(Map<String, dynamic> json) {
@@ -39,8 +50,8 @@ class ProfileModal {
     id = json['_id'];
     name = json['name'];
     profileimg = json['profileimg'];
-    youtube = json['youtube'];
-    linkdin = json['linkdin'];
+    youtube = json['youtube'] == '' ? 'WWW.YOUTUBE.COM' : json['youtube'];
+    linkdin = json['linkdin'] == '' ? 'WWW.LINKEDIN.COM' : json['linkdin'];
     location = json['location'];
     creditcard = json['creditcard'];
     cardcvv = json['cardcvv'];
@@ -48,6 +59,15 @@ class ProfileModal {
     cardexpirydate = json['cardexpirydate'];
     dailycharge = json['dailycharge'];
     occupation = json['occupation'] == null ? '' : json['occupation'];
+    serviceproviderid = json['serviceproviderid'];
+    aboutus = json['aboutus'];
+    workinghistory = json['workinghistory'];
+    companyname = json['companyname'];
+    otherlink = [
+      {'title': 'hello', 'link': 'www.fff.fff'},
+      {'title': 'google', 'link': 'www.fff.fff'},
+      {'title': 'mad', 'link': 'www.fff.fff'},
+    ];
   }
 
   Map<String, dynamic> toJson() {
@@ -64,16 +84,17 @@ class ProfileModal {
     json['cardexpirydate'] = this.cardexpirydate;
     json['dailycharge'] = this.dailycharge;
     json['occupation'] = this.occupation;
+    json['serviceproviderid'] = this.serviceproviderid;
     return json;
   }
 }
 
 class ProfileApi with ChangeNotifier {
   Future<ProfileModal> getProfile() async {
+    print(Constant.abc);
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final api = sharedPreferences.getString('api');
     final userId = sharedPreferences.getString('userid');
-    final response = await http.post('${api}getprofile',
+    final response = await http.post('${Constant.apiLink}getprofile',
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "userid": userId,
@@ -109,13 +130,12 @@ class ProfileApi with ChangeNotifier {
     String dailyCharge,
   ) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final api = sharedPreferences.getString('api');
     final userId = sharedPreferences.getString('userid');
     final bytes = File(image.path).readAsBytesSync();
     String img64 = base64Encode(bytes);
     print(img64);
     final response = await http.post(
-      '${api}updateprofile',
+      '${Constant.apiLink}updateprofile',
       headers: {"Content-Type": "application/x-www-form-urlencoded"},
       body: {
         "userid": userId,
@@ -160,7 +180,6 @@ class ProfileApi with ChangeNotifier {
     String dailyCharge,
   ) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final api = sharedPreferences.getString('api');
     final userId = sharedPreferences.getString('userid');
     print(name);
     print(ytLink);
@@ -174,7 +193,7 @@ class ProfileApi with ChangeNotifier {
     print(dailyCharge);
 
     final response = await http.post(
-      '${api}updateprofile',
+      '${Constant.apiLink}updateprofile',
       headers: {"Content-Type": "application/x-www-form-urlencoded"},
       body: {
         "userid": userId,

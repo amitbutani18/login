@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:login/helpers/constant.dart' as Constant;
 
 class SetPinApi with ChangeNotifier {
   Future<int> setPin(int pin) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final api = sharedPreferences.getString('api');
     final userId = sharedPreferences.getString('userid');
     final response = await http.post(
-      '${api}setpin',
+      '${Constant.apiLink}setpin',
       headers: {"Content-Type": "application/json"},
       body: json.encode(
         {

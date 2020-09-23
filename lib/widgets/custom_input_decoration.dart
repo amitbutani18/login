@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class CustomInputDecoration {
   static InputDecoration customInputDecoration(
@@ -11,7 +12,7 @@ class CustomInputDecoration {
         top: 15,
       ),
       hintText: lable,
-      hintStyle: TextStyle(color: Colors.amber[300], fontSize: fontSize),
+      hintStyle: TextStyle(color: Constant.primaryColor, fontSize: fontSize),
       prefixIcon: Container(
         padding: EdgeInsets.all(8),
         margin: EdgeInsets.only(right: 0),
@@ -22,10 +23,10 @@ class CustomInputDecoration {
         ),
       ),
       enabledBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.amber),
+        borderSide: BorderSide(color: Constant.primaryColor),
       ),
       focusedBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.yellow),
+        borderSide: BorderSide(color: Constant.primaryColor),
       ),
     );
   }

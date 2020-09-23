@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:login/API/profileapi.dart';
+import 'package:login/helpers/slider/link_provider.dart';
 import 'package:login/screens/ownprofile.dart';
 import 'package:login/widgets/cardmonthinputformatter.dart';
 import 'package:login/widgets/cardnumberinputformateer.dart';
@@ -12,6 +13,7 @@ import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:provider/provider.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class EditProfile extends StatefulWidget {
   final ProfileModal objProfileModal;
@@ -24,9 +26,14 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   var diviceSize = 470;
 
-  TextEditingController _nameController;
-  TextEditingController _ytLinkController;
-  TextEditingController _linkedinController;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  TextEditingController _fstNameController;
+  TextEditingController _lastNameController;
+  TextEditingController _companyNameController;
+  TextEditingController _emailController;
+  TextEditingController _aboutUSController;
+  TextEditingController _workingHistoryController;
   TextEditingController _locationController;
   TextEditingController _creditController;
   TextEditingController _occuptionController;
@@ -34,6 +41,10 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _pinController;
   TextEditingController _dailyChargeController;
   TextEditingController _dateChangeController;
+  TextEditingController _youtubeController;
+  TextEditingController _linkedinController;
+  List<TextEditingController> titleController = [];
+  List<TextEditingController> linkController = [];
 
   String _initialImage;
 
@@ -42,16 +53,19 @@ class _EditProfileState extends State<EditProfile> {
   bool _isinit = true;
   bool _isLoad = false;
 
+  List<ULink> data = [], newList = [];
+  int _length;
+
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
     if (_isinit) {
       print("Initial Value");
-      _nameController =
+      _fstNameController =
           TextEditingController(text: widget.objProfileModal.name);
-      _ytLinkController =
+      _lastNameController =
           TextEditingController(text: widget.objProfileModal.youtube);
-      _linkedinController =
+      _companyNameController =
           TextEditingController(text: widget.objProfileModal.linkdin);
       _locationController =
           TextEditingController(text: widget.objProfileModal.location);
@@ -67,16 +81,69 @@ class _EditProfileState extends State<EditProfile> {
           TextEditingController(text: widget.objProfileModal.dailycharge);
       _dateChangeController =
           TextEditingController(text: widget.objProfileModal.cardexpirydate);
+      _emailController = TextEditingController(text: '');
+      _aboutUSController = TextEditingController(text: '');
+      _workingHistoryController = TextEditingController(text: '');
+      _youtubeController =
+          TextEditingController(text: widget.objProfileModal.youtube);
+      _linkedinController =
+          TextEditingController(text: widget.objProfileModal.linkdin);
       _initialImage = widget.objProfileModal.profileimg;
+      final listList = Provider.of<LinkProvider>(context, listen: false).items;
+      data = listList;
+      _length = data.length;
     }
     _isinit = false;
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _fstNameController.dispose();
+    _lastNameController.dispose();
+    _companyNameController.dispose();
+    _emailController.dispose();
+    _aboutUSController.dispose();
+    _workingHistoryController.dispose();
+    _locationController.dispose();
+    _creditController.dispose();
+    _occuptionController.dispose();
+    _cvvController.dispose();
+    _pinController.dispose();
+    _dailyChargeController.dispose();
+    _dateChangeController.dispose();
+    for (var i = 0; i < data.length; i++) {
+      titleController[i].dispose();
+      linkController[i].dispose();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    final links = Provider.of<LinkProvider>(context).items;
+    var lenght = links.length;
+
+    List<Widget> children = List.generate(data.length, (int i) {
+      // print(" New Add $i " + data[i].title);
+      if (data[i].init == false) {
+        titleController.add(
+          TextEditingController(
+            text: _length < i ? '' : data[i].title,
+          ),
+        );
+        linkController.add(TextEditingController(text: data[i].link));
+        data[i].init = true;
+      }
+      // print("t $i " + titleController[i].text);
+      return customLink(
+        data[i],
+        i,
+      );
+    });
 
     return Scaffold(
+      key: _scaffoldKey,
       floatingActionButton: Builder(
         builder: (context) => Row(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -154,7 +221,7 @@ class _EditProfileState extends State<EditProfile> {
                                       child: Text(
                                         "Edit Profile",
                                         style: TextStyle(
-                                          color: Colors.amber[300],
+                                          color: Constant.primaryColor,
                                           fontSize: size.height > diviceSize
                                               ? 40
                                               : 22,
@@ -189,7 +256,8 @@ class _EditProfileState extends State<EditProfile> {
                                                 : 50,
                                             backgroundColor: Colors.transparent,
                                             backgroundImage: _image == null
-                                                ? _initialImage == ''
+                                                ? _initialImage == '' ||
+                                                        _initialImage == null
                                                     ? AssetImage(
                                                         'assets/images/profileimage.png')
                                                     : NetworkImage(
@@ -217,31 +285,31 @@ class _EditProfileState extends State<EditProfile> {
                                             size.width / 2 - 42,
                                             30,
                                             'assets/icons/Usericon.png',
-                                            _nameController,
+                                            _fstNameController,
                                           )
                                         : _formField(
                                             'Name',
                                             size.width / 2 - 42,
                                             15,
                                             'assets/icons/Usericon.png',
-                                            _nameController,
+                                            _fstNameController,
                                           ),
                                     SizedBox(
                                       width: 12,
                                     ),
                                     size.height > diviceSize
                                         ? _formField(
-                                            'Youtube Link(optional)',
+                                            'Last Name',
                                             size.width / 2 - 42,
                                             30,
-                                            'assets/icons/Lickicon.png',
-                                            _ytLinkController)
+                                            'assets/icons/Usericon.png',
+                                            _lastNameController)
                                         : _formField(
-                                            'Youtube Link(optional)',
+                                            'Last Name',
                                             size.width / 2 - 42,
                                             15,
-                                            'assets/icons/Lickicon.png',
-                                            _ytLinkController),
+                                            'assets/icons/Usericon.png',
+                                            _lastNameController),
                                   ],
                                 ),
                                 SizedBox(
@@ -249,22 +317,24 @@ class _EditProfileState extends State<EditProfile> {
                                 ),
                                 Row(
                                   children: [
+                                    //Company Name
                                     size.height > diviceSize
                                         ? _formField(
-                                            'Linkedin(optional)',
+                                            'Company Name',
                                             size.width / 2 - 42,
                                             30,
-                                            'assets/icons/Lickicon.png',
-                                            _linkedinController)
+                                            'assets/icons/Company.png',
+                                            _companyNameController)
                                         : _formField(
-                                            'Linkedin(optional)',
+                                            'Company Name',
                                             size.width / 2 - 42,
                                             15,
-                                            'assets/icons/Lickicon.png',
-                                            _linkedinController),
+                                            'assets/icons/Company.png',
+                                            _companyNameController),
                                     SizedBox(
                                       width: 12,
                                     ),
+                                    //Location
                                     size.height > diviceSize
                                         ? _formField(
                                             'Location',
@@ -285,23 +355,232 @@ class _EditProfileState extends State<EditProfile> {
                                 SizedBox(height: 20),
                                 Row(
                                   children: [
+                                    //Email
+                                    size.height > diviceSize
+                                        ? _formField(
+                                            'Email',
+                                            size.width / 2 - 42,
+                                            30,
+                                            'assets/icons/mail.png',
+                                            _emailController)
+                                        : _formField(
+                                            'Email',
+                                            size.width / 2 - 42,
+                                            15,
+                                            'assets/icons/mail.png',
+                                            _emailController),
+                                    SizedBox(
+                                      width: 12,
+                                    ),
+                                    //Occupation
                                     size.height > diviceSize
                                         ? _formField(
                                             'Occuption',
                                             size.width / 2 - 42,
                                             30,
-                                            'assets/icons/Lickicon.png',
+                                            'assets/icons/Profession.png',
                                             _occuptionController)
                                         : _formField(
                                             'Occuption',
                                             size.width / 2 - 42,
                                             15,
-                                            'assets/icons/Lickicon.png',
+                                            'assets/icons/Profession.png',
                                             _occuptionController),
                                   ],
                                 ),
                                 SizedBox(
                                   height: 20,
+                                ),
+                                //About Us
+                                _formFieldForAbout(
+                                    'About Us',
+                                    size.width - 42,
+                                    15,
+                                    'assets/icons/About-Us.png',
+                                    _aboutUSController),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                //Working History
+                                _formFieldForAbout(
+                                    'Working History',
+                                    size.width - 42,
+                                    15,
+                                    'assets/icons/Work_History.png',
+                                    _workingHistoryController),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Links",
+                                      style: TextStyle(
+                                          color: Constant.primaryColor,
+                                          fontSize: size.height > diviceSize
+                                              ? 20
+                                              : 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          data.add(ULink(
+                                              title: '',
+                                              link: '',
+                                              init: false));
+                                        });
+                                        print(lenght);
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(0),
+                                        margin: EdgeInsets.only(right: 0),
+                                        child: CircleAvatar(
+                                          backgroundColor: Colors.transparent,
+                                          radius: 15,
+                                          child: Image.asset(
+                                              'assets/icons/AddLink.png'),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Container(
+                                    height: 100,
+                                    width: size.width,
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            height: 100,
+                                            width: size.width / 2 - 42,
+                                            child: Column(
+                                              children: [
+                                                TextFormField(
+                                                  // key: ValueKey('t$i'),
+                                                  // initialValue: 'abcd',
+                                                  enabled: false,
+                                                  decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
+                                                        borderSide:
+                                                            BorderSide.none),
+                                                    hintText: 'Youtube',
+                                                    hintStyle: TextStyle(
+                                                        color: Constant
+                                                            .primaryColor,
+                                                        fontSize: 10),
+                                                    isDense: true, // Added this
+                                                    contentPadding:
+                                                        EdgeInsets.all(
+                                                            8), // Added this
+                                                  ),
+                                                  style: TextStyle(
+                                                      color:
+                                                          Constant.primaryColor,
+                                                      fontSize: 10),
+                                                ),
+                                                TextField(
+                                                  // key: ValueKey('l$i'),
+                                                  controller:
+                                                      _youtubeController,
+                                                  style: TextStyle(
+                                                      color: Colors.white54,
+                                                      fontSize: 15),
+                                                  decoration: InputDecoration(
+                                                      filled: true,
+                                                      isDense: true,
+                                                      border:
+                                                          OutlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide
+                                                                      .none),
+                                                      hintText: "Enter Link",
+                                                      hintStyle: TextStyle(
+                                                          color:
+                                                              Colors.white54),
+                                                      fillColor:
+                                                          Colors.grey[850],
+                                                      contentPadding:
+                                                          EdgeInsets.all(10)),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 100,
+                                            width: size.width / 2 - 42,
+                                            child: Column(
+                                              children: [
+                                                TextFormField(
+                                                  // key: ValueKey('t$i'),
+                                                  // initialValue: 'abcd',
+
+                                                  decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
+                                                        borderSide:
+                                                            BorderSide.none),
+                                                    hintText: 'Linkedin',
+                                                    hintStyle: TextStyle(
+                                                        color: Constant
+                                                            .primaryColor,
+                                                        fontSize: 10),
+                                                    isDense: true, // Added this
+                                                    contentPadding:
+                                                        EdgeInsets.all(
+                                                            8), // Added this
+                                                  ),
+                                                  style: TextStyle(
+                                                      color:
+                                                          Constant.primaryColor,
+                                                      fontSize: 10),
+                                                ),
+                                                TextField(
+                                                  // key: ValueKey('l$i'),
+                                                  controller:
+                                                      _linkedinController,
+                                                  style: TextStyle(
+                                                      color: Colors.white54,
+                                                      fontSize: 15),
+                                                  decoration: InputDecoration(
+                                                      filled: true,
+                                                      isDense: true,
+                                                      border:
+                                                          OutlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide
+                                                                      .none),
+                                                      hintText: "Enter Link",
+                                                      hintStyle: TextStyle(
+                                                          color:
+                                                              Colors.white54),
+                                                      fillColor:
+                                                          Colors.grey[850],
+                                                      contentPadding:
+                                                          EdgeInsets.all(10)),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ])),
+                                LimitedBox(
+                                  maxHeight: 1000,
+                                  child: GridView(
+                                    padding: EdgeInsets.only(top: 0),
+                                    physics: BouncingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            // maxCrossAxisExtent: 200,
+                                            childAspectRatio: 0.7 / 0.15,
+                                            crossAxisSpacing: 10,
+                                            mainAxisSpacing: 0,
+                                            crossAxisCount: 2),
+                                    children: children,
+                                  ),
                                 ),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -309,7 +588,7 @@ class _EditProfileState extends State<EditProfile> {
                                     Text(
                                       "Credit Card Details",
                                       style: TextStyle(
-                                          color: Colors.amber[300],
+                                          color: Constant.primaryColor,
                                           fontSize: size.height > diviceSize
                                               ? 20
                                               : 20,
@@ -325,13 +604,13 @@ class _EditProfileState extends State<EditProfile> {
                                             'Credit card number',
                                             size.width / 2 - 42,
                                             30,
-                                            'assets/icons/Lickicon.png',
+                                            'assets/icons/Credit-Card.png',
                                             _creditController)
                                         : _formField(
                                             'Credit card number',
                                             size.width / 2 - 42,
                                             15,
-                                            'assets/icons/Lickicon.png',
+                                            'assets/icons/Credit-Card.png',
                                             _creditController),
                                     SizedBox(
                                       width: 12,
@@ -341,14 +620,14 @@ class _EditProfileState extends State<EditProfile> {
                                             'CVV',
                                             size.width / 2 - 42,
                                             30,
-                                            'assets/icons/password.png',
+                                            'assets/icons/cvv.png',
                                             _cvvController,
                                           )
                                         : _formField(
                                             'CVV',
                                             size.width / 2 - 42,
                                             15,
-                                            'assets/icons/password.png',
+                                            'assets/icons/cvv.png',
                                             _cvvController,
                                           ),
                                   ],
@@ -384,7 +663,7 @@ class _EditProfileState extends State<EditProfile> {
                                     Text(
                                       "Daily Charge",
                                       style: TextStyle(
-                                          color: Colors.amber[300],
+                                          color: Constant.primaryColor,
                                           fontSize: size.height > diviceSize
                                               ? 20
                                               : 20,
@@ -400,14 +679,14 @@ class _EditProfileState extends State<EditProfile> {
                                             'Daily Charge',
                                             size.width / 2 - 42,
                                             30,
-                                            'assets/icons/calender.png',
+                                            'assets/icons/Dollar.png',
                                             _dailyChargeController,
                                           )
                                         : _formField(
                                             'Daily Charge',
                                             size.width / 2 - 42,
                                             15,
-                                            'assets/icons/calender.png',
+                                            'assets/icons/Dollar.png',
                                             _dailyChargeController,
                                           ),
                                   ],
@@ -437,27 +716,27 @@ class _EditProfileState extends State<EditProfile> {
           new LengthLimitingTextInputFormatter(4),
           CardMonthInputFormatter()
         ],
-        style: TextStyle(color: Colors.yellow[300], fontSize: 15),
+        style: TextStyle(color: Constant.primaryColor, fontSize: 15),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(
             top: 15,
           ),
           hintText: "MM / YY",
-          hintStyle: TextStyle(color: Colors.amber[300], fontSize: 15),
+          hintStyle: TextStyle(color: Constant.primaryColor, fontSize: 15),
           prefixIcon: Container(
             padding: EdgeInsets.all(8),
             margin: EdgeInsets.only(right: 0),
             child: CircleAvatar(
               backgroundColor: Colors.transparent,
               radius: 10,
-              child: Image.asset("assets/icons/password.png"),
+              child: Image.asset("assets/icons/Expiration-Date.png"),
             ),
           ),
           enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.amber),
+            borderSide: BorderSide(color: Constant.primaryColor),
           ),
           focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.yellow),
+            borderSide: BorderSide(color: Constant.primaryColor),
           ),
         ),
       ),
@@ -489,9 +768,49 @@ class _EditProfileState extends State<EditProfile> {
               ? TextInputType.number
               : TextInputType.text,
           controller: controller,
-          style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
+          style: TextStyle(color: Constant.primaryColor, fontSize: fontSize),
           decoration: CustomInputDecoration.customInputDecoration(
               lable, fontSize, image)),
+    );
+  }
+
+  Widget _formFieldForAbout(
+    String lable,
+    double width,
+    double fontSize,
+    String image,
+    TextEditingController controller,
+  ) {
+    return Container(
+      width: width,
+      child: TextFormField(
+        keyboardType: TextInputType.multiline,
+        maxLines: null,
+        textAlignVertical: TextAlignVertical.center,
+        controller: controller,
+        style: TextStyle(color: Constant.primaryColor, fontSize: fontSize),
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.only(top: 15, bottom: 15),
+          hintText: lable,
+          hintStyle:
+              TextStyle(color: Constant.primaryColor, fontSize: fontSize),
+          prefixIcon: Container(
+            padding: EdgeInsets.all(8),
+            margin: EdgeInsets.only(right: 0),
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: 10,
+              child: Image.asset(image),
+            ),
+          ),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Constant.primaryColor),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Constant.primaryColor),
+          ),
+        ),
+      ),
     );
   }
 
@@ -520,13 +839,49 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   bool validateField(BuildContext context) {
-    if (_nameController.text.isEmpty) {
+    if (_fstNameController.text.isEmpty) {
       CustomSnackBar(
           context, 'Username must be not empty', SnackBartype.nagetive);
       return false;
     } else {
       return true;
     }
+  }
+
+  Widget customLink(
+    ULink data,
+    int i,
+  ) {
+    return Column(
+      children: [
+        TextFormField(
+          // key: ValueKey('t$i'),
+          // initialValue: 'abcd',
+          controller: titleController[i],
+          decoration: InputDecoration(
+            border: OutlineInputBorder(borderSide: BorderSide.none),
+            hintText: 'Link Name',
+            hintStyle: TextStyle(color: Colors.grey, fontSize: 10),
+            isDense: true, // Added this
+            contentPadding: EdgeInsets.all(8), // Added this
+          ),
+          style: TextStyle(color: Constant.primaryColor, fontSize: 10),
+        ),
+        TextField(
+          // key: ValueKey('l$i'),
+          controller: linkController[i],
+          style: TextStyle(color: Colors.white54, fontSize: 15),
+          decoration: InputDecoration(
+              filled: true,
+              isDense: true,
+              border: OutlineInputBorder(borderSide: BorderSide.none),
+              hintText: "Enter Link",
+              hintStyle: TextStyle(color: Colors.white54),
+              fillColor: Colors.grey[850],
+              contentPadding: EdgeInsets.all(10)),
+        ),
+      ],
+    );
   }
 
   Future<void> _showMyDialog() async {
@@ -579,6 +934,19 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   void _submit() async {
+    for (var i = 0; i < titleController.length; i++) {
+      print("Title $i " + titleController[i].text);
+      print("Link $i " + linkController[i].text);
+      if (titleController[i].text != '' || titleController[i].text != '') {
+        newList.add(ULink(
+            title: titleController[i].text,
+            link: linkController[i].text,
+            init: false));
+      }
+      // links.add(linkController[i].text);
+    }
+    Provider.of<LinkProvider>(context, listen: false).updateLinks(newList);
+    print("newList " + newList.length.toString());
     FocusScopeNode currentFocus = FocusScope.of(context);
     if (!currentFocus.hasPrimaryFocus) {
       currentFocus.unfocus();
@@ -589,9 +957,9 @@ class _EditProfileState extends State<EditProfile> {
       });
       _image == null
           ? await Provider.of<ProfileApi>(context, listen: false).updatePro(
-              _nameController.text.trim(),
-              _ytLinkController.text.trim(),
-              _linkedinController.text.trim(),
+              _fstNameController.text.trim(),
+              _lastNameController.text.trim(),
+              _companyNameController.text.trim(),
               _locationController.text.trim(),
               _creditController.text.trim(),
               _occuptionController.text.trim(),
@@ -602,9 +970,9 @@ class _EditProfileState extends State<EditProfile> {
             )
           : await Provider.of<ProfileApi>(context, listen: false)
               .updateProWithimg(
-              _nameController.text.trim(),
-              _ytLinkController.text.trim(),
-              _linkedinController.text.trim(),
+              _fstNameController.text.trim(),
+              _lastNameController.text.trim(),
+              _companyNameController.text.trim(),
               _locationController.text.trim(),
               _image,
               _creditController.text.trim(),
@@ -625,9 +993,9 @@ class _EditProfileState extends State<EditProfile> {
       });
     }
 
-    print("_name" + _nameController.text);
-    print("_ytLink" + _ytLinkController.text);
-    print("_linkedinLink" + _linkedinController.text);
+    print("_name" + _fstNameController.text);
+    print("_lastName" + _lastNameController.text);
+    print("_companyName" + _companyNameController.text);
     print("_location" + _locationController.text);
     print("_creditcard" + _creditController.text);
     print("_cvv" + _cvvController.text);

@@ -32,12 +32,10 @@ dependencies:
   email_validator: ^1.0.0
   http: ^0.12.2
   shared_preferences: ^0.5.10
-  dotted_border: ^1.0.6
   image_picker: ^0.6.7+7
   local_auth: ^0.6.3
   qr_flutter: ^3.2.0
   flutter_rating_bar: ^3.0.1+1
-  native_device_orientation: ^0.4.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -91,6 +89,25 @@ flutter:
     - assets/icons/Clothes.png
     - assets/icons/loginbubble.png
     - assets/icons/user.png
+    - assets/icons/Call.png
+    - assets/icons/Expiration-Date.png
+    - assets/icons/Afflicated.png
+    - assets/icons/Tags.png
+    - assets/icons/Subscription.png
+    - assets/icons/ad.png
+    - assets/icons/Billing.png
+    - assets/icons/SelectedAdd-Team-Member.png
+    - assets/icons/selectStar.png
+    - assets/icons/Dollar.png
+    - assets/icons/ResetPassword.png
+    - assets/icons/AddLink.png
+    - assets/icons/Company.png
+    - assets/icons/Profession.png
+    - assets/icons/CouponCode.png
+    - assets/icons/About-Us.png
+    - assets/icons/Work_History.png
+    - assets/icons/Credit-Card.png
+    - assets/icons/cvv.png
     - assets/icons/password.png
     - assets/icons/loginbackground.png
     - assets/icons/mail.png
@@ -118,6 +135,7 @@ flutter:
     - assets/images/profilebackground.png
     - assets/images/editicon.png
     - assets/images/profileimage.png
+    - assets/images/uploadImage.png
     - assets/supremecardimage.png
     
  

@@ -9,6 +9,7 @@ import 'package:login/widgets/pagebackground.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class VerifyPin extends StatefulWidget {
   @override
@@ -283,7 +284,7 @@ class _VerifyPinState extends State<VerifyPin> {
           keyboardType: TextInputType.number,
           cursorColor: Colors.white,
           controller: _setPinController,
-          style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
+          style: TextStyle(color: Constant.primaryColor, fontSize: fontSize),
           obscureText: true,
           decoration: CustomInputDecoration.customInputDecoration(
               lable, fontSize, image)),

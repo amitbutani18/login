@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:login/screens/projectDetails.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class AddProject extends StatefulWidget {
   static const routeName = 'addProject';
@@ -44,7 +45,7 @@ class _AddProjectState extends State<AddProject> {
                 end: Alignment.bottomLeft,
                 colors: [
                   Colors.white,
-                  Colors.amber,
+                  Constant.primaryColor,
                 ]),
             borderRadius: new BorderRadius.all(new Radius.circular(50.0)),
           ),
@@ -101,7 +102,7 @@ class _AddProjectState extends State<AddProject> {
                               },
                               controller: _whatController,
                               style: TextStyle(
-                                  color: Colors.yellow[300],
+                                  color: Constant.primaryColor,
                                   fontSize: size.height > diviceSize ? 30 : 18),
                               decoration: _textDecoration(
                                   'What',
@@ -125,7 +126,7 @@ class _AddProjectState extends State<AddProject> {
                               },
                               controller: _whereController,
                               style: TextStyle(
-                                  color: Colors.yellow[300],
+                                  color: Constant.primaryColor,
                                   fontSize: size.height > diviceSize ? 30 : 18),
                               decoration: _textDecoration(
                                   'Where',
@@ -155,7 +156,7 @@ class _AddProjectState extends State<AddProject> {
                                       end: Alignment.bottomLeft,
                                       colors: [
                                         Colors.white,
-                                        Colors.amber,
+                                        Constant.primaryColor,
                                       ]),
                                   borderRadius: new BorderRadius.all(
                                       new Radius.circular(50.0)),
@@ -251,7 +252,7 @@ class _AddProjectState extends State<AddProject> {
                               },
                               controller: _rateController,
                               style: TextStyle(
-                                  color: Colors.yellow[300],
+                                  color: Constant.primaryColor,
                                   fontSize: size.height > diviceSize ? 30 : 18),
                               decoration: _textDecoration(
                                   'Rate',
@@ -279,7 +280,7 @@ class _AddProjectState extends State<AddProject> {
                           },
                           controller: _whoController,
                           style: TextStyle(
-                              color: Colors.yellow[300],
+                              color: Constant.primaryColor,
                               fontSize: size.height > diviceSize ? 30 : 18),
                           decoration: _textDecoration(
                               'Who',
@@ -305,7 +306,7 @@ class _AddProjectState extends State<AddProject> {
                           },
                           controller: _linkController,
                           style: TextStyle(
-                              color: Colors.yellow[300],
+                              color: Constant.primaryColor,
                               fontSize: size.height > diviceSize ? 30 : 18),
                           decoration: _textDecoration(
                               'Link',
@@ -331,7 +332,7 @@ class _AddProjectState extends State<AddProject> {
                           },
                           controller: _usagesController,
                           style: TextStyle(
-                              color: Colors.yellow[300],
+                              color: Constant.primaryColor,
                               fontSize: size.height > diviceSize ? 30 : 18),
                           decoration: _textDecoration(
                               'Usages',
@@ -358,7 +359,7 @@ class _AddProjectState extends State<AddProject> {
                           },
                           controller: _notesController,
                           style: TextStyle(
-                              color: Colors.yellow[300],
+                              color: Constant.primaryColor,
                               fontSize: size.height > diviceSize ? 30 : 18),
                           decoration: _textDecoration(
                               'Notes',

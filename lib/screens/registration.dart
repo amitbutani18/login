@@ -9,6 +9,7 @@ import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/validation.dart';
 import 'package:provider/provider.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -22,6 +23,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _companyController = TextEditingController();
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -75,7 +77,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 width: size.height > diviceSize ? 700 : 450,
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 20),
+                                      horizontal: 15, vertical: 18),
                                   child: Column(
                                     children: <Widget>[
                                       size.height > diviceSize
@@ -95,7 +97,26 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               false),
                                       SizedBox(
                                         height:
-                                            size.height > diviceSize ? 15 : 5,
+                                            size.height > diviceSize ? 15 : 3,
+                                      ),
+                                      size.height > diviceSize
+                                          ? _formField(
+                                              'Company Name',
+                                              650,
+                                              30,
+                                              'assets/icons/user.png',
+                                              _companyController,
+                                              false)
+                                          : _formField(
+                                              'Company Name',
+                                              450,
+                                              15,
+                                              'assets/icons/user.png',
+                                              _companyController,
+                                              false),
+                                      SizedBox(
+                                        height:
+                                            size.height > diviceSize ? 15 : 3,
                                       ),
                                       size.height > diviceSize
                                           ? _formField(
@@ -114,7 +135,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               false),
                                       SizedBox(
                                         height:
-                                            size.height > diviceSize ? 15 : 5,
+                                            size.height > diviceSize ? 15 : 3,
                                       ),
                                       size.height > diviceSize
                                           ? _formField(
@@ -131,7 +152,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               'assets/icons/password.png',
                                               _passwordController,
                                               true,
-                                              ),
+                                            ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
@@ -155,7 +176,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                     radius:
                                                         size.height > diviceSize
                                                             ? 40
-                                                            : 30,
+                                                            : 25,
                                                     child: Image.asset(
                                                         'assets/icons/loginbubble.png')),
                                               ),
@@ -178,14 +199,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               decoration: BoxDecoration(
                                                 border: Border(
                                                   bottom: BorderSide(
-                                                    color: Colors.amber[300],
+                                                    color:
+                                                        Constant.primaryColor,
                                                   ),
                                                 ),
                                               ),
                                               child: Text(
                                                 "Members ?",
                                                 style: TextStyle(
-                                                    color: Colors.amber[300],
+                                                    color:
+                                                        Constant.primaryColor,
                                                     fontSize:
                                                         size.height > diviceSize
                                                             ? 25
@@ -251,7 +274,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       width: width,
       child: TextFormField(
           controller: controller,
-          style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
+          style: TextStyle(color: Constant.primaryColor, fontSize: fontSize),
           obscureText: isSecure,
           decoration: CustomInputDecoration.customInputDecoration(
               lable, fontSize, image)),
@@ -271,7 +294,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       });
       final statusCode = await Provider.of<RegisterApi>(context, listen: false)
           .signUp(_nameController.text.trim(), _emailController.text.trim(),
-              _passwordController.text.trim());
+              _passwordController.text.trim(), _companyController.text.trim());
       print(statusCode[0]);
       setState(() {
         _msg = statusCode[1];
@@ -280,6 +303,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         _emailController.clear();
         _nameController.clear();
         _passwordController.clear();
+        _companyController.clear();
         setState(() {
           _load = false;
         });
@@ -316,7 +340,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             FlatButton(
               child: Text(
                 'OK',
-                style: TextStyle(color: Colors.amber),
+                style: TextStyle(color: Constant.primaryColor),
               ),
               onPressed: () {
                 Navigator.of(context).pop();

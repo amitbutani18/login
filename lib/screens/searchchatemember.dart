@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:login/screens/teammateprofile.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/sliderightroute.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class SearchChateMember extends StatefulWidget {
   @override
@@ -18,8 +19,8 @@ class _SearchChateMemberState extends State<SearchChateMember> {
   InputDecoration _textDecoration(String lable, double fontSize, Icon icon) {
     return InputDecoration(
       hintText: lable,
-      hintStyle:
-          TextStyle(color: Colors.amber[300], height: 1, fontSize: fontSize),
+      hintStyle: TextStyle(
+          color: Constant.primaryColor, height: 1, fontSize: fontSize),
       prefixIcon: Container(
         padding: EdgeInsets.all(8),
         margin: EdgeInsets.only(right: 0),
@@ -30,10 +31,10 @@ class _SearchChateMemberState extends State<SearchChateMember> {
         ),
       ),
       enabledBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.amber[300]),
+        borderSide: BorderSide(color: Constant.primaryColor),
       ),
       focusedBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.yellow),
+        borderSide: BorderSide(color: Constant.primaryColor),
       ),
     );
   }
@@ -60,7 +61,7 @@ class _SearchChateMemberState extends State<SearchChateMember> {
                         shaderCallback: (bounds) => RadialGradient(
                           colors: [
                             Colors.white,
-                            Colors.yellow[400],
+                            Constant.primaryColor,
                             Colors.white
                           ],
                         ).createShader(bounds),
@@ -108,7 +109,7 @@ class _SearchChateMemberState extends State<SearchChateMember> {
                     // },
                     // controller: _usagesController,
                     style: TextStyle(
-                        color: Colors.yellow[300],
+                        color: Constant.primaryColor,
                         fontSize: size.height > diviceSize ? 30 : 18),
                     decoration: _textDecoration(
                       'Search Member',
@@ -127,7 +128,7 @@ class _SearchChateMemberState extends State<SearchChateMember> {
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                          color: Colors.amber[300],
+                          color: Constant.primaryColor,
                         ),
                       ),
                     ),
@@ -152,7 +153,7 @@ class _SearchChateMemberState extends State<SearchChateMember> {
                       itemBuilder: (context, i) => Container(
                         margin: EdgeInsets.only(bottom: 8),
                         decoration: BoxDecoration(
-                            border: Border.all(color: Colors.amber),
+                            border: Border.all(color: Constant.primaryColor),
                             borderRadius: BorderRadius.circular(5)),
                         child: Padding(
                           padding: const EdgeInsets.only(
@@ -178,7 +179,7 @@ class _SearchChateMemberState extends State<SearchChateMember> {
                                         Text(
                                           "AKASH GAJERA",
                                           style: TextStyle(
-                                              color: Colors.amber[300]),
+                                              color: Constant.primaryColor),
                                         ),
                                         SizedBox(
                                           height: 3,
@@ -234,7 +235,7 @@ class Logo extends StatelessWidget {
               end: Alignment.bottomLeft,
               colors: [
                 Colors.white,
-                Colors.amber,
+                Constant.primaryColor,
               ]),
           borderRadius: new BorderRadius.all(new Radius.circular(50.0)),
         ),

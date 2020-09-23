@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:login/screens/projectDetails.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class EndContract extends StatefulWidget {
   static const routeName = '/endContract';
@@ -69,7 +70,7 @@ class _EndContractState extends State<EndContract> {
                         Text(
                           "Project Detail",
                           style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
@@ -90,7 +91,7 @@ class _EndContractState extends State<EndContract> {
                         Text(
                           "Responsibility",
                           style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
@@ -136,7 +137,7 @@ class _EndContractState extends State<EndContract> {
                                     Text(
                                       "\$ 550.00",
                                       style: TextStyle(
-                                        color: Colors.amber[300],
+                                        color: Constant.primaryColor,
                                         fontSize:
                                             size.height > diviceSize ? 30 : 18,
                                         letterSpacing: 1.5,
@@ -165,7 +166,7 @@ class _EndContractState extends State<EndContract> {
                                       DateFormat("dd-MMM-yyyy")
                                           .format(DateTime.now()),
                                       style: TextStyle(
-                                        color: Colors.amber[300],
+                                        color: Constant.primaryColor,
                                         fontSize:
                                             size.height > diviceSize ? 30 : 18,
                                         letterSpacing: 1.5,

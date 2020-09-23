@@ -2,8 +2,10 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:login/API/profileapi.dart';
 import 'package:login/screens/editprofile.dart';
+import 'package:login/screens/forgotpasswod.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
@@ -11,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class OwnProfile extends StatefulWidget {
   static const routeName = '/ownProfile';
@@ -25,10 +28,16 @@ class _OwnProfileState extends State<OwnProfile> {
   var _name = '';
   var _youLink = '';
   var _linkedLink = '';
+  var _dailyRate = '';
   var _profileImage = '';
   var _location = '';
   var _creditcard = '';
   var _occupation = '';
+  var _companyName = '';
+  var _aboutUs = '';
+  var _workingHistory = '';
+  List<Map<String, dynamic>> _links = [];
+
   bool _load = false;
   String _qrData = "Amit Butani";
   ProfileModal objProfileModal;
@@ -36,7 +45,6 @@ class _OwnProfileState extends State<OwnProfile> {
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
-    print("In Profile did");
     imageCache.clear();
     imageCache.clearLiveImages();
     if (_isInit) {
@@ -48,21 +56,45 @@ class _OwnProfileState extends State<OwnProfile> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    // final links = Provider.of<LinkProvider>(context).items;
+
     return Scaffold(
       key: _scaffoldKey,
-      floatingActionButton: GestureDetector(
-        onTap: () {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  EditProfile(objProfileModal: objProfileModal)));
-          // Navigator.of(context).pushNamed('/project-details');
-        },
-        child: Container(
-          child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: size.height > diviceSize ? 40 : 20,
-              child: Image.asset('assets/images/editicon.png')),
-        ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(ForgotPassword.roteName);
+            },
+            child: Container(
+              padding: EdgeInsets.all(0),
+              margin: EdgeInsets.only(right: 0),
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: 20,
+                child: Image.asset('assets/icons/Lickicon.png'),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (BuildContext context) => EditProfile(
+                        objProfileModal: objProfileModal,
+                      )));
+            },
+            child: Container(
+              child: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: size.height > diviceSize ? 40 : 20,
+                  child: Image.asset('assets/images/editicon.png')),
+            ),
+          ),
+        ],
       ),
       body: Stack(
         children: <Widget>[
@@ -116,9 +148,44 @@ class _OwnProfileState extends State<OwnProfile> {
                                     Text(
                                       _name,
                                       style: TextStyle(
-                                        color: Colors.amber[200],
+                                        color: Constant.primaryColor,
                                         fontSize:
                                             size.height > diviceSize ? 35 : 20,
+                                      ),
+                                    ),
+                                    customSizedBox(size, 10),
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: customTitleContent(
+                                          size,
+                                          "Company Name",
+                                          "Akash Infotech (+91 123456789)"),
+                                    ),
+                                    customSizedBox(size, 15),
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: customTitleContent(
+                                        size,
+                                        "About Us",
+                                        _aboutUs,
+                                      ),
+                                    ),
+                                    customSizedBox(size, 15),
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: customTitleContent(
+                                        size,
+                                        "Work History",
+                                        _workingHistory,
+                                      ),
+                                    ),
+                                    customSizedBox(size, 15),
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: customTitleContent(
+                                        size,
+                                        "Email",
+                                        _qrData,
                                       ),
                                     ),
                                     customSizedBox(size, 10),
@@ -127,7 +194,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                       child: Text(
                                         'Link',
                                         style: TextStyle(
-                                          color: Colors.amber[200],
+                                          color: Constant.primaryColor,
                                           fontSize: size.height > diviceSize
                                               ? 25
                                               : 15,
@@ -136,25 +203,36 @@ class _OwnProfileState extends State<OwnProfile> {
                                     ),
                                     customSizedBox(size, 10),
                                     YouLink(
-                                      size: size,
-                                      diviceSize: diviceSize,
-                                      heading: 'Youtube',
-                                      link: _youLink == ""
-                                          ? "WWW.YOUTUBE.COM"
-                                          : _youLink,
-                                      scaffoldKey: _scaffoldKey,
-                                    ),
+                                        size: size,
+                                        diviceSize: diviceSize,
+                                        heading: 'Youtube',
+                                        link: _youLink,
+                                        scaffoldKey: _scaffoldKey),
                                     customSizedBox(size, 10),
                                     YouLink(
-                                      size: size,
-                                      diviceSize: diviceSize,
-                                      heading: 'Linkedin',
-                                      link: _linkedLink == ""
-                                          ? "WWW.LINKEDIN.COM"
-                                          : _linkedLink,
-                                      scaffoldKey: _scaffoldKey,
+                                        size: size,
+                                        diviceSize: diviceSize,
+                                        heading: 'LinkedIn',
+                                        link: _linkedLink,
+                                        scaffoldKey: _scaffoldKey),
+                                    customSizedBox(size, 10),
+                                    LimitedBox(
+                                      maxHeight: 1000,
+                                      child: ListView.builder(
+                                        padding: EdgeInsets.only(top: 0),
+                                        physics: BouncingScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: _links.length,
+                                        itemBuilder: (context, i) => YouLink(
+                                          size: size,
+                                          diviceSize: diviceSize,
+                                          heading: _links[i]['title'],
+                                          link: _links[i]['link'],
+                                          scaffoldKey: _scaffoldKey,
+                                        ),
+                                      ),
                                     ),
-                                    customSizedBox(size, 20),
+                                    customSizedBox(size, 10),
                                     PointCredit(
                                       size: size,
                                       diviceSize: diviceSize,
@@ -204,9 +282,9 @@ class _OwnProfileState extends State<OwnProfile> {
                                               size: size,
                                               diviceSize: diviceSize,
                                               title: 'Location'),
-                                          customSizedBox(size, 10),
-                                          locationOccupation(
-                                              size, _location, true),
+                                          customSizedBox(size, 5),
+                                          locationOccupation(size, _location,
+                                              true, Icons.location_on),
                                         ],
                                       ),
                                       SizedBox(
@@ -223,14 +301,30 @@ class _OwnProfileState extends State<OwnProfile> {
                                               size: size,
                                               diviceSize: diviceSize,
                                               title: 'Occuption'),
-                                          customSizedBox(size, 10),
-                                          locationOccupation(
-                                              size, _occupation, false),
+                                          customSizedBox(size, 5),
+                                          locationOccupation(size, _occupation,
+                                              false, Icons.ac_unit),
+                                        ],
+                                      ),
+                                      customSizedBox(size, 10),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          CustomHeading(
+                                              size: size,
+                                              diviceSize: diviceSize,
+                                              title: 'Rate'),
+                                          customSizedBox(size, 5),
+                                          locationOccupation(size, _dailyRate,
+                                              true, Icons.attach_money),
                                         ],
                                       ),
                                       customSizedBox(size, 10),
                                       Container(
-                                        color: Colors.amber[300],
+                                        color: Constant.primaryColor,
                                         child: QrImage(
                                           size: size.width < 600 ? 100 : 200,
                                           data: _qrData,
@@ -240,7 +334,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                       Divider(
                                         height: 3,
                                         thickness: 2,
-                                        color: Colors.amber[300],
+                                        color: Constant.primaryColor,
                                       ),
                                       customSizedBox(size, 10),
                                       Container(
@@ -249,12 +343,41 @@ class _OwnProfileState extends State<OwnProfile> {
                                         width: size.height > diviceSize
                                             ? size.width
                                             : 200,
-                                        // color: Colors.amber[300],
+                                        // color:Constant.primaryColor,
                                         child: Image.asset(
                                           'assets/images/Barcode.png',
                                           fit: BoxFit.cover,
                                         ),
-                                      )
+                                      ),
+                                      customSizedBox(size, 10),
+                                      Divider(
+                                        height: 3,
+                                        thickness: 2,
+                                        color: Constant.primaryColor,
+                                      ),
+                                      customSizedBox(size, 10),
+                                      // customRatingBar(Icon(Icons.star),
+                                      //     Icon(Icons.star_border)),
+                                      RatingBar(
+                                        initialRating: 3,
+                                        minRating: 1,
+                                        direction: Axis.horizontal,
+                                        // ignoreGestures: true,
+                                        itemCount: 5,
+                                        itemSize: 25,
+                                        unratedColor: Colors.grey,
+                                        itemPadding: EdgeInsets.symmetric(
+                                            horizontal: 0.0),
+                                        itemBuilder: (context, _) => Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0),
+                                          child: Image.asset(
+                                              'assets/icons/selectStar.png'),
+                                        ),
+                                        onRatingUpdate: (rating) {
+                                          print(rating);
+                                        },
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -271,6 +394,34 @@ class _OwnProfileState extends State<OwnProfile> {
     );
   }
 
+  Column customTitleContent(Size size, String title, String content) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          title,
+          style: TextStyle(
+            color: Constant.primaryColor,
+            fontSize:
+                size.height > diviceSize ? 25 : size.width < 600 ? 10 : 15,
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          content,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize:
+                size.height > diviceSize ? 20 : size.width < 600 ? 10 : 15,
+          ),
+        ),
+      ],
+    );
+  }
+
   SizedBox customSizedBox(Size size, double sizeHeight) {
     return SizedBox(
       height: size.height > diviceSize ? 20 : sizeHeight,
@@ -281,19 +432,23 @@ class _OwnProfileState extends State<OwnProfile> {
     Size size,
     String _location,
     bool showIcon,
+    IconData icon,
   ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         showIcon
             ? Icon(
-                Icons.location_on,
+                icon,
                 size: size.height > diviceSize ? 20 : 10,
                 color: Colors.white,
               )
-            : Container(),
+            : Container(
+                height: 0,
+                width: 0,
+              ),
         SizedBox(
-          width: size.height > diviceSize ? 20 : 5,
+          width: size.height > diviceSize ? 20 : 3,
         ),
         Text(
           _location,
@@ -316,16 +471,21 @@ class _OwnProfileState extends State<OwnProfile> {
       final _userEmail = sharedPreferences.getString('email');
       objProfileModal =
           await Provider.of<ProfileApi>(context, listen: false).getProfile();
-      print("In Profile Map" + objProfileModal.name);
+      // print("In Profile Map" + objProfileModal.name);
       // print(map['profileimg']);
       setState(() {
         _name = objProfileModal.name;
         _location = objProfileModal.location;
         _linkedLink = objProfileModal.linkdin;
+        _dailyRate = objProfileModal.dailycharge;
         _youLink = objProfileModal.youtube;
         _profileImage = objProfileModal.profileimg;
         _creditcard = objProfileModal.creditcard;
         _occupation = objProfileModal.occupation;
+        _companyName = objProfileModal.companyname;
+        _aboutUs = objProfileModal.aboutus;
+        _workingHistory = objProfileModal.workinghistory;
+        _links = objProfileModal.otherlink;
         _qrData = _userEmail;
       });
       print("_profileImage" + _profileImage);
@@ -356,9 +516,9 @@ class CustomHeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Occuption',
+      title,
       style: TextStyle(
-        color: Colors.amber[300],
+        color: Constant.primaryColor,
         fontSize: size.height > diviceSize ? 25 : 15,
       ),
     );
@@ -394,7 +554,7 @@ class PointCredit extends StatelessWidget {
             Text(
               heading1,
               style: TextStyle(
-                color: Colors.amber[300],
+                color: Constant.primaryColor,
                 fontSize:
                     size.height > diviceSize ? 25 : size.width < 600 ? 10 : 15,
               ),
@@ -421,7 +581,7 @@ class PointCredit extends StatelessWidget {
             Text(
               heading2,
               style: TextStyle(
-                color: Colors.amber[300],
+                color: Constant.primaryColor,
                 fontSize:
                     size.height > diviceSize ? 25 : size.width < 600 ? 10 : 15,
               ),
@@ -462,62 +622,65 @@ class YouLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            heading,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: size.height > diviceSize ? 23 : 10,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 5.0),
+      child: Column(
+        children: <Widget>[
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              heading,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: size.height > diviceSize ? 23 : 10,
+              ),
             ),
           ),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Container(
-          width: size.width,
-          height: size.height > diviceSize ? 80 : 40,
-          decoration: BoxDecoration(
-            color: Colors.grey[850],
-            borderRadius: BorderRadius.circular(8),
+          SizedBox(
+            height: 5,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 18.0),
-                child: Text(
-                  link,
-                  style: TextStyle(
-                    color: Colors.white24,
-                    fontSize: size.height > diviceSize ? 23 : 10,
+          Container(
+            width: size.width,
+            height: size.height > diviceSize ? 80 : 40,
+            decoration: BoxDecoration(
+              color: Colors.grey[850],
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 18.0),
+                  child: Text(
+                    link,
+                    style: TextStyle(
+                      color: Colors.white24,
+                      fontSize: size.height > diviceSize ? 23 : 10,
+                    ),
                   ),
                 ),
-              ),
-              FlatButton(
-                onPressed: () {
-                  Clipboard.setData(new ClipboardData(text: link));
-                  scaffoldKey.currentState.hideCurrentSnackBar();
-                  scaffoldKey.currentState.showSnackBar(new SnackBar(
-                    content: new Text("Copied to Clipboard"),
-                  ));
-                },
-                child: Text(
-                  'Copy',
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: Colors.amber[300],
-                    fontSize: size.height > diviceSize ? 23 : 10,
+                FlatButton(
+                  onPressed: () {
+                    Clipboard.setData(new ClipboardData(text: link));
+                    scaffoldKey.currentState.hideCurrentSnackBar();
+                    scaffoldKey.currentState.showSnackBar(new SnackBar(
+                      content: new Text("Copied to Clipboard"),
+                    ));
+                  },
+                  child: Text(
+                    'Copy',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Constant.primaryColor,
+                      fontSize: size.height > diviceSize ? 23 : 10,
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

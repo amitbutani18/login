@@ -16,6 +16,7 @@ import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/sliderightroute.dart';
 import 'package:login/widgets/validation.dart';
 import 'package:provider/provider.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -263,7 +264,7 @@ class _LoginScreenState extends State<LoginScreen>
       child: TextFormField(
         cursorColor: Colors.white,
         controller: controller,
-        style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
+        style: TextStyle(color: Constant.primaryColor, fontSize: fontSize),
         obscureText: isSecure,
         decoration:
             CustomInputDecoration.customInputDecoration(lable, fontSize, image),
@@ -348,14 +349,14 @@ class _LoginScreenState extends State<LoginScreen>
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: Colors.amber[300],
+            color: Constant.primaryColor,
           ),
         ),
       ),
       child: Text(
         text,
         style: TextStyle(
-            color: Colors.amber[300],
+            color: Constant.primaryColor,
             fontSize: size.height > diviceSize ? 25 : 15),
       ),
     );
@@ -376,15 +377,15 @@ class _LoginScreenState extends State<LoginScreen>
             width: 20,
             decoration: const BoxDecoration(
               border: Border(
-                top: BorderSide(width: 1.0, color: Colors.amber),
-                left: BorderSide(width: 1.0, color: Colors.amber),
-                right: BorderSide(width: 1.0, color: Colors.amber),
-                bottom: BorderSide(width: 1.0, color: Colors.amber),
+                top: BorderSide(width: 1.0, color: Constant.primaryColor),
+                left: BorderSide(width: 1.0, color: Constant.primaryColor),
+                right: BorderSide(width: 1.0, color: Constant.primaryColor),
+                bottom: BorderSide(width: 1.0, color: Constant.primaryColor),
               ),
             ),
             child: Checkbox(
                 activeColor: Colors.transparent,
-                checkColor: Colors.amber,
+                checkColor: Constant.primaryColor,
                 value: _checked,
                 onChanged: (value) {
                   setState(() {
@@ -397,7 +398,7 @@ class _LoginScreenState extends State<LoginScreen>
           ),
           Text(
             "Remember Me",
-            style: TextStyle(color: Colors.amber[300]),
+            style: TextStyle(color: Constant.primaryColor),
           ),
         ],
       ),

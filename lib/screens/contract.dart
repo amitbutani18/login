@@ -3,6 +3,7 @@ import 'package:login/screens/projectDetails.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 import 'package:login/widgets/task.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class Contract extends StatelessWidget {
   final diviceSize = 470;
@@ -62,7 +63,7 @@ class Contract extends StatelessWidget {
                         Text(
                           "Project Detail",
                           style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
@@ -83,7 +84,7 @@ class Contract extends StatelessWidget {
                         Text(
                           "Location",
                           style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
@@ -116,7 +117,7 @@ class Contract extends StatelessWidget {
                         Text(
                           "Team Member",
                           style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
@@ -137,7 +138,7 @@ class Contract extends StatelessWidget {
                         Text(
                           "Task",
                           style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
@@ -182,7 +183,7 @@ class Contract extends StatelessWidget {
                         Text(
                           "Amount",
                           style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
@@ -203,7 +204,7 @@ class Contract extends StatelessWidget {
                         Text(
                           "Duration",
                           style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),

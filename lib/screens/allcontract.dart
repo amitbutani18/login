@@ -6,6 +6,7 @@ import 'package:login/screens/searchmember.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/sliderightroute.dart';
 import 'package:provider/provider.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class AllContract extends StatelessWidget {
   static const routeName = '/allContract';
@@ -35,7 +36,7 @@ class AllContract extends StatelessWidget {
                       shaderCallback: (bounds) => RadialGradient(
                         colors: [
                           Colors.white,
-                          Colors.yellow[400],
+                          Constant.primaryColor,
                           Colors.white
                         ],
                       ).createShader(bounds),
@@ -57,7 +58,7 @@ class AllContract extends StatelessWidget {
                       child: Text(
                         "All Contract",
                         style: TextStyle(
-                          color: Colors.amber[200],
+                          color: Constant.primaryColor,
                           fontSize: size.height > divSize ? 40 : 22,
                         ),
                       ),
@@ -143,7 +144,7 @@ class ProjectColumn extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            color: Colors.amber[300],
+            color: Constant.primaryColor,
             fontSize: 23,
             fontWeight: FontWeight.bold,
           ),
@@ -160,7 +161,7 @@ class ProjectColumn extends StatelessWidget {
                   child: Text(
                     memberData[i].name,
                     style: TextStyle(
-                      color: Colors.amber[200],
+                      color: Constant.primaryColor,
                       fontSize: size.height > divSize ? 35 : 20,
                     ),
                   ),
@@ -202,7 +203,7 @@ class ProjectColumn extends StatelessWidget {
                       DateFormat("dd-MMMM-yyyy").format(DateTime.now()),
                 ),
                 Container(
-                  color: Colors.amber,
+                  color: Constant.primaryColor,
                   height: 1,
                   width: 170,
                 ),

@@ -10,6 +10,7 @@ import 'package:login/screens/serviceprovider.dart';
 import 'package:login/widgets/ease_in_widget.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:provider/provider.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class PaymentHistory extends StatefulWidget {
   final int selectIndex = 0;
@@ -72,7 +73,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                             Text(
                               "\$ 5000.00",
                               style: TextStyle(
-                                color: Colors.amber[300],
+                                color: Constant.primaryColor,
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -98,7 +99,8 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                             itemBuilder: (context, i) => Container(
                               margin: EdgeInsets.only(bottom: 8),
                               decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.amber),
+                                  border:
+                                      Border.all(color: Constant.primaryColor),
                                   borderRadius: BorderRadius.circular(5)),
                               child: Row(
                                 mainAxisAlignment:
@@ -113,7 +115,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                                         Text(
                                           transaction[i].transId.toString(),
                                           style: TextStyle(
-                                              color: Colors.amber[300]),
+                                              color: Constant.primaryColor),
                                         ),
                                         SizedBox(
                                           height: 3,
@@ -122,7 +124,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                                           DateFormat("dd-mmmm-yyyy")
                                               .format(transaction[i].tranDate),
                                           style: TextStyle(
-                                              color: Colors.amber[300]),
+                                              color: Constant.primaryColor),
                                         )
                                       ],
                                     ),
@@ -136,7 +138,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                                         Text(
                                           "-\$ ${transaction[i].amount}",
                                           style: TextStyle(
-                                              color: Colors.amber[300]),
+                                              color: Constant.primaryColor),
                                         ),
                                         SizedBox(
                                           height: 3,
@@ -146,7 +148,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                                               ? "Successfully"
                                               : "Unsuccessfullly",
                                           style: TextStyle(
-                                              color: Colors.amber[300]),
+                                              color: Constant.primaryColor),
                                         )
                                       ],
                                     ),
@@ -353,7 +355,7 @@ class TitleBar extends StatelessWidget {
           child: Text(
             "Payment History",
             style: TextStyle(
-              color: Colors.amber[200],
+              color: Constant.primaryColor,
               fontSize: size.height > divSize ? 40 : 22,
             ),
           ),
@@ -397,7 +399,7 @@ class ProjectColumn extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            color: Colors.amber[300],
+            color: Constant.primaryColor,
             fontSize: 23,
             fontWeight: FontWeight.bold,
           ),
@@ -414,7 +416,7 @@ class ProjectColumn extends StatelessWidget {
                   child: Text(
                     memberData[i].name,
                     style: TextStyle(
-                      color: Colors.amber[200],
+                      color: Constant.primaryColor,
                       fontSize: size.height > divSize ? 35 : 20,
                     ),
                   ),
@@ -456,7 +458,7 @@ class ProjectColumn extends StatelessWidget {
                       DateFormat("dd-MMMM-yyyy").format(DateTime.now()),
                 ),
                 Container(
-                  color: Colors.amber,
+                  color: Constant.primaryColor,
                   height: 1,
                   width: 170,
                 ),

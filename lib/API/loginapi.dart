@@ -3,14 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class LoginApi with ChangeNotifier {
   Future<List> signIn(String email, String password) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final api = sharedPreferences.getString('api');
+    // final api = sharedPreferences.getString('api');
 
     final response = await http.post(
-      '${api}signin',
+      '${Constant.apiLink}signin',
       body: {
         "email": email,
         "password": password,
@@ -38,6 +39,8 @@ class LoginApi with ChangeNotifier {
           sharedPreferences.setInt("touchid", map['data']['touchid']);
           sharedPreferences.setInt("pinstatus", map['data']['pinstatus']);
           sharedPreferences.setInt("setpinscreen", map['data']['setpinscreen']);
+          sharedPreferences.setInt(
+              "serviceproviderowner", map['data']['serviceproviderowner']);
 
           print(sharedPreferences.getString('name'));
           print(sharedPreferences.getString('email'));
@@ -47,6 +50,7 @@ class LoginApi with ChangeNotifier {
           print(sharedPreferences.getInt('pinstatus'));
           print("setpinscreen  " +
               sharedPreferences.getInt('setpinscreen').toString());
+          print(sharedPreferences.getInt("serviceproviderowner"));
         }
       } else {
         throw Exception("fail to load");
@@ -61,11 +65,8 @@ class LoginApi with ChangeNotifier {
   }
 
   Future<List<dynamic>> forgotPassword(String email) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final api = sharedPreferences.getString('api');
-
     final response = await http.post(
-      '${api}forgotpassword',
+      '${Constant.apiLink}forgotpassword',
       body: {
         "email": email,
       },

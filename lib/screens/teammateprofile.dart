@@ -8,6 +8,7 @@ import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/rendering.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class TeamMateProfile extends StatefulWidget {
   @override
@@ -103,7 +104,7 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                               Text(
                                 "Profile Name",
                                 style: TextStyle(
-                                  color: Colors.amber[200],
+                                  color: Constant.primaryColor,
                                   fontSize: size.height > diviceSize ? 35 : 20,
                                 ),
                               ),
@@ -115,7 +116,7 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                 child: Text(
                                   'Link',
                                   style: TextStyle(
-                                    color: Colors.amber[200],
+                                    color: Constant.primaryColor,
                                     fontSize:
                                         size.height > diviceSize ? 25 : 10,
                                   ),
@@ -149,7 +150,7 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                 child: Text(
                                   'About Us',
                                   style: TextStyle(
-                                    color: Colors.amber[200],
+                                    color: Constant.primaryColor,
                                     fontSize:
                                         size.height > diviceSize ? 25 : 10,
                                   ),
@@ -188,7 +189,7 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                       Text(
                                         "Rating",
                                         style: TextStyle(
-                                          color: Colors.amber[300],
+                                          color: Constant.primaryColor,
                                           fontSize: size.height > diviceSize
                                               ? 25
                                               : size.width < 600 ? 10 : 15,
@@ -208,7 +209,7 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                             horizontal: 0.0),
                                         itemBuilder: (context, _) => Icon(
                                           Icons.star,
-                                          color: Colors.amber,
+                                          color: Constant.primaryColor,
                                         ),
                                         onRatingUpdate: (rating) {
                                           print(rating);
@@ -224,7 +225,7 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                       Text(
                                         "Total Earned Amount",
                                         style: TextStyle(
-                                          color: Colors.amber[300],
+                                          color: Constant.primaryColor,
                                           fontSize: size.height > diviceSize
                                               ? 25
                                               : size.width < 600 ? 10 : 15,
@@ -272,7 +273,7 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                     Text(
                                       'Location',
                                       style: TextStyle(
-                                        color: Colors.amber[300],
+                                        color: Constant.primaryColor,
                                         fontSize:
                                             size.height > diviceSize ? 25 : 15,
                                       ),
@@ -318,7 +319,7 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                     Text(
                                       'Occuption',
                                       style: TextStyle(
-                                        color: Colors.amber[300],
+                                        color: Constant.primaryColor,
                                         fontSize:
                                             size.height > diviceSize ? 25 : 15,
                                       ),
@@ -352,8 +353,8 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                   // width: size.height > diviceSize
                                   //     ? size.width
                                   //     : 200,
-                                  color: Colors.amber[300],
-                                  // color: Colors.amber[300],
+                                  color: Constant.primaryColor,
+                                  // color: Constant.primaryColor,
                                   child: QrImage(
                                     size: size.width < 600 ? 100 : 200,
                                     data: _qrData,
@@ -367,7 +368,7 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                   width: size.height > diviceSize
                                       ? size.width
                                       : 200,
-                                  color: Colors.amber[300],
+                                  color: Constant.primaryColor,
                                 ),
                                 SizedBox(
                                   height: size.height > diviceSize ? 30 : 10,
@@ -377,7 +378,7 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                   width: size.height > diviceSize
                                       ? size.width
                                       : 200,
-                                  // color: Colors.amber[300],
+                                  // color: Constant.primaryColor,
                                   child: Image.asset(
                                     'assets/images/Barcode.png',
                                     fit: BoxFit.cover,
@@ -429,7 +430,7 @@ class PointCredit extends StatelessWidget {
             Text(
               heading1,
               style: TextStyle(
-                color: Colors.amber[300],
+                color: Constant.primaryColor,
                 fontSize:
                     size.height > diviceSize ? 25 : size.width < 600 ? 10 : 15,
               ),
@@ -456,7 +457,7 @@ class PointCredit extends StatelessWidget {
             Text(
               heading2,
               style: TextStyle(
-                color: Colors.amber[300],
+                color: Constant.primaryColor,
                 fontSize:
                     size.height > diviceSize ? 25 : size.width < 600 ? 10 : 15,
               ),
@@ -544,7 +545,7 @@ class YouLink extends StatelessWidget {
                   'Copy',
                   style: TextStyle(
                     decoration: TextDecoration.underline,
-                    color: Colors.amber[300],
+                    color: Constant.primaryColor,
                     fontSize: size.height > diviceSize ? 23 : 10,
                   ),
                 ),

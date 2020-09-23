@@ -7,7 +7,6 @@ import 'package:login/helpers/slider/leftsideslidericonprovider.dart';
 import 'package:login/helpers/slider/rightsidesliderprovider.dart';
 import 'package:login/helpers/slider/slidericon.dart';
 import 'package:login/helpers/slider/topslidericonprovider.dart';
-import 'package:login/screens/projectchatscreen.dart';
 import 'package:login/widgets/bottomfirstslider.dart';
 import 'package:login/widgets/bottomsecslider.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
@@ -16,9 +15,9 @@ import 'package:login/widgets/dashbord_widgets/topsliderformobile.dart';
 import 'package:login/widgets/dashbord_widgets/topsliderfortab.dart';
 import 'package:login/widgets/datepick.dart';
 import 'package:login/widgets/pagebackground.dart';
-import 'package:login/widgets/sliderightroute.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class PickRoom extends StatefulWidget {
   static const routeName = '/dashbord';
@@ -168,7 +167,7 @@ class _PickRoomState extends State<PickRoom> {
                         Container(
                           child: Padding(
                             padding: const EdgeInsets.only(
-                                top: 20.0, left: 18, right: 18),
+                                top: 18.0, left: 18, right: 18),
                             child: dashbordAppBar(size, slider, context),
                           ),
                         ),
@@ -260,7 +259,7 @@ class _PickRoomState extends State<PickRoom> {
                                     decoration: BoxDecoration(
                                       border: Border(
                                         bottom: BorderSide(
-                                          color: Colors.amber[300],
+                                          color: Constant.primaryColor,
                                         ),
                                       ),
                                     ),
@@ -349,12 +348,8 @@ class _PickRoomState extends State<PickRoom> {
             : TopSliderForMobile(
                 scrollController5: _scrollController5, slider: slider),
         GestureDetector(
-          onTap: () => Navigator.push(
-            context,
-            SlideRightRoute(
-              page: ProjectChatScreen(),
-            ),
-          ),
+          // onTap: () =>
+          //     Navigator.of(context).pushNamed(ServiceProvider.routeName),
           child: CircleAvatar(
             radius: size.height > divSize ? 20 : 10,
             backgroundColor: Colors.transparent,
@@ -460,19 +455,19 @@ class _PickRoomState extends State<PickRoom> {
         enabled: false,
         cursorColor: Colors.black,
         style: TextStyle(
-          color: Colors.yellow[300],
+          color: Constant.primaryColor,
           fontSize: fontSize,
         ),
         decoration: InputDecoration(
           disabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.yellow)),
+              borderSide: BorderSide(color: Constant.primaryColor)),
           hintText: lable == 'What'
               ? _hotelValue == null ? 'What' : _hotelValue
               : _location == null ? 'Where' : _location,
-          hintStyle:
-              TextStyle(color: Colors.amber, height: 1.5, fontSize: fontSize),
+          hintStyle: TextStyle(
+              color: Constant.primaryColor, height: 1.5, fontSize: fontSize),
           enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.yellow),
+            borderSide: BorderSide(color: Constant.primaryColor),
           ),
           prefixIcon: Container(
             padding: EdgeInsets.all(8),
@@ -484,7 +479,7 @@ class _PickRoomState extends State<PickRoom> {
             ),
           ),
           focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.yellow),
+            borderSide: BorderSide(color: Constant.primaryColor),
           ),
         ),
       ),
@@ -526,7 +521,7 @@ class _PickRoomState extends State<PickRoom> {
               Text(
                 imageUrl[i].offer,
                 style: TextStyle(
-                    color: Colors.amberAccent, fontWeight: FontWeight.bold),
+                    color: Constant.primaryColor, fontWeight: FontWeight.bold),
               )
             ],
           ),
@@ -572,7 +567,7 @@ class _PickRoomState extends State<PickRoom> {
                     "20% OFF",
                     style: TextStyle(
                         fontSize: 23,
-                        color: Colors.amberAccent,
+                        color: Constant.primaryColor,
                         fontWeight: FontWeight.bold),
                   ),
                 ],

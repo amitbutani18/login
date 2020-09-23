@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:login/API/logout.dart';
 import 'package:login/screens/loginscreen.dart';
 import 'package:login/screens/ownprofile.dart';
+import 'package:login/screens/serviceprovider.dart';
 import 'package:login/screens/settingscreen.dart';
 import 'package:provider/provider.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class DashbordDrawer extends StatelessWidget {
   const DashbordDrawer({
@@ -32,8 +34,23 @@ class DashbordDrawer extends StatelessWidget {
             ),
           ),
         ),
+        GestureDetector(
+          onTap: () async {
+            Navigator.of(context).pop();
+            Navigator.of(context).pushNamed(ServiceProvider.routeName);
+          },
+          child: Container(
+            padding: EdgeInsets.all(8),
+            margin: EdgeInsets.only(right: 0),
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: 15,
+              child: Image.asset('assets/icons/Work_History.png'),
+            ),
+          ),
+        ),
         IconButton(
-          color: Colors.amber,
+          color: Constant.primaryColor,
           icon: Icon(Icons.settings),
           onPressed: () async {
             Navigator.of(context).pop();

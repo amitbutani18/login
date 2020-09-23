@@ -3,6 +3,7 @@ import 'package:login/helpers/membersprovider.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 import 'package:provider/provider.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class SearchMember extends StatefulWidget {
   static const routeName = '/searchMember';
@@ -25,7 +26,7 @@ class _SearchMemberState extends State<SearchMember> {
                 end: Alignment.bottomLeft,
                 colors: [
                   Colors.white,
-                  Colors.amber,
+                  Constant.primaryColor,
                 ]),
             borderRadius: new BorderRadius.all(new Radius.circular(50.0)),
           ),
@@ -76,7 +77,7 @@ class _SearchMemberState extends State<SearchMember> {
                     // },
                     // controller: _usagesController,
                     style: TextStyle(
-                        color: Colors.yellow[300],
+                        color: Constant.primaryColor,
                         fontSize: size.height > diviceSize ? 30 : 18),
                     decoration: _textDecoration(
                       'Search Member',
@@ -119,7 +120,7 @@ class _SearchMemberState extends State<SearchMember> {
                         Container(
                           height: 30.0,
                           width: 2.0,
-                          color: Colors.amber[200],
+                          color: Constant.primaryColor,
                           margin:
                               const EdgeInsets.only(left: 10.0, right: 10.0),
                         ),
@@ -149,7 +150,7 @@ class _SearchMemberState extends State<SearchMember> {
                         Container(
                           height: 30.0,
                           width: 2.0,
-                          color: Colors.amber[200],
+                          color: Constant.primaryColor,
                           margin:
                               const EdgeInsets.only(left: 10.0, right: 10.0),
                         ),
@@ -213,7 +214,7 @@ class _SearchMemberState extends State<SearchMember> {
                             child: Text(
                               memberData[i].name,
                               style: TextStyle(
-                                color: Colors.amber[200],
+                                color: Constant.primaryColor,
                                 fontSize: size.height > diviceSize ? 35 : 20,
                               ),
                             ),
@@ -311,7 +312,7 @@ class Logo extends StatelessWidget {
               end: Alignment.bottomLeft,
               colors: [
                 Colors.white,
-                Colors.amber,
+                Constant.primaryColor,
               ]),
           borderRadius: new BorderRadius.all(new Radius.circular(50.0)),
         ),

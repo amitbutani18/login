@@ -1,6 +1,7 @@
 import 'package:login/screens/addproject.dart';
 import 'package:login/screens/allcontract.dart';
 import 'package:login/screens/endcontract.dart';
+import 'package:login/screens/forgotpasswod.dart';
 import 'package:login/screens/loginscreen.dart';
 import 'package:login/screens/ownprofile.dart';
 import 'package:login/screens/pickroom.dart';
@@ -26,6 +27,7 @@ class Routes {
       EndContract.routeName: (context) => EndContract(),
       AllContract.routeName: (context) => AllContract(),
       SettingScreen.routeName: (context) => SettingScreen(),
+      ForgotPassword.roteName: (context) => ForgotPassword(),
     };
   }
 }

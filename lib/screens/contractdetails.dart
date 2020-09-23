@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login/screens/contract.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class ContractDetails extends StatelessWidget {
   final diviceSize = 470;
@@ -67,7 +68,7 @@ class ContractDetails extends StatelessWidget {
                         Text(
                           "Project",
                           style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
@@ -88,7 +89,7 @@ class ContractDetails extends StatelessWidget {
                         Text(
                           "Location",
                           style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
@@ -121,7 +122,7 @@ class ContractDetails extends StatelessWidget {
                         Text(
                           "Team Member",
                           style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
@@ -142,7 +143,7 @@ class ContractDetails extends StatelessWidget {
                         Text(
                           "Task",
                           style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
@@ -192,8 +193,8 @@ class ContractDetails extends StatelessWidget {
                                 Row(
                                   children: <Widget>[
                                     GradientButton(
-                                      color1: Colors.amber[300],
-                                      color2: Colors.amber[200],
+                                      color1: Constant.primaryColor,
+                                      color2: Constant.primaryColor,
                                       iconData: Icons.attach_money,
                                       size: size,
                                       diviceSize: diviceSize,
@@ -218,8 +219,8 @@ class ContractDetails extends StatelessWidget {
                                 Row(
                                   children: <Widget>[
                                     GradientButton(
-                                      color1: Colors.amber[300],
-                                      color2: Colors.amber[200],
+                                      color1: Constant.primaryColor,
+                                      color2: Constant.primaryColor,
                                       iconData: Icons.timer,
                                       size: size,
                                       diviceSize: diviceSize,

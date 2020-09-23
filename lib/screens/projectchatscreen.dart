@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class ProjectChatScreen extends StatefulWidget {
   @override
@@ -62,7 +63,7 @@ class _ProjectChatScreenState extends State<ProjectChatScreen> {
                                   Text(
                                     'Group Chat',
                                     style: TextStyle(
-                                      color: Colors.amber[200],
+                                      color: Constant.primaryColor,
                                       fontSize:
                                           size.height > diviceSize ? 25 : 15,
                                     ),
@@ -75,7 +76,7 @@ class _ProjectChatScreenState extends State<ProjectChatScreen> {
                                   Text(
                                     'Personal Chat',
                                     style: TextStyle(
-                                      color: Colors.amber[200],
+                                      color: Constant.primaryColor,
                                       fontSize:
                                           size.height > diviceSize ? 25 : 15,
                                     ),
@@ -166,7 +167,7 @@ class GroupChatList extends StatelessWidget {
         itemBuilder: (context, i) => Container(
           margin: EdgeInsets.only(bottom: 8),
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.amber),
+              border: Border.all(color: Constant.primaryColor),
               borderRadius: BorderRadius.circular(5)),
           child: Padding(
             padding:
@@ -189,7 +190,7 @@ class GroupChatList extends StatelessWidget {
                         children: [
                           Text(
                             "AKASH GAJERA",
-                            style: TextStyle(color: Colors.amber[300]),
+                            style: TextStyle(color: Constant.primaryColor),
                           ),
                           SizedBox(
                             height: 4,

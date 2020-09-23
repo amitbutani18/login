@@ -7,6 +7,7 @@ import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 import 'package:login/widgets/task.dart';
 import 'package:provider/provider.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class ProjectADetails extends StatelessWidget {
   final diviceSize = 470;
@@ -68,7 +69,7 @@ class ProjectADetails extends StatelessWidget {
                         Text(
                           "Detail",
                           style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
@@ -97,7 +98,7 @@ class ProjectADetails extends StatelessWidget {
                                   Text(
                                     "Location",
                                     style: TextStyle(
-                                      color: Colors.amber[300],
+                                      color: Constant.primaryColor,
                                       fontSize:
                                           size.height > diviceSize ? 30 : 20,
                                       letterSpacing: 1.5,
@@ -142,7 +143,7 @@ class ProjectADetails extends StatelessWidget {
                                   Text(
                                     "Duration",
                                     style: TextStyle(
-                                      color: Colors.amber[300],
+                                      color: Constant.primaryColor,
                                       fontSize:
                                           size.height > diviceSize ? 30 : 20,
                                       letterSpacing: 1.5,
@@ -185,7 +186,7 @@ class ProjectADetails extends StatelessWidget {
                         Text(
                           "Task",
                           style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
@@ -230,7 +231,7 @@ class ProjectADetails extends StatelessWidget {
                         Text(
                           "Team Member",
                           style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
@@ -239,7 +240,7 @@ class ProjectADetails extends StatelessWidget {
                           padding: EdgeInsets.only(top: 2),
                           width: 50,
                           height: 1,
-                          color: Colors.amber[300],
+                          color: Constant.primaryColor,
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 15),
@@ -267,7 +268,7 @@ class ProjectADetails extends StatelessWidget {
                                       child: Text(
                                         memberData[i].name,
                                         style: TextStyle(
-                                          color: Colors.amber[200],
+                                          color: Constant.primaryColor,
                                           fontSize: size.height > diviceSize
                                               ? 35
                                               : 20,
@@ -303,7 +304,7 @@ class ProjectADetails extends StatelessWidget {
                                 ),
                                 Container(
                                   height: size.height,
-                                  color: Colors.amber,
+                                  color: Constant.primaryColor,
                                   width: 2,
                                 )
                               ],

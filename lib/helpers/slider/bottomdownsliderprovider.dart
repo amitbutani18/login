@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login/helpers/slider/slidericon.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class BottomDownSliderProvider with ChangeNotifier {
   List<SliderIcon> _items = [
@@ -24,12 +24,9 @@ class BottomDownSliderProvider with ChangeNotifier {
   }
 
   Future<void> setIcon() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final api = sharedPreferences.getString('api');
-    // final userId = sharedPreferences.getString('userid');
     try {
       final response = await http.post(
-        '${api}companyandservicelist',
+        '${Constant.apiLink}companyandservicelist',
         headers: {"Content-Type": "application/json"},
         body: json.encode(
           {

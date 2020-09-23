@@ -5,6 +5,7 @@ import 'package:login/screens/addproject.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 import 'package:provider/provider.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class RoomDetails extends StatefulWidget {
   static const routeName = '/roomDetails';
@@ -29,7 +30,7 @@ class _RoomDetailsState extends State<RoomDetails> {
           gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
-              colors: [Colors.white, Colors.amberAccent]),
+              colors: [Colors.white, Constant.primaryColor]),
         ),
         child: Material(
           color: Colors.transparent,
@@ -68,7 +69,7 @@ class _RoomDetailsState extends State<RoomDetails> {
                       Text(
                         detailsData[0].title + " | ",
                         style: TextStyle(
-                            color: Colors.amber[300],
+                            color: Constant.primaryColor,
                             fontSize: size.height > diviceSize ? 35 : 22,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1.2),
@@ -89,7 +90,7 @@ class _RoomDetailsState extends State<RoomDetails> {
                   Text(
                     "ORGANISATION",
                     style: TextStyle(
-                      color: Colors.amber[300],
+                      color: Constant.primaryColor,
                       fontSize: size.height > diviceSize ? 30 : 20,
                       letterSpacing: 1.5,
                     ),
@@ -111,7 +112,7 @@ class _RoomDetailsState extends State<RoomDetails> {
                   Text(
                     "DISCOUNT",
                     style: TextStyle(
-                      color: Colors.amber[300],
+                      color: Constant.primaryColor,
                       fontSize: size.height > diviceSize ? 30 : 20,
                       letterSpacing: 1.5,
                     ),

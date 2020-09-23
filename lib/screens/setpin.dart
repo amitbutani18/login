@@ -11,6 +11,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:login/helpers/constant.dart' as Constant;
 
 class SetPin extends StatefulWidget {
   @override
@@ -238,7 +239,7 @@ class _SetPinState extends State<SetPin> {
     final api = sharedPreferences.getString('api');
     final userId = sharedPreferences.getString('userid');
     final response = await http.post(
-      '${api}securitystatus',
+      '${Constant.apiLink}securitystatus',
       headers: {"Content-Type": "application/json"},
       body: json.encode(
         {
@@ -322,7 +323,7 @@ class _SetPinState extends State<SetPin> {
           keyboardType: TextInputType.number,
           cursorColor: Colors.white,
           controller: controller,
-          style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
+          style: TextStyle(color: Constant.primaryColor, fontSize: fontSize),
           obscureText: true,
           decoration: CustomInputDecoration.customInputDecoration(
               lable, fontSize, image)),

@@ -5,6 +5,7 @@ import 'package:login/screens/searchmember.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/pagetitle.dart';
 import 'package:provider/provider.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class ProjectDetails extends StatefulWidget {
   static const routeName = 'projectDetails';
@@ -26,7 +27,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
             gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
-                colors: [Colors.white, Colors.amberAccent]),
+                colors: [Colors.white, Constant.primaryColor]),
             borderRadius: new BorderRadius.all(new Radius.circular(50.0)),
           ),
           child: Material(
@@ -378,7 +379,7 @@ class Logo extends StatelessWidget {
               end: Alignment.bottomLeft,
               colors: [
                 Colors.white,
-                Colors.amber,
+                Constant.primaryColor,
               ]),
           borderRadius: new BorderRadius.all(new Radius.circular(50.0)),
         ),

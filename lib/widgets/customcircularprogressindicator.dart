@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class CustomCircularProgressIndicator extends StatelessWidget {
   @override
@@ -6,7 +7,7 @@ class CustomCircularProgressIndicator extends StatelessWidget {
     return Center(
         child: CircularProgressIndicator(
       backgroundColor: Colors.black,
-      valueColor: new AlwaysStoppedAnimation<Color>(Colors.amber),
+      valueColor: new AlwaysStoppedAnimation<Color>(Constant.primaryColor),
     ));
   }
 }

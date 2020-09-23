@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login/helpers/constant.dart' as Const;
 
 class PageTitle extends StatelessWidget {
   const PageTitle({
@@ -37,7 +38,7 @@ class PageTitle extends StatelessWidget {
                 child: Text(
                   title,
                   style: TextStyle(
-                    color: Colors.amber[300],
+                    color: Const.primaryColor,
                     fontSize: size.height > diviceSize ? 40 : 22,
                   ),
                 ),

@@ -3,15 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:login/helpers/constant.dart' as Constant;
 
 class VerPinApi with ChangeNotifier {
   Future<int> verPin(int pin) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final api = sharedPreferences.getString('api');
     final userId = sharedPreferences.getString('userid');
     print("Amit");
     final response = await http.post(
-      "${api}verifypin",
+      "${Constant.apiLink}verifypin",
       headers: {"Content-Type": "application/json"},
       body: json.encode(
         {
