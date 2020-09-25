@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:login/helpers/projectdetailsprovider.dart';
 import 'package:login/screens/searchmember.dart';
 import 'package:login/widgets/pagebackground.dart';
-import 'package:login/widgets/pagetitle.dart';
+import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:provider/provider.dart';
 import 'package:login/helpers/constant.dart' as Constant;
 
@@ -14,8 +14,6 @@ class ProjectDetails extends StatefulWidget {
 }
 
 class _ProjectDetailsState extends State<ProjectDetails> {
-  var diviceSize = 470;
-
   @override
   Widget build(BuildContext context) {
     final projectDetails = Provider.of<ProjectDetailsProvider>(context).items;
@@ -35,11 +33,11 @@ class _ProjectDetailsState extends State<ProjectDetails> {
             child: InkWell(
               splashColor: Colors.blue,
               child: SizedBox(
-                  width: size.height > diviceSize ? 80 : 50,
-                  height: size.height > diviceSize ? 80 : 50,
+                  width: size.height > Constant.divSize ? 80 : 50,
+                  height: size.height > Constant.divSize ? 80 : 50,
                   child: Icon(
                     Icons.add,
-                    size: size.height > diviceSize ? 40 : 20,
+                    size: size.height > Constant.divSize ? 40 : 20,
                   )),
               onTap: () {
                 Navigator.of(context).pushNamed(SearchMember.routeName);
@@ -58,12 +56,9 @@ class _ProjectDetailsState extends State<ProjectDetails> {
               padding: const EdgeInsets.all(28.0),
               child: Column(
                 children: <Widget>[
-                  PageTitle(
-                      size: size,
-                      diviceSize: diviceSize,
-                      title: "Project Details"),
+                  PageTitle(size: size, title: "Project Details"),
                   Padding(
-                    padding: size.height > diviceSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.all(18.0)
                         : const EdgeInsets.all(5.0),
                     child: Row(
@@ -74,11 +69,11 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                             children: <Widget>[
                               Logo(
                                 size: size,
-                                diviceSize: diviceSize,
                                 icon: Icon(
                                   Icons.help,
                                   color: Colors.black87,
-                                  size: size.height > diviceSize ? 30 : 18,
+                                  size:
+                                      size.height > Constant.divSize ? 30 : 18,
                                 ),
                               ),
                               SizedBox(
@@ -88,8 +83,9 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                 projectDetails[0].hotalName,
                                 style: TextStyle(
                                     color: Colors.white54,
-                                    fontSize:
-                                        size.height > diviceSize ? 25 : 18),
+                                    fontSize: size.height > Constant.divSize
+                                        ? 25
+                                        : 18),
                               )
                             ],
                           ),
@@ -98,11 +94,10 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                           children: <Widget>[
                             Logo(
                               size: size,
-                              diviceSize: diviceSize,
                               icon: Icon(
                                 Icons.location_on,
                                 color: Colors.black87,
-                                size: size.height > diviceSize ? 30 : 18,
+                                size: size.height > Constant.divSize ? 30 : 18,
                               ),
                             ),
                             SizedBox(
@@ -112,7 +107,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                               projectDetails[0].location,
                               style: TextStyle(
                                   color: Colors.white54,
-                                  fontSize: size.height > diviceSize ? 25 : 18),
+                                  fontSize:
+                                      size.height > Constant.divSize ? 25 : 18),
                             )
                           ],
                         ),
@@ -120,7 +116,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                     ),
                   ),
                   Padding(
-                    padding: size.height > diviceSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.all(18.0)
                         : const EdgeInsets.all(5.0),
                     child: Row(
@@ -131,11 +127,11 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                             children: <Widget>[
                               Logo(
                                 size: size,
-                                diviceSize: diviceSize,
                                 icon: Icon(
                                   Icons.calendar_today,
                                   color: Colors.black87,
-                                  size: size.height > diviceSize ? 30 : 18,
+                                  size:
+                                      size.height > Constant.divSize ? 30 : 18,
                                 ),
                               ),
                               SizedBox(
@@ -149,8 +145,9 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                         .format(projectDetails[0].dateTime[1]),
                                 style: TextStyle(
                                     color: Colors.white54,
-                                    fontSize:
-                                        size.height > diviceSize ? 25 : 18),
+                                    fontSize: size.height > Constant.divSize
+                                        ? 25
+                                        : 18),
                               )
                             ],
                           ),
@@ -159,11 +156,10 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                           children: <Widget>[
                             Logo(
                               size: size,
-                              diviceSize: diviceSize,
                               icon: Icon(
                                 Icons.attach_money,
                                 color: Colors.black87,
-                                size: size.height > diviceSize ? 30 : 18,
+                                size: size.height > Constant.divSize ? 30 : 18,
                               ),
                             ),
                             SizedBox(
@@ -173,7 +169,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                               "\$ ${projectDetails[0].price}",
                               style: TextStyle(
                                   color: Colors.white54,
-                                  fontSize: size.height > diviceSize ? 25 : 18),
+                                  fontSize:
+                                      size.height > Constant.divSize ? 25 : 18),
                             )
                           ],
                         ),
@@ -181,22 +178,22 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                     ),
                   ),
                   Padding(
-                    padding: size.height > diviceSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.all(18.0)
                         : const EdgeInsets.all(5.0),
                     child: Row(
                       children: <Widget>[
                         Container(
-                          width: size.height > diviceSize ? 900 : 500,
+                          width: size.height > Constant.divSize ? 900 : 500,
                           child: Row(
                             children: <Widget>[
                               Logo(
                                 size: size,
-                                diviceSize: diviceSize,
                                 icon: Icon(
                                   Icons.portrait,
                                   color: Colors.black87,
-                                  size: size.height > diviceSize ? 30 : 18,
+                                  size:
+                                      size.height > Constant.divSize ? 30 : 18,
                                 ),
                               ),
                               SizedBox(
@@ -207,8 +204,9 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                   projectDetails[0].names,
                                   style: TextStyle(
                                     color: Colors.white54,
-                                    fontSize:
-                                        size.height > diviceSize ? 25 : 18,
+                                    fontSize: size.height > Constant.divSize
+                                        ? 25
+                                        : 18,
                                   ),
                                 ),
                               )
@@ -219,24 +217,25 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                     ),
                   ),
                   Padding(
-                    padding: size.height > diviceSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.all(18.0)
                         : const EdgeInsets.all(5.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                          width:
-                              size.height > diviceSize ? 900 : size.width - 70,
+                          width: size.height > Constant.divSize
+                              ? 900
+                              : size.width - 70,
                           child: Row(
                             children: <Widget>[
                               Logo(
                                 size: size,
-                                diviceSize: diviceSize,
                                 icon: Icon(
                                   Icons.link,
                                   color: Colors.black87,
-                                  size: size.height > diviceSize ? 30 : 18,
+                                  size:
+                                      size.height > Constant.divSize ? 30 : 18,
                                 ),
                               ),
                               SizedBox(
@@ -247,8 +246,9 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                   projectDetails[0].website,
                                   style: TextStyle(
                                     color: Colors.white54,
-                                    fontSize:
-                                        size.height > diviceSize ? 25 : 18,
+                                    fontSize: size.height > Constant.divSize
+                                        ? 25
+                                        : 18,
                                   ),
                                 ),
                               )
@@ -259,25 +259,26 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                     ),
                   ),
                   Padding(
-                    padding: size.height > diviceSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.all(18.0)
                         : const EdgeInsets.all(5.0),
                     child: Row(
                       children: <Widget>[
                         Container(
-                          width:
-                              size.height > diviceSize ? 900 : size.width - 70,
+                          width: size.height > Constant.divSize
+                              ? 900
+                              : size.width - 70,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Logo(
                                 size: size,
-                                diviceSize: diviceSize,
                                 icon: Icon(
                                   Icons.map,
                                   color: Colors.black87,
-                                  size: size.height > diviceSize ? 30 : 18,
+                                  size:
+                                      size.height > Constant.divSize ? 30 : 18,
                                 ),
                               ),
                               SizedBox(
@@ -292,8 +293,9 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                     // "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful contentIn publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content",
                                     style: TextStyle(
                                         color: Colors.white54,
-                                        fontSize:
-                                            size.height > diviceSize ? 25 : 18),
+                                        fontSize: size.height > Constant.divSize
+                                            ? 25
+                                            : 18),
                                   ),
                                 ),
                               )
@@ -304,25 +306,26 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                     ),
                   ),
                   Padding(
-                    padding: size.height > diviceSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.all(18.0)
                         : const EdgeInsets.all(5.0),
                     child: Row(
                       children: <Widget>[
                         Container(
-                          width:
-                              size.height > diviceSize ? 900 : size.width - 70,
+                          width: size.height > Constant.divSize
+                              ? 900
+                              : size.width - 70,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Logo(
                                 size: size,
-                                diviceSize: diviceSize,
                                 icon: Icon(
                                   Icons.bookmark_border,
                                   color: Colors.black87,
-                                  size: size.height > diviceSize ? 30 : 18,
+                                  size:
+                                      size.height > Constant.divSize ? 30 : 18,
                                 ),
                               ),
                               SizedBox(
@@ -337,8 +340,9 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                     // "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful contentIn publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content",
                                     style: TextStyle(
                                         color: Colors.white54,
-                                        fontSize:
-                                            size.height > diviceSize ? 25 : 18),
+                                        fontSize: size.height > Constant.divSize
+                                            ? 25
+                                            : 18),
                                   ),
                                 ),
                               )
@@ -359,15 +363,10 @@ class _ProjectDetailsState extends State<ProjectDetails> {
 }
 
 class Logo extends StatelessWidget {
-  const Logo(
-      {Key key,
-      @required this.size,
-      @required this.diviceSize,
-      @required this.icon})
+  const Logo({Key key, @required this.size, @required this.icon})
       : super(key: key);
 
   final Size size;
-  final int diviceSize;
   final Icon icon;
   @override
   Widget build(BuildContext context) {
@@ -386,8 +385,8 @@ class Logo extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: SizedBox(
-            width: size.height > diviceSize ? 50 : 30,
-            height: size.height > diviceSize ? 50 : 30,
+            width: size.height > Constant.divSize ? 50 : 30,
+            height: size.height > Constant.divSize ? 50 : 30,
             child: Center(
               child: icon,
             ),

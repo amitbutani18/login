@@ -5,7 +5,7 @@ import 'package:login/widgets/custom_input_decoration.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
-import 'package:login/widgets/pagetitle.dart';
+import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:login/widgets/validation.dart';
 import 'package:login/helpers/constant.dart' as Constant;
 import 'package:provider/provider.dart';
@@ -18,8 +18,6 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  int diviceSize = 470;
 
   TextEditingController _emailController = TextEditingController();
 
@@ -46,7 +44,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ? CustomCircularProgressIndicator()
                   : Center(
                       child: Container(
-                        padding: size.height > diviceSize
+                        padding: size.height > Constant.divSize
                             ? EdgeInsets.only(
                                 top: 108, left: 55, right: 55, bottom: 55)
                             : EdgeInsets.all(20),
@@ -54,18 +52,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            PageTitle(
-                                size: size,
-                                diviceSize: diviceSize,
-                                title: "Amnesia"),
+                            PageTitle(size: size, title: "Amnesia"),
                             Container(
-                              width: size.height > diviceSize ? 650 : 400,
+                              width: size.height > Constant.divSize ? 650 : 400,
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 15, vertical: 20),
                                 child: Column(
                                   children: <Widget>[
-                                    size.height > diviceSize
+                                    size.height > Constant.divSize
                                         ? _formField(
                                             'Email',
                                             650,
@@ -85,7 +80,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
                                         Padding(
-                                          padding: size.height > diviceSize
+                                          padding: size.height >
+                                                  Constant.divSize
                                               ? const EdgeInsets.only(top: 18.0)
                                               : const EdgeInsets.only(top: 8.0),
                                           child: GestureDetector(
@@ -98,10 +94,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                               child: CircleAvatar(
                                                   backgroundColor:
                                                       Colors.transparent,
-                                                  radius:
-                                                      size.height > diviceSize
-                                                          ? 40
-                                                          : 30,
+                                                  radius: size.height >
+                                                          Constant.divSize
+                                                      ? 40
+                                                      : 30,
                                                   child: Image.asset(
                                                       'assets/icons/loginbubble.png')),
                                             ),
@@ -126,8 +122,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   bool validateField(BuildContext context) {
     if (!Validation.shared.isEmailValidation(_emailController.text)) {
-      CustomSnackBar(
-          context, 'Please enter valid email', SnackBartype.nagetive);
+      CustomSnackBar(context, Constant.emailMsg, SnackBartype.nagetive);
       return false;
     } else {
       return true;

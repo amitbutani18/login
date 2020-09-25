@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:login/screens/projectDetails.dart';
 import 'package:login/widgets/pagebackground.dart';
-import 'package:login/widgets/pagetitle.dart';
+import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:login/widgets/task.dart';
 import 'package:login/helpers/constant.dart' as Constant;
 
 class Contract extends StatelessWidget {
-  final diviceSize = 470;
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -19,7 +17,7 @@ class Contract extends StatelessWidget {
           Container(
             child: CircleAvatar(
                 backgroundColor: Colors.transparent,
-                radius: size.height > diviceSize ? 40 : 30,
+                radius: size.height > Constant.divSize ? 40 : 30,
                 child: Image.asset('assets/icons/loginbubble.png')),
           ),
           SizedBox(
@@ -32,7 +30,7 @@ class Contract extends StatelessWidget {
             child: Container(
               child: CircleAvatar(
                   backgroundColor: Colors.transparent,
-                  radius: size.height > diviceSize ? 40 : 30,
+                  radius: size.height > Constant.divSize ? 40 : 30,
                   child: Image.asset('assets/icons/loginbubble.png')),
             ),
           ),
@@ -48,13 +46,12 @@ class Contract extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  PageTitle(
-                      size: size, diviceSize: diviceSize, title: "Contract"),
+                  PageTitle(size: size, title: "Contract"),
                   SizedBox(
-                    height: size.height > diviceSize ? 20 : 8,
+                    height: size.height > Constant.divSize ? 20 : 8,
                   ),
                   Padding(
-                    padding: size.height > diviceSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.all(28.0)
                         : const EdgeInsets.all(8.0),
                     child: Column(
@@ -64,39 +61,40 @@ class Contract extends StatelessWidget {
                           "Project Detail",
                           style: TextStyle(
                             color: Constant.primaryColor,
-                            fontSize: size.height > diviceSize ? 30 : 20,
+                            fontSize: size.height > Constant.divSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 15 : 10,
+                          height: size.height > Constant.divSize ? 15 : 10,
                         ),
                         Text(
                           "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.",
                           style: TextStyle(
                               color: Colors.white54,
-                              fontSize: size.height > diviceSize ? 25 : 15,
+                              fontSize:
+                                  size.height > Constant.divSize ? 25 : 15,
                               letterSpacing: 1.2),
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 25 : 10,
+                          height: size.height > Constant.divSize ? 25 : 10,
                         ),
                         Text(
                           "Location",
                           style: TextStyle(
                             color: Constant.primaryColor,
-                            fontSize: size.height > diviceSize ? 30 : 20,
+                            fontSize: size.height > Constant.divSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 15 : 10,
+                          height: size.height > Constant.divSize ? 15 : 10,
                         ),
                         Row(
                           children: <Widget>[
                             Icon(
                               Icons.location_on,
-                              size: size.height > diviceSize ? 25 : 15,
+                              size: size.height > Constant.divSize ? 25 : 15,
                               color: Colors.white54,
                             ),
                             SizedBox(
@@ -106,117 +104,115 @@ class Contract extends StatelessWidget {
                               "London , Europ",
                               style: TextStyle(
                                 color: Colors.white54,
-                                fontSize: size.height > diviceSize ? 25 : 15,
+                                fontSize:
+                                    size.height > Constant.divSize ? 25 : 15,
                               ),
                             ),
                           ],
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 25 : 10,
+                          height: size.height > Constant.divSize ? 25 : 10,
                         ),
                         Text(
                           "Team Member",
                           style: TextStyle(
                             color: Constant.primaryColor,
-                            fontSize: size.height > diviceSize ? 30 : 20,
+                            fontSize: size.height > Constant.divSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 15 : 10,
+                          height: size.height > Constant.divSize ? 15 : 10,
                         ),
                         Text(
                           "Akash Gajera , Kapil Maheshvari , Harshad Pavasiya , Rahul Dabhi",
                           style: TextStyle(
                               color: Colors.white54,
-                              fontSize: size.height > diviceSize ? 25 : 15,
+                              fontSize:
+                                  size.height > Constant.divSize ? 25 : 15,
                               letterSpacing: 1.2),
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 25 : 10,
+                          height: size.height > Constant.divSize ? 25 : 10,
                         ),
                         Text(
                           "Task",
                           style: TextStyle(
                             color: Constant.primaryColor,
-                            fontSize: size.height > diviceSize ? 30 : 20,
+                            fontSize: size.height > Constant.divSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 15 : 10,
+                          height: size.height > Constant.divSize ? 15 : 10,
                         ),
                         Task(
                           size: size,
-                          diviceSize: diviceSize,
                           task1:
                               'Lorem ipsum is a placeholder text commonly used to demonstrate the visual',
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 10 : 10,
+                          height: size.height > Constant.divSize ? 10 : 10,
                         ),
                         Task(
                           size: size,
-                          diviceSize: diviceSize,
                           task1:
                               'Lorem ipsum is a placeholder demonstrate the visual',
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 10 : 10,
+                          height: size.height > Constant.divSize ? 10 : 10,
                         ),
                         Task(
                           size: size,
-                          diviceSize: diviceSize,
                           task1: 'Commonly used to demonstrate the visual.',
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 10 : 10,
+                          height: size.height > Constant.divSize ? 10 : 10,
                         ),
                         Task(
                           size: size,
-                          diviceSize: diviceSize,
                           task1: 'Placeholder text commonly used.',
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 25 : 10,
+                          height: size.height > Constant.divSize ? 25 : 10,
                         ),
                         Text(
                           "Amount",
                           style: TextStyle(
                             color: Constant.primaryColor,
-                            fontSize: size.height > diviceSize ? 30 : 20,
+                            fontSize: size.height > Constant.divSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 15 : 10,
+                          height: size.height > Constant.divSize ? 15 : 10,
                         ),
                         Text(
                           "\$ 500.00 / Hour",
                           style: TextStyle(
                             color: Colors.white54,
-                            fontSize: size.height > diviceSize ? 25 : 15,
+                            fontSize: size.height > Constant.divSize ? 25 : 15,
                           ),
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 15 : 10,
+                          height: size.height > Constant.divSize ? 15 : 10,
                         ),
                         Text(
                           "Duration",
                           style: TextStyle(
                             color: Constant.primaryColor,
-                            fontSize: size.height > diviceSize ? 30 : 20,
+                            fontSize: size.height > Constant.divSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 15 : 10,
+                          height: size.height > Constant.divSize ? 15 : 10,
                         ),
                         Text(
                           "20 - Jul - 2020  | 30 - Jul -2020",
                           style: TextStyle(
                             color: Colors.white54,
-                            fontSize: size.height > diviceSize ? 25 : 15,
+                            fontSize: size.height > Constant.divSize ? 25 : 15,
                           ),
                         ),
                       ],

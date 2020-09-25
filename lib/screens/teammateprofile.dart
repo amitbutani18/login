@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:login/screens/editprofile.dart';
 import 'package:login/widgets/pagebackground.dart';
-import 'package:login/widgets/pagetitle.dart';
+import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/rendering.dart';
 import 'package:login/helpers/constant.dart' as Constant;
@@ -16,7 +16,6 @@ class TeamMateProfile extends StatefulWidget {
 }
 
 class _TeamMateProfileState extends State<TeamMateProfile> {
-  var diviceSize = 470;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String _qrData = "Amit Butani";
@@ -38,7 +37,7 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
             child: Container(
               child: CircleAvatar(
                   backgroundColor: Colors.transparent,
-                  radius: size.height > diviceSize ? 40 : 25,
+                  radius: size.height > Constant.divSize ? 40 : 25,
                   child: Image.asset('assets/icons/contractDetail.png')),
             ),
           ),
@@ -50,7 +49,7 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
             child: Container(
               child: CircleAvatar(
                   backgroundColor: Colors.transparent,
-                  radius: size.height > diviceSize ? 40 : 25,
+                  radius: size.height > Constant.divSize ? 40 : 25,
                   child: Image.asset('assets/icons/message.png')),
             ),
           ),
@@ -61,30 +60,27 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
           PageBackground(
               size: size, imagePath: 'assets/images/profilebackground.png'),
           Padding(
-            padding: size.height > diviceSize
+            padding: size.height > Constant.divSize
                 ? const EdgeInsets.all(28.0)
                 : const EdgeInsets.only(top: 18, right: 18, left: 18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                PageTitle(
-                    size: size,
-                    diviceSize: diviceSize,
-                    title: "Team Mate Profile"),
+                PageTitle(size: size, title: "Team Mate Profile"),
                 SizedBox(
                   height: 20,
                 ),
                 Padding(
-                  padding: size.height > diviceSize
+                  padding: size.height > Constant.divSize
                       ? const EdgeInsets.symmetric(horizontal: 28.0)
                       : const EdgeInsets.symmetric(horizontal: 18.0),
                   child: Row(
                     children: <Widget>[
                       Container(
-                        width: size.height > diviceSize
+                        width: size.height > Constant.divSize
                             ? size.width / 2
                             : size.width / 2 - 50,
-                        height: size.height > diviceSize
+                        height: size.height > Constant.divSize
                             ? size.height - 150
                             : size.height - 86,
                         // color: Colors.white,
@@ -94,22 +90,26 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                             children: <Widget>[
                               CircleAvatar(
                                   key: ValueKey(new Random().nextInt(100)),
-                                  radius: size.height > diviceSize ? 70 : 30,
+                                  radius:
+                                      size.height > Constant.divSize ? 70 : 30,
                                   backgroundColor: Colors.transparent,
                                   backgroundImage: AssetImage(
                                       'assets/images/profileimage.png')),
                               SizedBox(
-                                height: size.height > diviceSize ? 20 : 10,
+                                height:
+                                    size.height > Constant.divSize ? 20 : 10,
                               ),
                               Text(
                                 "Profile Name",
                                 style: TextStyle(
                                   color: Constant.primaryColor,
-                                  fontSize: size.height > diviceSize ? 35 : 20,
+                                  fontSize:
+                                      size.height > Constant.divSize ? 35 : 20,
                                 ),
                               ),
                               SizedBox(
-                                height: size.height > diviceSize ? 30 : 10,
+                                height:
+                                    size.height > Constant.divSize ? 30 : 10,
                               ),
                               Align(
                                 alignment: Alignment.topLeft,
@@ -117,8 +117,9 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                   'Link',
                                   style: TextStyle(
                                     color: Constant.primaryColor,
-                                    fontSize:
-                                        size.height > diviceSize ? 25 : 10,
+                                    fontSize: size.height > Constant.divSize
+                                        ? 25
+                                        : 10,
                                   ),
                                 ),
                               ),
@@ -127,7 +128,6 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                               ),
                               YouLink(
                                 size: size,
-                                diviceSize: diviceSize,
                                 heading: 'Youtube',
                                 link: "WWW.YOUTUBE.COM",
                                 scaffoldKey: _scaffoldKey,
@@ -137,7 +137,6 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                               ),
                               YouLink(
                                 size: size,
-                                diviceSize: diviceSize,
                                 heading: 'Linkedin',
                                 link: "WWW.LINKEDIN.COM",
                                 scaffoldKey: _scaffoldKey,
@@ -151,8 +150,9 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                   'About Us',
                                   style: TextStyle(
                                     color: Constant.primaryColor,
-                                    fontSize:
-                                        size.height > diviceSize ? 25 : 10,
+                                    fontSize: size.height > Constant.divSize
+                                        ? 25
+                                        : 10,
                                   ),
                                 ),
                               ),
@@ -190,9 +190,10 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                         "Rating",
                                         style: TextStyle(
                                           color: Constant.primaryColor,
-                                          fontSize: size.height > diviceSize
-                                              ? 25
-                                              : size.width < 600 ? 10 : 15,
+                                          fontSize:
+                                              size.height > Constant.divSize
+                                                  ? 25
+                                                  : size.width < 600 ? 10 : 15,
                                         ),
                                       ),
                                       SizedBox(
@@ -226,9 +227,10 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                         "Total Earned Amount",
                                         style: TextStyle(
                                           color: Constant.primaryColor,
-                                          fontSize: size.height > diviceSize
-                                              ? 25
-                                              : size.width < 600 ? 10 : 15,
+                                          fontSize:
+                                              size.height > Constant.divSize
+                                                  ? 25
+                                                  : size.width < 600 ? 10 : 15,
                                         ),
                                       ),
                                       SizedBox(
@@ -238,9 +240,10 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                         "\$ 1000.00",
                                         style: TextStyle(
                                           color: Colors.grey,
-                                          fontSize: size.height > diviceSize
-                                              ? 25
-                                              : size.width < 600 ? 10 : 15,
+                                          fontSize:
+                                              size.height > Constant.divSize
+                                                  ? 25
+                                                  : size.width < 600 ? 10 : 15,
                                         ),
                                       ),
                                     ],
@@ -253,12 +256,13 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                       ),
                       Expanded(
                         child: Container(
-                          padding: size.height > diviceSize
+                          padding: size.height > Constant.divSize
                               ? const EdgeInsets.symmetric(horizontal: 150)
                               : const EdgeInsets.symmetric(horizontal: 90),
-                          width:
-                              size.height > diviceSize ? size.width / 2 : 200,
-                          height: size.height > diviceSize
+                          width: size.height > Constant.divSize
+                              ? size.width / 2
+                              : 200,
+                          height: size.height > Constant.divSize
                               ? size.height - 150
                               : size.height - 100,
                           // color: Colors.pink,
@@ -274,8 +278,9 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                       'Location',
                                       style: TextStyle(
                                         color: Constant.primaryColor,
-                                        fontSize:
-                                            size.height > diviceSize ? 25 : 15,
+                                        fontSize: size.height > Constant.divSize
+                                            ? 25
+                                            : 15,
                                       ),
                                     ),
                                     SizedBox(
@@ -287,22 +292,24 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                       children: <Widget>[
                                         Icon(
                                           Icons.location_on,
-                                          size: size.height > diviceSize
+                                          size: size.height > Constant.divSize
                                               ? 20
                                               : 10,
                                           color: Colors.white,
                                         ),
                                         SizedBox(
-                                          width:
-                                              size.height > diviceSize ? 20 : 5,
+                                          width: size.height > Constant.divSize
+                                              ? 20
+                                              : 5,
                                         ),
                                         Text(
                                           "London , Europ",
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: size.height > diviceSize
-                                                ? 25
-                                                : 10,
+                                            fontSize:
+                                                size.height > Constant.divSize
+                                                    ? 25
+                                                    : 10,
                                           ),
                                         ),
                                       ],
@@ -310,7 +317,8 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                   ],
                                 ),
                                 SizedBox(
-                                  height: size.height > diviceSize ? 30 : 15,
+                                  height:
+                                      size.height > Constant.divSize ? 30 : 15,
                                 ),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -320,8 +328,9 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                       'Occuption',
                                       style: TextStyle(
                                         color: Constant.primaryColor,
-                                        fontSize:
-                                            size.height > diviceSize ? 25 : 15,
+                                        fontSize: size.height > Constant.divSize
+                                            ? 25
+                                            : 15,
                                       ),
                                     ),
                                     SizedBox(
@@ -335,22 +344,24 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                           "Fashion Model",
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: size.height > diviceSize
-                                                  ? 25
-                                                  : 10),
+                                              fontSize:
+                                                  size.height > Constant.divSize
+                                                      ? 25
+                                                      : 10),
                                         ),
                                       ],
                                     ),
                                   ],
                                 ),
                                 SizedBox(
-                                  height: size.height > diviceSize ? 50 : 10,
+                                  height:
+                                      size.height > Constant.divSize ? 50 : 10,
                                 ),
                                 Container(
-                                  // height: size.height > diviceSize
+                                  // height: size.height > Constant.divSize
                                   //     ? 250
                                   //     : 200,
-                                  // width: size.height > diviceSize
+                                  // width: size.height > Constant.divSize
                                   //     ? size.width
                                   //     : 200,
                                   color: Constant.primaryColor,
@@ -361,21 +372,24 @@ class _TeamMateProfileState extends State<TeamMateProfile> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: size.height > diviceSize ? 30 : 10,
+                                  height:
+                                      size.height > Constant.divSize ? 30 : 10,
                                 ),
                                 Container(
                                   height: 3,
-                                  width: size.height > diviceSize
+                                  width: size.height > Constant.divSize
                                       ? size.width
                                       : 200,
                                   color: Constant.primaryColor,
                                 ),
                                 SizedBox(
-                                  height: size.height > diviceSize ? 30 : 10,
+                                  height:
+                                      size.height > Constant.divSize ? 30 : 10,
                                 ),
                                 Container(
-                                  height: size.height > diviceSize ? 100 : 50,
-                                  width: size.height > diviceSize
+                                  height:
+                                      size.height > Constant.divSize ? 100 : 50,
+                                  width: size.height > Constant.divSize
                                       ? size.width
                                       : 200,
                                   // color: Constant.primaryColor,
@@ -405,7 +419,6 @@ class PointCredit extends StatelessWidget {
   const PointCredit({
     Key key,
     @required this.size,
-    @required this.diviceSize,
     @required this.heading1,
     @required this.value1,
     @required this.heading2,
@@ -413,7 +426,6 @@ class PointCredit extends StatelessWidget {
   }) : super(key: key);
 
   final Size size;
-  final int diviceSize;
   final String heading1;
   final String value1;
   final String heading2;
@@ -431,8 +443,9 @@ class PointCredit extends StatelessWidget {
               heading1,
               style: TextStyle(
                 color: Constant.primaryColor,
-                fontSize:
-                    size.height > diviceSize ? 25 : size.width < 600 ? 10 : 15,
+                fontSize: size.height > Constant.divSize
+                    ? 25
+                    : size.width < 600 ? 10 : 15,
               ),
             ),
             SizedBox(
@@ -442,14 +455,15 @@ class PointCredit extends StatelessWidget {
               value1,
               style: TextStyle(
                 color: Colors.white,
-                fontSize:
-                    size.height > diviceSize ? 20 : size.width < 600 ? 10 : 15,
+                fontSize: size.height > Constant.divSize
+                    ? 20
+                    : size.width < 600 ? 10 : 15,
               ),
             ),
           ],
         ),
         SizedBox(
-          width: size.height > diviceSize ? 180 : 25,
+          width: size.height > Constant.divSize ? 180 : 25,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -458,8 +472,9 @@ class PointCredit extends StatelessWidget {
               heading2,
               style: TextStyle(
                 color: Constant.primaryColor,
-                fontSize:
-                    size.height > diviceSize ? 25 : size.width < 600 ? 10 : 15,
+                fontSize: size.height > Constant.divSize
+                    ? 25
+                    : size.width < 600 ? 10 : 15,
               ),
             ),
             SizedBox(
@@ -469,8 +484,9 @@ class PointCredit extends StatelessWidget {
               value2,
               style: TextStyle(
                 color: Colors.white,
-                fontSize:
-                    size.height > diviceSize ? 20 : size.width < 600 ? 10 : 15,
+                fontSize: size.height > Constant.divSize
+                    ? 20
+                    : size.width < 600 ? 10 : 15,
               ),
             ),
           ],
@@ -484,14 +500,12 @@ class YouLink extends StatelessWidget {
   const YouLink({
     Key key,
     @required this.size,
-    @required this.diviceSize,
     @required this.heading,
     @required this.link,
     @required this.scaffoldKey,
   }) : super(key: key);
 
   final Size size;
-  final int diviceSize;
   final String heading;
   final String link;
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -506,7 +520,7 @@ class YouLink extends StatelessWidget {
             heading,
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.height > diviceSize ? 23 : 10,
+              fontSize: size.height > Constant.divSize ? 23 : 10,
             ),
           ),
         ),
@@ -515,7 +529,7 @@ class YouLink extends StatelessWidget {
         ),
         Container(
           width: size.width,
-          height: size.height > diviceSize ? 80 : 40,
+          height: size.height > Constant.divSize ? 80 : 40,
           decoration: BoxDecoration(
             color: Colors.grey[850],
             borderRadius: BorderRadius.circular(8),
@@ -529,7 +543,7 @@ class YouLink extends StatelessWidget {
                   link,
                   style: TextStyle(
                     color: Colors.white24,
-                    fontSize: size.height > diviceSize ? 23 : 10,
+                    fontSize: size.height > Constant.divSize ? 23 : 10,
                   ),
                 ),
               ),
@@ -546,7 +560,7 @@ class YouLink extends StatelessWidget {
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                     color: Constant.primaryColor,
-                    fontSize: size.height > diviceSize ? 23 : 10,
+                    fontSize: size.height > Constant.divSize ? 23 : 10,
                   ),
                 ),
               )

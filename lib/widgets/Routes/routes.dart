@@ -6,6 +6,7 @@ import 'package:login/screens/loginscreen.dart';
 import 'package:login/screens/ownprofile.dart';
 import 'package:login/screens/pickroom.dart';
 import 'package:login/screens/projectDetails.dart';
+import 'package:login/screens/resetpassword.dart';
 import 'package:login/screens/roomdetails.dart';
 import 'package:login/screens/searchmember.dart';
 import 'package:login/screens/serviceprovider.dart';
@@ -28,6 +29,7 @@ class Routes {
       AllContract.routeName: (context) => AllContract(),
       SettingScreen.routeName: (context) => SettingScreen(),
       ForgotPassword.roteName: (context) => ForgotPassword(),
+      ResetPassword.roteName: (context) => ResetPassword(),
     };
   }
 }

@@ -34,8 +34,6 @@ class _PickRoomState extends State<PickRoom> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  double divSize = 550;
-
   double oldValue = 0;
   String _hotelValue;
   String _location;
@@ -171,11 +169,10 @@ class _PickRoomState extends State<PickRoom> {
                             child: dashbordAppBar(size, slider, context),
                           ),
                         ),
-                        size.height > divSize
-                            ? TopSliderForTab(
-                                size: size, divSize: divSize, slider: slider)
+                        size.height > Constant.divSize
+                            ? TopSliderForTab(size: size, slider: slider)
                             : Container(),
-                        size.height > divSize
+                        size.height > Constant.divSize
                             ? SizedBox(
                                 height: 10,
                               )
@@ -188,7 +185,6 @@ class _PickRoomState extends State<PickRoom> {
                               //LeftSlider
                               leftRightSericesSlider(
                                 size,
-                                divSize,
                                 _scrollController4,
                                 rightSlider,
                               ),
@@ -197,10 +193,10 @@ class _PickRoomState extends State<PickRoom> {
                                 children: <Widget>[
                                   //Services
                                   Padding(
-                                    padding: size.height > divSize
+                                    padding: size.height > Constant.divSize
                                         ? const EdgeInsets.only(top: 48.0)
                                         : const EdgeInsets.only(top: 18.0),
-                                    child: size.height > divSize
+                                    child: size.height > Constant.divSize
                                         ? _formField('What', 650, 30,
                                             'assets/icons/What.png')
                                         : _formField('What', 450, 18,
@@ -215,7 +211,8 @@ class _PickRoomState extends State<PickRoom> {
                                           : Padding(
                                               padding: const EdgeInsets.only(
                                                   top: 18.0),
-                                              child: size.height > divSize
+                                              child: size.height >
+                                                      Constant.divSize
                                                   ? _formField('Where', 350, 30,
                                                       'assets/icons/Where.png')
                                                   : FutureBuilder(
@@ -253,7 +250,9 @@ class _PickRoomState extends State<PickRoom> {
                                     ],
                                   ),
                                   SizedBox(
-                                    height: size.height > divSize ? 30 : 10,
+                                    height: size.height > Constant.divSize
+                                        ? 30
+                                        : 10,
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
@@ -267,14 +266,16 @@ class _PickRoomState extends State<PickRoom> {
                                       "Hotels",
                                       style: TextStyle(
                                           fontSize:
-                                              size.height > divSize ? 22 : 15,
+                                              size.height > Constant.divSize
+                                                  ? 22
+                                                  : 15,
                                           color: Colors.white54,
                                           letterSpacing: 1),
                                     ),
                                   ),
 
                                   //HotelsList
-                                  size.height > divSize
+                                  size.height > Constant.divSize
                                       ? hotelsListForTab(imageUrl)
                                       : hotelsListForMobile(imageUrl),
                                 ],
@@ -283,7 +284,6 @@ class _PickRoomState extends State<PickRoom> {
                               //RightSlider
                               leftRightSericesSlider(
                                 size,
-                                divSize,
                                 _scrollController3,
                                 leftSlider,
                               )
@@ -298,7 +298,6 @@ class _PickRoomState extends State<PickRoom> {
                               size: size,
                               boxSize: 40.0,
                               controller: _scrollController,
-                              deviceSize: divSize,
                               isLoading: _isLoading,
                             ),
                           ),
@@ -311,7 +310,6 @@ class _PickRoomState extends State<PickRoom> {
                               size: size,
                               boxSize: 40.0,
                               controller: _scrollController2,
-                              deviceSize: divSize,
                               isLoading: _isLoading,
                             ),
                           ),
@@ -335,7 +333,7 @@ class _PickRoomState extends State<PickRoom> {
             _scaffoldKey.currentState.openDrawer();
           },
           child: CircleAvatar(
-            radius: size.height > divSize ? 20 : 10,
+            radius: size.height > Constant.divSize ? 20 : 10,
             backgroundColor: Colors.transparent,
             child: Image.asset(
               'assets/icons/Sidebar.png',
@@ -343,7 +341,7 @@ class _PickRoomState extends State<PickRoom> {
             ),
           ),
         ),
-        size.height > divSize
+        size.height > Constant.divSize
             ? Container()
             : TopSliderForMobile(
                 scrollController5: _scrollController5, slider: slider),
@@ -351,7 +349,7 @@ class _PickRoomState extends State<PickRoom> {
           // onTap: () =>
           //     Navigator.of(context).pushNamed(ServiceProvider.routeName),
           child: CircleAvatar(
-            radius: size.height > divSize ? 20 : 10,
+            radius: size.height > Constant.divSize ? 20 : 10,
             backgroundColor: Colors.transparent,
             child: Image.asset(
               'assets/icons/home.png',
@@ -363,11 +361,11 @@ class _PickRoomState extends State<PickRoom> {
     );
   }
 
-  Widget leftRightSericesSlider(Size size, double deviceSize,
-      ScrollController controller, List<SliderIcon> serviceList) {
+  Widget leftRightSericesSlider(
+      Size size, ScrollController controller, List<SliderIcon> serviceList) {
     return Container(
-      height: size.height > deviceSize ? 480 : 200,
-      width: size.height > deviceSize ? 80 : 60,
+      height: size.height > Constant.divSize ? 480 : 200,
+      width: size.height > Constant.divSize ? 80 : 60,
       child: ListWheelScrollView.useDelegate(
         overAndUnderCenterOpacity: 0.7,
         magnification: 1.2,

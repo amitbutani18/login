@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:login/helpers/constant.dart' as Const;
+import 'package:login/helpers/constant.dart' as Constant;
 
 class PageTitle extends StatelessWidget {
   const PageTitle({
     Key key,
     @required this.size,
-    @required this.diviceSize,
     @required this.title,
   }) : super(key: key);
 
   final Size size;
-  final int diviceSize;
+
   final String title;
 
   @override
@@ -38,8 +37,8 @@ class PageTitle extends StatelessWidget {
                 child: Text(
                   title,
                   style: TextStyle(
-                    color: Const.primaryColor,
-                    fontSize: size.height > diviceSize ? 40 : 22,
+                    color: Constant.primaryColor,
+                    fontSize: size.height > Constant.divSize ? 40 : 22,
                   ),
                 ),
               ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:login/screens/projectDetails.dart';
 import 'package:login/widgets/pagebackground.dart';
-import 'package:login/widgets/pagetitle.dart';
+import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:login/helpers/constant.dart' as Constant;
 
 class EndContract extends StatefulWidget {
@@ -12,8 +12,6 @@ class EndContract extends StatefulWidget {
 }
 
 class _EndContractState extends State<EndContract> {
-  var diviceSize = 470;
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -26,7 +24,7 @@ class _EndContractState extends State<EndContract> {
           Container(
             child: CircleAvatar(
                 backgroundColor: Colors.transparent,
-                radius: size.height > diviceSize ? 40 : 30,
+                radius: size.height > Constant.divSize ? 40 : 30,
                 child: Image.asset('assets/icons/loginbubble.png')),
           ),
           SizedBox(
@@ -39,7 +37,7 @@ class _EndContractState extends State<EndContract> {
             child: Container(
               child: CircleAvatar(
                   backgroundColor: Colors.transparent,
-                  radius: size.height > diviceSize ? 40 : 30,
+                  radius: size.height > Constant.divSize ? 40 : 30,
                   child: Image.asset('assets/icons/loginbubble.png')),
             ),
           ),
@@ -57,11 +55,10 @@ class _EndContractState extends State<EndContract> {
                 children: <Widget>[
                   PageTitle(
                     size: size,
-                    diviceSize: diviceSize,
                     title: 'End Contract',
                   ),
                   Padding(
-                    padding: size.height > diviceSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.all(28.0)
                         : const EdgeInsets.all(8.0),
                     child: Column(
@@ -71,18 +68,19 @@ class _EndContractState extends State<EndContract> {
                           "Project Detail",
                           style: TextStyle(
                             color: Constant.primaryColor,
-                            fontSize: size.height > diviceSize ? 30 : 20,
+                            fontSize: size.height > Constant.divSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 15 : 10,
+                          height: size.height > Constant.divSize ? 15 : 10,
                         ),
                         Text(
                           "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.",
                           style: TextStyle(
                               color: Colors.white54,
-                              fontSize: size.height > diviceSize ? 25 : 15,
+                              fontSize:
+                                  size.height > Constant.divSize ? 25 : 15,
                               letterSpacing: 1.2),
                         ),
                         SizedBox(
@@ -92,28 +90,36 @@ class _EndContractState extends State<EndContract> {
                           "Responsibility",
                           style: TextStyle(
                             color: Constant.primaryColor,
-                            fontSize: size.height > diviceSize ? 30 : 20,
+                            fontSize: size.height > Constant.divSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 15 : 10,
+                          height: size.height > Constant.divSize ? 15 : 10,
                         ),
-                        Responsibility(size: size, diviceSize: diviceSize),
-                        SizedBox(
-                          height: size.height > diviceSize ? 15 : 5,
+                        Responsibility(
+                          size: size,
                         ),
-                        Responsibility(size: size, diviceSize: diviceSize),
                         SizedBox(
-                          height: size.height > diviceSize ? 15 : 5,
+                          height: size.height > Constant.divSize ? 15 : 5,
                         ),
-                        Responsibility(size: size, diviceSize: diviceSize),
-                        SizedBox(
-                          height: size.height > diviceSize ? 15 : 5,
+                        Responsibility(
+                          size: size,
                         ),
-                        Responsibility(size: size, diviceSize: diviceSize),
                         SizedBox(
-                          height: size.height > diviceSize ? 15 : 10,
+                          height: size.height > Constant.divSize ? 15 : 5,
+                        ),
+                        Responsibility(
+                          size: size,
+                        ),
+                        SizedBox(
+                          height: size.height > Constant.divSize ? 15 : 5,
+                        ),
+                        Responsibility(
+                          size: size,
+                        ),
+                        SizedBox(
+                          height: size.height > Constant.divSize ? 15 : 10,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,7 +131,7 @@ class _EndContractState extends State<EndContract> {
                                     Container(
                                       child: CircleAvatar(
                                           backgroundColor: Colors.transparent,
-                                          radius: size.height > diviceSize
+                                          radius: size.height > Constant.divSize
                                               ? 40
                                               : 30,
                                           child: Image.asset(
@@ -138,8 +144,9 @@ class _EndContractState extends State<EndContract> {
                                       "\$ 550.00",
                                       style: TextStyle(
                                         color: Constant.primaryColor,
-                                        fontSize:
-                                            size.height > diviceSize ? 30 : 18,
+                                        fontSize: size.height > Constant.divSize
+                                            ? 30
+                                            : 18,
                                         letterSpacing: 1.5,
                                       ),
                                     ),
@@ -153,7 +160,7 @@ class _EndContractState extends State<EndContract> {
                                     Container(
                                       child: CircleAvatar(
                                           backgroundColor: Colors.transparent,
-                                          radius: size.height > diviceSize
+                                          radius: size.height > Constant.divSize
                                               ? 40
                                               : 30,
                                           child: Image.asset(
@@ -167,8 +174,9 @@ class _EndContractState extends State<EndContract> {
                                           .format(DateTime.now()),
                                       style: TextStyle(
                                         color: Constant.primaryColor,
-                                        fontSize:
-                                            size.height > diviceSize ? 30 : 18,
+                                        fontSize: size.height > Constant.divSize
+                                            ? 30
+                                            : 18,
                                         letterSpacing: 1.5,
                                       ),
                                     ),
@@ -195,11 +203,9 @@ class Responsibility extends StatelessWidget {
   const Responsibility({
     Key key,
     @required this.size,
-    @required this.diviceSize,
   }) : super(key: key);
 
   final Size size;
-  final int diviceSize;
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +213,7 @@ class Responsibility extends StatelessWidget {
       children: <Widget>[
         Icon(
           Icons.adjust,
-          size: size.height > diviceSize ? 25 : 15,
+          size: size.height > Constant.divSize ? 25 : 15,
           color: Colors.white54,
         ),
         SizedBox(
@@ -217,7 +223,7 @@ class Responsibility extends StatelessWidget {
           "Lorem ipsum is a placeholder demonstrate the visual",
           style: TextStyle(
             color: Colors.white54,
-            fontSize: size.height > diviceSize ? 25 : 15,
+            fontSize: size.height > Constant.divSize ? 25 : 15,
           ),
         ),
       ],

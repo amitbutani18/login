@@ -29,8 +29,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   bool _load = false;
 
-  int diviceSize = 470;
-
   @override
   void dispose() {
     super.dispose();
@@ -63,7 +61,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       physics: BouncingScrollPhysics(),
                       child: Container(
                         width: size.width,
-                        padding: size.height > diviceSize
+                        padding: size.height > Constant.divSize
                             ? EdgeInsets.only(
                                 top: 98, left: 0, right: 0, bottom: 48)
                             : EdgeInsets.symmetric(
@@ -74,13 +72,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           children: <Widget>[
                             SingleChildScrollView(
                               child: Container(
-                                width: size.height > diviceSize ? 700 : 450,
+                                width:
+                                    size.height > Constant.divSize ? 700 : 450,
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 15, vertical: 18),
                                   child: Column(
                                     children: <Widget>[
-                                      size.height > diviceSize
+                                      size.height > Constant.divSize
                                           ? _formField(
                                               'Name',
                                               650,
@@ -96,10 +95,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               _nameController,
                                               false),
                                       SizedBox(
-                                        height:
-                                            size.height > diviceSize ? 15 : 3,
+                                        height: size.height > Constant.divSize
+                                            ? 15
+                                            : 3,
                                       ),
-                                      size.height > diviceSize
+                                      size.height > Constant.divSize
                                           ? _formField(
                                               'Company Name',
                                               650,
@@ -115,10 +115,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               _companyController,
                                               false),
                                       SizedBox(
-                                        height:
-                                            size.height > diviceSize ? 15 : 3,
+                                        height: size.height > Constant.divSize
+                                            ? 15
+                                            : 3,
                                       ),
-                                      size.height > diviceSize
+                                      size.height > Constant.divSize
                                           ? _formField(
                                               'Email',
                                               650,
@@ -134,10 +135,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               _emailController,
                                               false),
                                       SizedBox(
-                                        height:
-                                            size.height > diviceSize ? 15 : 3,
+                                        height: size.height > Constant.divSize
+                                            ? 15
+                                            : 3,
                                       ),
-                                      size.height > diviceSize
+                                      size.height > Constant.divSize
                                           ? _formField(
                                               'Password',
                                               650,
@@ -158,11 +160,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                             MainAxisAlignment.end,
                                         children: <Widget>[
                                           Padding(
-                                            padding: size.height > diviceSize
-                                                ? const EdgeInsets.only(
-                                                    top: 18.0)
-                                                : const EdgeInsets.only(
-                                                    top: 8.0),
+                                            padding:
+                                                size.height > Constant.divSize
+                                                    ? const EdgeInsets.only(
+                                                        top: 18.0)
+                                                    : const EdgeInsets.only(
+                                                        top: 8.0),
                                             child: GestureDetector(
                                               onTap: () {
                                                 if (validateField(context)) {
@@ -173,10 +176,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                 child: CircleAvatar(
                                                     backgroundColor:
                                                         Colors.transparent,
-                                                    radius:
-                                                        size.height > diviceSize
-                                                            ? 40
-                                                            : 25,
+                                                    radius: size.height >
+                                                            Constant.divSize
+                                                        ? 40
+                                                        : 25,
                                                     child: Image.asset(
                                                         'assets/icons/loginbubble.png')),
                                               ),
@@ -185,8 +188,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         ],
                                       ),
                                       SizedBox(
-                                        height:
-                                            size.height > diviceSize ? 20 : 10,
+                                        height: size.height > Constant.divSize
+                                            ? 20
+                                            : 10,
                                       ),
                                       Row(
                                         mainAxisAlignment:
@@ -209,10 +213,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                 style: TextStyle(
                                                     color:
                                                         Constant.primaryColor,
-                                                    fontSize:
-                                                        size.height > diviceSize
-                                                            ? 25
-                                                            : 15),
+                                                    fontSize: size.height >
+                                                            Constant.divSize
+                                                        ? 25
+                                                        : 15),
                                               ),
                                             ),
                                           )
@@ -226,12 +230,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             BottomFirstSlider(
                                 boxSize: 40.0,
                                 controller: _scrollController,
-                                deviceSize: diviceSize,
                                 size: size),
                             BottomSecSlider(
                                 boxSize: 40.0,
                                 controller: _scrollController2,
-                                deviceSize: diviceSize,
                                 size: size),
                           ],
                         ),
@@ -246,15 +248,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   bool validateField(BuildContext context) {
     if (!Validation.shared.isEmailValidation(_emailController.text)) {
-      CustomSnackBar(
-          context, 'Please enter valid email', SnackBartype.nagetive);
+      CustomSnackBar(context, Constant.emailMsg, SnackBartype.nagetive);
       return false;
     } else if (_passwordController.text.length <= 0) {
-      CustomSnackBar(
-          context, 'Please enter valid password', SnackBartype.nagetive);
+      CustomSnackBar(context, Constant.passwordMsg, SnackBartype.nagetive);
       return false;
     } else if (_nameController.text.isEmpty) {
-      CustomSnackBar(context, 'Please enter valid name', SnackBartype.nagetive);
+      CustomSnackBar(context, Constant.nameMsg, SnackBartype.nagetive);
       return false;
     } else {
       return true;

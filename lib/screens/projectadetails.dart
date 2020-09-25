@@ -4,14 +4,12 @@ import 'package:login/helpers/membersprovider.dart';
 import 'package:login/screens/allcontract.dart';
 import 'package:login/screens/searchmember.dart';
 import 'package:login/widgets/pagebackground.dart';
-import 'package:login/widgets/pagetitle.dart';
+import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:login/widgets/task.dart';
 import 'package:provider/provider.dart';
 import 'package:login/helpers/constant.dart' as Constant;
 
 class ProjectADetails extends StatelessWidget {
-  final diviceSize = 470;
-
   @override
   Widget build(BuildContext context) {
     final memberData = Provider.of<MembersProvider>(context).items;
@@ -25,7 +23,7 @@ class ProjectADetails extends StatelessWidget {
           Container(
             child: CircleAvatar(
                 backgroundColor: Colors.transparent,
-                radius: size.height > diviceSize ? 40 : 30,
+                radius: size.height > Constant.divSize ? 40 : 30,
                 child: Image.asset('assets/icons/loginbubble.png')),
           ),
           SizedBox(
@@ -38,7 +36,7 @@ class ProjectADetails extends StatelessWidget {
             child: Container(
               child: CircleAvatar(
                   backgroundColor: Colors.transparent,
-                  radius: size.height > diviceSize ? 40 : 30,
+                  radius: size.height > Constant.divSize ? 40 : 30,
                   child: Image.asset('assets/icons/loginbubble.png')),
             ),
           ),
@@ -54,13 +52,12 @@ class ProjectADetails extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  PageTitle(
-                      size: size, diviceSize: diviceSize, title: 'Details'),
+                  PageTitle(size: size, title: 'Details'),
                   SizedBox(
-                    height: size.height > diviceSize ? 20 : 8,
+                    height: size.height > Constant.divSize ? 20 : 8,
                   ),
                   Padding(
-                    padding: size.height > diviceSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.all(28.0)
                         : const EdgeInsets.all(8.0),
                     child: Column(
@@ -70,22 +67,23 @@ class ProjectADetails extends StatelessWidget {
                           "Detail",
                           style: TextStyle(
                             color: Constant.primaryColor,
-                            fontSize: size.height > diviceSize ? 30 : 20,
+                            fontSize: size.height > Constant.divSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 15 : 10,
+                          height: size.height > Constant.divSize ? 15 : 10,
                         ),
                         Text(
                           "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.",
                           style: TextStyle(
                               color: Colors.white54,
-                              fontSize: size.height > diviceSize ? 25 : 15,
+                              fontSize:
+                                  size.height > Constant.divSize ? 25 : 15,
                               letterSpacing: 1.2),
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 25 : 10,
+                          height: size.height > Constant.divSize ? 25 : 10,
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,20 +97,24 @@ class ProjectADetails extends StatelessWidget {
                                     "Location",
                                     style: TextStyle(
                                       color: Constant.primaryColor,
-                                      fontSize:
-                                          size.height > diviceSize ? 30 : 20,
+                                      fontSize: size.height > Constant.divSize
+                                          ? 30
+                                          : 20,
                                       letterSpacing: 1.5,
                                     ),
                                   ),
                                   SizedBox(
-                                    height: size.height > diviceSize ? 15 : 10,
+                                    height: size.height > Constant.divSize
+                                        ? 15
+                                        : 10,
                                   ),
                                   Row(
                                     children: <Widget>[
                                       Icon(
                                         Icons.location_on,
-                                        size:
-                                            size.height > diviceSize ? 25 : 15,
+                                        size: size.height > Constant.divSize
+                                            ? 25
+                                            : 15,
                                         color: Colors.white54,
                                       ),
                                       SizedBox(
@@ -122,9 +124,10 @@ class ProjectADetails extends StatelessWidget {
                                         "London , Europ",
                                         style: TextStyle(
                                           color: Colors.white54,
-                                          fontSize: size.height > diviceSize
-                                              ? 25
-                                              : 15,
+                                          fontSize:
+                                              size.height > Constant.divSize
+                                                  ? 25
+                                                  : 15,
                                         ),
                                       ),
                                     ],
@@ -144,20 +147,24 @@ class ProjectADetails extends StatelessWidget {
                                     "Duration",
                                     style: TextStyle(
                                       color: Constant.primaryColor,
-                                      fontSize:
-                                          size.height > diviceSize ? 30 : 20,
+                                      fontSize: size.height > Constant.divSize
+                                          ? 30
+                                          : 20,
                                       letterSpacing: 1.5,
                                     ),
                                   ),
                                   SizedBox(
-                                    height: size.height > diviceSize ? 15 : 10,
+                                    height: size.height > Constant.divSize
+                                        ? 15
+                                        : 10,
                                   ),
                                   Row(
                                     children: <Widget>[
                                       Icon(
                                         Icons.calendar_today,
-                                        size:
-                                            size.height > diviceSize ? 25 : 15,
+                                        size: size.height > Constant.divSize
+                                            ? 25
+                                            : 15,
                                         color: Colors.white54,
                                       ),
                                       SizedBox(
@@ -168,9 +175,10 @@ class ProjectADetails extends StatelessWidget {
                                             .format(DateTime.now()),
                                         style: TextStyle(
                                           color: Colors.white54,
-                                          fontSize: size.height > diviceSize
-                                              ? 25
-                                              : 15,
+                                          fontSize:
+                                              size.height > Constant.divSize
+                                                  ? 25
+                                                  : 15,
                                         ),
                                       ),
                                     ],
@@ -181,58 +189,54 @@ class ProjectADetails extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 25 : 10,
+                          height: size.height > Constant.divSize ? 25 : 10,
                         ),
                         Text(
                           "Task",
                           style: TextStyle(
                             color: Constant.primaryColor,
-                            fontSize: size.height > diviceSize ? 30 : 20,
+                            fontSize: size.height > Constant.divSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 15 : 10,
+                          height: size.height > Constant.divSize ? 15 : 10,
                         ),
                         Task(
                           size: size,
-                          diviceSize: diviceSize,
                           task1:
                               'Lorem ipsum is a placeholder text commonly used to demonstrate the visual',
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 10 : 10,
+                          height: size.height > Constant.divSize ? 10 : 10,
                         ),
                         Task(
                           size: size,
-                          diviceSize: diviceSize,
                           task1:
                               'Lorem ipsum is a placeholder demonstrate the visual',
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 10 : 10,
+                          height: size.height > Constant.divSize ? 10 : 10,
                         ),
                         Task(
                           size: size,
-                          diviceSize: diviceSize,
                           task1: 'Commonly used to demonstrate the visual.',
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 10 : 10,
+                          height: size.height > Constant.divSize ? 10 : 10,
                         ),
                         Task(
                           size: size,
-                          diviceSize: diviceSize,
                           task1: 'Placeholder text commonly used.',
                         ),
                         SizedBox(
-                          height: size.height > diviceSize ? 25 : 10,
+                          height: size.height > Constant.divSize ? 25 : 10,
                         ),
                         Text(
                           "Team Member",
                           style: TextStyle(
                             color: Constant.primaryColor,
-                            fontSize: size.height > diviceSize ? 30 : 20,
+                            fontSize: size.height > Constant.divSize ? 30 : 20,
                             letterSpacing: 1.5,
                           ),
                         ),
@@ -244,8 +248,9 @@ class ProjectADetails extends StatelessWidget {
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 15),
-                          width: size.height > diviceSize ? size.width : 700,
-                          height: size.height > diviceSize ? 450 : 150,
+                          width:
+                              size.height > Constant.divSize ? size.width : 700,
+                          height: size.height > Constant.divSize ? 450 : 150,
                           alignment: Alignment.topLeft,
                           color: Colors.transparent,
                           child: GridView.builder(
@@ -269,31 +274,32 @@ class ProjectADetails extends StatelessWidget {
                                         memberData[i].name,
                                         style: TextStyle(
                                           color: Constant.primaryColor,
-                                          fontSize: size.height > diviceSize
-                                              ? 35
-                                              : 20,
+                                          fontSize:
+                                              size.height > Constant.divSize
+                                                  ? 35
+                                                  : 20,
                                         ),
                                       ),
                                     ),
                                     IconAndName(
                                       size: size,
-                                      diviceSize: diviceSize,
                                       icon: Icon(
                                         Icons.people,
                                         color: Colors.white54,
-                                        size:
-                                            size.height > diviceSize ? 25 : 15,
+                                        size: size.height > Constant.divSize
+                                            ? 25
+                                            : 15,
                                       ),
                                       name: memberData[i].secondName,
                                     ),
                                     IconAndName(
                                       size: size,
-                                      diviceSize: diviceSize,
                                       icon: Icon(
                                         Icons.attach_money,
                                         color: Colors.white54,
-                                        size:
-                                            size.height > diviceSize ? 25 : 15,
+                                        size: size.height > Constant.divSize
+                                            ? 25
+                                            : 15,
                                       ),
                                       name: '\$ ${memberData[i].amount}',
                                     )

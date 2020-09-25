@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:login/helpers/constant.dart' as Constant;
 
 class Task extends StatelessWidget {
   const Task({
     Key key,
     @required this.size,
-    @required this.diviceSize,
     @required this.task1,
   }) : super(key: key);
 
   final Size size;
-  final int diviceSize;
   final String task1;
 
   @override
@@ -18,7 +17,7 @@ class Task extends StatelessWidget {
       children: <Widget>[
         Icon(
           Icons.adjust,
-          size: size.height > diviceSize ? 25 : 15,
+          size: size.height > Constant.divSize ? 25 : 15,
           color: Colors.white54,
         ),
         SizedBox(
@@ -28,7 +27,7 @@ class Task extends StatelessWidget {
           task1,
           style: TextStyle(
             color: Colors.white54,
-            fontSize: size.height > diviceSize ? 25 : 15,
+            fontSize: size.height > Constant.divSize ? 25 : 15,
           ),
         ),
       ],

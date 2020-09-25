@@ -10,7 +10,6 @@ import 'package:login/helpers/constant.dart' as Constant;
 
 class AllContract extends StatelessWidget {
   static const routeName = '/allContract';
-  final divSize = 470;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,7 @@ class AllContract extends StatelessWidget {
                           print("hello");
                         },
                         child: CircleAvatar(
-                          radius: size.height > divSize ? 20 : 10,
+                          radius: size.height > Constant.divSize ? 20 : 10,
                           backgroundColor: Colors.transparent,
                           child: Image.asset(
                             'assets/icons/Sidebar.png',
@@ -59,7 +58,7 @@ class AllContract extends StatelessWidget {
                         "All Contract",
                         style: TextStyle(
                           color: Constant.primaryColor,
-                          fontSize: size.height > divSize ? 40 : 22,
+                          fontSize: size.height > Constant.divSize ? 40 : 22,
                         ),
                       ),
                     ),
@@ -70,7 +69,7 @@ class AllContract extends StatelessWidget {
                         ),
                       ),
                       child: CircleAvatar(
-                        radius: size.height > divSize ? 20 : 10,
+                        radius: size.height > Constant.divSize ? 20 : 10,
                         backgroundColor: Colors.transparent,
                         child: Image.asset(
                           'assets/icons/home.png',
@@ -81,7 +80,7 @@ class AllContract extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: size.height > divSize ? 20 : 28,
+                  height: size.height > Constant.divSize ? 20 : 28,
                 ),
                 Container(
                   child: Row(
@@ -89,26 +88,26 @@ class AllContract extends StatelessWidget {
                       Expanded(
                           child: Container(
                         child: ProjectColumn(
-                            title: "FUTURE",
-                            size: size,
-                            memberData: memberData,
-                            divSize: divSize),
+                          title: "FUTURE",
+                          size: size,
+                          memberData: memberData,
+                        ),
                       )),
                       Expanded(
                           child: Container(
                         child: ProjectColumn(
-                            title: "NOW",
-                            size: size,
-                            memberData: memberData,
-                            divSize: divSize),
+                          title: "NOW",
+                          size: size,
+                          memberData: memberData,
+                        ),
                       )),
                       Expanded(
                           child: Container(
                         child: ProjectColumn(
-                            title: "PAST",
-                            size: size,
-                            memberData: memberData,
-                            divSize: divSize),
+                          title: "PAST",
+                          size: size,
+                          memberData: memberData,
+                        ),
                       )),
                     ],
                   ),
@@ -127,13 +126,12 @@ class ProjectColumn extends StatelessWidget {
     Key key,
     @required this.size,
     @required this.memberData,
-    @required this.divSize,
     @required this.title,
   }) : super(key: key);
 
   final Size size;
   final List<Member> memberData;
-  final int divSize;
+
   final String title;
 
   @override
@@ -162,7 +160,7 @@ class ProjectColumn extends StatelessWidget {
                     memberData[i].name,
                     style: TextStyle(
                       color: Constant.primaryColor,
-                      fontSize: size.height > divSize ? 35 : 20,
+                      fontSize: size.height > Constant.divSize ? 35 : 20,
                     ),
                   ),
                 ),
@@ -170,21 +168,19 @@ class ProjectColumn extends StatelessWidget {
                   children: [
                     IconAndName(
                       size: size,
-                      diviceSize: divSize,
                       icon: Icon(
                         Icons.attach_money,
                         color: Colors.white54,
-                        size: size.height > divSize ? 25 : 15,
+                        size: size.height > Constant.divSize ? 25 : 15,
                       ),
                       name: (memberData[i].amount).toString(),
                     ),
                     IconAndName(
                       size: size,
-                      diviceSize: divSize,
                       icon: Icon(
                         Icons.location_on,
                         color: Colors.white54,
-                        size: size.height > divSize ? 25 : 15,
+                        size: size.height > Constant.divSize ? 25 : 15,
                       ),
                       name: memberData[i].location,
                     ),
@@ -192,11 +188,10 @@ class ProjectColumn extends StatelessWidget {
                 ),
                 IconAndName(
                   size: size,
-                  diviceSize: divSize,
                   icon: Icon(
                     Icons.calendar_today,
                     color: Colors.white54,
-                    size: size.height > divSize ? 25 : 15,
+                    size: size.height > Constant.divSize ? 25 : 15,
                   ),
                   name: DateFormat("dd-MMMM").format(DateTime.now()) +
                       " | " +

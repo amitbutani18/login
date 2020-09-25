@@ -11,9 +11,6 @@ class SearchChateMember extends StatefulWidget {
 }
 
 class _SearchChateMemberState extends State<SearchChateMember> {
-  var diviceSize = 470;
-  double divSize = 550;
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   InputDecoration _textDecoration(String lable, double fontSize, Icon icon) {
@@ -71,7 +68,7 @@ class _SearchChateMemberState extends State<SearchChateMember> {
                             _scaffoldKey.currentState.openDrawer();
                           },
                           child: CircleAvatar(
-                            radius: size.height > divSize ? 20 : 10,
+                            radius: size.height > Constant.divSize ? 20 : 10,
                             backgroundColor: Colors.transparent,
                             child: Image.asset(
                               'assets/icons/Sidebar.png',
@@ -88,7 +85,7 @@ class _SearchChateMemberState extends State<SearchChateMember> {
                           ),
                         ),
                         child: CircleAvatar(
-                          radius: size.height > divSize ? 20 : 10,
+                          radius: size.height > Constant.divSize ? 20 : 10,
                           backgroundColor: Colors.transparent,
                           child: Image.asset(
                             'assets/icons/home.png',
@@ -110,19 +107,19 @@ class _SearchChateMemberState extends State<SearchChateMember> {
                     // controller: _usagesController,
                     style: TextStyle(
                         color: Constant.primaryColor,
-                        fontSize: size.height > diviceSize ? 30 : 18),
+                        fontSize: size.height > Constant.divSize ? 30 : 18),
                     decoration: _textDecoration(
                       'Search Member',
-                      size.height > diviceSize ? 30 : 18,
+                      size.height > Constant.divSize ? 30 : 18,
                       Icon(
                         Icons.search,
                         color: Colors.black87,
-                        size: size.height > diviceSize ? 40 : 18,
+                        size: size.height > Constant.divSize ? 40 : 18,
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: size.height > diviceSize ? 40 : 10,
+                    height: size.height > Constant.divSize ? 40 : 10,
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -135,14 +132,14 @@ class _SearchChateMemberState extends State<SearchChateMember> {
                     child: Text(
                       "Members",
                       style: TextStyle(
-                          fontSize: size.height > divSize ? 22 : 15,
+                          fontSize: size.height > Constant.divSize ? 22 : 15,
                           color: Colors.white54,
                           // decoration: TextDecoration.underline,
                           letterSpacing: 1),
                     ),
                   ),
                   SizedBox(
-                    height: size.height > diviceSize ? 40 : 10,
+                    height: size.height > Constant.divSize ? 40 : 10,
                   ),
                   Container(
                     padding: EdgeInsets.only(bottom: 10),
@@ -165,8 +162,9 @@ class _SearchChateMemberState extends State<SearchChateMember> {
                                 children: [
                                   CircleAvatar(
                                       // key: ValueKey(new Random().nextInt(100)),
-                                      radius:
-                                          size.height > diviceSize ? 70 : 30,
+                                      radius: size.height > Constant.divSize
+                                          ? 70
+                                          : 30,
                                       backgroundColor: Colors.transparent,
                                       backgroundImage: AssetImage(
                                           'assets/images/profileimage.png')),
@@ -215,15 +213,10 @@ class _SearchChateMemberState extends State<SearchChateMember> {
 }
 
 class Logo extends StatelessWidget {
-  const Logo(
-      {Key key,
-      @required this.size,
-      @required this.diviceSize,
-      @required this.icon})
+  const Logo({Key key, @required this.size, @required this.icon})
       : super(key: key);
 
   final Size size;
-  final int diviceSize;
   final Icon icon;
   @override
   Widget build(BuildContext context) {
@@ -242,8 +235,8 @@ class Logo extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: SizedBox(
-            width: size.height > diviceSize ? 60 : 30,
-            height: size.height > diviceSize ? 60 : 30,
+            width: size.height > Constant.divSize ? 60 : 30,
+            height: size.height > Constant.divSize ? 60 : 30,
             child: Center(
               child: icon,
             ),

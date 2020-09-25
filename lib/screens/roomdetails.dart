@@ -3,7 +3,7 @@ import 'package:login/helpers/roomdetailsprovider.dart';
 import 'package:login/helpers/roomimageprovider.dart';
 import 'package:login/screens/addproject.dart';
 import 'package:login/widgets/pagebackground.dart';
-import 'package:login/widgets/pagetitle.dart';
+import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:provider/provider.dart';
 import 'package:login/helpers/constant.dart' as Constant;
 
@@ -14,8 +14,6 @@ class RoomDetails extends StatefulWidget {
 }
 
 class _RoomDetailsState extends State<RoomDetails> {
-  var diviceSize = 470;
-
   @override
   Widget build(BuildContext context) {
     final imageData = Provider.of<RoomImageProvider>(context).items;
@@ -37,11 +35,11 @@ class _RoomDetailsState extends State<RoomDetails> {
           child: InkWell(
             splashColor: Colors.blue,
             child: SizedBox(
-              width: size.height > diviceSize ? 80 : 50,
-              height: size.height > diviceSize ? 80 : 50,
+              width: size.height > Constant.divSize ? 80 : 50,
+              height: size.height > Constant.divSize ? 80 : 50,
               child: Icon(
                 Icons.payment,
-                size: size.height > diviceSize ? 40 : 20,
+                size: size.height > Constant.divSize ? 40 : 20,
               ),
             ),
             onTap: () {
@@ -59,8 +57,7 @@ class _RoomDetailsState extends State<RoomDetails> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  PageTitle(
-                      size: size, diviceSize: diviceSize, title: "Details"),
+                  PageTitle(size: size, title: "Details"),
                   SizedBox(
                     height: 20,
                   ),
@@ -70,7 +67,7 @@ class _RoomDetailsState extends State<RoomDetails> {
                         detailsData[0].title + " | ",
                         style: TextStyle(
                             color: Constant.primaryColor,
-                            fontSize: size.height > diviceSize ? 35 : 22,
+                            fontSize: size.height > Constant.divSize ? 35 : 22,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1.2),
                       ),
@@ -91,61 +88,63 @@ class _RoomDetailsState extends State<RoomDetails> {
                     "ORGANISATION",
                     style: TextStyle(
                       color: Constant.primaryColor,
-                      fontSize: size.height > diviceSize ? 30 : 20,
+                      fontSize: size.height > Constant.divSize ? 30 : 20,
                       letterSpacing: 1.5,
                     ),
                   ),
                   SizedBox(
-                    height: size.height > diviceSize ? 15 : 10,
+                    height: size.height > Constant.divSize ? 15 : 10,
                   ),
                   Text(
                     detailsData[0].organisationDetails,
                     // "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful conten used to demonstrate the visual.",
                     style: TextStyle(
                         color: Colors.white54,
-                        fontSize: size.height > diviceSize ? 25 : 15,
+                        fontSize: size.height > Constant.divSize ? 25 : 15,
                         letterSpacing: 1.2),
                   ),
                   SizedBox(
-                    height: size.height > diviceSize ? 30 : 20,
+                    height: size.height > Constant.divSize ? 30 : 20,
                   ),
                   Text(
                     "DISCOUNT",
                     style: TextStyle(
                       color: Constant.primaryColor,
-                      fontSize: size.height > diviceSize ? 30 : 20,
+                      fontSize: size.height > Constant.divSize ? 30 : 20,
                       letterSpacing: 1.5,
                     ),
                   ),
                   SizedBox(
-                    height: size.height > diviceSize ? 15 : 10,
+                    height: size.height > Constant.divSize ? 15 : 10,
                   ),
                   Text(
                     detailsData[0].discountDetails,
                     // "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful conten used to demonstrate the visual.",
                     style: TextStyle(
                         color: Colors.white54,
-                        fontSize: size.height > diviceSize ? 25 : 15,
+                        fontSize: size.height > Constant.divSize ? 25 : 15,
                         letterSpacing: 1.2),
                   ),
                   SizedBox(
-                    height: size.height > diviceSize ? 30 : 20,
+                    height: size.height > Constant.divSize ? 30 : 20,
                   ),
                   Row(
                     children: <Widget>[
                       Container(
-                          height: size.height > diviceSize ? 300 : 170,
-                          width: size.height > diviceSize ? 800 : 600,
+                          height: size.height > Constant.divSize ? 300 : 170,
+                          width: size.height > Constant.divSize ? 800 : 600,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: 3,
                             itemBuilder: (context, i) => Padding(
-                              padding: size.height > diviceSize
+                              padding: size.height > Constant.divSize
                                   ? const EdgeInsets.all(28.0)
                                   : const EdgeInsets.all(8.0),
                               child: Container(
-                                height: size.height > diviceSize ? 300 : 170,
-                                width: size.height > diviceSize ? 200 : 120,
+                                height:
+                                    size.height > Constant.divSize ? 300 : 170,
+                                width:
+                                    size.height > Constant.divSize ? 200 : 120,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   color: Colors.white,

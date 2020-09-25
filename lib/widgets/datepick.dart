@@ -15,7 +15,6 @@ class DatePick extends StatefulWidget {
 class _DatePickState extends State<DatePick> {
   DateTime _firstDate;
   DateTime _lastDate;
-  double divSize = 470;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -69,8 +68,8 @@ class _DatePickState extends State<DatePick> {
                     print(widget.city);
                   },
                   child: Container(
-                    width: size.height > divSize ? 320 : 200,
-                    height: size.height > divSize ? 80 : 60,
+                    width: size.height > Constant.divSize ? 320 : 200,
+                    height: size.height > Constant.divSize ? 80 : 60,
                     decoration: BoxDecoration(
                         color: Colors.transparent,
                         border:
@@ -89,7 +88,7 @@ class _DatePickState extends State<DatePick> {
                           ),
                         ),
                         Padding(
-                          padding: size.height > divSize
+                          padding: size.height > Constant.divSize
                               ? const EdgeInsets.only(top: 0.0)
                               : const EdgeInsets.only(top: 8.0, bottom: 5),
                           child: Text(
@@ -99,7 +98,8 @@ class _DatePickState extends State<DatePick> {
                                     ? '${DateFormat("dd-MMM-yyyy").format(_firstDate)}'
                                     : '${DateFormat("dd-MMM").format(_firstDate)} | ${DateFormat("dd-MMM-yyyy").format(_lastDate)}',
                             style: TextStyle(
-                                fontSize: size.height > divSize ? 20 : 14,
+                                fontSize:
+                                    size.height > Constant.divSize ? 20 : 14,
                                 color: Constant.primaryColor),
                           ),
                         ),

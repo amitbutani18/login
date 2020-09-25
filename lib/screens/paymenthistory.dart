@@ -20,7 +20,6 @@ class PaymentHistory extends StatefulWidget {
 }
 
 class _PaymentHistoryState extends State<PaymentHistory> {
-  final divSize = 470;
   ScrollController _scrollController = ScrollController();
   ScrollController _scrollController2 = ScrollController();
   @override
@@ -57,9 +56,11 @@ class _PaymentHistoryState extends State<PaymentHistory> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  TitleBar(size: size, divSize: divSize),
+                  TitleBar(
+                    size: size,
+                  ),
                   SizedBox(
-                    height: size.height > divSize ? 20 : 28,
+                    height: size.height > Constant.divSize ? 20 : 28,
                   ),
                   Row(
                     children: [
@@ -173,7 +174,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                       Container(
                         child: CircleAvatar(
                             backgroundColor: Colors.transparent,
-                            radius: size.height > divSize ? 40 : 30,
+                            radius: size.height > Constant.divSize ? 40 : 30,
                             child: Image.asset('assets/icons/loginbubble.png')),
                       ),
                       SizedBox(
@@ -187,7 +188,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                         child: Container(
                           child: CircleAvatar(
                               backgroundColor: Colors.transparent,
-                              radius: size.height > divSize ? 40 : 30,
+                              radius: size.height > Constant.divSize ? 40 : 30,
                               child:
                                   Image.asset('assets/icons/loginbubble.png')),
                         ),
@@ -195,14 +196,15 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                     ],
                   ),
                   Padding(
-                    padding: size.height > divSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.only(top: 98.0)
                         : const EdgeInsets.only(top: 0.0),
                     child: Center(
                       child: Container(
                         margin: EdgeInsets.symmetric(horizontal: 20),
-                        height: size.height > divSize ? 110 : 40,
-                        width: size.height > divSize ? 1000 : size.width,
+                        height: size.height > Constant.divSize ? 110 : 40,
+                        width:
+                            size.height > Constant.divSize ? 1000 : size.width,
                         child: ListView.builder(
                           itemExtent: size.width / 9,
                           controller: _scrollController,
@@ -211,12 +213,12 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                             child: Stack(
                               children: <Widget>[
                                 Padding(
-                                  padding: size.height > divSize
+                                  padding: size.height > Constant.divSize
                                       ? EdgeInsets.symmetric(horizontal: 10)
                                       : const EdgeInsets.symmetric(
                                           horizontal: 0),
                                   child: Padding(
-                                    padding: size.height > divSize
+                                    padding: size.height > Constant.divSize
                                         ? EdgeInsets.symmetric(horizontal: 0)
                                         : const EdgeInsets.symmetric(
                                             horizontal: 10),
@@ -251,8 +253,10 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                         children: <Widget>[
                           Container(
                             margin: EdgeInsets.symmetric(horizontal: 20),
-                            height: size.height > divSize ? 110 : 40,
-                            width: size.height > divSize ? 1000 : size.width,
+                            height: size.height > Constant.divSize ? 110 : 40,
+                            width: size.height > Constant.divSize
+                                ? 1000
+                                : size.width,
                             child: ListView.builder(
                               controller: _scrollController2,
                               scrollDirection: Axis.horizontal,
@@ -262,7 +266,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                               itemBuilder: (_, i) => Stack(
                                 children: <Widget>[
                                   Padding(
-                                    padding: size.height > divSize
+                                    padding: size.height > Constant.divSize
                                         ? EdgeInsets.symmetric(horizontal: 10)
                                         : const EdgeInsets.symmetric(
                                             horizontal: 10),
@@ -322,11 +326,9 @@ class TitleBar extends StatelessWidget {
   const TitleBar({
     Key key,
     @required this.size,
-    @required this.divSize,
   }) : super(key: key);
 
   final Size size;
-  final int divSize;
 
   @override
   Widget build(BuildContext context) {
@@ -342,7 +344,7 @@ class TitleBar extends StatelessWidget {
               print("hello");
             },
             child: CircleAvatar(
-              radius: size.height > divSize ? 20 : 10,
+              radius: size.height > Constant.divSize ? 20 : 10,
               backgroundColor: Colors.transparent,
               child: Image.asset(
                 'assets/icons/Sidebar.png',
@@ -356,7 +358,7 @@ class TitleBar extends StatelessWidget {
             "Payment History",
             style: TextStyle(
               color: Constant.primaryColor,
-              fontSize: size.height > divSize ? 40 : 22,
+              fontSize: size.height > Constant.divSize ? 40 : 22,
             ),
           ),
         ),
@@ -364,7 +366,7 @@ class TitleBar extends StatelessWidget {
           onTap: () =>
               Navigator.of(context).pushNamed(ServiceProvider.routeName),
           child: CircleAvatar(
-            radius: size.height > divSize ? 20 : 10,
+            radius: size.height > Constant.divSize ? 20 : 10,
             backgroundColor: Colors.transparent,
             child: Image.asset(
               'assets/icons/home.png',
@@ -382,13 +384,12 @@ class ProjectColumn extends StatelessWidget {
     Key key,
     @required this.size,
     @required this.memberData,
-    @required this.divSize,
     @required this.title,
   }) : super(key: key);
 
   final Size size;
   final List<Member> memberData;
-  final int divSize;
+
   final String title;
 
   @override
@@ -417,7 +418,7 @@ class ProjectColumn extends StatelessWidget {
                     memberData[i].name,
                     style: TextStyle(
                       color: Constant.primaryColor,
-                      fontSize: size.height > divSize ? 35 : 20,
+                      fontSize: size.height > Constant.divSize ? 35 : 20,
                     ),
                   ),
                 ),
@@ -425,21 +426,19 @@ class ProjectColumn extends StatelessWidget {
                   children: [
                     IconAndName(
                       size: size,
-                      diviceSize: divSize,
                       icon: Icon(
                         Icons.attach_money,
                         color: Colors.white54,
-                        size: size.height > divSize ? 25 : 15,
+                        size: size.height > Constant.divSize ? 25 : 15,
                       ),
                       name: (memberData[i].amount).toString(),
                     ),
                     IconAndName(
                       size: size,
-                      diviceSize: divSize,
                       icon: Icon(
                         Icons.location_on,
                         color: Colors.white54,
-                        size: size.height > divSize ? 25 : 15,
+                        size: size.height > Constant.divSize ? 25 : 15,
                       ),
                       name: memberData[i].location,
                     ),
@@ -447,11 +446,10 @@ class ProjectColumn extends StatelessWidget {
                 ),
                 IconAndName(
                   size: size,
-                  diviceSize: divSize,
                   icon: Icon(
                     Icons.calendar_today,
                     color: Colors.white54,
-                    size: size.height > divSize ? 25 : 15,
+                    size: size.height > Constant.divSize ? 25 : 15,
                   ),
                   name: DateFormat("dd-MMMM").format(DateTime.now()) +
                       " | " +

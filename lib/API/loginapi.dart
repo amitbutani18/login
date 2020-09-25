@@ -64,6 +64,7 @@ class LoginApi with ChangeNotifier {
     ];
   }
 
+  // Forgot Password
   Future<List<dynamic>> forgotPassword(String email) async {
     final response = await http.post(
       '${Constant.apiLink}forgotpassword',
@@ -87,5 +88,35 @@ class LoginApi with ChangeNotifier {
       }
     }
     return [response.statusCode, map["data"]];
+  }
+
+  //Reset Password
+  Future<String> resetPassword(String currentPass, String newPassword) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final userId = sharedPreferences.getString('userid');
+    final response = await http.post(
+      '${Constant.apiLink}changepassword',
+      body: {
+        "userid": userId,
+        "currentpassword": currentPass,
+        "newpassword": newPassword
+      },
+    );
+    Map<dynamic, dynamic> map = json.decode(response.body);
+
+    if (response.body.contains("err")) {
+      final err = map['err'];
+      print(err);
+      throw map['err'];
+    } else {
+      if (response.statusCode == 200) {
+        if (map.containsKey('data')) {
+          print(map["data"]);
+        }
+      } else {
+        throw Exception("Fail To Load");
+      }
+    }
+    return map["data"];
   }
 }

@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:login/helpers/slider/bottomupsliderprovider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:login/helpers/constant.dart' as Constant;
 import 'ease_in_widget.dart';
 
 class BottomFirstSlider extends StatefulWidget {
   final int selectIndex = 0;
   final size;
-  final deviceSize;
+
   final boxSize;
   ScrollController controller;
   bool isLoading;
 
-  BottomFirstSlider(
-      {this.size,
-      this.boxSize,
-      this.controller,
-      this.deviceSize,
-      this.isLoading});
+  BottomFirstSlider({this.size, this.boxSize, this.controller, this.isLoading});
   @override
   _BottomFirstSliderState createState() => _BottomFirstSliderState();
 }
@@ -46,8 +41,8 @@ class _BottomFirstSliderState extends State<BottomFirstSlider> {
         _scroll(widget.controller);
       },
       child: Container(
-        height: widget.size.height > widget.deviceSize ? 100 : widget.boxSize,
-        width: widget.size.height > widget.deviceSize
+        height: widget.size.height > Constant.divSize ? 100 : widget.boxSize,
+        width: widget.size.height > Constant.divSize
             ? widget.size.width
             : widget.size.width,
         child: ListView.builder(
@@ -58,7 +53,7 @@ class _BottomFirstSliderState extends State<BottomFirstSlider> {
           itemBuilder: (_, i) => Stack(
             children: <Widget>[
               Padding(
-                padding: widget.size.height > widget.deviceSize
+                padding: widget.size.height > Constant.divSize
                     ? EdgeInsets.symmetric(horizontal: 25)
                     : const EdgeInsets.symmetric(horizontal: 0),
                 child: EaseInWidget(

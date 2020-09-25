@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:login/widgets/pagebackground.dart';
-import 'package:login/widgets/pagetitle.dart';
+import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:login/helpers/constant.dart' as Constant;
 
 class ProjectChatScreen extends StatefulWidget {
@@ -11,8 +11,6 @@ class ProjectChatScreen extends StatefulWidget {
 
 class _ProjectChatScreenState extends State<ProjectChatScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  int diviceSize = 470;
 
   @override
   void initState() {
@@ -39,7 +37,6 @@ class _ProjectChatScreenState extends State<ProjectChatScreen> {
               child: Column(
                 children: [
                   PageTitle(
-                    diviceSize: diviceSize,
                     size: size,
                     title: 'Project A Chat',
                   ),
@@ -64,12 +61,12 @@ class _ProjectChatScreenState extends State<ProjectChatScreen> {
                                     'Group Chat',
                                     style: TextStyle(
                                       color: Constant.primaryColor,
-                                      fontSize:
-                                          size.height > diviceSize ? 25 : 15,
+                                      fontSize: size.height > Constant.divSize
+                                          ? 25
+                                          : 15,
                                     ),
                                   ),
-                                  GroupChatList(
-                                      size: size, diviceSize: diviceSize),
+                                  GroupChatList(size: size),
                                   SizedBox(
                                     height: 10,
                                   ),
@@ -77,12 +74,14 @@ class _ProjectChatScreenState extends State<ProjectChatScreen> {
                                     'Personal Chat',
                                     style: TextStyle(
                                       color: Constant.primaryColor,
-                                      fontSize:
-                                          size.height > diviceSize ? 25 : 15,
+                                      fontSize: size.height > Constant.divSize
+                                          ? 25
+                                          : 15,
                                     ),
                                   ),
                                   GroupChatList(
-                                      size: size, diviceSize: diviceSize),
+                                    size: size,
+                                  ),
                                 ],
                               ),
                             ),
@@ -151,11 +150,9 @@ class GroupChatList extends StatelessWidget {
   const GroupChatList({
     Key key,
     @required this.size,
-    @required this.diviceSize,
   }) : super(key: key);
 
   final Size size;
-  final int diviceSize;
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +175,7 @@ class GroupChatList extends StatelessWidget {
                 Row(
                   children: [
                     CircleAvatar(
-                        radius: size.height > diviceSize ? 70 : 30,
+                        radius: size.height > Constant.divSize ? 70 : 30,
                         backgroundColor: Colors.transparent,
                         backgroundImage:
                             AssetImage('assets/images/profileimage.png')),

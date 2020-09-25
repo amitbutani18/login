@@ -19,8 +19,6 @@ class VerifyPin extends StatefulWidget {
 class _VerifyPinState extends State<VerifyPin> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  double diviceSize = 470;
-
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController _setPinController = TextEditingController();
@@ -145,7 +143,7 @@ class _VerifyPinState extends State<VerifyPin> {
                   _load ? CustomCircularProgressIndicator() : Container(),
                   Center(
                     child: Container(
-                      padding: size.height > diviceSize
+                      padding: size.height > Constant.divSize
                           ? EdgeInsets.only(
                               top: 108, left: 55, right: 55, bottom: 55)
                           : EdgeInsets.all(45),
@@ -154,7 +152,7 @@ class _VerifyPinState extends State<VerifyPin> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            width: size.height > diviceSize ? 650 : 400,
+                            width: size.height > Constant.divSize ? 650 : 400,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 15, vertical: 20),
@@ -162,7 +160,7 @@ class _VerifyPinState extends State<VerifyPin> {
                                 key: _formKey,
                                 child: Column(
                                   children: <Widget>[
-                                    size.height > diviceSize
+                                    size.height > Constant.divSize
                                         ? _formField('Enter Pin', 650, 30,
                                             'assets/icons/user.png')
                                         : _formField('Enter Pin', 450, 15,
@@ -174,7 +172,8 @@ class _VerifyPinState extends State<VerifyPin> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
                                         Padding(
-                                          padding: size.height > diviceSize
+                                          padding: size.height >
+                                                  Constant.divSize
                                               ? const EdgeInsets.only(top: 18.0)
                                               : const EdgeInsets.only(top: 8.0),
                                           child: GestureDetector(
@@ -191,10 +190,10 @@ class _VerifyPinState extends State<VerifyPin> {
                                               child: CircleAvatar(
                                                   backgroundColor:
                                                       Colors.transparent,
-                                                  radius:
-                                                      size.height > diviceSize
-                                                          ? 40
-                                                          : 30,
+                                                  radius: size.height >
+                                                          Constant.divSize
+                                                      ? 40
+                                                      : 30,
                                                   child: Image.asset(
                                                       'assets/icons/loginbubble.png')),
                                             ),
@@ -263,7 +262,7 @@ class _VerifyPinState extends State<VerifyPin> {
   bool validateField(BuildContext context) {
     FocusScope.of(context).unfocus();
     if (_setPinController.text.length != 4) {
-      CustomSnackBar(context, 'Please enter valid pin', SnackBartype.nagetive);
+      CustomSnackBar(context, Constant.validPin, SnackBartype.nagetive);
       return false;
     } else {
       return true;

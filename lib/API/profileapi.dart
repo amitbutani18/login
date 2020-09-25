@@ -22,7 +22,7 @@ class ProfileModal {
   String serviceproviderid;
   String aboutus;
   String workinghistory;
-  List<Map<String, dynamic>> otherlink;
+  List<dynamic> otherlink;
   String companyname;
 
   ProfileModal({
@@ -60,14 +60,11 @@ class ProfileModal {
     dailycharge = json['dailycharge'];
     occupation = json['occupation'] == null ? '' : json['occupation'];
     serviceproviderid = json['serviceproviderid'];
-    aboutus = json['aboutus'];
-    workinghistory = json['workinghistory'];
-    companyname = json['companyname'];
-    otherlink = [
-      {'title': 'hello', 'link': 'www.fff.fff'},
-      {'title': 'google', 'link': 'www.fff.fff'},
-      {'title': 'mad', 'link': 'www.fff.fff'},
-    ];
+    aboutus = json['aboutus'] == null ? '' : json['aboutus'];
+    workinghistory =
+        json['workinghistory'] == null ? '' : json['workinghistory'];
+    companyname = json['companyname'] == null ? '' : json['companyname'];
+    otherlink = json['otherlink'];
   }
 
   Map<String, dynamic> toJson() {
@@ -85,13 +82,13 @@ class ProfileModal {
     json['dailycharge'] = this.dailycharge;
     json['occupation'] = this.occupation;
     json['serviceproviderid'] = this.serviceproviderid;
+    json['otherlink'] = this.otherlink;
     return json;
   }
 }
 
 class ProfileApi with ChangeNotifier {
   Future<ProfileModal> getProfile() async {
-    print(Constant.abc);
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final userId = sharedPreferences.getString('userid');
     final response = await http.post('${Constant.apiLink}getprofile',
@@ -116,58 +113,64 @@ class ProfileApi with ChangeNotifier {
     }
   }
 
-  Future<void> updateProWithimg(
-    String name,
-    String ytLink,
-    String lkdinLink,
-    String location,
-    File image,
-    String creditcard,
-    String occupation,
-    String cvv,
-    String pin,
-    String date,
-    String dailyCharge,
-  ) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final userId = sharedPreferences.getString('userid');
-    final bytes = File(image.path).readAsBytesSync();
-    String img64 = base64Encode(bytes);
-    print(img64);
-    final response = await http.post(
-      '${Constant.apiLink}updateprofile',
-      headers: {"Content-Type": "application/x-www-form-urlencoded"},
-      body: {
-        "userid": userId,
-        "profileimg": img64,
-        "name": name,
-        "youtube": ytLink,
-        "linkdin": lkdinLink,
-        "location": location,
-        "creditcard": creditcard,
-        "occupation": occupation,
-        "cardcvv": cvv,
-        "cardpin": pin,
-        "cardexpirydate": date,
-        "dailycharge": dailyCharge,
-      },
-    );
-    Map<dynamic, dynamic> map = json.decode(response.body);
-    print(map);
-    if (map.containsKey('err')) {
-      print("Error Occured");
-      print(map['err']);
-      throw map['err'];
-    } else {
-      if (response.statusCode == 200) {
-        print(map['data']);
-      } else {
-        throw "Fail to load";
-      }
-    }
-  }
+  // Future<void> updateProWithimg({
+  //   String name,
+  //   String ytLink,
+  //   String lkdinLink,
+  //   String location,
+  //   File image,
+  //   String creditcard,
+  //   String occupation,
+  //   String cvv,
+  //   String pin,
+  //   String date,
+  //   String dailyCharge,
+  //   String aboutUs,
+  //   String workingHistory,
+  //   List<dynamic> otherLink,
+  // }) async {
+  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //   final userId = sharedPreferences.getString('userid');
+  //   final bytes = File(image.path).readAsBytesSync();
+  //   String img64 = base64Encode(bytes);
+  //   print(img64);
+  //   final response = await http.post(
+  //     '${Constant.apiLink}updateprofile',
+  //     headers: {"Content-Type": "application/x-www-form-urlencoded"},
+  //     body: {
+  //       "userid": userId,
+  //       "profileimg": img64,
+  //       "name": name,
+  //       "youtube": ytLink,
+  //       "linkdin": lkdinLink,
+  //       "location": location,
+  //       "creditcard": creditcard,
+  //       "occupation": occupation,
+  //       "cardcvv": cvv,
+  //       "cardpin": pin,
+  //       "cardexpirydate": date,
+  //       "dailycharge": dailyCharge,
+  //       "aboutus": aboutUs,
+  //       "workinghistory": workingHistory,
+  //       "otherlink": otherLink,
+  //     },
+  //   );
+  //   Map<dynamic, dynamic> map = json.decode(response.body);
+  //   print(map);
+  //   if (map.containsKey('err')) {
+  //     print("Error Occured");
+  //     print(map['err']);
+  //     throw map['err'];
+  //   } else {
+  //     if (response.statusCode == 200) {
+  //       print(map['data']);
+  //     } else {
+  //       throw "Fail to load";
+  //     }
+  //   }
+  // }
 
-  Future<void> updatePro(
+  Future<void> updatePro({
     String name,
     String ytLink,
     String lkdinLink,
@@ -177,8 +180,12 @@ class ProfileApi with ChangeNotifier {
     String cvv,
     String pin,
     String date,
+    String image,
     String dailyCharge,
-  ) async {
+    String aboutUs,
+    String workingHistory,
+    List<dynamic> otherLink,
+  }) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final userId = sharedPreferences.getString('userid');
     print(name);
@@ -194,10 +201,11 @@ class ProfileApi with ChangeNotifier {
 
     final response = await http.post(
       '${Constant.apiLink}updateprofile',
-      headers: {"Content-Type": "application/x-www-form-urlencoded"},
-      body: {
+      headers: {"Content-Type": "application/json"},
+      body: json.encode({
         "userid": userId,
         "name": name,
+        "profileimg": image,
         "youtube": ytLink,
         "linkdin": lkdinLink,
         "location": location,
@@ -206,8 +214,11 @@ class ProfileApi with ChangeNotifier {
         "cardcvv": cvv,
         "cardpin": pin,
         "cardexpirydate": date,
-        "dailycharge": dailyCharge
-      },
+        "dailycharge": dailyCharge,
+        "aboutus": aboutUs,
+        "workinghistory": workingHistory,
+        "otherlink": otherLink,
+      }),
     );
     Map<dynamic, dynamic> map = json.decode(response.body);
     print(map);

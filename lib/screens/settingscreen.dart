@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
-import 'package:login/widgets/pagetitle.dart';
+import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:flutter/cupertino.dart' as ios;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +19,6 @@ class SettingScreen extends StatefulWidget {
 
 class _SettingScreenState extends State<SettingScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  double diviceSize = 470;
   bool _load = false;
   var initialValuePin = false;
   var initValFing = false;
@@ -58,13 +57,12 @@ class _SettingScreenState extends State<SettingScreen> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 18.0, left: 10),
-                        child: PageTitle(
-                            size: size, diviceSize: 470, title: "Settings"),
+                        child: PageTitle(size: size, title: "Settings"),
                       ),
                       Center(
                         child: Container(
                           width: size.width,
-                          padding: size.height > diviceSize
+                          padding: size.height > Constant.divSize
                               ? EdgeInsets.only(
                                   top: 108, left: 105, right: 105, bottom: 55)
                               : EdgeInsets.only(
@@ -77,7 +75,7 @@ class _SettingScreenState extends State<SettingScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                // width: size.height > diviceSize ? 650 : 400,
+                                // width: size.height > Constant.divSize ? 650 : 400,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -188,7 +186,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
                                   Padding(
-                                    padding: size.height > diviceSize
+                                    padding: size.height > Constant.divSize
                                         ? const EdgeInsets.only(top: 18.0)
                                         : const EdgeInsets.only(top: 8.0),
                                     child: GestureDetector(
@@ -198,9 +196,10 @@ class _SettingScreenState extends State<SettingScreen> {
                                       child: Container(
                                         child: CircleAvatar(
                                             backgroundColor: Colors.transparent,
-                                            radius: size.height > diviceSize
-                                                ? 40
-                                                : 30,
+                                            radius:
+                                                size.height > Constant.divSize
+                                                    ? 40
+                                                    : 30,
                                             child: Image.asset(
                                                 'assets/icons/loginbubble.png')),
                                       ),

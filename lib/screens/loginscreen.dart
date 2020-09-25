@@ -36,8 +36,6 @@ class _LoginScreenState extends State<LoginScreen>
 
   var _isLoading = false;
 
-  double diviceSize = 470;
-
   bool _checked = true;
 
   bool _isInit = true;
@@ -97,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen>
                   : SingleChildScrollView(
                       physics: BouncingScrollPhysics(),
                       child: Container(
-                        padding: size.height > diviceSize
+                        padding: size.height > Constant.divSize
                             ? EdgeInsets.only(
                                 top: 108, left: 55, right: 55, bottom: 0)
                             : EdgeInsets.all(21),
@@ -106,13 +104,14 @@ class _LoginScreenState extends State<LoginScreen>
                           children: <Widget>[
                             SingleChildScrollView(
                               child: Container(
-                                width: size.height > diviceSize ? 650 : 400,
+                                width:
+                                    size.height > Constant.divSize ? 650 : 400,
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 15, vertical: 20),
                                   child: Column(
                                     children: <Widget>[
-                                      size.height > diviceSize
+                                      size.height > Constant.divSize
                                           ? _formField(
                                               'Email',
                                               650,
@@ -130,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen>
                                       SizedBox(
                                         height: 5,
                                       ),
-                                      size.height > diviceSize
+                                      size.height > Constant.divSize
                                           ? _formField(
                                               'Password',
                                               650,
@@ -146,8 +145,9 @@ class _LoginScreenState extends State<LoginScreen>
                                               _passwordController,
                                               true),
                                       SizedBox(
-                                        height:
-                                            size.height > diviceSize ? 20 : 5,
+                                        height: size.height > Constant.divSize
+                                            ? 20
+                                            : 5,
                                       ),
                                       Container(
                                         width: size.width,
@@ -157,11 +157,12 @@ class _LoginScreenState extends State<LoginScreen>
                                           children: <Widget>[
                                             rememberMeBox(),
                                             Padding(
-                                              padding: size.height > diviceSize
-                                                  ? const EdgeInsets.only(
-                                                      top: 18.0)
-                                                  : const EdgeInsets.only(
-                                                      top: 8.0),
+                                              padding:
+                                                  size.height > Constant.divSize
+                                                      ? const EdgeInsets.only(
+                                                          top: 18.0)
+                                                      : const EdgeInsets.only(
+                                                          top: 8.0),
                                               child: GestureDetector(
                                                 onTap: () {
                                                   if (validateField(context)) {
@@ -173,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen>
                                                       backgroundColor:
                                                           Colors.transparent,
                                                       radius: size.height >
-                                                              diviceSize
+                                                              Constant.divSize
                                                           ? 40
                                                           : 30,
                                                       child: Image.asset(
@@ -185,8 +186,9 @@ class _LoginScreenState extends State<LoginScreen>
                                         ),
                                       ),
                                       SizedBox(
-                                        height:
-                                            size.height > diviceSize ? 20 : 10,
+                                        height: size.height > Constant.divSize
+                                            ? 20
+                                            : 10,
                                       ),
                                       Row(
                                         mainAxisAlignment:
@@ -229,7 +231,6 @@ class _LoginScreenState extends State<LoginScreen>
                             BottomFirstSlider(
                               boxSize: boxSize,
                               size: size,
-                              deviceSize: diviceSize,
                               controller: _scrollController,
                               isLoading: _isLoading,
                             ),
@@ -237,7 +238,6 @@ class _LoginScreenState extends State<LoginScreen>
                               size: size,
                               boxSize: boxSize,
                               controller: _scrollController2,
-                              deviceSize: diviceSize,
                               isLoading: _isLoading,
                             )
                           ],
@@ -264,7 +264,7 @@ class _LoginScreenState extends State<LoginScreen>
       child: TextFormField(
         cursorColor: Colors.white,
         controller: controller,
-        style: TextStyle(color: Constant.primaryColor, fontSize: fontSize),
+        style: TextStyle(color: Colors.yellow[300], fontSize: fontSize),
         obscureText: isSecure,
         decoration:
             CustomInputDecoration.customInputDecoration(lable, fontSize, image),
@@ -274,12 +274,10 @@ class _LoginScreenState extends State<LoginScreen>
 
   bool validateField(BuildContext context) {
     if (!Validation.shared.isEmailValidation(_emailController.text)) {
-      CustomSnackBar(
-          context, 'Please enter valid email', SnackBartype.nagetive);
+      CustomSnackBar(context, Constant.emailMsg, SnackBartype.nagetive);
       return false;
     } else if (_passwordController.text.length <= 0) {
-      CustomSnackBar(
-          context, 'Please enter valid password', SnackBartype.nagetive);
+      CustomSnackBar(context, Constant.passwordMsg, SnackBartype.nagetive);
       return false;
     } else {
       return true;
@@ -357,7 +355,7 @@ class _LoginScreenState extends State<LoginScreen>
         text,
         style: TextStyle(
             color: Constant.primaryColor,
-            fontSize: size.height > diviceSize ? 25 : 15),
+            fontSize: size.height > Constant.divSize ? 25 : 15),
       ),
     );
   }

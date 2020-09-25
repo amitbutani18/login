@@ -3,7 +3,7 @@ import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:login/screens/projectDetails.dart';
 import 'package:login/widgets/pagebackground.dart';
-import 'package:login/widgets/pagetitle.dart';
+import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:login/helpers/constant.dart' as Constant;
 
 class AddProject extends StatefulWidget {
@@ -13,8 +13,6 @@ class AddProject extends StatefulWidget {
 }
 
 class _AddProjectState extends State<AddProject> {
-  var diviceSize = 470;
-
   TextEditingController _whatController = TextEditingController();
   TextEditingController _whereController = TextEditingController();
   TextEditingController _rateController = TextEditingController();
@@ -81,13 +79,12 @@ class _AddProjectState extends State<AddProject> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  PageTitle(
-                      size: size, diviceSize: diviceSize, title: "Add Project"),
+                  PageTitle(size: size, title: "Add Project"),
                   SizedBox(
                     height: 20,
                   ),
                   Padding(
-                    padding: size.height > diviceSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.all(18.0)
                         : const EdgeInsets.all(5.0),
                     child: Row(
@@ -103,14 +100,17 @@ class _AddProjectState extends State<AddProject> {
                               controller: _whatController,
                               style: TextStyle(
                                   color: Constant.primaryColor,
-                                  fontSize: size.height > diviceSize ? 30 : 18),
+                                  fontSize:
+                                      size.height > Constant.divSize ? 30 : 18),
                               decoration: _textDecoration(
                                   'What',
-                                  size.height > diviceSize ? 30 : 18,
+                                  size.height > Constant.divSize ? 30 : 18,
                                   Icon(
                                     Icons.help,
                                     color: Colors.black87,
-                                    size: size.height > diviceSize ? 30 : 18,
+                                    size: size.height > Constant.divSize
+                                        ? 30
+                                        : 18,
                                   ))),
                         ),
                         SizedBox(
@@ -127,21 +127,24 @@ class _AddProjectState extends State<AddProject> {
                               controller: _whereController,
                               style: TextStyle(
                                   color: Constant.primaryColor,
-                                  fontSize: size.height > diviceSize ? 30 : 18),
+                                  fontSize:
+                                      size.height > Constant.divSize ? 30 : 18),
                               decoration: _textDecoration(
                                   'Where',
-                                  size.height > diviceSize ? 30 : 18,
+                                  size.height > Constant.divSize ? 30 : 18,
                                   Icon(
                                     Icons.location_on,
                                     color: Colors.black87,
-                                    size: size.height > diviceSize ? 30 : 18,
+                                    size: size.height > Constant.divSize
+                                        ? 30
+                                        : 18,
                                   ))),
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: size.height > diviceSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.all(18.0)
                         : const EdgeInsets.all(5.0),
                     child: Row(
@@ -164,13 +167,18 @@ class _AddProjectState extends State<AddProject> {
                                 child: Material(
                                   color: Colors.transparent,
                                   child: SizedBox(
-                                    width: size.height > diviceSize ? 50 : 30,
-                                    height: size.height > diviceSize ? 50 : 30,
+                                    width: size.height > Constant.divSize
+                                        ? 50
+                                        : 30,
+                                    height: size.height > Constant.divSize
+                                        ? 50
+                                        : 30,
                                     child: Center(
                                       child: Icon(
                                         Icons.calendar_today,
-                                        size:
-                                            size.height > diviceSize ? 30 : 18,
+                                        size: size.height > Constant.divSize
+                                            ? 30
+                                            : 18,
                                       ),
                                     ),
                                   ),
@@ -182,10 +190,10 @@ class _AddProjectState extends State<AddProject> {
                             ),
                             Container(
                               alignment: Alignment.center,
-                              width: size.height > diviceSize
+                              width: size.height > Constant.divSize
                                   ? size.width / 2 - 108
                                   : size.width / 2 - 88,
-                              height: size.height > diviceSize ? 80 : 60,
+                              height: size.height > Constant.divSize ? 80 : 60,
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0),
@@ -197,8 +205,9 @@ class _AddProjectState extends State<AddProject> {
                                         ? 'When! '
                                         : ' Picked Date : ${DateFormat().add_yMd().format(_dateTime)}',
                                     style: TextStyle(
-                                        fontSize:
-                                            size.height > diviceSize ? 25 : 10),
+                                        fontSize: size.height > Constant.divSize
+                                            ? 25
+                                            : 10),
                                   ),
                                   trailing: RaisedButton(
                                     splashColor: Colors.pink[300],
@@ -210,9 +219,10 @@ class _AddProjectState extends State<AddProject> {
                                     child: Text(
                                       _dateTime == null ? 'Choose ' : "Change",
                                       style: TextStyle(
-                                          fontSize: size.height > diviceSize
-                                              ? 25
-                                              : 10),
+                                          fontSize:
+                                              size.height > Constant.divSize
+                                                  ? 25
+                                                  : 10),
                                     ),
                                     onPressed: () async {
                                       await showRoundedDatePicker(
@@ -253,21 +263,24 @@ class _AddProjectState extends State<AddProject> {
                               controller: _rateController,
                               style: TextStyle(
                                   color: Constant.primaryColor,
-                                  fontSize: size.height > diviceSize ? 30 : 18),
+                                  fontSize:
+                                      size.height > Constant.divSize ? 30 : 18),
                               decoration: _textDecoration(
                                   'Rate',
-                                  size.height > diviceSize ? 30 : 18,
+                                  size.height > Constant.divSize ? 30 : 18,
                                   Icon(
                                     Icons.attach_money,
                                     color: Colors.black87,
-                                    size: size.height > diviceSize ? 30 : 18,
+                                    size: size.height > Constant.divSize
+                                        ? 30
+                                        : 18,
                                   ))),
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: size.height > diviceSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.all(18.0)
                         : const EdgeInsets.all(5.0),
                     child: Container(
@@ -281,19 +294,20 @@ class _AddProjectState extends State<AddProject> {
                           controller: _whoController,
                           style: TextStyle(
                               color: Constant.primaryColor,
-                              fontSize: size.height > diviceSize ? 30 : 18),
+                              fontSize:
+                                  size.height > Constant.divSize ? 30 : 18),
                           decoration: _textDecoration(
                               'Who',
-                              size.height > diviceSize ? 30 : 18,
+                              size.height > Constant.divSize ? 30 : 18,
                               Icon(
                                 Icons.portrait,
                                 color: Colors.black87,
-                                size: size.height > diviceSize ? 30 : 18,
+                                size: size.height > Constant.divSize ? 30 : 18,
                               ))),
                     ),
                   ),
                   Padding(
-                    padding: size.height > diviceSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.all(18.0)
                         : const EdgeInsets.all(5.0),
                     child: Container(
@@ -307,19 +321,20 @@ class _AddProjectState extends State<AddProject> {
                           controller: _linkController,
                           style: TextStyle(
                               color: Constant.primaryColor,
-                              fontSize: size.height > diviceSize ? 30 : 18),
+                              fontSize:
+                                  size.height > Constant.divSize ? 30 : 18),
                           decoration: _textDecoration(
                               'Link',
-                              size.height > diviceSize ? 30 : 18,
+                              size.height > Constant.divSize ? 30 : 18,
                               Icon(
                                 Icons.link,
                                 color: Colors.black87,
-                                size: size.height > diviceSize ? 30 : 18,
+                                size: size.height > Constant.divSize ? 30 : 18,
                               ))),
                     ),
                   ),
                   Padding(
-                    padding: size.height > diviceSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.all(18.0)
                         : const EdgeInsets.all(5.0),
                     child: Container(
@@ -333,19 +348,20 @@ class _AddProjectState extends State<AddProject> {
                           controller: _usagesController,
                           style: TextStyle(
                               color: Constant.primaryColor,
-                              fontSize: size.height > diviceSize ? 30 : 18),
+                              fontSize:
+                                  size.height > Constant.divSize ? 30 : 18),
                           decoration: _textDecoration(
                               'Usages',
-                              size.height > diviceSize ? 30 : 18,
+                              size.height > Constant.divSize ? 30 : 18,
                               Icon(
                                 Icons.map,
                                 color: Colors.black87,
-                                size: size.height > diviceSize ? 30 : 18,
+                                size: size.height > Constant.divSize ? 30 : 18,
                               ))),
                     ),
                   ),
                   Padding(
-                    padding: size.height > diviceSize
+                    padding: size.height > Constant.divSize
                         ? const EdgeInsets.all(18.0)
                         : const EdgeInsets.all(5.0),
                     child: Container(
@@ -360,14 +376,15 @@ class _AddProjectState extends State<AddProject> {
                           controller: _notesController,
                           style: TextStyle(
                               color: Constant.primaryColor,
-                              fontSize: size.height > diviceSize ? 30 : 18),
+                              fontSize:
+                                  size.height > Constant.divSize ? 30 : 18),
                           decoration: _textDecoration(
                               'Notes',
-                              size.height > diviceSize ? 30 : 18,
+                              size.height > Constant.divSize ? 30 : 18,
                               Icon(
                                 Icons.bookmark_border,
                                 color: Colors.black87,
-                                size: size.height > diviceSize ? 30 : 18,
+                                size: size.height > Constant.divSize ? 30 : 18,
                               ))),
                     ),
                   ),
@@ -391,11 +408,17 @@ class _AddProjectState extends State<AddProject> {
                               child: InkWell(
                                 splashColor: Colors.blue,
                                 child: SizedBox(
-                                    width: size.height > diviceSize ? 80 : 50,
-                                    height: size.height > diviceSize ? 80 : 50,
+                                    width: size.height > Constant.divSize
+                                        ? 80
+                                        : 50,
+                                    height: size.height > Constant.divSize
+                                        ? 80
+                                        : 50,
                                     child: Icon(
                                       Icons.compare_arrows,
-                                      size: size.height > diviceSize ? 40 : 20,
+                                      size: size.height > Constant.divSize
+                                          ? 40
+                                          : 20,
                                     )),
                                 onTap: () {
                                   _whatController.clear();

@@ -2,9 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:login/API/serviceproviderapi.dart';
 import 'package:login/helpers/roomimageprovider.dart';
+import 'package:login/widgets/Page_titles/pg_title_wth_drawr.dart';
 import 'package:login/widgets/custom_input_decoration.dart';
+import 'package:login/widgets/customalertbox.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/dashbord_widgets/dashborddrawer.dart';
@@ -21,8 +24,6 @@ class ServiceProvider extends StatefulWidget {
 }
 
 class _ServiceProviderState extends State<ServiceProvider> {
-  var diviceSize = 470;
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   TextEditingController _selfController;
@@ -108,13 +109,10 @@ class _ServiceProviderState extends State<ServiceProvider> {
       _coupenController =
           TextEditingController(text: objServiceModal.couponcode);
       //Init Images
-      print("LOOOOOOO");
-      setState(() {
-        _initLogo = objServiceModal.logo;
-        _initImage1 = objServiceModal.image1;
-        _initImage2 = objServiceModal.image2;
-        _initImage3 = objServiceModal.image3;
-      });
+      _initLogo = objServiceModal.logo;
+      _initImage1 = objServiceModal.image1;
+      _initImage2 = objServiceModal.image2;
+      _initImage3 = objServiceModal.image3;
 
       serId = objServiceModal.id;
       _checked = objServiceModal.policystatus == "1" ? true : false;
@@ -183,7 +181,9 @@ class _ServiceProviderState extends State<ServiceProvider> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          customAppBar(context),
+                          PageTitleWithDrawer(
+                            scaffoldKey: _scaffoldKey,
+                          ),
                           SizedBox(
                             height: 20,
                           ),
@@ -192,7 +192,12 @@ class _ServiceProviderState extends State<ServiceProvider> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: _isEdit
-                                    ? () => _showMyDialog('logo')
+                                    ? () => CustomAlertBox.shared.showMyDialog(
+                                        context: context,
+                                        getImageFromCam: () =>
+                                            getImageFromCam('logo'),
+                                        getImageFromGal: () =>
+                                            getImageFromGal('logo'))
                                     : null,
                                 child: Container(
                                   // alignment: Alignment.center,
@@ -233,20 +238,27 @@ class _ServiceProviderState extends State<ServiceProvider> {
                               Column(
                                 children: [
                                   _formField(
-                                      'Self',
-                                      size.width / 2 - 30,
-                                      15,
-                                      'assets/icons/Usericon.png',
-                                      _selfController),
+                                    lable: 'Self',
+                                    width: size.width / 2 - 30,
+                                    fontSize: 15,
+                                    image: 'assets/icons/Usericon.png',
+                                    textInputType: TextInputType.text,
+                                    controller: _selfController,
+                                    maxLine: 1,
+                                  ),
                                   SizedBox(
                                     height: 10,
                                   ),
                                   _formField(
-                                      'Who',
-                                      size.width / 2 - 30,
-                                      15,
-                                      'assets/icons/SelectedAdd-Team-Member.png',
-                                      _whoController),
+                                    lable: 'Who',
+                                    width: size.width / 2 - 30,
+                                    fontSize: 15,
+                                    image:
+                                        'assets/icons/SelectedAdd-Team-Member.png',
+                                    textInputType: TextInputType.text,
+                                    controller: _whoController,
+                                    maxLine: 1,
+                                  ),
                                 ],
                               ),
                             ],
@@ -257,16 +269,26 @@ class _ServiceProviderState extends State<ServiceProvider> {
                           Row(
                             children: [
                               _formField(
-                                  'Website',
-                                  size.width / 2 - 30,
-                                  15,
-                                  'assets/icons/Lickicon.png',
-                                  _websiteController),
+                                lable: 'Website',
+                                width: size.width / 2 - 30,
+                                fontSize: 15,
+                                image: 'assets/icons/Lickicon.png',
+                                textInputType: TextInputType.url,
+                                controller: _websiteController,
+                                maxLine: 1,
+                              ),
                               SizedBox(
                                 width: 12,
                               ),
-                              _formField('Where', size.width / 2 - 30, 15,
-                                  'assets/icons/Where.png', _whereController),
+                              _formField(
+                                lable: 'Where',
+                                width: size.width / 2 - 30,
+                                fontSize: 15,
+                                image: 'assets/icons/Where.png',
+                                textInputType: TextInputType.text,
+                                controller: _whereController,
+                                maxLine: 1,
+                              ),
                             ],
                           ),
                           SizedBox(
@@ -275,20 +297,26 @@ class _ServiceProviderState extends State<ServiceProvider> {
                           Row(
                             children: [
                               _formField(
-                                  'VAT Number',
-                                  size.width / 2 - 30,
-                                  15,
-                                  'assets/icons/Call.png',
-                                  _vatNumberController),
+                                lable: 'VAT Number',
+                                width: size.width / 2 - 30,
+                                fontSize: 15,
+                                image: 'assets/icons/Call.png',
+                                textInputType: TextInputType.number,
+                                controller: _vatNumberController,
+                                maxLine: 1,
+                              ),
                               SizedBox(
                                 width: 12,
                               ),
                               _formField(
-                                  'Registration Number',
-                                  size.width / 2 - 30,
-                                  15,
-                                  'assets/icons/Call.png',
-                                  _regNumberController),
+                                lable: 'Registration Number',
+                                width: size.width / 2 - 30,
+                                fontSize: 15,
+                                image: 'assets/icons/Call.png',
+                                textInputType: TextInputType.number,
+                                controller: _regNumberController,
+                                maxLine: 1,
+                              ),
                             ],
                           ),
                           SizedBox(
@@ -297,83 +325,136 @@ class _ServiceProviderState extends State<ServiceProvider> {
                           Row(
                             children: [
                               _formField(
-                                  'Responsive Person Name',
-                                  size.width / 2 - 30,
-                                  15,
-                                  'assets/icons/user.png',
-                                  _resPerNameController),
+                                lable: 'Responsive Person Name',
+                                width: size.width / 2 - 30,
+                                fontSize: 15,
+                                image: 'assets/icons/user.png',
+                                textInputType: TextInputType.text,
+                                controller: _resPerNameController,
+                                maxLine: 1,
+                              ),
                               SizedBox(
                                 width: 12,
                               ),
                               _formField(
-                                  'Responsive Person Email',
-                                  size.width / 2 - 30,
-                                  15,
-                                  'assets/icons/mail.png',
-                                  _resPerMailController),
+                                lable: 'Responsive Person Email',
+                                width: size.width / 2 - 30,
+                                fontSize: 15,
+                                image: 'assets/icons/mail.png',
+                                textInputType: TextInputType.emailAddress,
+                                controller: _resPerMailController,
+                                maxLine: 1,
+                              ),
                             ],
                           ),
                           SizedBox(
                             height: 20,
                           ),
                           _formField(
-                              'Afflicated Program',
-                              size.width - 48,
-                              15,
-                              'assets/icons/Afflicated.png',
-                              _affiliatedController),
-                          SizedBox(
-                            height: 20,
+                            lable: 'Afflicated Program',
+                            width: size.width - 48,
+                            fontSize: 15,
+                            image: 'assets/icons/Afflicated.png',
+                            textInputType: TextInputType.text,
+                            controller: _affiliatedController,
+                            maxLine: 1,
                           ),
-                          _formField('Tags', size.width - 48, 15,
-                              'assets/icons/Tags.png', _tagController),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          _formField(
-                              'Add Team Member',
-                              size.width - 48,
-                              15,
-                              'assets/icons/SelectedAdd-Team-Member.png',
-                              _addTeamMemberController),
                           SizedBox(
                             height: 20,
                           ),
                           _formField(
-                              'Membership',
-                              size.width - 48,
-                              15,
-                              'assets/icons/Subscription.png',
-                              _membershipController),
-                          SizedBox(
-                            height: 20,
+                            lable: 'Tags',
+                            width: size.width - 48,
+                            fontSize: 15,
+                            image: 'assets/icons/Tags.png',
+                            textInputType: TextInputType.text,
+                            controller: _tagController,
+                            maxLine: 1,
                           ),
-                          _formField('Address', size.width - 48, 15,
-                              'assets/icons/Where.png', _addressController),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          _formField('About Us', size.width - 48, 15,
-                              'assets/icons/About-Us.png', _aboutUsController),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          _formField('Advertising', size.width - 48, 15,
-                              'assets/icons/ad.png', _adverController),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          _formField('Billing', size.width - 48, 15,
-                              'assets/icons/Billing.png', _billController),
                           SizedBox(
                             height: 20,
                           ),
                           _formField(
-                              'Discount Details',
-                              size.width - 48,
-                              15,
-                              'assets/icons/CouponCode.png',
-                              _discountController),
+                            lable: 'Add Team Member',
+                            width: size.width - 48,
+                            fontSize: 15,
+                            image: 'assets/icons/SelectedAdd-Team-Member.png',
+                            textInputType: TextInputType.text,
+                            controller: _addTeamMemberController,
+                            maxLine: 1,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          _formField(
+                            lable: 'Membership',
+                            width: size.width - 48,
+                            fontSize: 15,
+                            image: 'assets/icons/Subscription.png',
+                            textInputType: TextInputType.text,
+                            controller: _membershipController,
+                            maxLine: 1,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          _formField(
+                            lable: 'Address',
+                            width: size.width - 48,
+                            fontSize: 15,
+                            image: 'assets/icons/Where.png',
+                            textInputType: TextInputType.text,
+                            controller: _addressController,
+                            maxLine: 1,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          _formField(
+                            lable: 'About Us',
+                            width: size.width - 48,
+                            fontSize: 15,
+                            image: 'assets/icons/About-Us.png',
+                            textInputType: TextInputType.multiline,
+                            controller: _aboutUsController,
+                            maxLine: null,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          _formField(
+                            lable: 'Advertising',
+                            width: size.width - 48,
+                            fontSize: 15,
+                            image: 'assets/icons/ad.png',
+                            textInputType: TextInputType.multiline,
+                            controller: _adverController,
+                            maxLine: null,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          _formField(
+                            lable: 'Billing',
+                            width: size.width - 48,
+                            fontSize: 15,
+                            image: 'assets/icons/Billing.png',
+                            textInputType: TextInputType.multiline,
+                            controller: _billController,
+                            maxLine: null,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          _formField(
+                            lable: 'Discount Details',
+                            width: size.width - 48,
+                            fontSize: 15,
+                            image: 'assets/icons/CouponCode.png',
+                            textInputType: TextInputType.multiline,
+                            controller: _discountController,
+                            maxLine: null,
+                          ),
                           SizedBox(
                             height: 20,
                           ),
@@ -390,13 +471,19 @@ class _ServiceProviderState extends State<ServiceProvider> {
                                   children: [
                                     GestureDetector(
                                       onTap: _isEdit
-                                          ? () => _showMyDialog('fImage')
+                                          ? () => CustomAlertBox.shared
+                                              .showMyDialog(
+                                                  context: context,
+                                                  getImageFromCam: () =>
+                                                      getImageFromCam('fImage'),
+                                                  getImageFromGal: () =>
+                                                      getImageFromGal('fImage'))
                                           : null,
                                       child: Container(
-                                        height: size.height > diviceSize
+                                        height: size.height > Constant.divSize
                                             ? 300
                                             : 170,
-                                        width: size.height > diviceSize
+                                        width: size.height > Constant.divSize
                                             ? 800
                                             : 160,
                                         child: _fImage == null
@@ -414,13 +501,19 @@ class _ServiceProviderState extends State<ServiceProvider> {
                                     ),
                                     GestureDetector(
                                       onTap: _isEdit
-                                          ? () => _showMyDialog('sImage')
+                                          ? () => CustomAlertBox.shared
+                                              .showMyDialog(
+                                                  context: context,
+                                                  getImageFromCam: () =>
+                                                      getImageFromCam('sImage'),
+                                                  getImageFromGal: () =>
+                                                      getImageFromGal('sImage'))
                                           : null,
                                       child: Container(
-                                        height: size.height > diviceSize
+                                        height: size.height > Constant.divSize
                                             ? 300
                                             : 170,
-                                        width: size.height > diviceSize
+                                        width: size.height > Constant.divSize
                                             ? 800
                                             : 160,
                                         child: _sImage == null
@@ -438,13 +531,19 @@ class _ServiceProviderState extends State<ServiceProvider> {
                                     ),
                                     GestureDetector(
                                       onTap: _isEdit
-                                          ? () => _showMyDialog('tImage')
+                                          ? () => CustomAlertBox.shared
+                                              .showMyDialog(
+                                                  context: context,
+                                                  getImageFromCam: () =>
+                                                      getImageFromCam('tImage'),
+                                                  getImageFromGal: () =>
+                                                      getImageFromGal('tImage'))
                                           : null,
                                       child: Container(
-                                        height: size.height > diviceSize
+                                        height: size.height > Constant.divSize
                                             ? 300
                                             : 170,
-                                        width: size.height > diviceSize
+                                        width: size.height > Constant.divSize
                                             ? 800
                                             : 160,
                                         child: _tImage == null
@@ -465,14 +564,45 @@ class _ServiceProviderState extends State<ServiceProvider> {
                               ),
                               Expanded(
                                 flex: 1,
-                                child: Container(
-                                  padding: EdgeInsets.only(left: 5, right: 15),
-                                  child: _formField(
-                                      'Coupen Code',
-                                      0,
-                                      15,
-                                      'assets/icons/CouponCode.png',
-                                      _coupenController),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      padding:
+                                          EdgeInsets.only(left: 5, right: 15),
+                                      child: _formField(
+                                        lable: 'Coupen Code',
+                                        width: size.width,
+                                        fontSize: 15,
+                                        image: 'assets/icons/CouponCode.png',
+                                        textInputType: TextInputType.text,
+                                        controller: _coupenController,
+                                        maxLine: 1,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    RatingBar(
+                                      initialRating: 3,
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      ignoreGestures: true,
+                                      itemCount: 5,
+                                      itemSize: 25,
+                                      unratedColor: Colors.grey,
+                                      itemPadding:
+                                          EdgeInsets.symmetric(horizontal: 0.0),
+                                      itemBuilder: (context, _) => Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
+                                        child: Image.asset(
+                                            'assets/icons/selectStar.png'),
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        print(rating);
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -480,7 +610,7 @@ class _ServiceProviderState extends State<ServiceProvider> {
                           SizedBox(
                             height: 20,
                           ),
-                          rememberMeBox(),
+                          agreementBoxCheckBox(),
                         ],
                       ),
                     ),
@@ -491,7 +621,7 @@ class _ServiceProviderState extends State<ServiceProvider> {
     );
   }
 
-  Widget rememberMeBox() {
+  Widget agreementBoxCheckBox() {
     return GestureDetector(
       onTap: _isEdit
           ? () {
@@ -507,12 +637,10 @@ class _ServiceProviderState extends State<ServiceProvider> {
           Container(
             height: 20,
             width: 20,
-            decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(width: 1.0, color: Constant.primaryColor),
-                left: BorderSide(width: 1.0, color: Constant.primaryColor),
-                right: BorderSide(width: 1.0, color: Constant.primaryColor),
-                bottom: BorderSide(width: 1.0, color: Constant.primaryColor),
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 1.0,
+                color: Constant.primaryColor,
               ),
             ),
             child: Checkbox(
@@ -555,7 +683,7 @@ class _ServiceProviderState extends State<ServiceProvider> {
       child: Container(
         child: CircleAvatar(
             backgroundColor: Colors.transparent,
-            radius: size.height > diviceSize ? 40 : 20,
+            radius: size.height > Constant.divSize ? 40 : 20,
             child: Image.asset('assets/images/editicon.png')),
       ),
     );
@@ -578,12 +706,12 @@ class _ServiceProviderState extends State<ServiceProvider> {
           child: Container(
             child: CircleAvatar(
                 backgroundColor: Colors.transparent,
-                radius: size.height > diviceSize ? 40 : 30,
+                radius: size.height > Constant.divSize ? 40 : 30,
                 child: Image.asset('assets/icons/Acept.png')),
           ),
         ),
         SizedBox(
-          width: 25,
+          width: 15,
         ),
         GestureDetector(
           onTap: () {
@@ -596,7 +724,7 @@ class _ServiceProviderState extends State<ServiceProvider> {
           child: Container(
             child: CircleAvatar(
                 backgroundColor: Colors.transparent,
-                radius: size.height > diviceSize ? 40 : 30,
+                radius: size.height > Constant.divSize ? 40 : 30,
                 child: Image.asset('assets/icons/Decline.png')),
           ),
         ),
@@ -629,38 +757,38 @@ class _ServiceProviderState extends State<ServiceProvider> {
       final bytes = File(_tImage.path).readAsBytesSync();
       thirdImage = base64Encode(bytes);
     }
-    // setState(() {
-    //   _isLoad = true;
-    // });
+    setState(() {
+      _isLoad = true;
+    });
     await Provider.of<ServiceProviderApi>(context, listen: false)
         .updateServiceProvider(
       id: serId,
-      self: _selfController.text,
-      where: _whereController.text,
-      website: _websiteController.text,
-      aboutus: _aboutUsController.text,
-      address: _addressController.text,
-      ads: _adverController.text,
-      affiliatedprog: _affiliatedController.text,
-      billings: _billController.text,
-      couponcode: _coupenController.text,
-      discountdetails: _discountController.text,
-      membership: _membershipController.text,
-      respersonname: _resPerNameController.text,
-      respersonemail: _resPerMailController.text,
-      tags: _tagController.text,
-      teamid: _addTeamMemberController.text,
-      registrationnumber: _regNumberController.text,
-      vatnumber: _vatNumberController.text,
+      self: _selfController.text.trim(),
+      where: _whereController.text.trim(),
+      website: _websiteController.text.trim(),
+      aboutus: _aboutUsController.text.trim(),
+      address: _addressController.text.trim(),
+      ads: _adverController.text.trim(),
+      affiliatedprog: _affiliatedController.text.trim(),
+      billings: _billController.text.trim(),
+      couponcode: _coupenController.text.trim(),
+      discountdetails: _discountController.text.trim(),
+      membership: _membershipController.text.trim(),
+      respersonname: _resPerNameController.text.trim(),
+      respersonemail: _resPerMailController.text.trim(),
+      tags: _tagController.text.trim(),
+      teamid: _addTeamMemberController.text.trim(),
+      registrationnumber: _regNumberController.text.trim(),
+      vatnumber: _vatNumberController.text.trim(),
       image1: _fImage != null ? firstImage : '',
       image2: _sImage != null ? secImage : '',
       image3: _tImage != null ? thirdImage : '',
       logo: _logo != null ? logoImage : '',
       check: _checked,
     );
-    // setState(() {
-    //   _isLoad = false;
-    // });
+    setState(() {
+      _isLoad = false;
+    });
     _selfController.clear();
     _whereController.clear();
     _whoController.clear();
@@ -683,54 +811,15 @@ class _ServiceProviderState extends State<ServiceProvider> {
     Navigator.of(context).pushReplacementNamed(ServiceProvider.routeName);
   }
 
-  Row customAppBar(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        GestureDetector(
-          onTap: () {
-            _scaffoldKey.currentState.openDrawer();
-          },
-          child: CircleAvatar(
-            radius: 10,
-            backgroundColor: Colors.transparent,
-            child: Image.asset(
-              'assets/icons/Sidebar.png',
-              fit: BoxFit.fill,
-            ),
-          ),
-        ),
-        Container(
-          child: Text(
-            "Service Provider",
-            style: TextStyle(
-              color: Constant.primaryColor,
-              fontSize: 22,
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: CircleAvatar(
-            radius: 10,
-            backgroundColor: Colors.transparent,
-            child: Image.asset(
-              'assets/icons/home.png',
-              fit: BoxFit.fill,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _formField(
+  Widget _formField({
     String lable,
     double width,
     double fontSize,
     String image,
+    TextInputType textInputType,
     TextEditingController controller,
-  ) {
+    int maxLine,
+  }) {
     return Container(
       width: width,
       child: TextField(
@@ -740,8 +829,10 @@ class _ServiceProviderState extends State<ServiceProvider> {
                   ? lable == 'Who' || lable == 'Self' ? false : true
                   : false
               : false,
-          textInputAction: TextInputAction.next,
-          onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+          keyboardType: textInputType,
+          maxLines: maxLine,
+          textInputAction: TextInputAction.done,
+          // onSubmitted: (_) => FocusScope.of(context).nextFocus(),
           style: TextStyle(color: Constant.primaryColor, fontSize: fontSize),
           decoration: CustomInputDecoration.customInputDecoration(
                   lable, fontSize, image)
@@ -752,62 +843,13 @@ class _ServiceProviderState extends State<ServiceProvider> {
     );
   }
 
-  Future<void> _showMyDialog(String lable) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: true, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            "Pick Photo",
-            style: TextStyle(color: Colors.white),
-          ),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(15.0))),
-          backgroundColor: Color.fromRGBO(37, 36, 41, 1),
-          content: Container(
-            height: 100,
-            width: 200,
-            child: Column(
-              children: [
-                GestureDetector(
-                  onTap: () => getImageFromCam(lable),
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 18.0),
-                    child: Text(
-                      "Camera",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-                Divider(
-                  color: Colors.white24,
-                ),
-                GestureDetector(
-                  onTap: () => getImageFromGal(lable),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 18.0),
-                    child: Text(
-                      "Gallery",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   Future getImageFromCam(String lable) async {
     Navigator.of(context).pop();
     final pickedFile = await picker.getImage(
         source: ImageSource.camera,
-        imageQuality: 50,
+        imageQuality: 80,
         maxHeight: 200,
-        maxWidth: 200);
+        maxWidth: 1000);
     setState(() {
       if (lable == 'logo') {
         _logo = File(pickedFile.path);
@@ -828,9 +870,9 @@ class _ServiceProviderState extends State<ServiceProvider> {
     Navigator.of(context).pop();
     final pickedFile = await picker.getImage(
         source: ImageSource.gallery,
-        imageQuality: 50,
+        imageQuality: 70,
         maxHeight: 200,
-        maxWidth: 200);
+        maxWidth: 1000);
     setState(() {
       if (lable == 'logo') {
         _logo = File(pickedFile.path);

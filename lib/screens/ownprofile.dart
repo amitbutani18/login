@@ -5,10 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:login/API/profileapi.dart';
 import 'package:login/screens/editprofile.dart';
-import 'package:login/screens/forgotpasswod.dart';
+import 'package:login/screens/resetpassword.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/pagebackground.dart';
-import 'package:login/widgets/pagetitle.dart';
+import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/rendering.dart';
@@ -22,7 +22,6 @@ class OwnProfile extends StatefulWidget {
 }
 
 class _OwnProfileState extends State<OwnProfile> {
-  var diviceSize = 470;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   var _isInit = true;
   var _name = '';
@@ -36,7 +35,7 @@ class _OwnProfileState extends State<OwnProfile> {
   var _companyName = '';
   var _aboutUs = '';
   var _workingHistory = '';
-  List<Map<String, dynamic>> _links = [];
+  List<dynamic> _links = [];
 
   bool _load = false;
   String _qrData = "Amit Butani";
@@ -65,7 +64,7 @@ class _OwnProfileState extends State<OwnProfile> {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed(ForgotPassword.roteName);
+              Navigator.of(context).pushNamed(ResetPassword.roteName);
             },
             child: Container(
               padding: EdgeInsets.all(0),
@@ -73,7 +72,7 @@ class _OwnProfileState extends State<OwnProfile> {
               child: CircleAvatar(
                 backgroundColor: Colors.transparent,
                 radius: 20,
-                child: Image.asset('assets/icons/Lickicon.png'),
+                child: Image.asset('assets/icons/ResetPassword.png'),
               ),
             ),
           ),
@@ -85,12 +84,13 @@ class _OwnProfileState extends State<OwnProfile> {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (BuildContext context) => EditProfile(
                         objProfileModal: objProfileModal,
+                        email: _qrData,
                       )));
             },
             child: Container(
               child: CircleAvatar(
                   backgroundColor: Colors.transparent,
-                  radius: size.height > diviceSize ? 40 : 20,
+                  radius: size.height > Constant.divSize ? 40 : 20,
                   child: Image.asset('assets/images/editicon.png')),
             ),
           ),
@@ -103,30 +103,27 @@ class _OwnProfileState extends State<OwnProfile> {
           _load
               ? CustomCircularProgressIndicator()
               : Padding(
-                  padding: size.height > diviceSize
+                  padding: size.height > Constant.divSize
                       ? const EdgeInsets.all(28.0)
                       : const EdgeInsets.only(top: 18, right: 18, left: 18),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      PageTitle(
-                          size: size,
-                          diviceSize: diviceSize,
-                          title: "Own Profile"),
+                      PageTitle(size: size, title: "Own Profile"),
                       SizedBox(
                         height: 20,
                       ),
                       Padding(
-                        padding: size.height > diviceSize
+                        padding: size.height > Constant.divSize
                             ? const EdgeInsets.symmetric(horizontal: 28.0)
                             : const EdgeInsets.symmetric(horizontal: 18.0),
                         child: Row(
                           children: <Widget>[
                             Container(
-                              width: size.height > diviceSize
+                              width: size.height > Constant.divSize
                                   ? size.width / 2
                                   : size.width / 2 - 50,
-                              height: size.height > diviceSize
+                              height: size.height > Constant.divSize
                                   ? size.height - 150
                                   : size.height - 86,
                               // color: Colors.white,
@@ -136,8 +133,9 @@ class _OwnProfileState extends State<OwnProfile> {
                                   children: <Widget>[
                                     CircleAvatar(
                                       key: ValueKey(new Random().nextInt(100)),
-                                      radius:
-                                          size.height > diviceSize ? 70 : 30,
+                                      radius: size.height > Constant.divSize
+                                          ? 70
+                                          : 30,
                                       backgroundColor: Colors.transparent,
                                       backgroundImage: _profileImage == ""
                                           ? AssetImage(
@@ -149,17 +147,16 @@ class _OwnProfileState extends State<OwnProfile> {
                                       _name,
                                       style: TextStyle(
                                         color: Constant.primaryColor,
-                                        fontSize:
-                                            size.height > diviceSize ? 35 : 20,
+                                        fontSize: size.height > Constant.divSize
+                                            ? 35
+                                            : 20,
                                       ),
                                     ),
                                     customSizedBox(size, 10),
                                     Align(
                                       alignment: Alignment.topLeft,
                                       child: customTitleContent(
-                                          size,
-                                          "Company Name",
-                                          "Akash Infotech (+91 123456789)"),
+                                          size, "Company Name", _companyName),
                                     ),
                                     customSizedBox(size, 15),
                                     Align(
@@ -195,23 +192,22 @@ class _OwnProfileState extends State<OwnProfile> {
                                         'Link',
                                         style: TextStyle(
                                           color: Constant.primaryColor,
-                                          fontSize: size.height > diviceSize
-                                              ? 25
-                                              : 15,
+                                          fontSize:
+                                              size.height > Constant.divSize
+                                                  ? 25
+                                                  : 15,
                                         ),
                                       ),
                                     ),
                                     customSizedBox(size, 10),
                                     YouLink(
                                         size: size,
-                                        diviceSize: diviceSize,
                                         heading: 'Youtube',
                                         link: _youLink,
                                         scaffoldKey: _scaffoldKey),
                                     customSizedBox(size, 10),
                                     YouLink(
                                         size: size,
-                                        diviceSize: diviceSize,
                                         heading: 'LinkedIn',
                                         link: _linkedLink,
                                         scaffoldKey: _scaffoldKey),
@@ -225,7 +221,6 @@ class _OwnProfileState extends State<OwnProfile> {
                                         itemCount: _links.length,
                                         itemBuilder: (context, i) => YouLink(
                                           size: size,
-                                          diviceSize: diviceSize,
                                           heading: _links[i]['title'],
                                           link: _links[i]['link'],
                                           scaffoldKey: _scaffoldKey,
@@ -235,7 +230,6 @@ class _OwnProfileState extends State<OwnProfile> {
                                     customSizedBox(size, 10),
                                     PointCredit(
                                       size: size,
-                                      diviceSize: diviceSize,
                                       heading1: "Loyalty Point",
                                       value1: "70 Points",
                                       heading2: "Total Earned Amount",
@@ -244,7 +238,6 @@ class _OwnProfileState extends State<OwnProfile> {
                                     customSizedBox(size, 20),
                                     PointCredit(
                                       size: size,
-                                      diviceSize: diviceSize,
                                       heading1: "SUPREME Card",
                                       value1: "\$ 500.00",
                                       heading2: "Credit Card",
@@ -256,15 +249,15 @@ class _OwnProfileState extends State<OwnProfile> {
                             ),
                             Expanded(
                               child: Container(
-                                padding: size.height > diviceSize
+                                padding: size.height > Constant.divSize
                                     ? const EdgeInsets.symmetric(
                                         horizontal: 150)
                                     : const EdgeInsets.symmetric(
                                         horizontal: 90),
-                                width: size.height > diviceSize
+                                width: size.height > Constant.divSize
                                     ? size.width / 2
                                     : 200,
-                                height: size.height > diviceSize
+                                height: size.height > Constant.divSize
                                     ? size.height - 150
                                     : size.height - 100,
                                 // color: Colors.pink,
@@ -279,17 +272,16 @@ class _OwnProfileState extends State<OwnProfile> {
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           CustomHeading(
-                                              size: size,
-                                              diviceSize: diviceSize,
-                                              title: 'Location'),
+                                              size: size, title: 'Location'),
                                           customSizedBox(size, 5),
                                           locationOccupation(size, _location,
                                               true, Icons.location_on),
                                         ],
                                       ),
                                       SizedBox(
-                                        height:
-                                            size.height > diviceSize ? 30 : 15,
+                                        height: size.height > Constant.divSize
+                                            ? 30
+                                            : 15,
                                       ),
                                       Column(
                                         mainAxisAlignment:
@@ -298,9 +290,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           CustomHeading(
-                                              size: size,
-                                              diviceSize: diviceSize,
-                                              title: 'Occuption'),
+                                              size: size, title: 'Occuption'),
                                           customSizedBox(size, 5),
                                           locationOccupation(size, _occupation,
                                               false, Icons.ac_unit),
@@ -314,9 +304,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           CustomHeading(
-                                              size: size,
-                                              diviceSize: diviceSize,
-                                              title: 'Rate'),
+                                              size: size, title: 'Rate'),
                                           customSizedBox(size, 5),
                                           locationOccupation(size, _dailyRate,
                                               true, Icons.attach_money),
@@ -338,9 +326,10 @@ class _OwnProfileState extends State<OwnProfile> {
                                       ),
                                       customSizedBox(size, 10),
                                       Container(
-                                        height:
-                                            size.height > diviceSize ? 100 : 50,
-                                        width: size.height > diviceSize
+                                        height: size.height > Constant.divSize
+                                            ? 100
+                                            : 50,
+                                        width: size.height > Constant.divSize
                                             ? size.width
                                             : 200,
                                         // color:Constant.primaryColor,
@@ -403,8 +392,9 @@ class _OwnProfileState extends State<OwnProfile> {
           title,
           style: TextStyle(
             color: Constant.primaryColor,
-            fontSize:
-                size.height > diviceSize ? 25 : size.width < 600 ? 10 : 15,
+            fontSize: size.height > Constant.divSize
+                ? 25
+                : size.width < 600 ? 10 : 15,
           ),
         ),
         SizedBox(
@@ -414,8 +404,9 @@ class _OwnProfileState extends State<OwnProfile> {
           content,
           style: TextStyle(
             color: Colors.white,
-            fontSize:
-                size.height > diviceSize ? 20 : size.width < 600 ? 10 : 15,
+            fontSize: size.height > Constant.divSize
+                ? 20
+                : size.width < 600 ? 10 : 15,
           ),
         ),
       ],
@@ -424,7 +415,7 @@ class _OwnProfileState extends State<OwnProfile> {
 
   SizedBox customSizedBox(Size size, double sizeHeight) {
     return SizedBox(
-      height: size.height > diviceSize ? 20 : sizeHeight,
+      height: size.height > Constant.divSize ? 20 : sizeHeight,
     );
   }
 
@@ -440,7 +431,7 @@ class _OwnProfileState extends State<OwnProfile> {
         showIcon
             ? Icon(
                 icon,
-                size: size.height > diviceSize ? 20 : 10,
+                size: size.height > Constant.divSize ? 20 : 10,
                 color: Colors.white,
               )
             : Container(
@@ -448,13 +439,14 @@ class _OwnProfileState extends State<OwnProfile> {
                 width: 0,
               ),
         SizedBox(
-          width: size.height > diviceSize ? 20 : 3,
+          width: size.height > Constant.divSize ? 20 : 3,
         ),
         Text(
           _location,
           style: TextStyle(
             color: Colors.white,
-            fontSize: size.height > diviceSize ? 25 : size.width < 600 ? 8 : 12,
+            fontSize:
+                size.height > Constant.divSize ? 25 : size.width < 600 ? 8 : 12,
           ),
         ),
       ],
@@ -505,12 +497,10 @@ class CustomHeading extends StatelessWidget {
   const CustomHeading({
     Key key,
     @required this.size,
-    @required this.diviceSize,
     @required this.title,
   }) : super(key: key);
 
   final Size size;
-  final int diviceSize;
   final String title;
 
   @override
@@ -519,7 +509,7 @@ class CustomHeading extends StatelessWidget {
       title,
       style: TextStyle(
         color: Constant.primaryColor,
-        fontSize: size.height > diviceSize ? 25 : 15,
+        fontSize: size.height > Constant.divSize ? 25 : 15,
       ),
     );
   }
@@ -529,7 +519,6 @@ class PointCredit extends StatelessWidget {
   const PointCredit({
     Key key,
     @required this.size,
-    @required this.diviceSize,
     @required this.heading1,
     @required this.value1,
     @required this.heading2,
@@ -537,7 +526,6 @@ class PointCredit extends StatelessWidget {
   }) : super(key: key);
 
   final Size size;
-  final int diviceSize;
   final String heading1;
   final String value1;
   final String heading2;
@@ -555,8 +543,9 @@ class PointCredit extends StatelessWidget {
               heading1,
               style: TextStyle(
                 color: Constant.primaryColor,
-                fontSize:
-                    size.height > diviceSize ? 25 : size.width < 600 ? 10 : 15,
+                fontSize: size.height > Constant.divSize
+                    ? 25
+                    : size.width < 600 ? 10 : 15,
               ),
             ),
             SizedBox(
@@ -566,14 +555,15 @@ class PointCredit extends StatelessWidget {
               value1,
               style: TextStyle(
                 color: Colors.white,
-                fontSize:
-                    size.height > diviceSize ? 20 : size.width < 600 ? 10 : 15,
+                fontSize: size.height > Constant.divSize
+                    ? 20
+                    : size.width < 600 ? 10 : 15,
               ),
             ),
           ],
         ),
         SizedBox(
-          width: size.height > diviceSize ? 180 : 25,
+          width: size.height > Constant.divSize ? 180 : 25,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -582,8 +572,9 @@ class PointCredit extends StatelessWidget {
               heading2,
               style: TextStyle(
                 color: Constant.primaryColor,
-                fontSize:
-                    size.height > diviceSize ? 25 : size.width < 600 ? 10 : 15,
+                fontSize: size.height > Constant.divSize
+                    ? 25
+                    : size.width < 600 ? 10 : 15,
               ),
             ),
             SizedBox(
@@ -593,8 +584,9 @@ class PointCredit extends StatelessWidget {
               value2,
               style: TextStyle(
                 color: Colors.white,
-                fontSize:
-                    size.height > diviceSize ? 20 : size.width < 600 ? 10 : 15,
+                fontSize: size.height > Constant.divSize
+                    ? 20
+                    : size.width < 600 ? 10 : 15,
               ),
             ),
           ],
@@ -608,14 +600,12 @@ class YouLink extends StatelessWidget {
   const YouLink({
     Key key,
     @required this.size,
-    @required this.diviceSize,
     @required this.heading,
     @required this.link,
     @required this.scaffoldKey,
   }) : super(key: key);
 
   final Size size;
-  final int diviceSize;
   final String heading;
   final String link;
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -632,7 +622,7 @@ class YouLink extends StatelessWidget {
               heading,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: size.height > diviceSize ? 23 : 10,
+                fontSize: size.height > Constant.divSize ? 23 : 10,
               ),
             ),
           ),
@@ -641,7 +631,7 @@ class YouLink extends StatelessWidget {
           ),
           Container(
             width: size.width,
-            height: size.height > diviceSize ? 80 : 40,
+            height: size.height > Constant.divSize ? 80 : 40,
             decoration: BoxDecoration(
               color: Colors.grey[850],
               borderRadius: BorderRadius.circular(8),
@@ -655,7 +645,7 @@ class YouLink extends StatelessWidget {
                     link,
                     style: TextStyle(
                       color: Colors.white24,
-                      fontSize: size.height > diviceSize ? 23 : 10,
+                      fontSize: size.height > Constant.divSize ? 23 : 10,
                     ),
                   ),
                 ),
@@ -672,7 +662,7 @@ class YouLink extends StatelessWidget {
                     style: TextStyle(
                       decoration: TextDecoration.underline,
                       color: Constant.primaryColor,
-                      fontSize: size.height > diviceSize ? 23 : 10,
+                      fontSize: size.height > Constant.divSize ? 23 : 10,
                     ),
                   ),
                 )
