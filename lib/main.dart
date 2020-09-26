@@ -32,6 +32,7 @@ import 'package:login/helpers/Routes/routes.dart';
 import 'package:login/screens/loginscreen.dart';
 import 'package:login/screens/pickroom.dart';
 import 'package:http/http.dart' as http;
+import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'helpers/constant.dart' as Constant;
@@ -55,7 +56,7 @@ class _MyAppState extends State<MyApp> {
   var fingStatus = 1;
   var setpinscreen = 1;
   bool _isVerify = false;
-
+  bool _isLoad = false;
   String _latestLink = 'Unknown';
   Uri _latestUri;
   StreamSubscription _sub;
@@ -115,11 +116,15 @@ class _MyAppState extends State<MyApp> {
       final email = link.split("//").last;
       if (link != '') {
         print(email);
+        setState(() {
+          _isLoad = true;
+        });
         final response = await IsVerifyApi.shared.isVerify(email);
         // isVerify(email);
         print(response);
         setState(() {
           _isVerify = true;
+          _isLoad = false;
         });
       }
       print('got link: $email');
@@ -162,83 +167,86 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider.value(value: LinkProvider()),
         ChangeNotifierProvider.value(value: ServiceProviderApi()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          canvasColor: Colors.transparent,
-          cursorColor: Constant.primaryColor,
-        ),
-        home: _isVerify
-            ? SetPin()
-            : user
-                ? setpinscreen == 1
-                    ? SetPin()
-                    : pinstatus == 0 ? PickRoom() : VerifyPin()
-                : LoginScreen(),
-        routes: Routes.routes(),
-      ),
+      child: _isLoad
+          ? CustomCircularProgressIndicator()
+          : MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Flutter Demo',
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+                visualDensity: VisualDensity.adaptivePlatformDensity,
+                canvasColor: Colors.transparent,
+                cursorColor: Constant.primaryColor,
+              ),
+              home: _isVerify
+                  ? SetPin()
+                  : user
+                      ? setpinscreen == 1
+                          ? SetPin()
+                          : pinstatus == 0 ? PickRoom() : VerifyPin()
+                      : LoginScreen(),
+              routes: Routes.routes(),
+            ),
     );
   }
 
-  Future<List> isVerify(String email) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    // final api = sharedPreferences.getString('api');
+  // Future<List> isVerify(String email) async {
+  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //   // final api = sharedPreferences.getString('api');
 
-    final response = await http.post(
-      '${Constant.apiLink}isverify',
-      body: {
-        "email": email,
-      },
-    );
-    Map<dynamic, dynamic> map = json.decode(response.body);
-    print(map);
-    if (response.body.contains("err")) {
-      final err = map['err'];
-      print(err);
-      throw map['err'];
-    } else {
-      if (response.statusCode == 200) {
-        if (map.containsKey('data')) {
-          print(map['data']);
-          SharedPreferences sharedPreferences =
-              await SharedPreferences.getInstance();
-          sharedPreferences.setBool('login', true);
-          sharedPreferences.setString('name', map['data']['name']);
-          sharedPreferences.setString('email', map['data']['email']);
-          sharedPreferences.setString("userid", map['data']['userid']);
-          sharedPreferences.setInt("touchid", map['data']['touchid']);
-          sharedPreferences.setInt("pinstatus", map['data']['pinstatus']);
-          sharedPreferences.setInt("setpinscreen", map['data']['setpinscreen']);
-          sharedPreferences.setInt(
-              "serviceproviderowner", map['data']['serviceproviderowner']);
+  //   final response = await http.post(
+  //     '${Constant.apiLink}isverify',
+  //     body: {
+  //       "email": email,
+  //     },
+  //   );
+  //   Map<dynamic, dynamic> map = json.decode(response.body);
+  //   print(map);
+  //   if (response.body.contains("err")) {
+  //     final err = map['err'];
+  //     print(err);
+  //     throw map['err'];
+  //   } else {
+  //     if (response.statusCode == 200) {
+  //       if (map.containsKey('data')) {
+  //         print(map['data']);
+  //         SharedPreferences sharedPreferences =
+  //             await SharedPreferences.getInstance();
+  //         sharedPreferences.setBool('login', true);
+  //         sharedPreferences.setString('name', map['data']['name']);
+  //         sharedPreferences.setString('email', map['data']['email']);
+  //         sharedPreferences.setString("userid", map['data']['userid']);
+  //         sharedPreferences.setInt("touchid", map['data']['touchid']);
+  //         sharedPreferences.setInt("pinstatus", map['data']['pinstatus']);
+  //         sharedPreferences.setInt("setpinscreen", map['data']['setpinscreen']);
+  //         sharedPreferences.setInt(
+  //             "serviceproviderowner", map['data']['serviceproviderowner']);
 
-          // setState(() {
-          //   user = sharedPreferences.getBool('login');
-          //   pinstatus = sharedPreferences.getInt("pinstatus");
-          //   fingStatus = sharedPreferences.getInt("touchid");
-          //   setpinscreen = sharedPreferences.getInt("setpinscreen");
-          // });
+  //         // setState(() {
+  //         //   user = sharedPreferences.getBool('login');
+  //         //   pinstatus = sharedPreferences.getInt("pinstatus");
+  //         //   fingStatus = sharedPreferences.getInt("touchid");
+  //         //   setpinscreen = sharedPreferences.getInt("setpinscreen");
+  //         // });
 
-          print(sharedPreferences.getString('name'));
-          print(sharedPreferences.getString('email'));
-          print(sharedPreferences.getBool('login'));
-          print(sharedPreferences.getString('userid'));
-          print(sharedPreferences.getInt('touchid'));
-          print(sharedPreferences.getInt('pinstatus'));
-          print("setpinscreen  " +
-              sharedPreferences.getInt('setpinscreen').toString());
-          print(sharedPreferences.getInt("serviceproviderowner"));
-        }
-      } else {
-        throw Exception("fail to load");
-      }
-    }
+  //         print(sharedPreferences.getString('name'));
+  //         print(sharedPreferences.getString('email'));
+  //         print(sharedPreferences.getBool('login'));
+  //         print(sharedPreferences.getString('userid'));
+  //         print(sharedPreferences.getInt('touchid'));
+  //         print(sharedPreferences.getInt('pinstatus'));
+  //         print("setpinscreen  " +
+  //             sharedPreferences.getInt('setpinscreen').toString());
+  //         print(sharedPreferences.getInt("serviceproviderowner"));
+  //       }
+  //     } else {
+  //       throw Exception("fail to load");
+  //     }
+  //   }
 
-    return [
-      response.statusCode,
-    ];
-  }
+  //   return [
+  //     response.statusCode,
+  //   ];
+  // }
+
 }
