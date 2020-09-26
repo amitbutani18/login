@@ -464,102 +464,117 @@ class _ServiceProviderState extends State<ServiceProvider> {
                             children: <Widget>[
                               Expanded(
                                 flex: 2,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: _isEdit
-                                          ? () => CustomAlertBox.shared
-                                              .showMyDialog(
-                                                  context: context,
-                                                  getImageFromCam: () =>
-                                                      getImageFromCam('fImage'),
-                                                  getImageFromGal: () =>
-                                                      getImageFromGal('fImage'))
-                                          : null,
-                                      child: Container(
-                                        height: size.height > Constant.divSize
-                                            ? 300
-                                            : 170,
-                                        width: size.height > Constant.divSize
-                                            ? 800
-                                            : 160,
-                                        child: _fImage == null
-                                            ? _initImage1 == ''
-                                                ? Image.asset(
-                                                    'assets/images/uploadImage.png')
-                                                : customNetworkImage(
-                                                    _initImage1)
-                                            : ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                child: Image.file(_fImage,
-                                                    fit: BoxFit.cover)),
+                                child: FittedBox(
+                                  fit: BoxFit.fill,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: _isEdit
+                                            ? () => CustomAlertBox.shared
+                                                .showMyDialog(
+                                                    context: context,
+                                                    getImageFromCam: () =>
+                                                        getImageFromCam(
+                                                            'fImage'),
+                                                    getImageFromGal: () =>
+                                                        getImageFromGal(
+                                                            'fImage'))
+                                            : null,
+                                        child: Container(
+                                          height: size.height > Constant.divSize
+                                              ? 300
+                                              : 170,
+                                          width: size.height > Constant.divSize
+                                              ? 800
+                                              : 160,
+                                          child: _fImage == null
+                                              ? _initImage1 == ''
+                                                  ? Image.asset(
+                                                      'assets/images/uploadImage.png')
+                                                  : customNetworkImage(
+                                                      _initImage1)
+                                              : ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  child: Image.file(_fImage,
+                                                      fit: BoxFit.cover)),
+                                        ),
                                       ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: _isEdit
-                                          ? () => CustomAlertBox.shared
-                                              .showMyDialog(
-                                                  context: context,
-                                                  getImageFromCam: () =>
-                                                      getImageFromCam('sImage'),
-                                                  getImageFromGal: () =>
-                                                      getImageFromGal('sImage'))
-                                          : null,
-                                      child: Container(
-                                        height: size.height > Constant.divSize
-                                            ? 300
-                                            : 170,
-                                        width: size.height > Constant.divSize
-                                            ? 800
-                                            : 160,
-                                        child: _sImage == null
-                                            ? _initImage2 == ''
-                                                ? Image.asset(
-                                                    'assets/images/uploadImage.png')
-                                                : customNetworkImage(
-                                                    _initImage2)
-                                            : ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                child: Image.file(_sImage,
-                                                    fit: BoxFit.cover)),
+                                      SizedBox(
+                                        width: 10,
                                       ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: _isEdit
-                                          ? () => CustomAlertBox.shared
-                                              .showMyDialog(
-                                                  context: context,
-                                                  getImageFromCam: () =>
-                                                      getImageFromCam('tImage'),
-                                                  getImageFromGal: () =>
-                                                      getImageFromGal('tImage'))
-                                          : null,
-                                      child: Container(
-                                        height: size.height > Constant.divSize
-                                            ? 300
-                                            : 170,
-                                        width: size.height > Constant.divSize
-                                            ? 800
-                                            : 160,
-                                        child: _tImage == null
-                                            ? _initImage3 == ''
-                                                ? Image.asset(
-                                                    'assets/images/uploadImage.png')
-                                                : customNetworkImage(
-                                                    _initImage3)
-                                            : ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                child: Image.file(_tImage,
-                                                    fit: BoxFit.cover)),
+                                      GestureDetector(
+                                        onTap: _isEdit
+                                            ? () => CustomAlertBox.shared
+                                                .showMyDialog(
+                                                    context: context,
+                                                    getImageFromCam: () =>
+                                                        getImageFromCam(
+                                                            'sImage'),
+                                                    getImageFromGal: () =>
+                                                        getImageFromGal(
+                                                            'sImage'))
+                                            : null,
+                                        child: Container(
+                                          height: size.height > Constant.divSize
+                                              ? 300
+                                              : 170,
+                                          width: size.height > Constant.divSize
+                                              ? 800
+                                              : 160,
+                                          child: _sImage == null
+                                              ? _initImage2 == ''
+                                                  ? Image.asset(
+                                                      'assets/images/uploadImage.png')
+                                                  : customNetworkImage(
+                                                      _initImage2)
+                                              : ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  child: Image.file(_sImage,
+                                                      fit: BoxFit.cover)),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      GestureDetector(
+                                        onTap: _isEdit
+                                            ? () => CustomAlertBox.shared
+                                                .showMyDialog(
+                                                    context: context,
+                                                    getImageFromCam: () =>
+                                                        getImageFromCam(
+                                                            'tImage'),
+                                                    getImageFromGal: () =>
+                                                        getImageFromGal(
+                                                            'tImage'))
+                                            : null,
+                                        child: Container(
+                                          height: size.height > Constant.divSize
+                                              ? 300
+                                              : 170,
+                                          width: size.height > Constant.divSize
+                                              ? 800
+                                              : 160,
+                                          child: _tImage == null
+                                              ? _initImage3 == ''
+                                                  ? Image.asset(
+                                                      'assets/images/uploadImage.png')
+                                                  : customNetworkImage(
+                                                      _initImage3)
+                                              : ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  child: Image.file(_tImage,
+                                                      fit: BoxFit.cover)),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                               Expanded(

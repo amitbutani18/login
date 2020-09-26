@@ -137,6 +137,7 @@ class _EditProfileState extends State<EditProfile> {
       }
       // print("t $i " + titleController[i].text);
       return customLink(
+        size,
         data[i],
         i,
       );
@@ -493,7 +494,7 @@ class _EditProfileState extends State<EditProfile> {
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
                                             // maxCrossAxisExtent: 200,
-                                            childAspectRatio: 0.7 / 0.15,
+                                            childAspectRatio: 0.90 / 0.17,
                                             crossAxisSpacing: 10,
                                             mainAxisSpacing: 0,
                                             crossAxisCount: 2),
@@ -792,6 +793,7 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Widget customLink(
+    Size size,
     Map<String, dynamic> data,
     int i,
   ) {
