@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 
 class ULink {
+  final String id;
   final String title;
   final String link;
   bool init;
 
-  ULink({this.title, this.link, this.init});
+  ULink({this.id, this.title, this.link, this.init});
 }
 
 class LinkProvider with ChangeNotifier {

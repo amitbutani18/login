@@ -54,6 +54,8 @@ class _EditProfileState extends State<EditProfile> {
   List<dynamic> data = [], newList = [];
   int _length;
 
+  var fieldCount;
+
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
@@ -92,8 +94,100 @@ class _EditProfileState extends State<EditProfile> {
       // final listList = Provider.of<LinkProvider>(context, listen: false).items;
       data = widget.objProfileModal.otherlink;
       _length = data.length;
+      fieldCount = data.length;
     }
     _isinit = false;
+  }
+
+  List<Widget> _buildList() {
+    for (var i = 0; i < _length; i++) {
+      if (data[i]['init'] == false) {
+        titleController.add(TextEditingController(text: data[i]['title']));
+        linkController.add(TextEditingController(text: data[i]['link']));
+        data[i]['init'] = true;
+      }
+    }
+
+    if (titleController.length < fieldCount) {
+      for (var i = titleController.length; i < fieldCount; i++) {
+        titleController.add(TextEditingController());
+        linkController.add(TextEditingController());
+      }
+    }
+    List<Widget> list = [];
+    for (var i = 0; i < titleController.length; i++) {
+      list.add(Column(
+        key: Key("$i"),
+        children: [
+          TextFormField(
+            enabled: false,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(borderSide: BorderSide.none),
+              hintText: 'New Link',
+              hintStyle: TextStyle(color: Constant.primaryColor, fontSize: 10),
+              isDense: true, // Added this
+              contentPadding: EdgeInsets.all(8), // Added this
+            ),
+            style: TextStyle(color: Constant.primaryColor, fontSize: 10),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: titleController[i],
+                  style: TextStyle(color: Colors.white54, fontSize: 15),
+                  decoration: InputDecoration(
+                      filled: true,
+                      isDense: true,
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
+                      hintText: "Title",
+                      hintStyle: TextStyle(color: Colors.white54),
+                      fillColor: Colors.grey[850],
+                      contentPadding: EdgeInsets.all(10)),
+                ),
+              ),
+              SizedBox(
+                width: 12,
+              ),
+              Expanded(
+                flex: 2,
+                child: TextField(
+                  controller: linkController[i],
+                  style: TextStyle(color: Colors.white54, fontSize: 15),
+                  decoration: InputDecoration(
+                      filled: true,
+                      isDense: true,
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
+                      hintText: "Enter Link",
+                      hintStyle: TextStyle(color: Colors.white54),
+                      fillColor: Colors.grey[850],
+                      contentPadding: EdgeInsets.all(10)),
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              GestureDetector(
+                key: Key("$i"),
+                onTap: () {
+                  setState(() {
+                    fieldCount--;
+                    titleController.remove(titleController[i]);
+                    linkController.remove(linkController[i]);
+                  });
+                },
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                  size: 20,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ));
+    }
+    return list;
   }
 
   @override
@@ -124,24 +218,26 @@ class _EditProfileState extends State<EditProfile> {
     final links = Provider.of<LinkProvider>(context).items;
     var lenght = links.length;
 
-    List<Widget> children = List.generate(data.length, (int i) {
-      // print(" New Add $i " + data[i].title);
-      if (data[i]['init'] == false) {
-        titleController.add(
-          TextEditingController(
-            text: _length < i ? '' : data[i]['title'],
-          ),
-        );
-        linkController.add(TextEditingController(text: data[i]['link']));
-        data[i]['init'] = true;
-      }
-      // print("t $i " + titleController[i].text);
-      return customLink(
-        size,
-        data[i],
-        i,
-      );
-    });
+    List<Widget> children = _buildList();
+
+    // List<Widget> children = List.generate(data.length, (int i) {
+    //   if (data[i]['init'] == false) {
+    //     titleController.add(
+    //       TextEditingController(
+    //         text: _length < i ? '' : data[i]['title'],
+    //       ),
+    //     );
+    //     linkController.add(TextEditingController(text: data[i]['link']));
+    //     data[i]['init'] = true;
+    //   }
+    //   return customLink(
+    //     i,
+    //     size,
+    //     data[i],
+    //     titleController[i],
+    //     linkController[i],
+    //   );
+    // });
 
     return Scaffold(
       floatingActionButton: Builder(
@@ -445,13 +541,15 @@ class _EditProfileState extends State<EditProfile> {
                                     GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          data.add({
-                                            'title': '',
-                                            'link': '',
-                                            'init': false
-                                          });
+                                          fieldCount++;
+                                          // data.add({
+                                          //   'id': DateTime.now().toString(),
+                                          //   'title': '',
+                                          //   'link': '',
+                                          //   'init': false,
+                                          // });
                                         });
-                                        print(lenght);
+                                        print(data.length);
                                       },
                                       child: Container(
                                         padding: EdgeInsets.all(0),
@@ -494,7 +592,9 @@ class _EditProfileState extends State<EditProfile> {
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
                                             // maxCrossAxisExtent: 200,
-                                            childAspectRatio: 0.90 / 0.17,
+                                            childAspectRatio: size.width < 700
+                                                ? 0.60 / 0.17
+                                                : 0.90 / 0.17,
                                             crossAxisSpacing: 10,
                                             mainAxisSpacing: 0,
                                             crossAxisCount: 2),
@@ -787,61 +887,115 @@ class _EditProfileState extends State<EditProfile> {
       CustomSnackBar(
           context, 'Username must be not empty', SnackBartype.nagetive);
       return false;
-    } else {
-      return true;
     }
+    for (var i = 0; i < titleController.length; i++) {
+      if (titleController[i].text == '') {
+        CustomSnackBar(context, 'Please enter title', SnackBartype.nagetive);
+        return false;
+      }
+      if (linkController[i].text == '') {
+        CustomSnackBar(context, 'Please enter link', SnackBartype.nagetive);
+        return false;
+      }
+    }
+    return true;
   }
 
-  Widget customLink(
-    Size size,
-    Map<String, dynamic> data,
-    int i,
-  ) {
-    return Column(
-      children: [
-        TextFormField(
-          // key: ValueKey('t$i'),
-          // initialValue: 'abcd',
-          controller: titleController[i],
-          decoration: InputDecoration(
-            border: OutlineInputBorder(borderSide: BorderSide.none),
-            hintText: 'Link Name',
-            hintStyle: TextStyle(color: Colors.grey, fontSize: 10),
-            isDense: true, // Added this
-            contentPadding: EdgeInsets.all(8), // Added this
-          ),
-          style: TextStyle(color: Constant.primaryColor, fontSize: 10),
-        ),
-        TextField(
-          // key: ValueKey('l$i'),
-          controller: linkController[i],
-          style: TextStyle(color: Colors.white54, fontSize: 15),
-          decoration: InputDecoration(
-              filled: true,
-              isDense: true,
-              border: OutlineInputBorder(borderSide: BorderSide.none),
-              hintText: "Enter Link",
-              hintStyle: TextStyle(color: Colors.white54),
-              fillColor: Colors.grey[850],
-              contentPadding: EdgeInsets.all(10)),
-        ),
-      ],
-    );
-  }
+  // Widget customLink(
+  //   int i,
+  //   Size size,
+  //   Map<String, dynamic> singleData,
+  //   TextEditingController dataTitleController,
+  //   TextEditingController dataLinkController,
+  // ) {
+  //   print("i" + i.toString());
+  //   return Column(
+  //     key: Key("$i"),
+  //     children: [
+  //       TextFormField(
+  //         enabled: false,
+  //         decoration: InputDecoration(
+  //           border: OutlineInputBorder(borderSide: BorderSide.none),
+  //           hintText: 'New Link',
+  //           hintStyle: TextStyle(color: Constant.primaryColor, fontSize: 10),
+  //           isDense: true, // Added this
+  //           contentPadding: EdgeInsets.all(8), // Added this
+  //         ),
+  //         style: TextStyle(color: Constant.primaryColor, fontSize: 10),
+  //       ),
+  //       Row(
+  //         children: [
+  //           Expanded(
+  //             child: TextField(
+  //               // key: ValueKey('t$i'),
+  //               controller: dataTitleController,
+  //               style: TextStyle(color: Colors.white54, fontSize: 15),
+  //               decoration: InputDecoration(
+  //                   filled: true,
+  //                   isDense: true,
+  //                   border: OutlineInputBorder(borderSide: BorderSide.none),
+  //                   hintText: "Title",
+  //                   hintStyle: TextStyle(color: Colors.white54),
+  //                   fillColor: Colors.grey[850],
+  //                   contentPadding: EdgeInsets.all(10)),
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             width: 12,
+  //           ),
+  //           Expanded(
+  //             flex: 2,
+  //             child: TextField(
+  //               controller: dataLinkController,
+  //               style: TextStyle(color: Colors.white54, fontSize: 15),
+  //               decoration: InputDecoration(
+  //                   filled: true,
+  //                   isDense: true,
+  //                   border: OutlineInputBorder(borderSide: BorderSide.none),
+  //                   hintText: "Enter Link",
+  //                   hintStyle: TextStyle(color: Colors.white54),
+  //                   fillColor: Colors.grey[850],
+  //                   contentPadding: EdgeInsets.all(10)),
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             width: 10,
+  //           ),
+  //           GestureDetector(
+  //             key: Key("$i"),
+  //             onTap: () {
+  //               print("singleData['title']" + singleData['title']);
+  //               setState(() {
+  //                 // data.remove(singleData);
+  //                 titleController.remove(dataTitleController);
+  //                 linkController.remove(dataLinkController);
+  //                 // linkController.clear();
+  //               });
+  //             },
+  //             child: Icon(
+  //               Icons.delete,
+  //               color: Colors.red,
+  //               size: 20,
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  // }
 
   void _submit() async {
+    print("fieldCount");
     for (var i = 0; i < titleController.length; i++) {
-      // print("Title $i " + titleController[i].text);
-      // print("Link $i " + linkController[i].text);
-      if (titleController[i].text != '' || titleController[i].text != '') {
-        newList.add(
-          {
-            'title': titleController[i].text,
-            'link': linkController[i].text,
-            'init': false
-          },
-        );
-      }
+      print("Title $i " + titleController[i].text);
+      print("Link $i " + linkController[i].text);
+      newList.add(
+        {
+          'title': titleController[i].text,
+          'link': linkController[i].text,
+          'init': false
+        },
+      );
     }
     print(newList);
     print("newList " + newList.length.toString());
@@ -885,15 +1039,5 @@ class _EditProfileState extends State<EditProfile> {
         _isLoad = false;
       });
     }
-
-    // print("_name" + _fstNameController.text);
-    // print("_lastName" + _lastNameController.text);
-    // print("_companyName" + _companyNameController.text);
-    // print("_location" + _locationController.text);
-    // print("_creditcard" + _creditController.text);
-    // print("_cvv" + _cvvController.text);
-    // print("_pin" + _pinController.text);
-    // print("_dailyCharge" + _dailyChargeController.text);
-    // print(_image);
   }
 }

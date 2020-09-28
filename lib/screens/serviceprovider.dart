@@ -202,7 +202,7 @@ class _ServiceProviderState extends State<ServiceProvider> {
                                 child: Container(
                                   // alignment: Alignment.center,
                                   width: size.width / 2 - 30,
-                                  height: 100,
+                                  height: 220,
                                   decoration: BoxDecoration(
                                     color: Colors.transparent,
                                     border: Border.all(
@@ -224,11 +224,11 @@ class _ServiceProviderState extends State<ServiceProvider> {
                                             )
                                           : Image.network(
                                               _initLogo,
-                                              fit: BoxFit.cover,
+                                              fit: BoxFit.contain,
                                             )
                                       : Image.file(
                                           _logo,
-                                          fit: BoxFit.fill,
+                                          fit: BoxFit.contain,
                                         ),
                                 ),
                               ),
@@ -259,35 +259,31 @@ class _ServiceProviderState extends State<ServiceProvider> {
                                     controller: _whoController,
                                     maxLine: 1,
                                   ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  _formField(
+                                    lable: 'Website',
+                                    width: size.width / 2 - 30,
+                                    fontSize: 15,
+                                    image: 'assets/icons/Lickicon.png',
+                                    textInputType: TextInputType.url,
+                                    controller: _websiteController,
+                                    maxLine: 1,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  _formField(
+                                    lable: 'Where',
+                                    width: size.width / 2 - 30,
+                                    fontSize: 15,
+                                    image: 'assets/icons/Where.png',
+                                    textInputType: TextInputType.text,
+                                    controller: _whereController,
+                                    maxLine: 1,
+                                  ),
                                 ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            children: [
-                              _formField(
-                                lable: 'Website',
-                                width: size.width / 2 - 30,
-                                fontSize: 15,
-                                image: 'assets/icons/Lickicon.png',
-                                textInputType: TextInputType.url,
-                                controller: _websiteController,
-                                maxLine: 1,
-                              ),
-                              SizedBox(
-                                width: 12,
-                              ),
-                              _formField(
-                                lable: 'Where',
-                                width: size.width / 2 - 30,
-                                fontSize: 15,
-                                image: 'assets/icons/Where.png',
-                                textInputType: TextInputType.text,
-                                controller: _whereController,
-                                maxLine: 1,
                               ),
                             ],
                           ),
@@ -301,7 +297,7 @@ class _ServiceProviderState extends State<ServiceProvider> {
                                 width: size.width / 2 - 30,
                                 fontSize: 15,
                                 image: 'assets/icons/Call.png',
-                                textInputType: TextInputType.number,
+                                textInputType: TextInputType.text,
                                 controller: _vatNumberController,
                                 maxLine: 1,
                               ),
@@ -313,7 +309,7 @@ class _ServiceProviderState extends State<ServiceProvider> {
                                 width: size.width / 2 - 30,
                                 fontSize: 15,
                                 image: 'assets/icons/Call.png',
-                                textInputType: TextInputType.number,
+                                textInputType: TextInputType.text,
                                 controller: _regNumberController,
                                 maxLine: 1,
                               ),
@@ -862,7 +858,7 @@ class _ServiceProviderState extends State<ServiceProvider> {
     Navigator.of(context).pop();
     final pickedFile = await picker.getImage(
         source: ImageSource.camera,
-        imageQuality: 80,
+        // imageQuality: 80,
         maxHeight: 200,
         maxWidth: 1000);
     setState(() {
@@ -885,8 +881,8 @@ class _ServiceProviderState extends State<ServiceProvider> {
     Navigator.of(context).pop();
     final pickedFile = await picker.getImage(
         source: ImageSource.gallery,
-        imageQuality: 70,
-        maxHeight: 200,
+        // imageQuality: 70,
+        maxHeight: 250,
         maxWidth: 1000);
     setState(() {
       if (lable == 'logo') {
