@@ -41,6 +41,7 @@ class LoginApi with ChangeNotifier {
           sharedPreferences.setInt("setpinscreen", map['data']['setpinscreen']);
           sharedPreferences.setInt(
               "serviceproviderowner", map['data']['serviceproviderowner']);
+          sharedPreferences.setInt("type", map['data']['type']);
 
           print(sharedPreferences.getString('name'));
           print(sharedPreferences.getString('email'));
@@ -51,6 +52,7 @@ class LoginApi with ChangeNotifier {
           print("setpinscreen  " +
               sharedPreferences.getInt('setpinscreen').toString());
           print(sharedPreferences.getInt("serviceproviderowner"));
+          print("Type " + sharedPreferences.getInt("type").toString());
         }
       } else {
         throw Exception("fail to load");

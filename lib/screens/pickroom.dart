@@ -153,11 +153,11 @@ class _PickRoomState extends State<PickRoom> {
           PageBackground(size: size, imagePath: 'assets/background.png'),
           _isLoading
               ? CustomCircularProgressIndicator()
-              : Container(
-                  height: size.height,
-                  width: size.width,
-                  child: SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
+              : SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Container(
+                    height: size.height,
+                    width: size.width,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

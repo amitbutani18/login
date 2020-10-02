@@ -28,6 +28,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool _load = false;
+  bool _isCompany = false;
 
   @override
   void dispose() {
@@ -79,21 +80,95 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       horizontal: 15, vertical: 18),
                                   child: Column(
                                     children: <Widget>[
-                                      size.height > Constant.divSize
-                                          ? _formField(
-                                              'Name',
-                                              650,
-                                              30,
-                                              'assets/icons/user.png',
-                                              _nameController,
-                                              false)
-                                          : _formField(
-                                              'Name',
-                                              450,
-                                              15,
-                                              'assets/icons/user.png',
-                                              _nameController,
-                                              false),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Constant
+                                                          .primaryColor)),
+                                              child: Theme(
+                                                data: ThemeData(
+                                                    unselectedWidgetColor:
+                                                        Constant.primaryColor),
+                                                child: RadioListTile(
+                                                    dense: true,
+                                                    activeColor:
+                                                        Constant.primaryColor,
+                                                    value: false,
+                                                    groupValue: _isCompany,
+                                                    title: Text(
+                                                      'Proffesion',
+                                                      style: TextStyle(
+                                                          color: Constant
+                                                              .primaryColor),
+                                                    ),
+                                                    onChanged: (value) {
+                                                      print(value);
+                                                      setState(() {
+                                                        _isCompany = value;
+                                                      });
+                                                    }),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Constant
+                                                          .primaryColor)),
+                                              child: Theme(
+                                                data: ThemeData(
+                                                    unselectedWidgetColor:
+                                                        Constant.primaryColor),
+                                                child: RadioListTile(
+                                                    activeColor:
+                                                        Constant.primaryColor,
+                                                    dense: true,
+                                                    value: true,
+                                                    groupValue: _isCompany,
+                                                    title: Text(
+                                                      'Company',
+                                                      style: TextStyle(
+                                                          color: Constant
+                                                              .primaryColor),
+                                                    ),
+                                                    onChanged: (value) {
+                                                      print(value);
+                                                      setState(() {
+                                                        _isCompany = value;
+                                                      });
+                                                    }),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      !_isCompany
+                                          ? size.height > Constant.divSize
+                                              ? _formField(
+                                                  'Name',
+                                                  650,
+                                                  30,
+                                                  'assets/icons/user.png',
+                                                  _nameController,
+                                                  false)
+                                              : _formField(
+                                                  'Name',
+                                                  450,
+                                                  15,
+                                                  'assets/icons/user.png',
+                                                  _nameController,
+                                                  false)
+                                          : Container(),
                                       SizedBox(
                                         height: size.height > Constant.divSize
                                             ? 15
@@ -253,9 +328,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     } else if (_passwordController.text.length <= 0) {
       CustomSnackBar(context, Constant.passwordMsg, SnackBartype.nagetive);
       return false;
-    } else if (_nameController.text.isEmpty) {
-      CustomSnackBar(context, Constant.nameMsg, SnackBartype.nagetive);
-      return false;
     } else {
       return true;
     }
@@ -293,8 +365,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         _load = true;
       });
       final statusCode = await Provider.of<RegisterApi>(context, listen: false)
-          .signUp(_nameController.text.trim(), _emailController.text.trim(),
-              _passwordController.text.trim(), _companyController.text.trim());
+          .signUp(
+              _nameController.text.trim(),
+              _emailController.text.trim(),
+              _passwordController.text.trim(),
+              _companyController.text.trim(),
+              _isCompany);
       print(statusCode[0]);
       setState(() {
         _msg = statusCode[1];

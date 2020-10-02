@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:login/helpers/constant.dart' as Constant;
@@ -12,7 +11,7 @@ class IsVerifyApi {
   IsVerifyApi._internal();
   static IsVerifyApi get shared => _singleton;
   Future<List> isVerify(String email) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     // final api = sharedPreferences.getString('api');
 
     final response = await http.post(
@@ -42,6 +41,7 @@ class IsVerifyApi {
           sharedPreferences.setInt("setpinscreen", map['data']['setpinscreen']);
           sharedPreferences.setInt(
               "serviceproviderowner", map['data']['serviceproviderowner']);
+          sharedPreferences.setInt("type", map['data']['type']);
 
           print(sharedPreferences.getString('name'));
           print(sharedPreferences.getString('email'));

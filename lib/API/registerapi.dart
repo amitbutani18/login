@@ -5,8 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:login/helpers/constant.dart' as Constant;
 
 class RegisterApi with ChangeNotifier {
-  Future<List<dynamic>> signUp(
-      String name, String email, String password, String companyName) async {
+  Future<List<dynamic>> signUp(String name, String email, String password,
+      String companyName, bool isCompany) async {
+    print("Iscompany" + isCompany.toString());
     final response = await http.post('${Constant.apiLink}signup',
         headers: {"Content-Type": "application/json"},
         body: json.encode({
@@ -14,6 +15,7 @@ class RegisterApi with ChangeNotifier {
           "name": name,
           "password": password,
           "company_name": companyName,
+          "type": isCompany ? 0 : 1,
           "deviceid": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
           "devicetype": 1,
           "fcm_token": "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

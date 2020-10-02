@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:login/API/profileapi.dart';
-import 'package:login/helpers/slider/link_provider.dart';
 import 'package:login/screens/ownprofile.dart';
 import 'package:login/widgets/cardmonthinputformatter.dart';
 import 'package:login/widgets/cardnumberinputformateer.dart';
@@ -16,6 +15,7 @@ import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:provider/provider.dart';
 import 'package:login/helpers/constant.dart' as Constant;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditProfile extends StatefulWidget {
   final ProfileModal objProfileModal;
@@ -52,7 +52,7 @@ class _EditProfileState extends State<EditProfile> {
   bool _isinit = true;
   bool _isLoad = false;
   List<dynamic> data = [], newList = [];
-  int _length;
+  int _length, _type = 0;
 
   var fieldCount;
 
@@ -61,6 +61,7 @@ class _EditProfileState extends State<EditProfile> {
     super.didChangeDependencies();
     if (_isinit) {
       print("Initial Value");
+
       _fstNameController =
           TextEditingController(text: widget.objProfileModal.name);
       _lastNameController =
@@ -95,6 +96,12 @@ class _EditProfileState extends State<EditProfile> {
       data = widget.objProfileModal.otherlink;
       _length = data.length;
       fieldCount = data.length;
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      setState(() {
+        _type = sharedPreferences.getInt("type");
+      });
+      print("_type" + _type.toString());
     }
     _isinit = false;
   }
@@ -147,7 +154,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               SizedBox(
-                width: 12,
+                width: 5,
               ),
               Expanded(
                 flex: 2,
@@ -215,8 +222,8 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final links = Provider.of<LinkProvider>(context).items;
-    var lenght = links.length;
+    // final links = Provider.of<LinkProvider>(context).items;
+    // var lenght = links.length;
 
     List<Widget> children = _buildList();
 
@@ -379,43 +386,45 @@ class _EditProfileState extends State<EditProfile> {
                                       )),
                                 ),
                                 SizedBox(height: 20),
-                                Row(
-                                  children: [
-                                    size.height > Constant.divSize
-                                        ? _formField(
-                                            'Name',
-                                            size.width - 72,
-                                            30,
-                                            'assets/icons/Usericon.png',
-                                            TextInputType.text,
-                                            _fstNameController,
-                                          )
-                                        : _formField(
-                                            'Name',
-                                            size.width - 72,
-                                            15,
-                                            'assets/icons/Usericon.png',
-                                            TextInputType.text,
-                                            _fstNameController,
-                                          ),
-                                    // SizedBox(
-                                    //   width: 12,
-                                    // ),
-                                    // size.height > Constant.divSize
-                                    //     ? _formField(
-                                    //         'Last Name',
-                                    //         size.width / 2 - 42,
-                                    //         30,
-                                    //         'assets/icons/Usericon.png',
-                                    //         _lastNameController)
-                                    //     : _formField(
-                                    //         'Last Name',
-                                    //         size.width / 2 - 42,
-                                    //         15,
-                                    //         'assets/icons/Usericon.png',
-                                    //         _lastNameController),
-                                  ],
-                                ),
+                                _type == 1
+                                    ? Row(
+                                        children: [
+                                          size.height > Constant.divSize
+                                              ? _formField(
+                                                  'Name',
+                                                  size.width - 72,
+                                                  30,
+                                                  'assets/icons/Usericon.png',
+                                                  TextInputType.text,
+                                                  _fstNameController,
+                                                )
+                                              : _formField(
+                                                  'Name',
+                                                  size.width - 72,
+                                                  15,
+                                                  'assets/icons/Usericon.png',
+                                                  TextInputType.text,
+                                                  _fstNameController,
+                                                ),
+                                          // SizedBox(
+                                          //   width: 12,
+                                          // ),
+                                          // size.height > Constant.divSize
+                                          //     ? _formField(
+                                          //         'Last Name',
+                                          //         size.width / 2 - 42,
+                                          //         30,
+                                          //         'assets/icons/Usericon.png',
+                                          //         _lastNameController)
+                                          //     : _formField(
+                                          //         'Last Name',
+                                          //         size.width / 2 - 42,
+                                          //         15,
+                                          //         'assets/icons/Usericon.png',
+                                          //         _lastNameController),
+                                        ],
+                                      )
+                                    : Container(),
                                 SizedBox(
                                   height: 20,
                                 ),
@@ -883,10 +892,12 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   bool validateField(BuildContext context) {
-    if (_fstNameController.text.isEmpty) {
-      CustomSnackBar(
-          context, 'Username must be not empty', SnackBartype.nagetive);
-      return false;
+    if (_type == 1) {
+      if (_fstNameController.text.isEmpty) {
+        CustomSnackBar(
+            context, 'Username must be not empty', SnackBartype.nagetive);
+        return false;
+      }
     }
     for (var i = 0; i < titleController.length; i++) {
       if (titleController[i].text == '') {

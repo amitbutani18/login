@@ -200,37 +200,53 @@ class _ServiceProviderState extends State<ServiceProvider> {
                                             getImageFromGal('logo'))
                                     : null,
                                 child: Container(
-                                  // alignment: Alignment.center,
-                                  width: size.width / 2 - 30,
-                                  height: 220,
-                                  decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    border: Border.all(
-                                      color: Constant.primaryColor,
+                                    // alignment: Alignment.center,
+                                    width: size.width / 2 - 30,
+                                    height: 220,
+                                    decoration: BoxDecoration(
+                                      color: Colors.transparent,
                                     ),
-                                  ),
-                                  child: _logo == null
-                                      ? _initLogo == ''
-                                          ? Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                "Add Logo",
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Constant.primaryColor,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                    child: Stack(
+                                      children: [
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Container(
+                                            height: 200,
+                                            width: 200,
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              border: Border.all(
+                                                color: Constant.primaryColor,
                                               ),
-                                            )
-                                          : Image.network(
-                                              _initLogo,
-                                              fit: BoxFit.contain,
-                                            )
-                                      : Image.file(
-                                          _logo,
-                                          fit: BoxFit.contain,
+                                            ),
+                                            child: _logo == null
+                                                ? _initLogo == ''
+                                                    ? Align(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Text(
+                                                          "Add Logo",
+                                                          style: TextStyle(
+                                                            fontSize: 18,
+                                                            color: Constant
+                                                                .primaryColor,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : Image.network(
+                                                        _initLogo,
+                                                        fit: BoxFit.contain,
+                                                      )
+                                                : Image.file(
+                                                    _logo,
+                                                    fit: BoxFit.contain,
+                                                  ),
+                                          ),
                                         ),
-                                ),
+                                      ],
+                                    )),
                               ),
                               SizedBox(
                                 width: 12,

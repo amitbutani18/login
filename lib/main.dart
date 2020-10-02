@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,13 +30,11 @@ import 'package:login/screens/verifypin.dart';
 import 'package:login/helpers/Routes/routes.dart';
 import 'package:login/screens/loginscreen.dart';
 import 'package:login/screens/pickroom.dart';
-import 'package:http/http.dart' as http;
 import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'helpers/constant.dart' as Constant;
 import 'package:uni_links/uni_links.dart';
-import 'package:flutter/services.dart' show PlatformException;
 
 void main() {
   runApp(MyApp());
