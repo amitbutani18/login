@@ -106,97 +106,6 @@ class _EditProfileState extends State<EditProfile> {
     _isinit = false;
   }
 
-  List<Widget> _buildList() {
-    for (var i = 0; i < _length; i++) {
-      if (data[i]['init'] == false) {
-        titleController.add(TextEditingController(text: data[i]['title']));
-        linkController.add(TextEditingController(text: data[i]['link']));
-        data[i]['init'] = true;
-      }
-    }
-
-    if (titleController.length < fieldCount) {
-      for (var i = titleController.length; i < fieldCount; i++) {
-        titleController.add(TextEditingController());
-        linkController.add(TextEditingController());
-      }
-    }
-    List<Widget> list = [];
-    for (var i = 0; i < titleController.length; i++) {
-      list.add(Column(
-        key: Key("$i"),
-        children: [
-          TextFormField(
-            enabled: false,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(borderSide: BorderSide.none),
-              hintText: 'New Link',
-              hintStyle: TextStyle(color: Constant.primaryColor, fontSize: 10),
-              isDense: true, // Added this
-              contentPadding: EdgeInsets.all(8), // Added this
-            ),
-            style: TextStyle(color: Constant.primaryColor, fontSize: 10),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: titleController[i],
-                  style: TextStyle(color: Colors.white54, fontSize: 15),
-                  decoration: InputDecoration(
-                      filled: true,
-                      isDense: true,
-                      border: OutlineInputBorder(borderSide: BorderSide.none),
-                      hintText: "Title",
-                      hintStyle: TextStyle(color: Colors.white54),
-                      fillColor: Colors.grey[850],
-                      contentPadding: EdgeInsets.all(10)),
-                ),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                flex: 2,
-                child: TextField(
-                  controller: linkController[i],
-                  style: TextStyle(color: Colors.white54, fontSize: 15),
-                  decoration: InputDecoration(
-                      filled: true,
-                      isDense: true,
-                      border: OutlineInputBorder(borderSide: BorderSide.none),
-                      hintText: "Enter Link",
-                      hintStyle: TextStyle(color: Colors.white54),
-                      fillColor: Colors.grey[850],
-                      contentPadding: EdgeInsets.all(10)),
-                ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              GestureDetector(
-                key: Key("$i"),
-                onTap: () {
-                  setState(() {
-                    fieldCount--;
-                    titleController.remove(titleController[i]);
-                    linkController.remove(linkController[i]);
-                  });
-                },
-                child: Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                  size: 20,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ));
-    }
-    return list;
-  }
-
   @override
   void dispose() {
     super.dispose();
@@ -226,26 +135,6 @@ class _EditProfileState extends State<EditProfile> {
     // var lenght = links.length;
 
     List<Widget> children = _buildList();
-
-    // List<Widget> children = List.generate(data.length, (int i) {
-    //   if (data[i]['init'] == false) {
-    //     titleController.add(
-    //       TextEditingController(
-    //         text: _length < i ? '' : data[i]['title'],
-    //       ),
-    //     );
-    //     linkController.add(TextEditingController(text: data[i]['link']));
-    //     data[i]['init'] = true;
-    //   }
-    //   return customLink(
-    //     i,
-    //     size,
-    //     data[i],
-    //     titleController[i],
-    //     linkController[i],
-    //   );
-    // });
-
     return Scaffold(
       floatingActionButton: Builder(
         builder: (context) => Row(
@@ -386,6 +275,22 @@ class _EditProfileState extends State<EditProfile> {
                                       )),
                                 ),
                                 SizedBox(height: 20),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 48.0),
+                                  child: Container(
+                                      height: 30,
+                                      width: 100,
+                                      decoration: BoxDecoration(
+                                          // color: Colors.amber,
+                                          image: DecorationImage(
+                                              fit: BoxFit.fitWidth,
+                                              image: ExactAssetImage(
+                                                  'assets/icons/Tag.png'))),
+                                      child: _type == 1
+                                          ? TagName(tagName: 'PROFILE')
+                                          : TagName(tagName: 'COMPANY')),
+                                ),
+                                // SizedBox(height: 20),
                                 _type == 1
                                     ? Row(
                                         children: [
@@ -581,11 +486,11 @@ class _EditProfileState extends State<EditProfile> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      youLink(
+                                      YouLinks(
                                           size: size,
                                           controller: _youtubeController,
                                           hintText: 'Youtube'),
-                                      youLink(
+                                      YouLinks(
                                           size: size,
                                           controller: _linkedinController,
                                           hintText: 'Linkedin')
@@ -743,40 +648,10 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Container youLink(
-      {Size size, String hintText, TextEditingController controller}) {
-    return Container(
-      width: size.width / 2 - 42,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextFormField(
-            enabled: false,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(borderSide: BorderSide.none),
-              hintText: hintText,
-              hintStyle: TextStyle(color: Constant.primaryColor, fontSize: 10),
-              isDense: true, // Added this
-              contentPadding: EdgeInsets.all(8), // Added this
-            ),
-            style: TextStyle(color: Constant.primaryColor, fontSize: 10),
-          ),
-          TextField(
-            controller: controller,
-            style: TextStyle(color: Colors.white54, fontSize: 15),
-            decoration: InputDecoration(
-                filled: true,
-                isDense: true,
-                border: OutlineInputBorder(borderSide: BorderSide.none),
-                hintText: "Enter Link",
-                hintStyle: TextStyle(color: Colors.white54),
-                fillColor: Colors.grey[850],
-                contentPadding: EdgeInsets.all(10)),
-          ),
-        ],
-      ),
-    );
-  }
+  // Container youLink(
+  //     {Size size, String hintText, TextEditingController controller}) {
+  //   return
+  // }
 
   Container expiryDateField(Size size) {
     return Container(
@@ -848,6 +723,97 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
+  List<Widget> _buildList() {
+    for (var i = 0; i < _length; i++) {
+      if (data[i]['init'] == false) {
+        titleController.add(TextEditingController(text: data[i]['title']));
+        linkController.add(TextEditingController(text: data[i]['link']));
+        data[i]['init'] = true;
+      }
+    }
+
+    if (titleController.length < fieldCount) {
+      for (var i = titleController.length; i < fieldCount; i++) {
+        titleController.add(TextEditingController());
+        linkController.add(TextEditingController());
+      }
+    }
+    List<Widget> list = [];
+    for (var i = 0; i < titleController.length; i++) {
+      list.add(Column(
+        key: Key("$i"),
+        children: [
+          TextFormField(
+            enabled: false,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(borderSide: BorderSide.none),
+              hintText: 'New Link',
+              hintStyle: TextStyle(color: Constant.primaryColor, fontSize: 10),
+              isDense: true, // Added this
+              contentPadding: EdgeInsets.all(8), // Added this
+            ),
+            style: TextStyle(color: Constant.primaryColor, fontSize: 10),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: titleController[i],
+                  style: TextStyle(color: Colors.white54, fontSize: 15),
+                  decoration: InputDecoration(
+                      filled: true,
+                      isDense: true,
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
+                      hintText: "Title",
+                      hintStyle: TextStyle(color: Colors.white54),
+                      fillColor: Colors.grey[850],
+                      contentPadding: EdgeInsets.all(10)),
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                flex: 2,
+                child: TextField(
+                  controller: linkController[i],
+                  style: TextStyle(color: Colors.white54, fontSize: 15),
+                  decoration: InputDecoration(
+                      filled: true,
+                      isDense: true,
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
+                      hintText: "Enter Link",
+                      hintStyle: TextStyle(color: Colors.white54),
+                      fillColor: Colors.grey[850],
+                      contentPadding: EdgeInsets.all(10)),
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              GestureDetector(
+                key: Key("$i"),
+                onTap: () {
+                  setState(() {
+                    fieldCount--;
+                    titleController.remove(titleController[i]);
+                    linkController.remove(linkController[i]);
+                  });
+                },
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                  size: 20,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ));
+    }
+    return list;
+  }
+
   Widget _formFieldForAbout(
     String lable,
     double width,
@@ -894,112 +860,28 @@ class _EditProfileState extends State<EditProfile> {
   bool validateField(BuildContext context) {
     if (_type == 1) {
       if (_fstNameController.text.isEmpty) {
-        CustomSnackBar(
-            context, 'Username must be not empty', SnackBartype.nagetive);
+        CustomSnackBar(context, Constant.userNameMsg, SnackBartype.nagetive);
         return false;
       }
     }
     for (var i = 0; i < titleController.length; i++) {
       if (titleController[i].text == '') {
-        CustomSnackBar(context, 'Please enter title', SnackBartype.nagetive);
+        CustomSnackBar(context, Constant.titleMsg, SnackBartype.nagetive);
         return false;
       }
       if (linkController[i].text == '') {
-        CustomSnackBar(context, 'Please enter link', SnackBartype.nagetive);
+        CustomSnackBar(context, Constant.linkMsg, SnackBartype.nagetive);
         return false;
       }
     }
     return true;
   }
 
-  // Widget customLink(
-  //   int i,
-  //   Size size,
-  //   Map<String, dynamic> singleData,
-  //   TextEditingController dataTitleController,
-  //   TextEditingController dataLinkController,
-  // ) {
-  //   print("i" + i.toString());
-  //   return Column(
-  //     key: Key("$i"),
-  //     children: [
-  //       TextFormField(
-  //         enabled: false,
-  //         decoration: InputDecoration(
-  //           border: OutlineInputBorder(borderSide: BorderSide.none),
-  //           hintText: 'New Link',
-  //           hintStyle: TextStyle(color: Constant.primaryColor, fontSize: 10),
-  //           isDense: true, // Added this
-  //           contentPadding: EdgeInsets.all(8), // Added this
-  //         ),
-  //         style: TextStyle(color: Constant.primaryColor, fontSize: 10),
-  //       ),
-  //       Row(
-  //         children: [
-  //           Expanded(
-  //             child: TextField(
-  //               // key: ValueKey('t$i'),
-  //               controller: dataTitleController,
-  //               style: TextStyle(color: Colors.white54, fontSize: 15),
-  //               decoration: InputDecoration(
-  //                   filled: true,
-  //                   isDense: true,
-  //                   border: OutlineInputBorder(borderSide: BorderSide.none),
-  //                   hintText: "Title",
-  //                   hintStyle: TextStyle(color: Colors.white54),
-  //                   fillColor: Colors.grey[850],
-  //                   contentPadding: EdgeInsets.all(10)),
-  //             ),
-  //           ),
-  //           SizedBox(
-  //             width: 12,
-  //           ),
-  //           Expanded(
-  //             flex: 2,
-  //             child: TextField(
-  //               controller: dataLinkController,
-  //               style: TextStyle(color: Colors.white54, fontSize: 15),
-  //               decoration: InputDecoration(
-  //                   filled: true,
-  //                   isDense: true,
-  //                   border: OutlineInputBorder(borderSide: BorderSide.none),
-  //                   hintText: "Enter Link",
-  //                   hintStyle: TextStyle(color: Colors.white54),
-  //                   fillColor: Colors.grey[850],
-  //                   contentPadding: EdgeInsets.all(10)),
-  //             ),
-  //           ),
-  //           SizedBox(
-  //             width: 10,
-  //           ),
-  //           GestureDetector(
-  //             key: Key("$i"),
-  //             onTap: () {
-  //               print("singleData['title']" + singleData['title']);
-  //               setState(() {
-  //                 // data.remove(singleData);
-  //                 titleController.remove(dataTitleController);
-  //                 linkController.remove(dataLinkController);
-  //                 // linkController.clear();
-  //               });
-  //             },
-  //             child: Icon(
-  //               Icons.delete,
-  //               color: Colors.red,
-  //               size: 20,
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ],
-  //   );
-  // }
-
   void _submit() async {
-    print("fieldCount");
+    // print("fieldCount");
     for (var i = 0; i < titleController.length; i++) {
-      print("Title $i " + titleController[i].text);
-      print("Link $i " + linkController[i].text);
+      // print("Title $i " + titleController[i].text);
+      // print("Link $i " + linkController[i].text);
       newList.add(
         {
           'title': titleController[i].text,
@@ -1008,8 +890,8 @@ class _EditProfileState extends State<EditProfile> {
         },
       );
     }
-    print(newList);
-    print("newList " + newList.length.toString());
+    // print(newList);
+    // print("newList " + newList.length.toString());
     FocusScopeNode currentFocus = FocusScope.of(context);
     String image;
     if (_image != null) {
@@ -1050,5 +932,69 @@ class _EditProfileState extends State<EditProfile> {
         _isLoad = false;
       });
     }
+  }
+}
+
+class YouLinks extends StatelessWidget {
+  final Size size;
+  String hintText;
+  TextEditingController controller;
+  YouLinks({this.size, this.hintText, this.controller});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size.width / 2 - 42,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextFormField(
+            enabled: false,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(borderSide: BorderSide.none),
+              hintText: hintText,
+              hintStyle: TextStyle(color: Constant.primaryColor, fontSize: 10),
+              isDense: true, // Added this
+              contentPadding: EdgeInsets.all(8), // Added this
+            ),
+            style: TextStyle(color: Constant.primaryColor, fontSize: 10),
+          ),
+          TextField(
+            controller: controller,
+            style: TextStyle(color: Colors.white54, fontSize: 15),
+            decoration: InputDecoration(
+                filled: true,
+                isDense: true,
+                border: OutlineInputBorder(borderSide: BorderSide.none),
+                hintText: "Enter Link",
+                hintStyle: TextStyle(color: Colors.white54),
+                fillColor: Colors.grey[850],
+                contentPadding: EdgeInsets.all(10)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TagName extends StatelessWidget {
+  final String tagName;
+  const TagName({
+    this.tagName,
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: Text(
+          tagName,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
   }
 }

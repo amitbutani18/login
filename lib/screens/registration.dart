@@ -99,8 +99,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                     value: false,
                                                     groupValue: _isCompany,
                                                     title: Text(
-                                                      'Proffesion',
+                                                      'Proffesional',
                                                       style: TextStyle(
+                                                          fontSize: 15,
                                                           color: Constant
                                                               .primaryColor),
                                                     ),
@@ -135,10 +136,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                     title: Text(
                                                       'Company',
                                                       style: TextStyle(
+                                                          fontSize: 15,
                                                           color: Constant
                                                               .primaryColor),
                                                     ),
                                                     onChanged: (value) {
+                                                      _nameController.clear();
                                                       print(value);
                                                       setState(() {
                                                         _isCompany = value;
@@ -176,14 +179,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       ),
                                       size.height > Constant.divSize
                                           ? _formField(
-                                              'Company Name',
+                                              'Company',
                                               650,
                                               30,
                                               'assets/icons/user.png',
                                               _companyController,
                                               false)
                                           : _formField(
-                                              'Company Name',
+                                              'Company',
                                               450,
                                               15,
                                               'assets/icons/user.png',

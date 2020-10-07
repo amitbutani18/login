@@ -13,6 +13,9 @@ const validPin = 'Please enter valid pin';
 const pinMsg = 'Pin must be 4 digit';
 const pinCompareMsg = 'Please enter same pin';
 const samePassMsg = 'Please enter same password';
+const userNameMsg = 'Username must be not empty';
+const titleMsg = 'Please enter title';
+const linkMsg = 'Please enter link';
 
 // Device Size
 const divSize = 550;
