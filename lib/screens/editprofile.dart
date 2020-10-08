@@ -287,7 +287,7 @@ class _EditProfileState extends State<EditProfile> {
                                               image: ExactAssetImage(
                                                   'assets/icons/Tag.png'))),
                                       child: _type == 1
-                                          ? TagName(tagName: 'PROFILE')
+                                          ? TagName(tagName: 'PROFESSIONAL')
                                           : TagName(tagName: 'COMPANY')),
                                 ),
                                 // SizedBox(height: 20),
@@ -508,7 +508,7 @@ class _EditProfileState extends State<EditProfile> {
                                             // maxCrossAxisExtent: 200,
                                             childAspectRatio: size.width < 700
                                                 ? 0.60 / 0.17
-                                                : 0.90 / 0.17,
+                                                : 0.80 / 0.17,
                                             crossAxisSpacing: 10,
                                             mainAxisSpacing: 0,
                                             crossAxisCount: 2),
@@ -517,9 +517,10 @@ class _EditProfileState extends State<EditProfile> {
                                 ),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Credit Card Details",
+                                      "Card Details",
                                       style: TextStyle(
                                           color: Constant.primaryColor,
                                           fontSize:
@@ -533,21 +534,19 @@ class _EditProfileState extends State<EditProfile> {
                                 SizedBox(height: 10),
                                 Row(
                                   children: [
-                                    size.height > Constant.divSize
-                                        ? _formField(
-                                            'Credit card number',
-                                            size.width / 2 - 42,
-                                            30,
-                                            'assets/icons/Credit-Card.png',
-                                            TextInputType.number,
-                                            _creditController)
-                                        : _formField(
-                                            'Credit card number',
-                                            size.width / 2 - 42,
-                                            15,
-                                            'assets/icons/Credit-Card.png',
-                                            TextInputType.number,
-                                            _creditController),
+                                    _formField(
+                                        'Card number',
+                                        size.width - 72,
+                                        15,
+                                        'assets/icons/Credit-Card.png',
+                                        TextInputType.number,
+                                        _creditController),
+                                  ],
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  children: [
+                                    expiryDateField(size),
                                     SizedBox(
                                       width: 12,
                                     ),
@@ -568,30 +567,6 @@ class _EditProfileState extends State<EditProfile> {
                                             TextInputType.number,
                                             _cvvController,
                                           ),
-                                  ],
-                                ),
-                                SizedBox(height: 20),
-                                Row(
-                                  children: [
-                                    size.height > Constant.divSize
-                                        ? _formField(
-                                            'Pin',
-                                            size.width / 2 - 42,
-                                            30,
-                                            'assets/icons/password.png',
-                                            TextInputType.number,
-                                            _pinController)
-                                        : _formField(
-                                            'Pin',
-                                            size.width / 2 - 42,
-                                            15,
-                                            'assets/icons/password.png',
-                                            TextInputType.number,
-                                            _pinController),
-                                    SizedBox(
-                                      width: 12,
-                                    ),
-                                    expiryDateField(size),
                                   ],
                                 ),
                                 SizedBox(
@@ -702,7 +677,7 @@ class _EditProfileState extends State<EditProfile> {
     return Container(
       width: width,
       child: TextFormField(
-          inputFormatters: lable == 'Credit card number'
+          inputFormatters: lable == 'Card number'
               ? [
                   WhitelistingTextInputFormatter.digitsOnly,
                   new LengthLimitingTextInputFormatter(16),
@@ -987,11 +962,17 @@ class TagName extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(right: 8.0),
-        child: Text(
-          tagName,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+        padding: const EdgeInsets.only(
+          right: 10.0,
+          left: 3.0,
+        ),
+        child: FittedBox(
+          fit: BoxFit.contain,
+          child: Text(
+            tagName,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

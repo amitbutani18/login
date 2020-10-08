@@ -108,7 +108,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                           });
                                                         }),
                                                     Text(
-                                                      'Proffesional',
+                                                      'Professional',
                                                       style: TextStyle(
                                                           fontSize: 15,
                                                           color: Constant
