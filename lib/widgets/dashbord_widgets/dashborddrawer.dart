@@ -22,7 +22,8 @@ class DashbordDrawer extends StatelessWidget {
         GestureDetector(
           onTap: () async {
             Navigator.of(context).pop();
-            Navigator.of(context).pushNamed(OwnProfile.routeName);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => OwnProfile()));
           },
           child: Container(
             padding: EdgeInsets.all(8),

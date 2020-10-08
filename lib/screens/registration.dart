@@ -92,25 +92,30 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                 data: ThemeData(
                                                     unselectedWidgetColor:
                                                         Constant.primaryColor),
-                                                child: RadioListTile(
-                                                    dense: true,
-                                                    activeColor:
-                                                        Constant.primaryColor,
-                                                    value: false,
-                                                    groupValue: _isCompany,
-                                                    title: Text(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Radio(
+                                                        activeColor: Constant
+                                                            .primaryColor,
+                                                        value: false,
+                                                        groupValue: _isCompany,
+                                                        onChanged: (value) {
+                                                          print(value);
+                                                          setState(() {
+                                                            _isCompany = value;
+                                                          });
+                                                        }),
+                                                    Text(
                                                       'Proffesional',
                                                       style: TextStyle(
                                                           fontSize: 15,
                                                           color: Constant
                                                               .primaryColor),
                                                     ),
-                                                    onChanged: (value) {
-                                                      print(value);
-                                                      setState(() {
-                                                        _isCompany = value;
-                                                      });
-                                                    }),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -127,26 +132,32 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                 data: ThemeData(
                                                     unselectedWidgetColor:
                                                         Constant.primaryColor),
-                                                child: RadioListTile(
-                                                    activeColor:
-                                                        Constant.primaryColor,
-                                                    dense: true,
-                                                    value: true,
-                                                    groupValue: _isCompany,
-                                                    title: Text(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Radio(
+                                                        activeColor: Constant
+                                                            .primaryColor,
+                                                        value: true,
+                                                        groupValue: _isCompany,
+                                                        onChanged: (value) {
+                                                          _nameController
+                                                              .clear();
+                                                          print(value);
+                                                          setState(() {
+                                                            _isCompany = value;
+                                                          });
+                                                        }),
+                                                    Text(
                                                       'Company',
                                                       style: TextStyle(
                                                           fontSize: 15,
                                                           color: Constant
                                                               .primaryColor),
                                                     ),
-                                                    onChanged: (value) {
-                                                      _nameController.clear();
-                                                      print(value);
-                                                      setState(() {
-                                                        _isCompany = value;
-                                                      });
-                                                    }),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),

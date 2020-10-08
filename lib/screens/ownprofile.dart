@@ -249,80 +249,67 @@ class _OwnProfileState extends State<OwnProfile> {
                             ),
                             Expanded(
                               child: Container(
-                                padding: size.height > Constant.divSize
-                                    ? const EdgeInsets.symmetric(
-                                        horizontal: 150)
-                                    : const EdgeInsets.symmetric(
-                                        horizontal: 90),
                                 width: size.height > Constant.divSize
                                     ? size.width / 2
-                                    : 200,
+                                    : size.width / 2 - 50,
                                 height: size.height > Constant.divSize
                                     ? size.height - 150
                                     : size.height - 100,
-                                // color: Colors.pink,
                                 child: SingleChildScrollView(
                                   physics: BouncingScrollPhysics(),
                                   child: Column(
                                     children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          CustomHeading(
-                                              size: size, title: 'Location'),
-                                          customSizedBox(size, 5),
-                                          locationOccupation(size, _location,
-                                              true, Icons.location_on),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: size.height > Constant.divSize
-                                            ? 30
-                                            : 15,
-                                      ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          CustomHeading(
-                                              size: size, title: 'Occuption'),
-                                          customSizedBox(size, 5),
-                                          locationOccupation(size, _occupation,
-                                              false, Icons.ac_unit),
-                                        ],
-                                      ),
-                                      customSizedBox(size, 10),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          CustomHeading(
-                                              size: size, title: 'Rate'),
-                                          customSizedBox(size, 5),
-                                          locationOccupation(size, _dailyRate,
-                                              true, Icons.attach_money),
-                                        ],
-                                      ),
-                                      customSizedBox(size, 10),
                                       Container(
+                                        width: size.width / 2 - 150,
+                                        child: Column(
+                                          children: [
+                                            locationOccupation(
+                                                'Location',
+                                                size,
+                                                _location,
+                                                true,
+                                                Icons.location_on),
+                                            customSizedBox(size, 10),
+                                            locationOccupation(
+                                                'Occuption',
+                                                size,
+                                                _occupation,
+                                                false,
+                                                Icons.ac_unit),
+                                            customSizedBox(size, 10),
+                                            locationOccupation(
+                                                'Rate',
+                                                size,
+                                                _dailyRate,
+                                                true,
+                                                Icons.attach_money),
+                                            customSizedBox(size, 10),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        width: size.width < 721
+                                            ? size.width / 2 - 180
+                                            : 200,
                                         color: Constant.primaryColor,
-                                        child: QrImage(
-                                          size: size.width < 600 ? 100 : 200,
-                                          data: _qrData,
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: QrImage(
+                                            size: size.width < 721
+                                                ? size.width / 2 - 180
+                                                : 200,
+                                            data: _qrData,
+                                          ),
                                         ),
                                       ),
                                       customSizedBox(size, 10),
-                                      Divider(
-                                        height: 3,
-                                        thickness: 2,
-                                        color: Constant.primaryColor,
+                                      Container(
+                                        width: size.width / 2 - 150,
+                                        child: Divider(
+                                          height: 3,
+                                          thickness: 2,
+                                          color: Constant.primaryColor,
+                                        ),
                                       ),
                                       customSizedBox(size, 10),
                                       Container(
@@ -331,7 +318,7 @@ class _OwnProfileState extends State<OwnProfile> {
                                             : 50,
                                         width: size.height > Constant.divSize
                                             ? size.width
-                                            : 200,
+                                            : size.width / 2 - 150,
                                         // color:Constant.primaryColor,
                                         child: Image.asset(
                                           'assets/images/Barcode.png',
@@ -339,10 +326,13 @@ class _OwnProfileState extends State<OwnProfile> {
                                         ),
                                       ),
                                       customSizedBox(size, 10),
-                                      Divider(
-                                        height: 3,
-                                        thickness: 2,
-                                        color: Constant.primaryColor,
+                                      Container(
+                                        width: size.width / 2 - 150,
+                                        child: Divider(
+                                          height: 3,
+                                          thickness: 2,
+                                          color: Constant.primaryColor,
+                                        ),
                                       ),
                                       customSizedBox(size, 10),
                                       // customRatingBar(Icon(Icons.star),
@@ -419,35 +409,45 @@ class _OwnProfileState extends State<OwnProfile> {
     );
   }
 
-  Row locationOccupation(
+  Widget locationOccupation(
+    String lable,
     Size size,
     String _location,
     bool showIcon,
     IconData icon,
   ) {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        showIcon
-            ? Icon(
-                icon,
-                size: size.height > Constant.divSize ? 20 : 10,
+        CustomHeading(size: size, title: lable),
+        customSizedBox(size, 5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            showIcon
+                ? Icon(
+                    icon,
+                    size: size.height > Constant.divSize ? 20 : 10,
+                    color: Colors.white,
+                  )
+                : Container(
+                    height: 0,
+                    width: 0,
+                  ),
+            SizedBox(
+              width: size.height > Constant.divSize ? 20 : 3,
+            ),
+            Text(
+              _location,
+              style: TextStyle(
                 color: Colors.white,
-              )
-            : Container(
-                height: 0,
-                width: 0,
+                fontSize: size.height > Constant.divSize
+                    ? 25
+                    : size.width < 600 ? 8 : 12,
               ),
-        SizedBox(
-          width: size.height > Constant.divSize ? 20 : 3,
-        ),
-        Text(
-          _location,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize:
-                size.height > Constant.divSize ? 25 : size.width < 600 ? 8 : 12,
-          ),
+            ),
+          ],
         ),
       ],
     );
@@ -639,13 +639,16 @@ class YouLink extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 18.0),
-                  child: Text(
-                    link,
-                    style: TextStyle(
-                      color: Colors.white24,
-                      fontSize: size.height > Constant.divSize ? 23 : 10,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 18.0),
+                    child: Text(
+                      link,
+                      maxLines: 2,
+                      style: TextStyle(
+                        color: Colors.white24,
+                        fontSize: size.height > Constant.divSize ? 23 : 10,
+                      ),
                     ),
                   ),
                 ),

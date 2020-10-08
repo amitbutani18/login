@@ -265,19 +265,19 @@ class _ServiceProviderState extends State<ServiceProvider> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  _formField(
-                                    lable: 'Who',
-                                    width: size.width / 2 - 30,
-                                    fontSize: 15,
-                                    image:
-                                        'assets/icons/SelectedAdd-Team-Member.png',
-                                    textInputType: TextInputType.text,
-                                    controller: _whoController,
-                                    maxLine: 1,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
+                                  // _formField(
+                                  //   lable: 'Who',
+                                  //   width: size.width / 2 - 30,
+                                  //   fontSize: 15,
+                                  //   image:
+                                  //       'assets/icons/SelectedAdd-Team-Member.png',
+                                  //   textInputType: TextInputType.text,
+                                  //   controller: _whoController,
+                                  //   maxLine: 1,
+                                  // ),
+                                  // SizedBox(
+                                  //   height: 10,
+                                  // ),
                                   _formField(
                                     lable: 'Website',
                                     width: size.width / 2 - 30,

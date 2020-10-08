@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:device_simulator/device_simulator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:login/API/isverifyApi.dart';
@@ -175,13 +176,19 @@ class _MyAppState extends State<MyApp> {
                 canvasColor: Colors.transparent,
                 cursorColor: Constant.primaryColor,
               ),
-              home: _isVerify
-                  ? SetPin()
-                  : user
-                      ? setpinscreen == 1
-                          ? SetPin()
-                          : pinstatus == 0 ? PickRoom() : VerifyPin()
-                      : LoginScreen(),
+              home:
+                  //  DeviceSimulator(
+                  //   brightness: Brightness.dark,
+                  //   enable: true,
+                  // child:
+                  _isVerify
+                      ? SetPin()
+                      : user
+                          ? setpinscreen == 1
+                              ? SetPin()
+                              : pinstatus == 0 ? PickRoom() : VerifyPin()
+                          : LoginScreen(),
+              // ),
               routes: Routes.routes(),
             ),
     );

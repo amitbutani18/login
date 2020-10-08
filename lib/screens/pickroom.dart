@@ -178,9 +178,11 @@ class _PickRoomState extends State<PickRoom> {
                               )
                             : Container(),
                         Container(
+                          width: size.width,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               //LeftSlider
                               leftRightSericesSlider(
@@ -254,25 +256,8 @@ class _PickRoomState extends State<PickRoom> {
                                         ? 30
                                         : 10,
                                   ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(
-                                          color: Constant.primaryColor,
-                                        ),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      "Hotels",
-                                      style: TextStyle(
-                                          fontSize:
-                                              size.height > Constant.divSize
-                                                  ? 22
-                                                  : 15,
-                                          color: Colors.white54,
-                                          letterSpacing: 1),
-                                    ),
-                                  ),
+                                  //Hotel Title
+                                  HotelTitle(size: size),
 
                                   //HotelsList
                                   size.height > Constant.divSize
@@ -573,6 +558,35 @@ class _PickRoomState extends State<PickRoom> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class HotelTitle extends StatelessWidget {
+  const HotelTitle({
+    Key key,
+    @required this.size,
+  }) : super(key: key);
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Constant.primaryColor,
+          ),
+        ),
+      ),
+      child: Text(
+        "Hotels",
+        style: TextStyle(
+            fontSize: size.height > Constant.divSize ? 22 : 15,
+            color: Colors.white54,
+            letterSpacing: 1),
       ),
     );
   }
