@@ -9,7 +9,7 @@ import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:flutter/cupertino.dart' as ios;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:login/helpers/constant.dart' as Constant;
+import 'package:login/helpers/Constant/constant.dart' as Constant;
 
 class SettingScreen extends StatefulWidget {
   static const routeName = '/settings';

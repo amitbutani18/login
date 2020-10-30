@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:login/helpers/roomdetailsprovider.dart';
-import 'package:login/helpers/roomimageprovider.dart';
+import 'package:login/helpers/Providers/roomdetailsprovider.dart';
+import 'package:login/helpers/Providers/roomimageprovider.dart';
 import 'package:login/screens/addproject.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:provider/provider.dart';
-import 'package:login/helpers/constant.dart' as Constant;
+import 'package:login/helpers/Constant/constant.dart' as Constant;
 
 class RoomDetails extends StatefulWidget {
   static const routeName = '/roomDetails';

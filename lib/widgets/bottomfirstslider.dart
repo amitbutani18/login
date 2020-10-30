@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/helpers/slider/bottomupsliderprovider.dart';
 import 'package:provider/provider.dart';
-import 'package:login/helpers/constant.dart' as Constant;
+import 'package:login/helpers/Constant/constant.dart' as Constant;
 import 'ease_in_widget.dart';
 
 class BottomFirstSlider extends StatefulWidget {

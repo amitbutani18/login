@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:login/API/logout.dart';
+import 'package:login/screens/addproject.dart';
 import 'package:login/screens/loginscreen.dart';
 import 'package:login/screens/ownprofile.dart';
 import 'package:login/screens/serviceprovider.dart';
 import 'package:login/screens/settingscreen.dart';
 import 'package:provider/provider.dart';
-import 'package:login/helpers/constant.dart' as Constant;
+import 'package:login/helpers/Constant/constant.dart' as Constant;
 
 class DashbordDrawer extends StatelessWidget {
   const DashbordDrawer({
@@ -56,6 +57,14 @@ class DashbordDrawer extends StatelessWidget {
           onPressed: () async {
             Navigator.of(context).pop();
             Navigator.of(context).pushNamed(SettingScreen.routeName);
+          },
+        ),
+        IconButton(
+          color: Constant.primaryColor,
+          icon: Icon(Icons.add),
+          onPressed: () async {
+            Navigator.of(context).pop();
+            Navigator.of(context).pushNamed(AddProject.routeName);
           },
         ),
         GestureDetector(

@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:login/screens/teammateprofile.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/sliderightroute.dart';
-import 'package:login/helpers/constant.dart' as Constant;
+import 'package:login/helpers/Constant/constant.dart' as Constant;
 
 class SearchChateMember extends StatefulWidget {
   @override

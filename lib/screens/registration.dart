@@ -9,7 +9,7 @@ import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/validation.dart';
 import 'package:provider/provider.dart';
-import 'package:login/helpers/constant.dart' as Constant;
+import 'package:login/helpers/Constant/constant.dart' as Constant;
 
 class RegistrationScreen extends StatefulWidget {
   @override

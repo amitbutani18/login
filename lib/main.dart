@@ -1,40 +1,18 @@
 import 'dart:async';
 
-import 'package:device_simulator/device_simulator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:login/API/isverifyApi.dart';
-import 'package:login/API/loginapi.dart';
-import 'package:login/API/logout.dart';
-import 'package:login/API/profileapi.dart';
-import 'package:login/API/registerapi.dart';
-import 'package:login/API/serviceproviderapi.dart';
-import 'package:login/API/setpinapi.dart';
-import 'package:login/API/verpinapi.dart';
-import 'package:login/helpers/slider/bottomdownsliderprovider.dart';
-import 'package:login/helpers/slider/bottomupsliderprovider.dart';
-import 'package:login/helpers/citylist.dart';
-import 'package:login/helpers/iconprovider.dart';
-import 'package:login/helpers/imageprovider.dart';
-import 'package:login/helpers/slider/leftsideslidericonprovider.dart';
-import 'package:login/helpers/membersprovider.dart';
-import 'package:login/helpers/projectdetailsprovider.dart';
-import 'package:login/helpers/slider/link_provider.dart';
-import 'package:login/helpers/slider/rightsidesliderprovider.dart';
-import 'package:login/helpers/roomdetailsprovider.dart';
-import 'package:login/helpers/roomimageprovider.dart';
-import 'package:login/helpers/tabiconprovider.dart';
-import 'package:login/helpers/slider/topslidericonprovider.dart';
-import 'package:login/helpers/transactionprovider.dart';
 import 'package:login/screens/setpin.dart';
 import 'package:login/screens/verifypin.dart';
-import 'package:login/helpers/Routes/routes.dart';
 import 'package:login/screens/loginscreen.dart';
-import 'package:login/screens/pickroom.dart';
+import 'package:login/screens/dashboard.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'helpers/constant.dart' as Constant;
+import 'helpers/Constant/constant.dart';
+import 'helpers/Constant/providers_list.dart';
+import 'helpers/Constant/routes.dart';
 import 'package:uni_links/uni_links.dart';
 
 void main() {
@@ -141,30 +119,7 @@ class _MyAppState extends State<MyApp> {
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(value: IconProvider()),
-        ChangeNotifierProvider.value(value: ImagesProvider()),
-        ChangeNotifierProvider.value(value: TabIconProvider()),
-        ChangeNotifierProvider.value(value: RoomImageProvider()),
-        ChangeNotifierProvider.value(value: TopSliderIconProvider()),
-        ChangeNotifierProvider.value(value: LeftSideSliderIconProvider()),
-        ChangeNotifierProvider.value(value: RightSideSliderIconProvider()),
-        ChangeNotifierProvider.value(value: BottomUpSliderProvider()),
-        ChangeNotifierProvider.value(value: BottomDownSliderProvider()),
-        ChangeNotifierProvider.value(value: RoomDetailsProvider()),
-        ChangeNotifierProvider.value(value: ProjectDetailsProvider()),
-        ChangeNotifierProvider.value(value: MembersProvider()),
-        ChangeNotifierProvider.value(value: LoginApi()),
-        ChangeNotifierProvider.value(value: VerPinApi()),
-        ChangeNotifierProvider.value(value: SetPinApi()),
-        ChangeNotifierProvider.value(value: RegisterApi()),
-        ChangeNotifierProvider.value(value: ProfileApi()),
-        ChangeNotifierProvider.value(value: LogOut()),
-        ChangeNotifierProvider.value(value: CityList()),
-        ChangeNotifierProvider.value(value: TransactionProvider()),
-        ChangeNotifierProvider.value(value: LinkProvider()),
-        ChangeNotifierProvider.value(value: ServiceProviderApi()),
-      ],
+      providers: ProviderList.providerList,
       child: _isLoad
           ? CustomCircularProgressIndicator()
           : MaterialApp(
@@ -174,7 +129,7 @@ class _MyAppState extends State<MyApp> {
                 primarySwatch: Colors.blue,
                 visualDensity: VisualDensity.adaptivePlatformDensity,
                 canvasColor: Colors.transparent,
-                cursorColor: Constant.primaryColor,
+                cursorColor: primaryColor,
               ),
               home:
                   //  DeviceSimulator(
@@ -193,64 +148,4 @@ class _MyAppState extends State<MyApp> {
             ),
     );
   }
-
-  // Future<List> isVerify(String email) async {
-  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  //   // final api = sharedPreferences.getString('api');
-
-  //   final response = await http.post(
-  //     '${Constant.apiLink}isverify',
-  //     body: {
-  //       "email": email,
-  //     },
-  //   );
-  //   Map<dynamic, dynamic> map = json.decode(response.body);
-  //   print(map);
-  //   if (response.body.contains("err")) {
-  //     final err = map['err'];
-  //     print(err);
-  //     throw map['err'];
-  //   } else {
-  //     if (response.statusCode == 200) {
-  //       if (map.containsKey('data')) {
-  //         print(map['data']);
-  //         SharedPreferences sharedPreferences =
-  //             await SharedPreferences.getInstance();
-  //         sharedPreferences.setBool('login', true);
-  //         sharedPreferences.setString('name', map['data']['name']);
-  //         sharedPreferences.setString('email', map['data']['email']);
-  //         sharedPreferences.setString("userid", map['data']['userid']);
-  //         sharedPreferences.setInt("touchid", map['data']['touchid']);
-  //         sharedPreferences.setInt("pinstatus", map['data']['pinstatus']);
-  //         sharedPreferences.setInt("setpinscreen", map['data']['setpinscreen']);
-  //         sharedPreferences.setInt(
-  //             "serviceproviderowner", map['data']['serviceproviderowner']);
-
-  //         // setState(() {
-  //         //   user = sharedPreferences.getBool('login');
-  //         //   pinstatus = sharedPreferences.getInt("pinstatus");
-  //         //   fingStatus = sharedPreferences.getInt("touchid");
-  //         //   setpinscreen = sharedPreferences.getInt("setpinscreen");
-  //         // });
-
-  //         print(sharedPreferences.getString('name'));
-  //         print(sharedPreferences.getString('email'));
-  //         print(sharedPreferences.getBool('login'));
-  //         print(sharedPreferences.getString('userid'));
-  //         print(sharedPreferences.getInt('touchid'));
-  //         print(sharedPreferences.getInt('pinstatus'));
-  //         print("setpinscreen  " +
-  //             sharedPreferences.getInt('setpinscreen').toString());
-  //         print(sharedPreferences.getInt("serviceproviderowner"));
-  //       }
-  //     } else {
-  //       throw Exception("fail to load");
-  //     }
-  //   }
-
-  //   return [
-  //     response.statusCode,
-  //   ];
-  // }
-
 }

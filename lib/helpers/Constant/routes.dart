@@ -4,7 +4,7 @@ import 'package:login/screens/endcontract.dart';
 import 'package:login/screens/forgotpasswod.dart';
 import 'package:login/screens/loginscreen.dart';
 import 'package:login/screens/ownprofile.dart';
-import 'package:login/screens/pickroom.dart';
+import 'package:login/screens/dashboard.dart';
 import 'package:login/screens/projectDetails.dart';
 import 'package:login/screens/resetpassword.dart';
 import 'package:login/screens/roomdetails.dart';

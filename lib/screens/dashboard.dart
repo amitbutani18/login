@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:login/helpers/Providers/imageprovider.dart';
 import 'package:login/helpers/citylist.dart';
-import 'package:login/helpers/imageprovider.dart';
+import 'package:login/helpers/dashboard_method.dart';
 import 'package:login/helpers/slider/bottomdownsliderprovider.dart';
 import 'package:login/helpers/slider/bottomupsliderprovider.dart';
 import 'package:login/helpers/slider/leftsideslidericonprovider.dart';
@@ -10,14 +11,17 @@ import 'package:login/helpers/slider/topslidericonprovider.dart';
 import 'package:login/widgets/bottomfirstslider.dart';
 import 'package:login/widgets/bottomsecslider.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
+import 'package:login/widgets/dashbord_widgets/all_request_widget.dart';
 import 'package:login/widgets/dashbord_widgets/dashborddrawer.dart';
+import 'package:login/widgets/dashbord_widgets/notificatin_widget.dart';
+import 'package:login/widgets/dashbord_widgets/projects_widget.dart';
 import 'package:login/widgets/dashbord_widgets/topsliderformobile.dart';
 import 'package:login/widgets/dashbord_widgets/topsliderfortab.dart';
 import 'package:login/widgets/datepick.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
-import 'package:login/helpers/constant.dart' as Constant;
+import 'package:login/helpers/Constant/constant.dart' as Constant;
 
 class PickRoom extends StatefulWidget {
   static const routeName = '/dashbord';
@@ -44,6 +48,8 @@ class _PickRoomState extends State<PickRoom> {
   bool _whereSelect = false;
 
   List<DateTime> dateList;
+
+  String _getDashWidget = '';
 
   @override
   void initState() {
@@ -150,7 +156,12 @@ class _PickRoomState extends State<PickRoom> {
       ),
       body: Stack(
         children: <Widget>[
-          PageBackground(size: size, imagePath: 'assets/background.png'),
+          Consumer<DashBoardMethods>(
+            builder: (context, dashboardMethods, ch) => PageBackground(
+                size: size,
+                imagePath: getDashboardBackgroundImage(
+                    dashboardMethods.getDashboardWidgetTag)),
+          ),
           _isLoading
               ? CustomCircularProgressIndicator()
               : Container(
@@ -190,82 +201,16 @@ class _PickRoomState extends State<PickRoom> {
                                 _scrollController4,
                                 rightSlider,
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  //Services
-                                  Padding(
-                                    padding: size.height > Constant.divSize
-                                        ? const EdgeInsets.only(top: 48.0)
-                                        : const EdgeInsets.only(top: 18.0),
-                                    child: size.height > Constant.divSize
-                                        ? _formField('What', 650, 30,
-                                            'assets/icons/What.png')
-                                        : _formField('What', 450, 18,
-                                            'assets/icons/What.png'),
-                                  ),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: <Widget>[
-                                      //CityList
-                                      !_whatSelect
-                                          ? Container()
-                                          : Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 18.0),
-                                              child: size.height >
-                                                      Constant.divSize
-                                                  ? _formField('Where', 350, 30,
-                                                      'assets/icons/Where.png')
-                                                  : FutureBuilder(
-                                                      future:
-                                                          Provider.of<CityList>(
-                                                                  context)
-                                                              .fetchCity(),
-                                                      builder:
-                                                          (context, snap) =>
-                                                              GestureDetector(
-                                                        onTap: () =>
-                                                            _showMyDialog(
-                                                                cityList),
-                                                        child: _formField(
-                                                            'Where',
-                                                            230,
-                                                            18,
-                                                            'assets/icons/Where.png'),
-                                                      ),
-                                                    ),
-                                            ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-
-                                      //DatePicker
-                                      !_whereSelect
-                                          ? Container(
-                                              height: 65,
-                                            )
-                                          : DatePick(
-                                              hotel: _hotelValue,
-                                              city: _location,
-                                            ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: size.height > Constant.divSize
-                                        ? 30
-                                        : 10,
-                                  ),
-                                  //Hotel Title
-                                  HotelTitle(size: size),
-
-                                  //HotelsList
-                                  size.height > Constant.divSize
-                                      ? hotelsListForTab(imageUrl)
-                                      : hotelsListForMobile(imageUrl),
-                                ],
+                              // dashboard widget
+                              Consumer<DashBoardMethods>(
+                                builder: (context, dashboardMethods, ch) =>
+                                    getDashboardMainWidget(
+                                        dashboardMethods.getDashboardWidgetTag,
+                                        size,
+                                        context,
+                                        cityList,
+                                        imageUrl),
                               ),
-
                               //RightSlider
                               leftRightSericesSlider(
                                 size,
@@ -306,6 +251,105 @@ class _PickRoomState extends State<PickRoom> {
         ],
       ),
     );
+  }
+
+  Column dashboardMainWidget(Size size, BuildContext context,
+      List<City> cityList, List<Images> imageUrl) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        //Services
+        Padding(
+          padding: size.height > Constant.divSize
+              ? const EdgeInsets.only(top: 48.0)
+              : const EdgeInsets.only(top: 18.0),
+          child: size.height > Constant.divSize
+              ? _formField('What', 650, 30, 'assets/icons/What.png')
+              : _formField('What', 450, 18, 'assets/icons/What.png'),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            //CityList
+            !_whatSelect
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.only(top: 18.0),
+                    child: size.height > Constant.divSize
+                        ? _formField('Where', 350, 30, 'assets/icons/Where.png')
+                        : FutureBuilder(
+                            future: Provider.of<CityList>(context).fetchCity(),
+                            builder: (context, snap) => GestureDetector(
+                              onTap: () => _showMyDialog(cityList),
+                              child: _formField(
+                                  'Where', 230, 18, 'assets/icons/Where.png'),
+                            ),
+                          ),
+                  ),
+            SizedBox(
+              width: 20,
+            ),
+
+            //DatePicker
+            !_whereSelect
+                ? Container(
+                    height: 65,
+                  )
+                : DatePick(
+                    hotel: _hotelValue,
+                    city: _location,
+                  ),
+          ],
+        ),
+        SizedBox(
+          height: size.height > Constant.divSize ? 30 : 10,
+        ),
+        //Hotel Title
+        HotelTitle(size: size),
+
+        //HotelsList
+        size.height > Constant.divSize
+            ? hotelsListForTab(imageUrl)
+            : hotelsListForMobile(imageUrl),
+      ],
+    );
+  }
+
+  Widget getDashboardMainWidget(String tag, Size size, BuildContext context,
+      List<City> cityList, List<Images> imageUrl) {
+    switch (tag) {
+      case 'projects':
+        return ProjectsWidget();
+        break;
+      case 'notifications':
+        return NotificationWidget();
+        break;
+      case 'allRequest':
+        return AllRequestWidget();
+        break;
+      default:
+        return dashboardMainWidget(size, context, cityList, imageUrl);
+        break;
+    }
+  }
+
+  String getDashboardBackgroundImage(
+    String tag,
+  ) {
+    switch (tag) {
+      case 'projects':
+        return 'assets/images/profilebackground.png';
+        break;
+      case 'notifications':
+        return 'assets/images/profilebackground.png';
+        break;
+      case 'allRequest':
+        return 'assets/images/profilebackground.png';
+        break;
+      default:
+        return 'assets/background.png';
+        break;
+    }
   }
 
   Row dashbordAppBar(Size size, List<SliderIcon> slider, BuildContext context) {
@@ -349,6 +393,10 @@ class _PickRoomState extends State<PickRoom> {
   Widget leftRightSericesSlider(
       Size size, ScrollController controller, List<SliderIcon> serviceList) {
     return Container(
+      margin: EdgeInsets.only(
+        left: 20,
+        right: 20,
+      ),
       height: size.height > Constant.divSize ? 480 : 200,
       width: size.height > Constant.divSize ? 80 : 60,
       child: ListWheelScrollView.useDelegate(

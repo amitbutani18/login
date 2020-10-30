@@ -4,7 +4,7 @@ import 'package:login/helpers/slider/bottomdownsliderprovider.dart';
 import 'package:login/helpers/slider/bottomupsliderprovider.dart';
 import 'package:login/screens/registration.dart';
 import 'package:login/screens/forgotpasswod.dart';
-import 'package:login/screens/pickroom.dart';
+import 'package:login/screens/dashboard.dart';
 import 'package:login/screens/setpin.dart';
 import 'package:login/screens/verifypin.dart';
 import 'package:login/widgets/bottomfirstslider.dart';
@@ -16,7 +16,7 @@ import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/sliderightroute.dart';
 import 'package:login/widgets/validation.dart';
 import 'package:provider/provider.dart';
-import 'package:login/helpers/constant.dart' as Constant;
+import 'package:login/helpers/Constant/constant.dart' as Constant;
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';

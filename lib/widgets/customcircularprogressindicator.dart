@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:login/helpers/constant.dart' as Constant;
+import 'package:login/helpers/Constant/constant.dart' as Constant;
 
 class CustomCircularProgressIndicator extends StatelessWidget {
   @override

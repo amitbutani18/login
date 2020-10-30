@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:login/API/serviceproviderapi.dart';
-import 'package:login/helpers/roomimageprovider.dart';
+import 'package:login/helpers/Providers/roomimageprovider.dart';
 import 'package:login/widgets/Page_titles/pg_title_wth_drawr.dart';
 import 'package:login/widgets/custom_input_decoration.dart';
 import 'package:login/widgets/customalertbox.dart';
@@ -15,7 +15,7 @@ import 'package:login/widgets/pagebackground.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:login/helpers/constant.dart' as Constant;
+import 'package:login/helpers/Constant/constant.dart' as Constant;
 
 class ServiceProvider extends StatefulWidget {
   static const routeName = '/serviceProvider';

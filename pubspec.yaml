@@ -98,6 +98,14 @@ flutter:
     - assets/icons/Tags.png
     - assets/icons/Subscription.png
     - assets/icons/ad.png
+    - assets/icons/Usages.png
+    - assets/icons/Request_Acceped.png
+    - assets/icons/Notes.png
+    - assets/icons/Contract_End.png
+    - assets/icons/Location_icon.png
+    - assets/icons/Dollar_icon.png
+    - assets/icons/Calender_icon.png
+    - assets/icons/User_Icon.png
     - assets/icons/Billing.png
     - assets/icons/SelectedAdd-Team-Member.png
     - assets/icons/selectStar.png

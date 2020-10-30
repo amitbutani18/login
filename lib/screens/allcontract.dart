@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:login/helpers/membersprovider.dart';
+import 'package:login/helpers/Providers/membersprovider.dart';
 import 'package:login/screens/paymenthistory.dart';
 import 'package:login/screens/searchmember.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/sliderightroute.dart';
 import 'package:provider/provider.dart';
-import 'package:login/helpers/constant.dart' as Constant;
+import 'package:login/helpers/Constant/constant.dart' as Constant;
 
 class AllContract extends StatelessWidget {
   static const routeName = '/allContract';

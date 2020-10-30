@@ -7,7 +7,7 @@ import 'package:login/widgets/customsnackbar.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:login/widgets/validation.dart';
-import 'package:login/helpers/constant.dart' as Constant;
+import 'package:login/helpers/Constant/constant.dart' as Constant;
 import 'package:provider/provider.dart';
 
 class ForgotPassword extends StatefulWidget {

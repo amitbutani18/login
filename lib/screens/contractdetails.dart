@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login/screens/contract.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/Page_titles/pagetitle.dart';
-import 'package:login/helpers/constant.dart' as Constant;
+import 'package:login/helpers/Constant/constant.dart' as Constant;
 
 class ContractDetails extends StatelessWidget {
   @override

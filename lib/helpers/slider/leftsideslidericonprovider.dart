@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:login/helpers/slider/slidericon.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:login/helpers/constant.dart' as Constant;
+import 'package:login/helpers/Constant/constant.dart' as Constant;
 
 class LeftSideSliderIconProvider with ChangeNotifier {
   List<SliderIcon> _items = [

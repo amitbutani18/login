@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
-import 'package:login/helpers/constant.dart' as Constant;
+import 'package:login/helpers/Constant/constant.dart' as Constant;
 
 class DatePick extends StatefulWidget {
   static const roteName = '/datepicker';
@@ -25,16 +25,7 @@ class _DatePickState extends State<DatePick> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Theme(
-              data: ThemeData.dark().copyWith(
-                accentColor: Color.fromRGBO(201, 163, 66, 1),
-                canvasColor: Color.fromRGBO(201, 163, 66, 1),
-                backgroundColor: Color.fromRGBO(201, 163, 66, 1),
-                buttonTheme: ButtonThemeData(
-                  colorScheme: Theme.of(context).colorScheme.copyWith(
-                        primary: Constant.primaryColor,
-                      ),
-                ),
-              ),
+              data: Constant.GetConstant.shared.themeData(context),
               child: Builder(
                 builder: (context) => GestureDetector(
                   onTap: () async {

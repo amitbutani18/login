@@ -4,13 +4,14 @@ import 'package:login/helpers/slider/slidericon.dart';
 
 class TopSliderIconProvider with ChangeNotifier {
   List<SliderIcon> _items = [
-    SliderIcon(title: 'Electronics', image: 'assets/icons/AddProject.png'),
-    SliderIcon(title: 'Electronics', image: 'assets/icons/add.png'),
-    SliderIcon(title: 'Electronics', image: 'assets/icons/dashboard.png'),
-    SliderIcon(title: 'Electronics', image: 'assets/icons/Hired.png'),
-    SliderIcon(title: 'Electronics', image: 'assets/icons/pendingRequest.png'),
-    SliderIcon(title: 'Electronics', image: 'assets/icons/notifications.png'),
-    SliderIcon(title: 'Electronics', image: 'assets/icons/allRequest.png'),
+    SliderIcon(title: 'addProject', image: 'assets/icons/AddProject.png'),
+    SliderIcon(title: 'add', image: 'assets/icons/add.png'),
+    SliderIcon(title: 'dashboard', image: 'assets/icons/dashboard.png'),
+    SliderIcon(title: 'hired', image: 'assets/icons/Hired.png'),
+    SliderIcon(
+        title: 'pendingRequest', image: 'assets/icons/pendingRequest.png'),
+    SliderIcon(title: 'notifications', image: 'assets/icons/notifications.png'),
+    SliderIcon(title: 'allRequest', image: 'assets/icons/allRequest.png'),
   ];
   List<SliderIcon> get items {
     return [..._items];
