@@ -5,12 +5,14 @@ class EaseInWidget extends StatefulWidget {
   final String secondImage;
   final Function onTap;
   final double radius;
+  final bool isSelected;
 
   const EaseInWidget(
       {Key key,
       @required this.image,
       @required this.secondImage,
-      @required this.onTap,
+      this.onTap,
+      this.isSelected = false,
       @required this.radius})
       : super(key: key);
   @override
@@ -49,36 +51,36 @@ class _EaseInWidgetState extends State<EaseInWidget>
     final size = MediaQuery.of(context).size;
 
     return GestureDetector(
-      onTapDown: (TapDownDetails details) {
-        if (widget.onTap == null) {
-          return;
-        }
-        setState(() {
-          _selected = true;
-        });
-        controller.forward().then((val) {});
-      },
-      onTapUp: (TapUpDetails details) {
-        if (widget.onTap == null) {
-          return;
-        }
-        controller.reverse().then((val) {
-          widget.onTap();
-        });
-        setState(() {
-          _selected = false;
-        });
-      },
-      onTapCancel: () {
-        controller.forward().then((val) {
-          controller.reverse().then((val) {
-            widget.onTap();
-            setState(() {
-              _selected = false;
-            });
-          });
-        });
-      },
+      // onTapDown: (TapDownDetails details) {
+      //   if (widget.onTap == null) {
+      //     return;
+      //   }
+      //   setState(() {
+      //     _selected = true;
+      //   });
+      //   controller.forward().then((val) {});
+      // },
+      // onTapUp: (TapUpDetails details) {
+      //   if (widget.onTap == null) {
+      //     return;
+      //   }
+      //   controller.reverse().then((val) {
+      //     widget.onTap();
+      //   });
+      //   setState(() {
+      //     _selected = false;
+      //   });
+      // },
+      // onTapCancel: () {
+      //   controller.forward().then((val) {
+      //     controller.reverse().then((val) {
+      //       widget.onTap();
+      //       setState(() {
+      //         _selected = false;
+      //       });
+      //     });
+      //   });
+      // },
       child: ScaleTransition(
         scale: easeInAnimation,
         child: Material(
@@ -86,7 +88,7 @@ class _EaseInWidgetState extends State<EaseInWidget>
             radius: size.height > 550 ? 50 : widget.radius,
             backgroundColor: Colors.transparent,
             child: Image.asset(
-              _selected ? widget.secondImage : widget.image,
+              widget.isSelected ? widget.secondImage : widget.image,
               fit: BoxFit.cover,
             ),
           ),

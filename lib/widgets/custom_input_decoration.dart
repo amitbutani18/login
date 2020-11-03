@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login/helpers/Constant/constant.dart' as Constant;
+import 'package:login/screens/projectDetails.dart';
 
 class CustomInputDecoration {
   static InputDecoration customInputDecoration(
@@ -16,11 +17,7 @@ class CustomInputDecoration {
       prefixIcon: Container(
         padding: EdgeInsets.all(8),
         margin: EdgeInsets.only(right: 0),
-        child: CircleAvatar(
-          backgroundColor: Colors.transparent,
-          radius: 10,
-          child: Image.asset(image),
-        ),
+        child: CustomCircleAvatarForIcon(image: image),
       ),
       enabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(color: Constant.primaryColor),
@@ -28,6 +25,26 @@ class CustomInputDecoration {
       focusedBorder: UnderlineInputBorder(
         borderSide: BorderSide(color: Constant.primaryColor),
       ),
+    );
+  }
+}
+
+class CustomCircleAvatarForIcon extends StatelessWidget {
+  final double radius;
+  const CustomCircleAvatarForIcon({
+    Key key,
+    this.radius = 10.0,
+    @required this.image,
+  }) : super(key: key);
+
+  final String image;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      backgroundColor: Colors.transparent,
+      radius: radius,
+      child: Image.asset(image),
     );
   }
 }

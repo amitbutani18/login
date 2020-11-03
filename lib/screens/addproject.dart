@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:login/screens/projectDetails.dart';
+import 'package:login/screens/searchmember.dart';
 import 'package:login/widgets/custom_input_decoration.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/pagebackground.dart';
@@ -252,13 +253,13 @@ class _AddProjectState extends State<AddProject> {
     setState(() {
       _isLoad = true;
     });
-    print(_whatController.text);
-    print(_whereController.text);
-    print(_whenController.text);
-    print(_whoController.text);
-    print(_linkController.text);
-    print(_usagesController.text);
-    print(_notesController.text);
+    // print(_whatController.text);
+    // print(_whereController.text);
+    // print(_whenController.text);
+    // print(_whoController.text);
+    // print(_linkController.text);
+    // print(_usagesController.text);
+    // print(_notesController.text);
 
     setState(() {
       _isLoad = false;
@@ -271,7 +272,7 @@ class _AddProjectState extends State<AddProject> {
     _notesController.clear();
     _usagesController.clear();
     _whenController.clear();
-    // Navigator.of(context).pushReplacementNamed(ServiceProvider.routeName);
+    Navigator.of(context).pushNamed(SearchMember.routeName);
   }
 
   Row acceptDeclineButton(Size size, BuildContext context) {

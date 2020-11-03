@@ -1,5 +1,6 @@
 import 'package:login/screens/addproject.dart';
 import 'package:login/screens/allcontract.dart';
+import 'package:login/screens/contractdetails.dart';
 import 'package:login/screens/endcontract.dart';
 import 'package:login/screens/forgotpasswod.dart';
 import 'package:login/screens/loginscreen.dart';
@@ -30,6 +31,7 @@ class Routes {
       SettingScreen.routeName: (context) => SettingScreen(),
       ForgotPassword.roteName: (context) => ForgotPassword(),
       ResetPassword.roteName: (context) => ResetPassword(),
+      ContractDetails.routeName: (context) => ContractDetails(),
     };
   }
 }

@@ -5,7 +5,6 @@ import 'package:login/screens/allcontract.dart';
 import 'package:login/screens/searchmember.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/Page_titles/pagetitle.dart';
-import 'package:login/widgets/task.dart';
 import 'package:provider/provider.dart';
 import 'package:login/helpers/Constant/constant.dart' as Constant;
 
@@ -202,33 +201,33 @@ class ProjectADetails extends StatelessWidget {
                         SizedBox(
                           height: size.height > Constant.divSize ? 15 : 10,
                         ),
-                        Task(
-                          size: size,
-                          task1:
-                              'Lorem ipsum is a placeholder text commonly used to demonstrate the visual',
-                        ),
-                        SizedBox(
-                          height: size.height > Constant.divSize ? 10 : 10,
-                        ),
-                        Task(
-                          size: size,
-                          task1:
-                              'Lorem ipsum is a placeholder demonstrate the visual',
-                        ),
-                        SizedBox(
-                          height: size.height > Constant.divSize ? 10 : 10,
-                        ),
-                        Task(
-                          size: size,
-                          task1: 'Commonly used to demonstrate the visual.',
-                        ),
-                        SizedBox(
-                          height: size.height > Constant.divSize ? 10 : 10,
-                        ),
-                        Task(
-                          size: size,
-                          task1: 'Placeholder text commonly used.',
-                        ),
+                        // Task(
+                        //   size: size,
+                        //   task1:
+                        //       'Lorem ipsum is a placeholder text commonly used to demonstrate the visual',
+                        // ),
+                        // SizedBox(
+                        //   height: size.height > Constant.divSize ? 10 : 10,
+                        // ),
+                        // Task(
+                        //   size: size,
+                        //   task1:
+                        //       'Lorem ipsum is a placeholder demonstrate the visual',
+                        // ),
+                        // SizedBox(
+                        //   height: size.height > Constant.divSize ? 10 : 10,
+                        // ),
+                        // Task(
+                        //   size: size,
+                        //   task1: 'Commonly used to demonstrate the visual.',
+                        // ),
+                        // SizedBox(
+                        //   height: size.height > Constant.divSize ? 10 : 10,
+                        // ),
+                        // Task(
+                        //   size: size,
+                        //   task1: 'Placeholder text commonly used.',
+                        // ),
                         SizedBox(
                           height: size.height > Constant.divSize ? 25 : 10,
                         ),

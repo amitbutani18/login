@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:login/API/profileapi.dart';
+import 'package:login/screens/contractdetails.dart';
 import 'package:login/screens/editprofile.dart';
 import 'package:login/screens/resetpassword.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
@@ -15,27 +16,27 @@ import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:login/helpers/Constant/constant.dart' as Constant;
 
-class OwnProfile extends StatefulWidget {
-  static const routeName = '/ownProfile';
+class TeamMateProfileScreen extends StatefulWidget {
+  static const routeName = '/TeamMateProfileScreen';
   @override
-  _OwnProfileState createState() => _OwnProfileState();
+  _TeamMateProfileScreenState createState() => _TeamMateProfileScreenState();
 }
 
-class _OwnProfileState extends State<OwnProfile> {
+class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   var _isInit = true;
-  var _name = '';
-  var _youLink = '';
-  var _linkedLink = '';
-  var _dailyRate = '';
-  var _profileImage = '';
-  var _location = '';
-  var _creditcard = '';
-  var _occupation = '';
-  var _companyName = '';
-  var _aboutUs = '';
-  var _workingHistory = '';
-  List<dynamic> _links = [];
+  // var _name = '';
+  // var _youLink = '';
+  // var _linkedLink = '';
+  // var _dailyRate = '';
+  // var _profileImage = '';
+  // var _location = '';
+  // var _creditcard = '';
+  // var _occupation = '';
+  // var _companyName = '';
+  // var _aboutUs = '';
+  // var _workingHistory = '';
+  // List<dynamic> _links = [];
 
   bool _load = false;
   String _qrData = "Amit Butani";
@@ -47,7 +48,7 @@ class _OwnProfileState extends State<OwnProfile> {
     imageCache.clear();
     imageCache.clearLiveImages();
     if (_isInit) {
-      await tryToGetProfile();
+      // await tryToGetProfile();
     }
     _isInit = false;
   }
@@ -73,7 +74,7 @@ class _OwnProfileState extends State<OwnProfile> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      PageTitle(size: size, title: "Own Profile"),
+                      PageTitle(size: size, title: "Team Mate Profile"),
                       SizedBox(
                         height: 20,
                       ),
@@ -102,15 +103,15 @@ class _OwnProfileState extends State<OwnProfile> {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.of(context).pushNamed(ResetPassword.roteName);
+            Navigator.of(context).pushNamed(ContractDetails.routeName);
           },
           child: Container(
             padding: EdgeInsets.all(0),
             margin: EdgeInsets.only(right: 0),
             child: CircleAvatar(
               backgroundColor: Colors.transparent,
-              radius: 20,
-              child: Image.asset('assets/icons/ResetPassword.png'),
+              radius: 25,
+              child: Image.asset('assets/icons/contractDetail.png'),
             ),
           ),
         ),
@@ -128,8 +129,8 @@ class _OwnProfileState extends State<OwnProfile> {
           child: Container(
             child: CircleAvatar(
                 backgroundColor: Colors.transparent,
-                radius: size.height > Constant.divSize ? 40 : 20,
-                child: Image.asset('assets/images/editicon.png')),
+                radius: size.height > Constant.divSize ? 40 : 25,
+                child: Image.asset('assets/icons/message.png')),
           ),
         ),
       ],
@@ -154,13 +155,13 @@ class _OwnProfileState extends State<OwnProfile> {
                 child: Column(
                   children: [
                     locationOccupation(
-                        'Location', size, _location, true, Icons.location_on),
+                        'Location', size, "_location", true, Icons.location_on),
                     customSizedBox(size, 10),
                     locationOccupation(
-                        'Occuption', size, _occupation, false, Icons.ac_unit),
+                        'Occuption', size, "_occupation", false, Icons.ac_unit),
                     customSizedBox(size, 10),
                     locationOccupation(
-                        'Rate', size, _dailyRate, true, Icons.attach_money),
+                        'Rate', size, "_dailyRate", true, Icons.attach_money),
                     customSizedBox(size, 10),
                   ],
                 ),
@@ -230,34 +231,36 @@ class _OwnProfileState extends State<OwnProfile> {
         child: Column(
           children: <Widget>[
             CircleAvatar(
-              key: ValueKey(new Random().nextInt(100)),
-              radius: size.height > Constant.divSize ? 70 : 30,
-              backgroundColor: Colors.transparent,
-              backgroundImage: _profileImage == ""
-                  ? AssetImage('assets/images/profileimage.png')
-                  : NetworkImage(_profileImage),
-            ),
+                key: ValueKey(new Random().nextInt(100)),
+                radius: size.height > Constant.divSize ? 70 : 30,
+                backgroundColor: Colors.transparent,
+                backgroundImage:
+                    // _profileImage == ""
+                    //     ?
+                    AssetImage('assets/images/profileimage.png')
+                // : NetworkImage(_profileImage),
+                ),
             customSizedBox(size, 10),
             Text(
-              _name,
+              "_name",
               style: TextStyle(
                 color: Constant.primaryColor,
                 fontSize: size.height > Constant.divSize ? 35 : 20,
               ),
             ),
             customSizedBox(size, 10),
-            customTitleContent(size, "Company Name", _companyName),
+            customTitleContent(size, "Company Name", "_companyName"),
             customSizedBox(size, 15),
             customTitleContent(
               size,
               "About Us",
-              _aboutUs,
+              "_aboutUs",
             ),
             customSizedBox(size, 15),
             customTitleContent(
               size,
               "Work History",
-              _workingHistory,
+              "_workingHistory",
             ),
             customSizedBox(size, 15),
             customTitleContent(
@@ -280,13 +283,13 @@ class _OwnProfileState extends State<OwnProfile> {
             YouLink(
                 size: size,
                 heading: 'Youtube',
-                link: _youLink,
+                link: "_youLink",
                 scaffoldKey: _scaffoldKey),
             customSizedBox(size, 10),
             YouLink(
                 size: size,
                 heading: 'LinkedIn',
-                link: _linkedLink,
+                link: "_linkedLink",
                 scaffoldKey: _scaffoldKey),
             customSizedBox(size, 10),
             LimitedBox(
@@ -295,11 +298,11 @@ class _OwnProfileState extends State<OwnProfile> {
                 padding: EdgeInsets.only(top: 0),
                 physics: BouncingScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: _links.length,
+                itemCount: 10, //_links.length,
                 itemBuilder: (context, i) => YouLink(
                   size: size,
-                  heading: _links[i]['title'],
-                  link: _links[i]['link'],
+                  heading: "title", //_links[i]['title'],
+                  link: "WWW>DDFF>DD", // _links[i]['link'],
                   scaffoldKey: _scaffoldKey,
                 ),
               ),
@@ -318,7 +321,7 @@ class _OwnProfileState extends State<OwnProfile> {
               heading1: "SUPREME Card",
               value1: "\$ 500.00",
               heading2: "Credit Card",
-              value2: _creditcard,
+              value2: "_creditcard",
             )
           ],
         ),
@@ -409,44 +412,44 @@ class _OwnProfileState extends State<OwnProfile> {
     );
   }
 
-  Future<void> tryToGetProfile() async {
-    try {
-      setState(() {
-        _load = true;
-      });
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      final _userEmail = sharedPreferences.getString('email');
-      objProfileModal =
-          await Provider.of<ProfileApi>(context, listen: false).getProfile();
-      // print("In Profile Map" + objProfileModal.name);
-      // print(map['profileimg']);
-      setState(() {
-        _name = objProfileModal.name;
-        _location = objProfileModal.location;
-        _linkedLink = objProfileModal.linkdin;
-        _dailyRate = objProfileModal.dailycharge;
-        _youLink = objProfileModal.youtube;
-        _profileImage = objProfileModal.profileimg;
-        _creditcard = objProfileModal.creditcard;
-        _occupation = objProfileModal.occupation;
-        _companyName = objProfileModal.companyname;
-        _aboutUs = objProfileModal.aboutus;
-        _workingHistory = objProfileModal.workinghistory;
-        _links = objProfileModal.otherlink;
-        _qrData = _userEmail;
-      });
-      print("_profileImage" + _profileImage);
-      setState(() {
-        _load = false;
-      });
-    } catch (error) {
-      setState(() {
-        _load = false;
-      });
-      print(error);
-    }
-  }
+  // Future<void> tryToGetProfile() async {
+  //   try {
+  //     setState(() {
+  //       _load = true;
+  //     });
+  //     SharedPreferences sharedPreferences =
+  //         await SharedPreferences.getInstance();
+  //     final _userEmail = sharedPreferences.getString('email');
+  //     objProfileModal =
+  //         await Provider.of<ProfileApi>(context, listen: false).getProfile();
+  //     // print("In Profile Map" + objProfileModal.name);
+  //     // print(map['profileimg']);
+  //     setState(() {
+  //       _name = objProfileModal.name;
+  //       _location = objProfileModal.location;
+  //       _linkedLink = objProfileModal.linkdin;
+  //       _dailyRate = objProfileModal.dailycharge;
+  //       _youLink = objProfileModal.youtube;
+  //       _profileImage = objProfileModal.profileimg;
+  //       _creditcard = objProfileModal.creditcard;
+  //       _occupation = objProfileModal.occupation;
+  //       _companyName = objProfileModal.companyname;
+  //       _aboutUs = objProfileModal.aboutus;
+  //       _workingHistory = objProfileModal.workinghistory;
+  //       _links = objProfileModal.otherlink;
+  //       _qrData = _userEmail;
+  //     });
+  //     print("_profileImage" + _profileImage);
+  //     setState(() {
+  //       _load = false;
+  //     });
+  //   } catch (error) {
+  //     setState(() {
+  //       _load = false;
+  //     });
+  //     print(error);
+  //   }
+  // }
 }
 
 class CustomDivider extends StatelessWidget {

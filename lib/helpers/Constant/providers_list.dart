@@ -5,6 +5,7 @@ import 'package:login/API/registerapi.dart';
 import 'package:login/API/serviceproviderapi.dart';
 import 'package:login/API/setpinapi.dart';
 import 'package:login/API/verpinapi.dart';
+import 'package:login/helpers/Providers/contract_details_provider.dart';
 import 'package:login/helpers/Providers/imageprovider.dart';
 import 'package:login/helpers/Providers/membersprovider.dart';
 import 'package:login/helpers/Providers/notification_provider.dart';
@@ -54,5 +55,6 @@ class ProviderList {
     ChangeNotifierProvider.value(value: DashBoardMethods()),
     ChangeNotifierProvider.value(value: NotificationProvider()),
     ChangeNotifierProvider.value(value: RequestProvider()),
+    ChangeNotifierProvider.value(value: ContractDetailProvider()),
   ];
 }

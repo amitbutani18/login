@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:login/helpers/Providers/membersprovider.dart';
+import 'package:login/screens/projectDetails.dart';
+import 'package:login/screens/teammate_profile_screen.dart';
+import 'package:login/screens/teammateprofile.dart';
+import 'package:login/widgets/custom_input_decoration.dart';
+import 'package:login/widgets/dashbord_widgets/all_request_widget.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:provider/provider.dart';
@@ -12,40 +17,7 @@ class SearchMember extends StatefulWidget {
 }
 
 class _SearchMemberState extends State<SearchMember> {
-  InputDecoration _textDecoration(String lable, double fontSize, Icon icon) {
-    return InputDecoration(
-      hintText: lable,
-      hintStyle: TextStyle(color: Colors.grey, height: 1, fontSize: fontSize),
-      icon: ClipOval(
-        child: Container(
-          decoration: new BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Colors.white,
-                  Constant.primaryColor,
-                ]),
-            borderRadius: new BorderRadius.all(new Radius.circular(50.0)),
-          ),
-          child: Material(
-            color: Colors.transparent,
-            child: SizedBox(
-                width: fontSize == 30 ? 60 : 30,
-                height: fontSize == 30 ? 60 : 30,
-                child: Center(child: icon)),
-          ),
-        ),
-      ),
-      enabledBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.white),
-      ),
-      focusedBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.yellow),
-      ),
-    );
-  }
-
+  TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final memberData = Provider.of<MembersProvider>(context).items;
@@ -55,7 +27,7 @@ class _SearchMemberState extends State<SearchMember> {
         children: <Widget>[
           PageBackground(size: size, imagePath: 'assets/background.png'),
           Padding(
-            padding: const EdgeInsets.all(28.0),
+            padding: const EdgeInsets.all(18.0),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,127 +36,68 @@ class _SearchMemberState extends State<SearchMember> {
                   SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    // onChanged: (value) {
-                    //   setState(() {
-                    //     _usages = value;
-                    //   });
-                    // },
-                    // controller: _usagesController,
-                    style: TextStyle(
-                        color: Constant.primaryColor,
-                        fontSize: size.height > Constant.divSize ? 30 : 18),
-                    decoration: _textDecoration(
-                      'Search Member',
-                      size.height > Constant.divSize ? 30 : 18,
-                      Icon(
-                        Icons.search,
-                        color: Colors.black87,
-                        size: size.height > Constant.divSize ? 40 : 18,
-                      ),
-                    ),
+                  _formField(
+                    lable: 'Search Member',
+                    width: size.width,
+                    fontSize: 15,
+                    image: 'assets/icons/What.png',
+                    textInputType: TextInputType.text,
+                    controller: _searchController,
+                    maxLine: 1,
                   ),
                   SizedBox(
                     height: size.height > Constant.divSize ? 40 : 10,
                   ),
                   Padding(
-                    padding: EdgeInsets.all(0),
-                    child: Row(
-                      children: <Widget>[
-                        Logo(
-                          size: size,
-                          icon: Icon(
-                            Icons.help,
-                            color: Colors.black87,
-                            size: size.height > Constant.divSize ? 35 : 18,
+                    padding: EdgeInsets.all(10),
+                    child: Container(
+                      width: size.width / 1.5,
+                      child: Row(
+                        children: <Widget>[
+                          IconAndDetailsRowForProjectDetails(
+                            size: size,
+                            image: 'assets/icons/What.png',
+                            content: "Fashion Model",
                           ),
-                        ),
-                        SizedBox(
-                          width: size.height > Constant.divSize ? 20 : 10,
-                        ),
-                        Text(
-                          "Fashion Model",
-                          style: TextStyle(
-                              color: Colors.white54,
-                              fontSize:
-                                  size.height > Constant.divSize ? 30 : 18),
-                        ),
-                        SizedBox(
-                          width: size.height > Constant.divSize ? 20 : 0,
-                        ),
-                        Container(
-                          height: 30.0,
-                          width: 2.0,
-                          color: Constant.primaryColor,
-                          margin:
-                              const EdgeInsets.only(left: 10.0, right: 10.0),
-                        ),
-                        size.height > Constant.divSize
-                            ? SizedBox(
-                                width: 10,
-                              )
-                            : Container(),
-                        Logo(
-                          size: size,
-                          icon: Icon(
-                            Icons.location_on,
-                            color: Colors.black87,
-                            size: size.height > Constant.divSize ? 35 : 18,
+                          SizedBox(
+                            width: size.height > Constant.divSize ? 20 : 0,
                           ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "London",
-                          style: TextStyle(
-                              color: Colors.white54,
-                              fontSize:
-                                  size.height > Constant.divSize ? 30 : 18),
-                        ),
-                        Container(
-                          height: 30.0,
-                          width: 2.0,
-                          color: Constant.primaryColor,
-                          margin:
-                              const EdgeInsets.only(left: 10.0, right: 10.0),
-                        ),
-                        size.height > Constant.divSize
-                            ? SizedBox(
-                                width: 10,
-                              )
-                            : Container(),
-                        Logo(
-                          size: size,
-                          icon: Icon(
-                            Icons.calendar_today,
-                            color: Colors.black87,
-                            size: size.height > Constant.divSize ? 35 : 18,
+                          Container(
+                            height: 30.0,
+                            width: 2.0,
+                            color: Constant.primaryColor,
+                            margin:
+                                const EdgeInsets.only(left: 0.0, right: 10.0),
                           ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "22 - Jul - 2020",
-                          style: TextStyle(
-                              color: Colors.white54,
-                              fontSize:
-                                  size.height > Constant.divSize ? 30 : 18),
-                        ),
-                      ],
+                          IconAndDetailsRowForProjectDetails(
+                            size: size,
+                            image: 'assets/icons/Where.png',
+                            content: "London",
+                          ),
+                          Container(
+                            height: 30.0,
+                            width: 2.0,
+                            color: Constant.primaryColor,
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                          ),
+                          IconAndDetailsRowForProjectDetails(
+                            size: size,
+                            image: 'assets/icons/calender.png',
+                            content: "Fashion Model",
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: size.height > Constant.divSize ? 30 : 10,
                   ),
-                  Container(
-                    child: Text(
-                      "  Member",
-                      style: TextStyle(
-                          color: Colors.white54,
-                          fontSize: size.height > Constant.divSize ? 28 : 18),
-                    ),
+                  SearchResultTitle(
+                    size: size,
+                  ),
+                  SizedBox(
+                    height: 8,
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 15),
@@ -201,39 +114,49 @@ class _SearchMemberState extends State<SearchMember> {
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
                           crossAxisCount: 3),
-                      itemBuilder: (_, i) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            child: Text(
-                              memberData[i].name,
-                              style: TextStyle(
-                                color: Constant.primaryColor,
-                                fontSize:
-                                    size.height > Constant.divSize ? 35 : 20,
+                      itemBuilder: (_, i) => GestureDetector(
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    TeamMateProfileScreen())),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    child: Text(
+                                      memberData[i].name,
+                                      style: TextStyle(
+                                        color: Constant.primaryColor,
+                                        fontSize: size.height > Constant.divSize
+                                            ? 35
+                                            : 20,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  IconTitle(
+                                    icon: 'assets/icons/Location_icon.png',
+                                    title: memberData[i].name,
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  IconTitle(
+                                    icon: 'assets/icons/Location_icon.png',
+                                    title: memberData[i].amount.toString(),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                          IconAndName(
-                            size: size,
-                            icon: Icon(
-                              Icons.people,
-                              color: Colors.white54,
-                              size: size.height > Constant.divSize ? 25 : 15,
-                            ),
-                            name: memberData[i].secondName,
-                          ),
-                          IconAndName(
-                            size: size,
-                            icon: Icon(
-                              Icons.attach_money,
-                              color: Colors.white54,
-                              size: size.height > Constant.divSize ? 25 : 15,
-                            ),
-                            name: '\$ ${memberData[i].amount}',
-                          )
-                        ],
+                            VerticalDivider(),
+                          ],
+                        ),
                       ),
                     ),
                   )
@@ -242,6 +165,67 @@ class _SearchMemberState extends State<SearchMember> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _formField({
+    String lable,
+    double width,
+    double fontSize,
+    String image,
+    TextInputType textInputType,
+    TextEditingController controller,
+    int maxLine,
+    bool enable = true,
+  }) {
+    return Container(
+      width: width,
+      child: TextField(
+          controller: controller,
+          keyboardType: textInputType,
+          maxLines: maxLine,
+          textInputAction: TextInputAction.done,
+          enabled: enable,
+          onChanged: (val) {
+            print(val);
+          },
+          // onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+          style: TextStyle(color: Constant.primaryColor, fontSize: fontSize),
+          decoration: CustomInputDecoration.customInputDecoration(
+                  lable, fontSize, image)
+              .copyWith(
+            disabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Constant.primaryColor)),
+          )),
+    );
+  }
+}
+
+class SearchResultTitle extends StatelessWidget {
+  const SearchResultTitle({
+    Key key,
+    @required this.size,
+  }) : super(key: key);
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Constant.primaryColor,
+          ),
+        ),
+      ),
+      child: Text(
+        "Search Result",
+        style: TextStyle(
+            fontSize: size.height > Constant.divSize ? 22 : 15,
+            color: Colors.white54,
+            letterSpacing: 1),
       ),
     );
   }

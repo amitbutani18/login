@@ -149,7 +149,13 @@ class ProjectColumn extends StatelessWidget {
         ),
         Container(
           height: size.height - 137,
-          child: ListView.builder(
+          child: ListView.separated(
+            separatorBuilder: (context, index) => Divider(
+              indent: 0,
+              endIndent: 30,
+              thickness: 2,
+              color: Constant.primaryColor,
+            ),
             physics: BouncingScrollPhysics(),
             itemBuilder: (context, i) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,15 +199,15 @@ class ProjectColumn extends StatelessWidget {
                     color: Colors.white54,
                     size: size.height > Constant.divSize ? 25 : 15,
                   ),
-                  name: DateFormat("dd-MMMM").format(DateTime.now()) +
+                  name: DateFormat("dd-MMM").format(DateTime.now()) +
                       " | " +
-                      DateFormat("dd-MMMM-yyyy").format(DateTime.now()),
+                      DateFormat("dd-MMM-yyyy").format(DateTime.now()),
                 ),
-                Container(
-                  color: Constant.primaryColor,
-                  height: 1,
-                  width: 170,
-                ),
+                // Container(
+                //   color: Constant.primaryColor,
+                //   height: 1,
+                //   width: 170,
+                // ),
                 SizedBox(
                   height: 5,
                 ),

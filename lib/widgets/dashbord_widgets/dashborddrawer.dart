@@ -3,6 +3,7 @@ import 'package:login/API/logout.dart';
 import 'package:login/screens/addproject.dart';
 import 'package:login/screens/loginscreen.dart';
 import 'package:login/screens/ownprofile.dart';
+import 'package:login/screens/projectDetails.dart';
 import 'package:login/screens/serviceprovider.dart';
 import 'package:login/screens/settingscreen.dart';
 import 'package:provider/provider.dart';
@@ -64,7 +65,7 @@ class DashbordDrawer extends StatelessWidget {
           icon: Icon(Icons.add),
           onPressed: () async {
             Navigator.of(context).pop();
-            Navigator.of(context).pushNamed(AddProject.routeName);
+            Navigator.of(context).pushNamed(ProjectDetails.routeName);
           },
         ),
         GestureDetector(

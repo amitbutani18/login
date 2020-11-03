@@ -135,7 +135,7 @@ class _PickRoomState extends State<PickRoom> {
     final imageUrl = imageData.items;
     final sliderIconData = Provider.of<TopSliderIconProvider>(context);
     final slider = sliderIconData.items;
-    // final topSecSlider = sliderIconData.images;
+    final topSecSlider = sliderIconData.images;
     final leftIconData = Provider.of<LeftSideSliderIconProvider>(context);
     final leftSlider = leftIconData.items;
     final rightIconData = Provider.of<RightSideSliderIconProvider>(context);
@@ -177,7 +177,8 @@ class _PickRoomState extends State<PickRoom> {
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 top: 18.0, left: 18, right: 18),
-                            child: dashbordAppBar(size, slider, context),
+                            child: dashbordAppBar(
+                                size, slider, topSecSlider, context),
                           ),
                         ),
                         size.height > Constant.divSize
@@ -352,7 +353,8 @@ class _PickRoomState extends State<PickRoom> {
     }
   }
 
-  Row dashbordAppBar(Size size, List<SliderIcon> slider, BuildContext context) {
+  Row dashbordAppBar(Size size, List<SliderIcon> slider,
+      List<SliderIcon> secSlider, BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -373,7 +375,10 @@ class _PickRoomState extends State<PickRoom> {
         size.height > Constant.divSize
             ? Container()
             : TopSliderForMobile(
-                scrollController5: _scrollController5, slider: slider),
+                scrollController5: _scrollController5,
+                slider: slider,
+                secondSlider: secSlider,
+              ),
         GestureDetector(
           // onTap: () =>
           //     Navigator.of(context).pushNamed(ServiceProvider.routeName),

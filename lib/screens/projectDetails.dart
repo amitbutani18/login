@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:login/helpers/Providers/projectdetailsprovider.dart';
-import 'package:login/screens/searchmember.dart';
+import 'package:login/screens/addproject.dart';
+import 'package:login/widgets/custom_input_decoration.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/Page_titles/pagetitle.dart';
 import 'package:provider/provider.dart';
@@ -16,382 +17,176 @@ class ProjectDetails extends StatefulWidget {
 class _ProjectDetailsState extends State<ProjectDetails> {
   @override
   Widget build(BuildContext context) {
-    final projectDetails = Provider.of<ProjectDetailsProvider>(context).items;
+    final projectDetails = Provider.of<ProjectDetailsProvider>(context).project;
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      floatingActionButton: ClipOval(
-        child: Container(
-          decoration: new BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [Colors.white, Constant.primaryColor]),
-            borderRadius: new BorderRadius.all(new Radius.circular(50.0)),
-          ),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              splashColor: Colors.blue,
-              child: SizedBox(
-                  width: size.height > Constant.divSize ? 80 : 50,
-                  height: size.height > Constant.divSize ? 80 : 50,
-                  child: Icon(
-                    Icons.add,
-                    size: size.height > Constant.divSize ? 40 : 20,
-                  )),
-              onTap: () {
-                Navigator.of(context).pushNamed(SearchMember.routeName);
-              },
-            ),
-          ),
-        ),
-      ),
-      backgroundColor: Colors.black54,
+      // key: _scaffoldKey,
+      floatingActionButton:
+          Builder(builder: (context) => addMemberButton(size, context)),
       body: Stack(
         children: <Widget>[
-          PageBackground(size: size, imagePath: 'assets/background.png'),
+          PageBackground(
+              size: size,
+              imagePath: 'assets/images/projectDetailBackground.png'),
           SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Padding(
-              padding: const EdgeInsets.all(28.0),
+              padding: const EdgeInsets.all(18.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   PageTitle(size: size, title: "Project Details"),
-                  Padding(
-                    padding: size.height > Constant.divSize
-                        ? const EdgeInsets.all(18.0)
-                        : const EdgeInsets.all(5.0),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: size.width / 2,
-                          child: Row(
-                            children: <Widget>[
-                              Logo(
-                                size: size,
-                                icon: Icon(
-                                  Icons.help,
-                                  color: Colors.black87,
-                                  size:
-                                      size.height > Constant.divSize ? 30 : 18,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 35,
-                              ),
-                              Text(
-                                projectDetails[0].hotalName,
-                                style: TextStyle(
-                                    color: Colors.white54,
-                                    fontSize: size.height > Constant.divSize
-                                        ? 25
-                                        : 18),
-                              )
-                            ],
-                          ),
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Logo(
-                              size: size,
-                              icon: Icon(
-                                Icons.location_on,
-                                color: Colors.black87,
-                                size: size.height > Constant.divSize ? 30 : 18,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 35,
-                            ),
-                            Text(
-                              projectDetails[0].location,
-                              style: TextStyle(
-                                  color: Colors.white54,
-                                  fontSize:
-                                      size.height > Constant.divSize ? 25 : 18),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+                  SizedBox(
+                    height: 20,
                   ),
-                  Padding(
-                    padding: size.height > Constant.divSize
-                        ? const EdgeInsets.all(18.0)
-                        : const EdgeInsets.all(5.0),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: size.width / 2,
-                          child: Row(
-                            children: <Widget>[
-                              Logo(
-                                size: size,
-                                icon: Icon(
-                                  Icons.calendar_today,
-                                  color: Colors.black87,
-                                  size:
-                                      size.height > Constant.divSize ? 30 : 18,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 35,
-                              ),
-                              Text(
-                                DateFormat("dd-MMM")
-                                        .format(projectDetails[0].dateTime[0]) +
-                                    " | " +
-                                    DateFormat("dd-MMM-yyyy")
-                                        .format(projectDetails[0].dateTime[1]),
-                                style: TextStyle(
-                                    color: Colors.white54,
-                                    fontSize: size.height > Constant.divSize
-                                        ? 25
-                                        : 18),
-                              )
-                            ],
-                          ),
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Logo(
-                              size: size,
-                              icon: Icon(
-                                Icons.attach_money,
-                                color: Colors.black87,
-                                size: size.height > Constant.divSize ? 30 : 18,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 35,
-                            ),
-                            Text(
-                              "\$ ${projectDetails[0].price}",
-                              style: TextStyle(
-                                  color: Colors.white54,
-                                  fontSize:
-                                      size.height > Constant.divSize ? 25 : 18),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+                  Row(
+                    children: [
+                      IconAndDetailsRowForProjectDetails(
+                        size: size,
+                        image: 'assets/icons/What.png',
+                        content: projectDetails.hotalName,
+                      ),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      IconAndDetailsRowForProjectDetails(
+                        size: size,
+                        image: 'assets/icons/Where.png',
+                        content: projectDetails.location,
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: size.height > Constant.divSize
-                        ? const EdgeInsets.all(18.0)
-                        : const EdgeInsets.all(5.0),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: size.height > Constant.divSize ? 900 : 500,
-                          child: Row(
-                            children: <Widget>[
-                              Logo(
-                                size: size,
-                                icon: Icon(
-                                  Icons.portrait,
-                                  color: Colors.black87,
-                                  size:
-                                      size.height > Constant.divSize ? 30 : 18,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 35,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  projectDetails[0].names,
-                                  style: TextStyle(
-                                    color: Colors.white54,
-                                    fontSize: size.height > Constant.divSize
-                                        ? 25
-                                        : 18,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                  SizedBox(
+                    height: 20,
                   ),
-                  Padding(
-                    padding: size.height > Constant.divSize
-                        ? const EdgeInsets.all(18.0)
-                        : const EdgeInsets.all(5.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          width: size.height > Constant.divSize
-                              ? 900
-                              : size.width - 70,
-                          child: Row(
-                            children: <Widget>[
-                              Logo(
-                                size: size,
-                                icon: Icon(
-                                  Icons.link,
-                                  color: Colors.black87,
-                                  size:
-                                      size.height > Constant.divSize ? 30 : 18,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 35,
-                              ),
-                              Container(
-                                child: Text(
-                                  projectDetails[0].website,
-                                  style: TextStyle(
-                                    color: Colors.white54,
-                                    fontSize: size.height > Constant.divSize
-                                        ? 25
-                                        : 18,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                  Row(
+                    children: [
+                      IconAndDetailsRowForProjectDetails(
+                        size: size,
+                        image: 'assets/icons/calender.png',
+                        content:
+                            '${DateFormat("dd-MMM").format(projectDetails.dateTime[0])} | ${DateFormat("dd-MM-yyyy").format(projectDetails.dateTime[1])}',
+                      ),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      IconAndDetailsRowForProjectDetails(
+                        size: size,
+                        image: 'assets/icons/Dollar.png',
+                        content: projectDetails.price.toString(),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: size.height > Constant.divSize
-                        ? const EdgeInsets.all(18.0)
-                        : const EdgeInsets.all(5.0),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: size.height > Constant.divSize
-                              ? 900
-                              : size.width - 70,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Logo(
-                                size: size,
-                                icon: Icon(
-                                  Icons.map,
-                                  color: Colors.black87,
-                                  size:
-                                      size.height > Constant.divSize ? 30 : 18,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 35,
-                              ),
-                              Container(
-                                width: size.width - 200,
-                                height: 150,
-                                child: Container(
-                                  child: Text(
-                                    projectDetails[0].uses,
-                                    // "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful contentIn publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content",
-                                    style: TextStyle(
-                                        color: Colors.white54,
-                                        fontSize: size.height > Constant.divSize
-                                            ? 25
-                                            : 18),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                  SizedBox(
+                    height: 20,
                   ),
-                  Padding(
-                    padding: size.height > Constant.divSize
-                        ? const EdgeInsets.all(18.0)
-                        : const EdgeInsets.all(5.0),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: size.height > Constant.divSize
-                              ? 900
-                              : size.width - 70,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Logo(
-                                size: size,
-                                icon: Icon(
-                                  Icons.bookmark_border,
-                                  color: Colors.black87,
-                                  size:
-                                      size.height > Constant.divSize ? 30 : 18,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 35,
-                              ),
-                              Container(
-                                width: size.width - 200,
-                                height: 150,
-                                child: Container(
-                                  child: Text(
-                                    projectDetails[0].notes,
-                                    // "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful contentIn publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content",
-                                    style: TextStyle(
-                                        color: Colors.white54,
-                                        fontSize: size.height > Constant.divSize
-                                            ? 25
-                                            : 18),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                  Row(
+                    children: [
+                      IconAndDetailsRowForProjectDetails(
+                        size: size,
+                        image: 'assets/icons/Lickicon.png',
+                        content: projectDetails.website,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      IconAndDetailsRowForProjectDetails(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        size: size,
+                        image: 'assets/icons/Usages.png',
+                        content: projectDetails.uses,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      IconAndDetailsRowForProjectDetails(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        size: size,
+                        image: 'assets/icons/Notes.png',
+                        content: projectDetails.notes,
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-          ),
+          )
         ],
       ),
     );
   }
 }
 
-class Logo extends StatelessWidget {
-  const Logo({Key key, @required this.size, @required this.icon})
-      : super(key: key);
+GestureDetector addMemberButton(Size size, BuildContext context) {
+  return GestureDetector(
+    onTap: () {
+      // if (_checked) {
+      // _submit();
+      Navigator.pushNamed(context, AddProject.routeName);
+      // } else {
+      //   CustomSnackBar(context, "Please agree SUPREME card policy",
+      //       SnackBartype.nagetive);
+      // }
+    },
+    child: Container(
+      child: CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: size.height > Constant.divSize ? 40 : 30,
+          child: Image.asset('assets/icons/Add_Team_Member.png')),
+    ),
+  );
+}
+
+class IconAndDetailsRowForProjectDetails extends StatelessWidget {
+  final String image, content;
+  final CrossAxisAlignment crossAxisAlignment;
+
+  const IconAndDetailsRowForProjectDetails({
+    Key key,
+    @required this.size,
+    @required this.image,
+    @required this.content,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
+  }) : super(key: key);
 
   final Size size;
-  final Icon icon;
+
   @override
   Widget build(BuildContext context) {
-    return ClipOval(
-      child: Container(
-        decoration: new BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Colors.white,
-                Constant.primaryColor,
-              ]),
-          borderRadius: new BorderRadius.all(new Radius.circular(50.0)),
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: SizedBox(
-            width: size.height > Constant.divSize ? 50 : 30,
-            height: size.height > Constant.divSize ? 50 : 30,
-            child: Center(
-              child: icon,
+    return Expanded(
+      child: Row(
+        crossAxisAlignment: crossAxisAlignment,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            // padding: EdgeInsets.all(8),
+            // margin: EdgeInsets.only(right: 0),
+            child: CustomCircleAvatarForIcon(
+              image: image,
+              radius: 15.0,
             ),
           ),
-        ),
+          SizedBox(
+            width: 12,
+          ),
+          Expanded(
+            child: Text(
+              content,
+              style: TextStyle(
+                  fontSize: size.height > Constant.divSize ? 22 : 15,
+                  color: Colors.white54,
+                  letterSpacing: 1),
+            ),
+          )
+        ],
       ),
     );
   }
