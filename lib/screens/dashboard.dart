@@ -17,7 +17,7 @@ import 'package:login/widgets/dashbord_widgets/notificatin_widget.dart';
 import 'package:login/widgets/dashbord_widgets/projects_widget.dart';
 import 'package:login/widgets/dashbord_widgets/topsliderformobile.dart';
 import 'package:login/widgets/dashbord_widgets/topsliderfortab.dart';
-import 'package:login/widgets/datepick.dart';
+import 'package:login/widgets/dashbord_widgets/datepick.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
@@ -75,8 +75,8 @@ class _PickRoomState extends State<PickRoom> {
     var distance = oldValue - controller.position.pixels;
     // print("controller.position.pixels " + controller.position.pixels.toString());
     if (distance > 50 || distance < -50) {
-      print("distance");
-      print(distance);
+      // print("distance");
+      // print(distance);
       HapticFeedback.lightImpact();
       oldValue = controller.position.pixels;
     }
@@ -296,10 +296,7 @@ class _PickRoomState extends State<PickRoom> {
                 ? Container(
                     height: 65,
                   )
-                : DatePick(
-                    hotel: _hotelValue,
-                    city: _location,
-                  ),
+                : DatePick(),
           ],
         ),
         SizedBox(
@@ -397,37 +394,40 @@ class _PickRoomState extends State<PickRoom> {
 
   Widget leftRightSericesSlider(
       Size size, ScrollController controller, List<SliderIcon> serviceList) {
-    return Container(
-      margin: EdgeInsets.only(
-        left: 20,
-        right: 20,
-      ),
-      height: size.height > Constant.divSize ? 480 : 200,
-      width: size.height > Constant.divSize ? 80 : 60,
-      child: ListWheelScrollView.useDelegate(
-        overAndUnderCenterOpacity: 0.7,
-        magnification: 1.2,
-        useMagnifier: true,
-        itemExtent: 50,
-        physics: FixedExtentScrollPhysics(),
-        controller: controller,
-        onSelectedItemChanged: (value) {
-          print("onSelectedItemChanged" + value.toString());
-          setState(() {
-            _hotelValue = serviceList[value].title;
-          });
-          _whatSelect = true;
-        },
-        childDelegate: ListWheelChildLoopingListDelegate(
-          children: List<Widget>.generate(
-            serviceList.length,
-            (i) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5.0),
-              child: CircleAvatar(
-                radius: 20,
-                backgroundColor: Colors.transparent,
-                backgroundImage: AssetImage(
-                  serviceList[i].image,
+    return Consumer<DashBoardMethods>(
+      builder: (context, dashboardMethod, ch) => Container(
+        margin: EdgeInsets.only(
+          left: 20,
+          right: 20,
+        ),
+        height: size.height > Constant.divSize ? 480 : 200,
+        width: size.height > Constant.divSize ? 80 : 60,
+        child: ListWheelScrollView.useDelegate(
+          overAndUnderCenterOpacity: 0.7,
+          magnification: 1.2,
+          useMagnifier: true,
+          itemExtent: 50,
+          physics: FixedExtentScrollPhysics(),
+          controller: controller,
+          onSelectedItemChanged: (value) {
+            // print("onSelectedItemChanged" + value.toString());
+            dashboardMethod.changeWhatValue(serviceList[value].title);
+            setState(() {
+              _hotelValue = serviceList[value].title;
+            });
+            _whatSelect = true;
+          },
+          childDelegate: ListWheelChildLoopingListDelegate(
+            children: List<Widget>.generate(
+              serviceList.length,
+              (i) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                child: CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.transparent,
+                  backgroundImage: AssetImage(
+                    serviceList[i].image,
+                  ),
                 ),
               ),
             ),
@@ -442,40 +442,43 @@ class _PickRoomState extends State<PickRoom> {
       context: context,
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(15.0))),
-          backgroundColor: Color.fromRGBO(37, 36, 41, 1),
-          content: Container(
-            height: 200,
-            width: 200,
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: cityList.length,
-              itemBuilder: (context, i) => Column(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _location = cityList[i].cityName;
-                        _whereSelect = true;
-                      });
-                      Navigator.of(context).pop();
-                    },
-                    child: ListTile(
-                      title: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          cityList[i].cityName,
-                          style: TextStyle(color: Colors.white),
+        return Consumer<DashBoardMethods>(
+          builder: (context, dashboardMethods, ch) => AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            backgroundColor: Color.fromRGBO(37, 36, 41, 1),
+            content: Container(
+              height: 200,
+              width: 200,
+              child: ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: cityList.length,
+                itemBuilder: (context, i) => Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        dashboardMethods.changeWhereValue(cityList[i].cityName);
+                        setState(() {
+                          _location = cityList[i].cityName;
+                          _whereSelect = true;
+                        });
+                        Navigator.of(context).pop();
+                      },
+                      child: ListTile(
+                        title: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            cityList[i].cityName,
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Divider(
-                    color: Colors.white24,
-                  ),
-                ],
+                    Divider(
+                      color: Colors.white24,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -485,37 +488,43 @@ class _PickRoomState extends State<PickRoom> {
   }
 
   Widget _formField(String lable, double width, double fontSize, String image) {
-    return Container(
-      width: width,
-      child: TextFormField(
-        enabled: false,
-        cursorColor: Colors.black,
-        style: TextStyle(
-          color: Constant.primaryColor,
-          fontSize: fontSize,
-        ),
-        decoration: InputDecoration(
-          disabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Constant.primaryColor)),
-          hintText: lable == 'What'
-              ? _hotelValue == null ? 'What' : _hotelValue
-              : _location == null ? 'Where' : _location,
-          hintStyle: TextStyle(
-              color: Constant.primaryColor, height: 1.5, fontSize: fontSize),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Constant.primaryColor),
+    return Consumer<DashBoardMethods>(
+      builder: (context, dashboardMethod, ch) => Container(
+        width: width,
+        child: TextFormField(
+          enabled: false,
+          cursorColor: Colors.black,
+          style: TextStyle(
+            color: Constant.primaryColor,
+            fontSize: fontSize,
           ),
-          prefixIcon: Container(
-            padding: EdgeInsets.all(8),
-            margin: EdgeInsets.only(right: 0),
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: 10,
-              child: Image.asset(image),
+          decoration: InputDecoration(
+            disabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Constant.primaryColor)),
+            hintText: lable == 'What'
+                ? dashboardMethod.whatValue == ''
+                    ? 'What'
+                    : dashboardMethod.whatValue
+                : dashboardMethod.location == ''
+                    ? 'Where'
+                    : dashboardMethod.location,
+            hintStyle: TextStyle(
+                color: Constant.primaryColor, height: 1.5, fontSize: fontSize),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Constant.primaryColor),
             ),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Constant.primaryColor),
+            prefixIcon: Container(
+              padding: EdgeInsets.all(8),
+              margin: EdgeInsets.only(right: 0),
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: 10,
+                child: Image.asset(image),
+              ),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Constant.primaryColor),
+            ),
           ),
         ),
       ),

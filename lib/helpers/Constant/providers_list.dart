@@ -9,6 +9,7 @@ import 'package:login/helpers/Providers/contract_details_provider.dart';
 import 'package:login/helpers/Providers/imageprovider.dart';
 import 'package:login/helpers/Providers/membersprovider.dart';
 import 'package:login/helpers/Providers/notification_provider.dart';
+import 'package:login/helpers/Providers/projectProvider.dart';
 import 'package:login/helpers/Providers/projectdetailsprovider.dart';
 import 'package:login/helpers/Providers/request_provider.dart';
 import 'package:login/helpers/Providers/roomdetailsprovider.dart';
@@ -38,6 +39,7 @@ class ProviderList {
     ChangeNotifierProvider.value(value: LeftSideSliderIconProvider()),
     ChangeNotifierProvider.value(value: RightSideSliderIconProvider()),
     ChangeNotifierProvider.value(value: BottomUpSliderProvider()),
+    ChangeNotifierProvider.value(value: ProjectProvider()),
     ChangeNotifierProvider.value(value: BottomDownSliderProvider()),
     ChangeNotifierProvider.value(value: RoomDetailsProvider()),
     ChangeNotifierProvider.value(value: ProjectDetailsProvider()),

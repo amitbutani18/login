@@ -12,7 +12,7 @@ import 'package:login/screens/roomdetails.dart';
 import 'package:login/screens/searchmember.dart';
 import 'package:login/screens/serviceprovider.dart';
 import 'package:login/screens/settingscreen.dart';
-import 'package:login/widgets/datepick.dart';
+import 'package:login/widgets/dashbord_widgets/datepick.dart';
 
 class Routes {
   static routes() {

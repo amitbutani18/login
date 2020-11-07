@@ -50,8 +50,10 @@ class _TopSliderForMobileState extends State<TopSliderForMobile> {
                   if (_selectedBox != null) {
                     _selectedBox.isSelected = false;
                   }
-                  widget.slider[i % widget.slider.length].isSelected =
-                      !widget.slider[i % widget.slider.length].isSelected;
+                  if (widget.slider[i % widget.slider.length].title !=
+                      'addProject')
+                    widget.slider[i % widget.slider.length].isSelected =
+                        !widget.slider[i % widget.slider.length].isSelected;
                   _selectedBox = widget.slider[i % widget.slider.length];
                 });
               },

@@ -4,20 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:login/API/profileapi.dart';
+import 'package:login/helpers/Providers/membersprovider.dart';
 import 'package:login/screens/contractdetails.dart';
 import 'package:login/screens/editprofile.dart';
-import 'package:login/screens/resetpassword.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/Page_titles/pagetitle.dart';
-import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/rendering.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:login/helpers/Constant/constant.dart' as Constant;
+
+import 'ownprofile.dart';
 
 class TeamMateProfileScreen extends StatefulWidget {
   static const routeName = '/TeamMateProfileScreen';
+  final Member memberData;
+  TeamMateProfileScreen({@required this.memberData});
   @override
   _TeamMateProfileScreenState createState() => _TeamMateProfileScreenState();
 }
@@ -154,14 +156,18 @@ class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
                 width: size.width / 2 - 150,
                 child: Column(
                   children: [
-                    locationOccupation(
-                        'Location', size, "_location", true, Icons.location_on),
+                    locationOccupation('Location', size,
+                        widget.memberData.location, true, Icons.location_on),
+                    customSizedBox(size, 10),
+                    locationOccupation('Occuption', size,
+                        widget.memberData.occupation, false, Icons.ac_unit),
                     customSizedBox(size, 10),
                     locationOccupation(
-                        'Occuption', size, "_occupation", false, Icons.ac_unit),
-                    customSizedBox(size, 10),
-                    locationOccupation(
-                        'Rate', size, "_dailyRate", true, Icons.attach_money),
+                        'Rate',
+                        size,
+                        widget.memberData.dailycharge,
+                        true,
+                        Icons.attach_money),
                     customSizedBox(size, 10),
                   ],
                 ),
@@ -173,7 +179,7 @@ class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
                   alignment: Alignment.topLeft,
                   child: QrImage(
                     size: size.width < 721 ? size.width / 2 - 180 : 200,
-                    data: _qrData,
+                    data: widget.memberData.email,
                   ),
                 ),
               ),
@@ -192,27 +198,8 @@ class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
                 ),
               ),
               customSizedBox(size, 10),
-              CustomDivider(size: size),
-              customSizedBox(size, 10),
               // customRatingBar(Icon(Icons.star),
               //     Icon(Icons.star_border)),
-              RatingBar(
-                initialRating: 3,
-                minRating: 1,
-                direction: Axis.horizontal,
-                // ignoreGestures: true,
-                itemCount: 5,
-                itemSize: 25,
-                unratedColor: Colors.grey,
-                itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
-                itemBuilder: (context, _) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Image.asset('assets/icons/selectStar.png'),
-                ),
-                onRatingUpdate: (rating) {
-                  print(rating);
-                },
-              ),
             ],
           ),
         ),
@@ -231,42 +218,41 @@ class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
         child: Column(
           children: <Widget>[
             CircleAvatar(
-                key: ValueKey(new Random().nextInt(100)),
-                radius: size.height > Constant.divSize ? 70 : 30,
-                backgroundColor: Colors.transparent,
-                backgroundImage:
-                    // _profileImage == ""
-                    //     ?
-                    AssetImage('assets/images/profileimage.png')
-                // : NetworkImage(_profileImage),
-                ),
+              key: ValueKey(new Random().nextInt(100)),
+              radius: size.height > Constant.divSize ? 70 : 30,
+              backgroundColor: Colors.transparent,
+              backgroundImage: widget.memberData.profileimg == ""
+                  ? AssetImage('assets/images/profileimage.png')
+                  : NetworkImage(widget.memberData.profileimg),
+            ),
             customSizedBox(size, 10),
             Text(
-              "_name",
+              widget.memberData.name,
               style: TextStyle(
                 color: Constant.primaryColor,
                 fontSize: size.height > Constant.divSize ? 35 : 20,
               ),
             ),
             customSizedBox(size, 10),
-            customTitleContent(size, "Company Name", "_companyName"),
+            customTitleContent(
+                size, "Company Name", widget.memberData.companyname),
             customSizedBox(size, 15),
             customTitleContent(
               size,
               "About Us",
-              "_aboutUs",
+              widget.memberData.aboutus,
             ),
             customSizedBox(size, 15),
             customTitleContent(
               size,
               "Work History",
-              "_workingHistory",
+              widget.memberData.workinghistory,
             ),
             customSizedBox(size, 15),
             customTitleContent(
               size,
               "Email",
-              _qrData,
+              widget.memberData.email,
             ),
             customSizedBox(size, 10),
             Align(
@@ -283,13 +269,13 @@ class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
             YouLink(
                 size: size,
                 heading: 'Youtube',
-                link: "_youLink",
+                link: widget.memberData.youtube,
                 scaffoldKey: _scaffoldKey),
             customSizedBox(size, 10),
             YouLink(
                 size: size,
                 heading: 'LinkedIn',
-                link: "_linkedLink",
+                link: widget.memberData.linkdin,
                 scaffoldKey: _scaffoldKey),
             customSizedBox(size, 10),
             LimitedBox(
@@ -298,31 +284,96 @@ class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
                 padding: EdgeInsets.only(top: 0),
                 physics: BouncingScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 10, //_links.length,
+                itemCount: widget.memberData.otherlink.length, //_links.length,
                 itemBuilder: (context, i) => YouLink(
                   size: size,
-                  heading: "title", //_links[i]['title'],
-                  link: "WWW>DDFF>DD", // _links[i]['link'],
+                  heading: widget.memberData.otherlink[i]
+                      ['title'], //_links[i]['title'],
+                  link: widget.memberData.otherlink[i]
+                      ['link'], // _links[i]['link'],
                   scaffoldKey: _scaffoldKey,
                 ),
               ),
             ),
             customSizedBox(size, 10),
-            PointCredit(
-              size: size,
-              heading1: "Loyalty Point",
-              value1: "70 Points",
-              heading2: "Total Earned Amount",
-              value2: "\$ 1000.00",
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Rating",
+                      style: TextStyle(
+                        color: Constant.primaryColor,
+                        fontSize: size.height > Constant.divSize
+                            ? 25
+                            : size.width < 600 ? 10 : 15,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    RatingBar(
+                      initialRating: 3,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      // ignoreGestures: true,
+                      itemCount: 5,
+                      itemSize: 25,
+                      unratedColor: Colors.grey,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                      itemBuilder: (context, _) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Image.asset('assets/icons/selectStar.png'),
+                      ),
+                      onRatingUpdate: (rating) {
+                        print(rating);
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: size.height > Constant.divSize ? 180 : 25,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Total Earbed Amount",
+                      style: TextStyle(
+                        color: Constant.primaryColor,
+                        fontSize: size.height > Constant.divSize
+                            ? 25
+                            : size.width < 600 ? 10 : 15,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "value2",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: size.height > Constant.divSize
+                            ? 20
+                            : size.width < 600 ? 10 : 15,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
+
             customSizedBox(size, 20),
-            PointCredit(
-              size: size,
-              heading1: "SUPREME Card",
-              value1: "\$ 500.00",
-              heading2: "Credit Card",
-              value2: "_creditcard",
-            )
+            // PointCredit(
+            //   size: size,
+            //   heading1: "SUPREME Card",
+            //   value1: "\$ 500.00",
+            //   heading2: "Credit Card",
+            //   value2: "_creditcard",
+            // )
           ],
         ),
       ),
@@ -450,210 +501,4 @@ class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
   //     print(error);
   //   }
   // }
-}
-
-class CustomDivider extends StatelessWidget {
-  const CustomDivider({
-    Key key,
-    @required this.size,
-  }) : super(key: key);
-
-  final Size size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size.width / 2 - 150,
-      child: Divider(
-        height: 3,
-        thickness: 2,
-        color: Constant.primaryColor,
-      ),
-    );
-  }
-}
-
-class CustomHeading extends StatelessWidget {
-  const CustomHeading({
-    Key key,
-    @required this.size,
-    @required this.title,
-  }) : super(key: key);
-
-  final Size size;
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: TextStyle(
-        color: Constant.primaryColor,
-        fontSize: size.height > Constant.divSize ? 25 : 15,
-      ),
-    );
-  }
-}
-
-class PointCredit extends StatelessWidget {
-  const PointCredit({
-    Key key,
-    @required this.size,
-    @required this.heading1,
-    @required this.value1,
-    @required this.heading2,
-    @required this.value2,
-  }) : super(key: key);
-
-  final Size size;
-  final String heading1;
-  final String value1;
-  final String heading2;
-  final String value2;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              heading1,
-              style: TextStyle(
-                color: Constant.primaryColor,
-                fontSize: size.height > Constant.divSize
-                    ? 25
-                    : size.width < 600 ? 10 : 15,
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              value1,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: size.height > Constant.divSize
-                    ? 20
-                    : size.width < 600 ? 10 : 15,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          width: size.height > Constant.divSize ? 180 : 25,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              heading2,
-              style: TextStyle(
-                color: Constant.primaryColor,
-                fontSize: size.height > Constant.divSize
-                    ? 25
-                    : size.width < 600 ? 10 : 15,
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              value2,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: size.height > Constant.divSize
-                    ? 20
-                    : size.width < 600 ? 10 : 15,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class YouLink extends StatelessWidget {
-  const YouLink({
-    Key key,
-    @required this.size,
-    @required this.heading,
-    @required this.link,
-    @required this.scaffoldKey,
-  }) : super(key: key);
-
-  final Size size;
-  final String heading;
-  final String link;
-  final GlobalKey<ScaffoldState> scaffoldKey;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 5.0),
-      child: Column(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              heading,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: size.height > Constant.divSize ? 23 : 10,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            width: size.width,
-            height: size.height > Constant.divSize ? 80 : 40,
-            decoration: BoxDecoration(
-              color: Colors.grey[850],
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 18.0),
-                    child: Text(
-                      link,
-                      maxLines: 2,
-                      style: TextStyle(
-                        color: Colors.white24,
-                        fontSize: size.height > Constant.divSize ? 23 : 10,
-                      ),
-                    ),
-                  ),
-                ),
-                FlatButton(
-                  onPressed: () {
-                    Clipboard.setData(new ClipboardData(text: link));
-                    scaffoldKey.currentState.hideCurrentSnackBar();
-                    scaffoldKey.currentState.showSnackBar(new SnackBar(
-                      content: new Text("Copied to Clipboard"),
-                    ));
-                  },
-                  child: Text(
-                    'Copy',
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: Constant.primaryColor,
-                      fontSize: size.height > Constant.divSize ? 23 : 10,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

@@ -289,7 +289,7 @@ class ProjectADetails extends StatelessWidget {
                                             ? 25
                                             : 15,
                                       ),
-                                      name: memberData[i].secondName,
+                                      name: "memberData[i].secondName",
                                     ),
                                     IconAndName(
                                       size: size,

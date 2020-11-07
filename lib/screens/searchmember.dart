@@ -83,7 +83,7 @@ class _SearchMemberState extends State<SearchMember> {
                           ),
                           IconAndDetailsRowForProjectDetails(
                             size: size,
-                            image: 'assets/icons/calender.png',
+                            image: 'assets/icons/Calender.png',
                             content: "Fashion Model",
                           ),
                         ],
@@ -118,7 +118,9 @@ class _SearchMemberState extends State<SearchMember> {
                         onTap: () => Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    TeamMateProfileScreen())),
+                                    TeamMateProfileScreen(
+                                      memberData: memberData[i],
+                                    ))),
                         child: Row(
                           children: [
                             Expanded(
@@ -142,7 +144,7 @@ class _SearchMemberState extends State<SearchMember> {
                                   ),
                                   IconTitle(
                                     icon: 'assets/icons/Location_icon.png',
-                                    title: memberData[i].name,
+                                    title: memberData[i].location,
                                   ),
                                   SizedBox(
                                     height: 8,

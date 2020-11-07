@@ -17,15 +17,52 @@ class LeftSideSliderIconProvider with ChangeNotifier {
     return [..._items];
   }
 
-  List<SliderIcon> _images = [
-    SliderIcon(title: 'Electronics', image: 'assets/icons/AddProject.png'),
-    SliderIcon(title: 'Electronics', image: 'assets/icons/read.png'),
-    SliderIcon(title: 'Electronics', image: 'assets/icons/add.png'),
-    SliderIcon(title: 'Electronics', image: 'assets/icons/Hired.png'),
-    SliderIcon(title: 'Electronics', image: 'assets/icons/AddProject.png'),
-  ];
-  List<SliderIcon> get images {
-    return [..._images];
+  List<String> _allIcon = [];
+
+  List<String> get allIcon {
+    return [..._allIcon];
+  }
+  // List<SliderIcon> _images = [
+  //   SliderIcon(title: 'Electronics', image: 'assets/icons/AddProject.png'),
+  //   SliderIcon(title: 'Electronics', image: 'assets/icons/read.png'),
+  //   SliderIcon(title: 'Electronics', image: 'assets/icons/add.png'),
+  //   SliderIcon(title: 'Electronics', image: 'assets/icons/Hired.png'),
+  //   SliderIcon(title: 'Electronics', image: 'assets/icons/AddProject.png'),
+  // ];
+  // List<SliderIcon> get images {
+  //   return [..._images];
+  // }
+
+  Future<void> setAllIcon() async {
+    print("object");
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final userId = sharedPreferences.getString('userid');
+    try {
+      final response = await http.post(
+        '${Constant.apiLink}companyandservicelist',
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(
+          {
+            "userid": userId,
+            "type": 1,
+          },
+        ),
+      );
+      Map<String, dynamic> map = json.decode(response.body);
+      List<dynamic> list = map["data"];
+      print(list.length);
+      List<String> loadedList = [];
+      for (var i = 0; i < list.length; i++) {
+        loadedList.add(
+          '${list[i]['name']}',
+        );
+        // print("Amit" + list[i]);
+      }
+      _allIcon = loadedList;
+      notifyListeners();
+    } catch (error) {
+      print(error);
+    }
   }
 
   Future<void> setIcon() async {

@@ -42,19 +42,19 @@ class TopSliderIconProvider with ChangeNotifier {
 
   List<SliderIcon> _images = [
     SliderIcon(
-        title: 'Electronics', image: 'assets/icons/selectedaddProject.png'),
+        title: 'addProject', image: 'assets/icons/selectedaddProject.png'),
+    SliderIcon(title: 'add', image: 'assets/icons/SelectedAdd-Team-Member.png'),
     SliderIcon(
-        title: 'Electronics', image: 'assets/icons/selectedaddProject.png'),
+        title: 'dashboard', image: 'assets/icons/Selected_Dashboard.png'),
+    SliderIcon(title: 'hired', image: 'assets/icons/Selected_Hired.png'),
     SliderIcon(
-        title: 'Electronics', image: 'assets/icons/selectedaddProject.png'),
+        title: 'pendingRequest',
+        image: 'assets/icons/Selected_Pending_Request.png'),
     SliderIcon(
-        title: 'Electronics', image: 'assets/icons/selectedaddProject.png'),
+        title: 'notifications',
+        image: 'assets/icons/Selected_Notifications.png'),
     SliderIcon(
-        title: 'Electronics', image: 'assets/icons/selectedaddProject.png'),
-    SliderIcon(
-        title: 'Electronics', image: 'assets/icons/selectedaddProject.png'),
-    SliderIcon(
-        title: 'Electronics', image: 'assets/icons/selectedaddProject.png'),
+        title: 'allRequest', image: 'assets/icons/Selected_All_Request.png'),
   ];
   List<SliderIcon> get images {
     return [..._images];
