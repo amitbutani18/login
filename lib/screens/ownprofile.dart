@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:login/API/profileapi.dart';
+import 'package:login/helpers/citylist.dart';
+import 'package:login/helpers/slider/leftsideslidericonprovider.dart';
 import 'package:login/screens/editprofile.dart';
 import 'package:login/screens/resetpassword.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
@@ -48,6 +50,9 @@ class _OwnProfileState extends State<OwnProfile> {
     imageCache.clearLiveImages();
     if (_isInit) {
       await tryToGetProfile();
+      await Provider.of<CityList>(context, listen: false).fetchCity();
+      await Provider.of<LeftSideSliderIconProvider>(context, listen: false)
+          .setAllIcon();
     }
     _isInit = false;
   }

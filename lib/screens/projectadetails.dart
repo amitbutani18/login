@@ -300,7 +300,7 @@ class ProjectADetails extends StatelessWidget {
                                             ? 25
                                             : 15,
                                       ),
-                                      name: '\$ ${memberData[i].amount}',
+                                      name: '\$ ${memberData[i].dailycharge}',
                                     )
                                   ],
                                 ),

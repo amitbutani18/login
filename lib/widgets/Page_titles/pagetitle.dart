@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:login/helpers/Constant/constant.dart' as Constant;
 
 class PageTitle extends StatelessWidget {
-  const PageTitle({
-    Key key,
-    @required this.size,
-    @required this.title,
-  }) : super(key: key);
+  const PageTitle(
+      {Key key, @required this.size, @required this.title, this.callback})
+      : super(key: key);
 
   final Size size;
-
+  final Function callback;
   final String title;
 
   @override
@@ -18,10 +16,11 @@ class PageTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop();
-            // Navigator.of(context).pushNamed('/project-details');
-          },
+          onTap: callback == null
+              ? () {
+                  Navigator.of(context).pop();
+                }
+              : callback,
           child: Container(
               padding: EdgeInsets.only(top: 10),
               height: 30,

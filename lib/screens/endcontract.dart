@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:login/helpers/Providers/projectProvider.dart';
 import 'package:login/screens/projectDetails.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/Page_titles/pagetitle.dart';
@@ -7,6 +8,9 @@ import 'package:login/helpers/Constant/constant.dart' as Constant;
 
 class EndContract extends StatefulWidget {
   static const routeName = '/endContract';
+  final ByThem byThemProjectObj;
+
+  EndContract({this.byThemProjectObj});
   @override
   _EndContractState createState() => _EndContractState();
 }
@@ -76,7 +80,7 @@ class _EndContractState extends State<EndContract> {
                           height: size.height > Constant.divSize ? 15 : 10,
                         ),
                         Text(
-                          "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.",
+                          widget.byThemProjectObj.notes,
                           style: TextStyle(
                               color: Colors.white54,
                               fontSize:

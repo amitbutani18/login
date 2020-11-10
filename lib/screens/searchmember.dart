@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:login/helpers/Providers/membersprovider.dart';
 import 'package:login/screens/projectDetails.dart';
 import 'package:login/screens/teammate_profile_screen.dart';
-import 'package:login/screens/teammateprofile.dart';
 import 'package:login/widgets/custom_input_decoration.dart';
+import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/dashbord_widgets/all_request_widget.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/Page_titles/pagetitle.dart';
@@ -18,9 +18,31 @@ class SearchMember extends StatefulWidget {
 
 class _SearchMemberState extends State<SearchMember> {
   TextEditingController _searchController = TextEditingController();
+  var arg;
+  bool _isInit = true, _isLoad = false;
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    if (_isInit) {
+      setState(() {
+        _isLoad = true;
+      });
+      arg = ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+      print(arg);
+      await Provider.of<MembersProvider>(context, listen: false).searchMember(
+          what: arg['what'], where: arg['where'], list: arg['members']);
+      setState(() {
+        _isLoad = false;
+      });
+    }
+
+    _isInit = false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final memberData = Provider.of<MembersProvider>(context).items;
+    // final memberData = Provider.of<MembersProvider>(context).items;
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -51,13 +73,13 @@ class _SearchMemberState extends State<SearchMember> {
                   Padding(
                     padding: EdgeInsets.all(10),
                     child: Container(
-                      width: size.width / 1.5,
+                      width: size.width / 2,
                       child: Row(
                         children: <Widget>[
                           IconAndDetailsRowForProjectDetails(
                             size: size,
                             image: 'assets/icons/What.png',
-                            content: "Fashion Model",
+                            content: arg['what'],
                           ),
                           SizedBox(
                             width: size.height > Constant.divSize ? 20 : 0,
@@ -72,20 +94,20 @@ class _SearchMemberState extends State<SearchMember> {
                           IconAndDetailsRowForProjectDetails(
                             size: size,
                             image: 'assets/icons/Where.png',
-                            content: "London",
+                            content: arg['where'],
                           ),
-                          Container(
-                            height: 30.0,
-                            width: 2.0,
-                            color: Constant.primaryColor,
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                          ),
-                          IconAndDetailsRowForProjectDetails(
-                            size: size,
-                            image: 'assets/icons/Calender.png',
-                            content: "Fashion Model",
-                          ),
+                          // Container(
+                          //   height: 30.0,
+                          //   width: 2.0,
+                          //   color: Constant.primaryColor,
+                          //   margin:
+                          //       const EdgeInsets.only(left: 10.0, right: 10.0),
+                          // ),
+                          // IconAndDetailsRowForProjectDetails(
+                          //   size: size,
+                          //   image: 'assets/icons/Calender.png',
+                          //   content: "Fashion Model",
+                          // ),
                         ],
                       ),
                     ),
@@ -93,73 +115,174 @@ class _SearchMemberState extends State<SearchMember> {
                   SizedBox(
                     height: size.height > Constant.divSize ? 30 : 10,
                   ),
+                  Consumer<MembersProvider>(
+                    builder: (context, memberObj, ch) => Container(
+                      height: size.height / 15,
+                      child: ListView.separated(
+                        separatorBuilder: (context, i) => Container(
+                            height: size.height / 15,
+                            width: 2,
+                            color: Colors.amber),
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemBuilder: (context, i) => Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          TeamMateProfileScreen(
+                                            memberData:
+                                                memberObj.selectedMembers[i],
+                                          )));
+                                },
+                                child: Text(
+                                  memberObj.selectedMembers[i].name,
+                                  style: TextStyle(
+                                      fontSize: size.height > Constant.divSize
+                                          ? 20
+                                          : 14,
+                                      color: Constant.primaryColor),
+                                ),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.delete,
+                                  size: 15,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () {
+                                  Provider.of<MembersProvider>(context,
+                                          listen: false)
+                                      .deleteMemberFromselectedMember(
+                                          memberObj.selectedMembers[i]);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        itemCount: memberObj.selectedMembers.length,
+                      ),
+                    ),
+                  ),
                   SearchResultTitle(
                     size: size,
                   ),
                   SizedBox(
                     height: 8,
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    width: size.height > Constant.divSize ? size.width : 700,
-                    height: size.height > Constant.divSize ? 450 : 150,
-                    alignment: Alignment.topLeft,
-                    color: Colors.transparent,
-                    child: GridView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: memberData.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          // maxCrossAxisExtent: 200,
-                          childAspectRatio: 1 / 0.43,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          crossAxisCount: 3),
-                      itemBuilder: (_, i) => GestureDetector(
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    TeamMateProfileScreen(
-                                      memberData: memberData[i],
-                                    ))),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    child: Text(
-                                      memberData[i].name,
-                                      style: TextStyle(
-                                        color: Constant.primaryColor,
-                                        fontSize: size.height > Constant.divSize
-                                            ? 35
-                                            : 20,
-                                      ),
+                  Consumer<MembersProvider>(
+                    builder: (context, memberObj, ch) => Container(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      width: size.height > Constant.divSize ? size.width : 700,
+                      height: size.height > Constant.divSize ? 450 : 150,
+                      alignment: Alignment.topLeft,
+                      color: Colors.transparent,
+                      child: memberObj.items.length == 0
+                          ? Text(
+                              "No data",
+                              style: TextStyle(color: Colors.white),
+                            )
+                          : _isLoad
+                              ? CustomCircularProgressIndicator()
+                              : GridView.builder(
+                                  physics: BouncingScrollPhysics(),
+                                  itemCount: memberObj.searchedMembers.length,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          // maxCrossAxisExtent: 200,
+                                          childAspectRatio: 1 / 0.43,
+                                          crossAxisSpacing: 10,
+                                          mainAxisSpacing: 10,
+                                          crossAxisCount: 3),
+                                  itemBuilder: (_, i) => GestureDetector(
+                                    onTap: () => Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                TeamMateProfileScreen(
+                                                  memberData: memberObj
+                                                      .searchedMembers[i],
+                                                ))),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: <Widget>[
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Container(
+                                                    child: Text(
+                                                      memberObj
+                                                          .searchedMembers[i]
+                                                          .name,
+                                                      style: TextStyle(
+                                                        color: Constant
+                                                            .primaryColor,
+                                                        fontSize: size.height >
+                                                                Constant.divSize
+                                                            ? 35
+                                                            : 20,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () => Provider.of<
+                                                                MembersProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .selectMember(memberObj
+                                                            .searchedMembers[i]),
+                                                    child:
+                                                        CustomCircleAvatarForIcon(
+                                                      image:
+                                                          'assets/icons/addimgicon.png',
+                                                      radius: 12,
+                                                    ),
+                                                  ),
+                                                  Container()
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 8,
+                                              ),
+                                              IconTitle(
+                                                icon:
+                                                    'assets/icons/Location_icon.png',
+                                                title: memberObj
+                                                    .searchedMembers[i]
+                                                    .location,
+                                              ),
+                                              SizedBox(
+                                                height: 8,
+                                              ),
+                                              IconTitle(
+                                                icon:
+                                                    'assets/icons/Location_icon.png',
+                                                title: memberObj
+                                                    .searchedMembers[i]
+                                                    .dailycharge
+                                                    .toString(),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                            height: size.height / 5,
+                                            width: 2,
+                                            color: Colors.amber),
+                                      ],
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  IconTitle(
-                                    icon: 'assets/icons/Location_icon.png',
-                                    title: memberData[i].location,
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  IconTitle(
-                                    icon: 'assets/icons/Location_icon.png',
-                                    title: memberData[i].amount.toString(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            VerticalDivider(),
-                          ],
-                        ),
-                      ),
+                                ),
                     ),
                   )
                 ],
@@ -189,10 +312,13 @@ class _SearchMemberState extends State<SearchMember> {
           maxLines: maxLine,
           textInputAction: TextInputAction.done,
           enabled: enable,
-          onChanged: (val) {
-            print(val);
+          onSubmitted: (_) async {
+            await Provider.of<MembersProvider>(context, listen: false)
+                .searchMemberFromList(controller.text);
+            // controller.clear();
+            // await Provider.of<MembersProvider>(context, listen: false)
+            //     .searchMemberFromList(controller.text);
           },
-          // onSubmitted: (_) => FocusScope.of(context).nextFocus(),
           style: TextStyle(color: Constant.primaryColor, fontSize: fontSize),
           decoration: CustomInputDecoration.customInputDecoration(
                   lable, fontSize, image)

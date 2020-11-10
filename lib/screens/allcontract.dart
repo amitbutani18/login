@@ -179,7 +179,7 @@ class ProjectColumn extends StatelessWidget {
                         color: Colors.white54,
                         size: size.height > Constant.divSize ? 25 : 15,
                       ),
-                      name: (memberData[i].amount).toString(),
+                      name: (memberData[i].dailycharge).toString(),
                     ),
                     IconAndName(
                       size: size,

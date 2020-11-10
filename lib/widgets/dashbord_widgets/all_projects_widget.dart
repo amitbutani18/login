@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:login/helpers/Constant/constant.dart';
 import 'package:login/helpers/Providers/projectProvider.dart';
-import 'package:login/helpers/Providers/request_provider.dart';
 import 'package:login/screens/contract.dart';
+import 'package:login/screens/endcontract.dart';
 import 'package:login/screens/projectDetails.dart';
+import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:provider/provider.dart';
 
-import '../customcircularprogressindicator.dart';
-
-class AllRequestWidget extends StatefulWidget {
+class AllProjectsWidget extends StatefulWidget {
   @override
-  _AllRequestWidgetState createState() => _AllRequestWidgetState();
+  _AllProjectsWidgetState createState() => _AllProjectsWidgetState();
 }
 
-class _AllRequestWidgetState extends State<AllRequestWidget> {
+class _AllProjectsWidgetState extends State<AllProjectsWidget> {
   bool _isLoad = false;
   @override
   void didChangeDependencies() async {
@@ -22,8 +21,7 @@ class _AllRequestWidgetState extends State<AllRequestWidget> {
     setState(() {
       _isLoad = true;
     });
-    await Provider.of<RequestProvider>(context, listen: false)
-        .loadAllProjectRequests();
+    await Provider.of<ProjectProvider>(context, listen: false).loadAllProject();
     setState(() {
       _isLoad = false;
     });
@@ -32,7 +30,6 @@ class _AllRequestWidgetState extends State<AllRequestWidget> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(top: 8.0, left: 30, right: 10),
@@ -51,7 +48,7 @@ class _AllRequestWidgetState extends State<AllRequestWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "SEND REQUEST",
+                            "BY ME",
                             style: TextStyle(
                                 fontSize: height > divSize ? 22 : 15,
                                 color: primaryColor,
@@ -61,38 +58,30 @@ class _AllRequestWidgetState extends State<AllRequestWidget> {
                           SizedBox(
                             height: 5,
                           ),
-                          Consumer<RequestProvider>(
-                            builder: (context, requestObj, ch) => LimitedBox(
+                          Consumer<ProjectProvider>(
+                            builder: (context, projectObj, ch) => LimitedBox(
                                 maxHeight: height / 2,
                                 // maxWidth: 650 / 2 - 10,
                                 child: ListView.builder(
                                   physics: BouncingScrollPhysics(),
                                   itemBuilder: (context, i) => GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  ProjectDetails(
-                                                    byMeObj: requestObj
-                                                        .sendRequest[i],
-                                                  )))
-                                          .then((value) async {
-                                        await Provider.of<RequestProvider>(
-                                                context,
-                                                listen: false)
-                                            .loadAllProjectRequests();
-                                      });
-                                      print("object");
-                                    },
+                                    onTap: () => Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                ProjectDetails(
+                                                  byMeObj: projectObj
+                                                      .projectListByMe[i],
+                                                ))),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 8),
-                                      child: CustomRequestTile(
-                                        sendRequest: requestObj.sendRequest[i],
+                                      child: CustomByMeTile(
+                                        projectByMe:
+                                            projectObj.projectListByMe[i],
                                       ),
                                     ),
                                   ),
-                                  itemCount: requestObj.sendRequest.length,
+                                  itemCount: projectObj.projectListByMe.length,
                                 )),
                           ),
                         ],
@@ -111,7 +100,7 @@ class _AllRequestWidgetState extends State<AllRequestWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "RECEVIE REQUEST",
+                            "BY THEM",
                             style: TextStyle(
                                 fontSize: height > divSize ? 22 : 15,
                                 color: primaryColor,
@@ -121,33 +110,43 @@ class _AllRequestWidgetState extends State<AllRequestWidget> {
                           SizedBox(
                             height: 5,
                           ),
-                          Consumer<RequestProvider>(
-                            builder: (context, requestObj, ch) => LimitedBox(
+                          Consumer<ProjectProvider>(
+                            builder: (context, projectobj, ch) => LimitedBox(
                                 maxHeight: height / 2,
                                 // maxWidth: 650 / 2 - 10,
-                                child: ListView.builder(
-                                  physics: BouncingScrollPhysics(),
-                                  itemBuilder: (context, i) => GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  Contract(
-                                                    byThemPrjObj: requestObj
-                                                        .reciveRequest[i],
-                                                  )));
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8),
-                                      child: CustomReciveRequestTile(
-                                        reciveRequest:
-                                            requestObj.reciveRequest[i],
-                                      ),
-                                    ),
-                                  ),
-                                  itemCount: requestObj.reciveRequest.length,
-                                )),
+                                child: projectobj.projectListByThem.length == 0
+                                    ? Container(
+                                        padding: EdgeInsets.all(40),
+                                        child: Image.asset(
+                                            'assets/images/Recore_No_Found.png'),
+                                      )
+                                    : ListView.builder(
+                                        physics: BouncingScrollPhysics(),
+                                        itemBuilder: (context, i) =>
+                                            GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        EndContract(
+                                                          byThemProjectObj:
+                                                              projectobj
+                                                                  .projectListByThem[i],
+                                                        )));
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8),
+                                            child: CustomByThemTile(
+                                              projectByThem: projectobj
+                                                  .projectListByThem[i],
+                                            ),
+                                          ),
+                                        ),
+                                        itemCount:
+                                            projectobj.projectListByThem.length,
+                                      )),
                           ),
                         ],
                       ),
@@ -160,12 +159,12 @@ class _AllRequestWidgetState extends State<AllRequestWidget> {
   }
 }
 
-class CustomReciveRequestTile extends StatelessWidget {
-  final Receiverequest reciveRequest;
+class CustomByThemTile extends StatelessWidget {
+  final ByThem projectByThem;
 
-  const CustomReciveRequestTile({
+  const CustomByThemTile({
     Key key,
-    this.reciveRequest,
+    this.projectByThem,
   }) : super(key: key);
 
   @override
@@ -175,7 +174,7 @@ class CustomReciveRequestTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            reciveRequest.name,
+            projectByThem.name,
             style: TextStyle(
                 fontSize: 20,
                 color: Colors.white,
@@ -188,7 +187,7 @@ class CustomReciveRequestTile extends StatelessWidget {
               children: [
                 IconTitle(
                   icon: 'assets/icons/Location_icon.png',
-                  title: reciveRequest.where,
+                  title: projectByThem.where,
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 5),
@@ -199,7 +198,7 @@ class CustomReciveRequestTile extends StatelessWidget {
                 IconTitle(
                   icon: 'assets/icons/Calender_icon.png',
                   title: DateFormat("dd/MM/yyyy")
-                      .format(DateTime.parse(reciveRequest.startDate)),
+                      .format(DateTime.parse(projectByThem.startDate)),
                 ),
               ],
             ),
@@ -210,12 +209,12 @@ class CustomReciveRequestTile extends StatelessWidget {
   }
 }
 
-class CustomRequestTile extends StatelessWidget {
-  final Byme sendRequest;
+class CustomByMeTile extends StatelessWidget {
+  final Byme projectByMe;
 
-  const CustomRequestTile({
+  const CustomByMeTile({
     Key key,
-    @required this.sendRequest,
+    @required this.projectByMe,
   }) : super(key: key);
 
   @override
@@ -225,41 +224,41 @@ class CustomRequestTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            sendRequest.name,
+            projectByMe.name,
             style: TextStyle(
                 fontSize: 18,
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
                 letterSpacing: 1),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
-            child: Row(
-              children: [
-                IconTitle(
-                  icon: 'assets/icons/User_Icon.png',
-                  title: sendRequest.what,
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  width: 1,
-                  height: 10,
-                  color: Colors.grey,
-                ),
-                IconTitle(
-                  icon: 'assets/icons/Dollar_icon.png',
-                  title: sendRequest.price.toString(),
-                ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(vertical: 5.0),
+          //   child: Row(
+          //     children: [
+          //       IconTitle(
+          //         icon: 'assets/icons/User_Icon.png',
+          //         title: sendRequest.userName,
+          //       ),
+          //       Container(
+          //         margin: EdgeInsets.symmetric(horizontal: 5),
+          //         width: 1,
+          //         height: 10,
+          //         color: Colors.grey,
+          //       ),
+          //       IconTitle(
+          //         icon: 'assets/icons/Dollar_icon.png',
+          //         title: sendRequest.rate.toString(),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: Row(
               children: [
                 IconTitle(
                   icon: 'assets/icons/Location_icon.png',
-                  title: sendRequest.where,
+                  title: projectByMe.where,
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 5),
@@ -270,7 +269,7 @@ class CustomRequestTile extends StatelessWidget {
                 IconTitle(
                   icon: 'assets/icons/Calender_icon.png',
                   title: DateFormat("dd/MM/yyyy")
-                      .format(DateTime.parse(sendRequest.startDate)),
+                      .format(DateTime.parse(projectByMe.endDate)),
                 ),
               ],
             ),

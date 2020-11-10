@@ -10,6 +10,7 @@ import 'package:login/screens/editprofile.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/Page_titles/pagetitle.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/rendering.dart';
 import 'package:login/helpers/Constant/constant.dart' as Constant;
@@ -43,14 +44,21 @@ class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
   bool _load = false;
   String _qrData = "Amit Butani";
   ProfileModal objProfileModal;
+  bool _isContain;
 
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
     imageCache.clear();
     imageCache.clearLiveImages();
+
     if (_isInit) {
       // await tryToGetProfile();
+      final list =
+          Provider.of<MembersProvider>(context, listen: false).selectedMembers;
+      setState(() {
+        _isContain = list.contains(widget.memberData);
+      });
     }
     _isInit = false;
   }
@@ -102,21 +110,29 @@ class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
   Row customFloatingButton(BuildContext context, Size size) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushNamed(ContractDetails.routeName);
-          },
-          child: Container(
-            padding: EdgeInsets.all(0),
-            margin: EdgeInsets.only(right: 0),
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: 25,
-              child: Image.asset('assets/icons/contractDetail.png'),
-            ),
-          ),
-        ),
+        _isContain
+            ? Container()
+            : GestureDetector(
+                onTap: () {
+                  Provider.of<MembersProvider>(context, listen: false)
+                      .selectMember(widget.memberData);
+                  setState(() {
+                    _isContain = !_isContain;
+                  });
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  padding: EdgeInsets.all(0),
+                  margin: EdgeInsets.only(right: 0),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 25,
+                    child: Image.asset('assets/icons/contractDetail.png'),
+                  ),
+                ),
+              ),
         SizedBox(
           width: 10,
         ),
@@ -223,7 +239,8 @@ class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
               backgroundColor: Colors.transparent,
               backgroundImage: widget.memberData.profileimg == ""
                   ? AssetImage('assets/images/profileimage.png')
-                  : NetworkImage(widget.memberData.profileimg),
+                  : NetworkImage(
+                      Constant.imageLink + widget.memberData.profileimg),
             ),
             customSizedBox(size, 10),
             Text(
@@ -234,8 +251,8 @@ class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
               ),
             ),
             customSizedBox(size, 10),
-            customTitleContent(
-                size, "Company Name", widget.memberData.companyname),
+            // customTitleContent(
+            //     size, "Company Name", widget.memberData.companyname),
             customSizedBox(size, 15),
             customTitleContent(
               size,
@@ -287,10 +304,10 @@ class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
                 itemCount: widget.memberData.otherlink.length, //_links.length,
                 itemBuilder: (context, i) => YouLink(
                   size: size,
-                  heading: widget.memberData.otherlink[i]
-                      ['title'], //_links[i]['title'],
-                  link: widget.memberData.otherlink[i]
-                      ['link'], // _links[i]['link'],
+                  heading: widget
+                      .memberData.otherlink[i].title, //_links[i]['title'],
+                  link:
+                      widget.memberData.otherlink[i].link, // _links[i]['link'],
                   scaffoldKey: _scaffoldKey,
                 ),
               ),

@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:login/API/profileapi.dart';
+import 'package:login/helpers/citylist.dart';
+import 'package:login/helpers/dashboard_method.dart';
+import 'package:login/helpers/slider/leftsideslidericonprovider.dart';
 import 'package:login/screens/ownprofile.dart';
 import 'package:login/widgets/cardmonthinputformatter.dart';
 import 'package:login/widgets/cardnumberinputformateer.dart';
@@ -33,9 +36,9 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _emailController;
   TextEditingController _aboutUSController;
   TextEditingController _workingHistoryController;
-  TextEditingController _locationController;
+  // TextEditingController _locationController;
   TextEditingController _creditController;
-  TextEditingController _occuptionController;
+  // TextEditingController _occuptionController;
   TextEditingController _cvvController;
   TextEditingController _pinController;
   TextEditingController _dailyChargeController;
@@ -53,6 +56,7 @@ class _EditProfileState extends State<EditProfile> {
   bool _isLoad = false;
   List<dynamic> data = [], newList = [];
   int _length, _type = 0;
+  String _location, _occupation;
 
   var fieldCount;
 
@@ -68,12 +72,12 @@ class _EditProfileState extends State<EditProfile> {
           TextEditingController(text: widget.objProfileModal.name);
       _companyNameController =
           TextEditingController(text: widget.objProfileModal.companyname);
-      _locationController =
-          TextEditingController(text: widget.objProfileModal.location);
+      // _locationController =
+      //     TextEditingController(text: widget.objProfileModal.location);
       _creditController =
           TextEditingController(text: widget.objProfileModal.creditcard);
-      _occuptionController =
-          TextEditingController(text: widget.objProfileModal.occupation);
+      // _occuptionController =
+      //     TextEditingController(text: widget.objProfileModal.occupation);
       _cvvController =
           TextEditingController(text: widget.objProfileModal.cardcvv);
       _pinController =
@@ -92,6 +96,8 @@ class _EditProfileState extends State<EditProfile> {
       _linkedinController =
           TextEditingController(text: widget.objProfileModal.linkdin);
       _initialImage = widget.objProfileModal.profileimg;
+      _occupation = widget.objProfileModal.occupation;
+      _location = widget.objProfileModal.location;
       // final listList = Provider.of<LinkProvider>(context, listen: false).items;
       data = widget.objProfileModal.otherlink;
       _length = data.length;
@@ -115,9 +121,9 @@ class _EditProfileState extends State<EditProfile> {
     _emailController.dispose();
     _aboutUSController.dispose();
     _workingHistoryController.dispose();
-    _locationController.dispose();
+    // _locationController.dispose();
     _creditController.dispose();
-    _occuptionController.dispose();
+    // _occuptionController.dispose();
     _cvvController.dispose();
     _pinController.dispose();
     _dailyChargeController.dispose();
@@ -131,6 +137,8 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    final cityList = Provider.of<CityList>(context).items;
+    final item = Provider.of<LeftSideSliderIconProvider>(context).allIcon;
     // final links = Provider.of<LinkProvider>(context).items;
     // var lenght = links.length;
 
@@ -356,22 +364,24 @@ class _EditProfileState extends State<EditProfile> {
                                     ),
                                     //Location
                                     size.height > Constant.divSize
-                                        ? _formField(
-                                            'Location',
-                                            size.width / 2 - 42,
-                                            30,
-                                            'assets/icons/Locationicon.png',
-                                            TextInputType.text,
-                                            _locationController,
+                                        ? GestureDetector(
+                                            onTap: () =>
+                                                _showMyDialog(cityList),
+                                            child: _formFieldForWhatAndWhere(
+                                                lable: 'Where',
+                                                fontSize: 15,
+                                                image: 'assets/icons/Where.png',
+                                                width: size.width / 2 - 42),
                                           )
-                                        : _formField(
-                                            'Location',
-                                            size.width / 2 - 42,
-                                            15,
-                                            'assets/icons/Locationicon.png',
-                                            TextInputType.text,
-                                            _locationController,
-                                          ),
+                                        : GestureDetector(
+                                            onTap: () =>
+                                                _showMyDialog(cityList),
+                                            child: _formFieldForWhatAndWhere(
+                                                lable: 'Where',
+                                                fontSize: 15,
+                                                image: 'assets/icons/Where.png',
+                                                width: size.width / 2 - 42),
+                                          )
                                   ],
                                 ),
                                 SizedBox(height: 20),
@@ -398,20 +408,26 @@ class _EditProfileState extends State<EditProfile> {
                                     ),
                                     //Occupation
                                     size.height > Constant.divSize
-                                        ? _formField(
-                                            'Occuption',
-                                            size.width / 2 - 42,
-                                            30,
-                                            'assets/icons/Profession.png',
-                                            TextInputType.text,
-                                            _occuptionController)
-                                        : _formField(
-                                            'Occuption',
-                                            size.width / 2 - 42,
-                                            15,
-                                            'assets/icons/Profession.png',
-                                            TextInputType.text,
-                                            _occuptionController),
+                                        ? GestureDetector(
+                                            onTap: () =>
+                                                _showIconMyDialog(item),
+                                            child: _formFieldForWhatAndWhere(
+                                              lable: 'What',
+                                              fontSize: 15,
+                                              image: 'assets/icons/What.png',
+                                              width: size.width / 2 - 30,
+                                            ),
+                                          )
+                                        : GestureDetector(
+                                            onTap: () =>
+                                                _showIconMyDialog(item),
+                                            child: _formFieldForWhatAndWhere(
+                                              lable: 'Occupation',
+                                              fontSize: 15,
+                                              image: 'assets/icons/What.png',
+                                              width: size.width / 2 - 42,
+                                            ),
+                                          ),
                                   ],
                                 ),
                                 SizedBox(
@@ -627,6 +643,106 @@ class _EditProfileState extends State<EditProfile> {
   //     {Size size, String hintText, TextEditingController controller}) {
   //   return
   // }
+
+  Future<void> _showIconMyDialog(List<String> list) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return Consumer<DashBoardMethods>(
+          builder: (context, dashboardMethods, ch) => AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            backgroundColor: Color.fromRGBO(37, 36, 41, 1),
+            content: Container(
+              height: 200,
+              width: 200,
+              child: ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: list.length,
+                itemBuilder: (context, i) => Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        dashboardMethods.changeWhereValue(list[i]);
+                        setState(() {
+                          _occupation = list[i];
+                          // _locationSelect = true;
+                        });
+                        Navigator.of(context).pop();
+                      },
+                      child: ListTile(
+                        title: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            list[i],
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.white24,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _showMyDialog(List<City> cityList) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return Consumer<DashBoardMethods>(
+          builder: (context, dashboardMethods, ch) => AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            backgroundColor: Color.fromRGBO(37, 36, 41, 1),
+            content: Container(
+              height: 200,
+              width: 200,
+              child: ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: cityList.length,
+                itemBuilder: (context, i) => Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        dashboardMethods.changeWhereValue(cityList[i].cityName);
+                        setState(() {
+                          _location = cityList[i].cityName;
+                          // _locationSelect = true;
+                        });
+                        Navigator.of(context).pop();
+                      },
+                      child: ListTile(
+                        title: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            cityList[i].cityName,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.white24,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   Container expiryDateField(Size size) {
     return Container(
@@ -852,6 +968,45 @@ class _EditProfileState extends State<EditProfile> {
     return true;
   }
 
+  Widget _formFieldForWhatAndWhere(
+      {String lable, double width, double fontSize, String image}) {
+    return Container(
+      width: width,
+      child: TextFormField(
+        enabled: false,
+        cursorColor: Colors.black,
+        style: TextStyle(
+          color: Constant.primaryColor,
+          fontSize: fontSize,
+        ),
+        decoration: InputDecoration(
+          disabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Constant.primaryColor)),
+          hintText: lable == 'Occupation'
+              ? _occupation == null ? 'Occupation' : _occupation
+              : _location == null ? 'Location' : _location,
+          hintStyle: TextStyle(
+              color: Constant.primaryColor, height: 1.5, fontSize: fontSize),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Constant.primaryColor),
+          ),
+          prefixIcon: Container(
+            padding: EdgeInsets.all(8),
+            margin: EdgeInsets.only(right: 0),
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: 10,
+              child: Image.asset(image),
+            ),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Constant.primaryColor),
+          ),
+        ),
+      ),
+    );
+  }
+
   void _submit() async {
     // print("fieldCount");
     for (var i = 0; i < titleController.length; i++) {
@@ -883,9 +1038,9 @@ class _EditProfileState extends State<EditProfile> {
       });
       await Provider.of<ProfileApi>(context, listen: false).updatePro(
         name: _fstNameController.text.trim(),
-        location: _locationController.text.trim(),
+        location: _location,
         creditcard: _creditController.text.trim(),
-        occupation: _occuptionController.text.trim(),
+        occupation: _occupation,
         cvv: _cvvController.text.trim(),
         pin: _pinController.text.trim(),
         date: _dateChangeController.text.trim(),

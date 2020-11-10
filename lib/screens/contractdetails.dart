@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:login/helpers/Providers/contract_details_provider.dart';
+import 'package:intl/intl.dart';
+import 'package:login/helpers/Providers/membersprovider.dart';
+import 'package:login/helpers/Providers/projectProvider.dart';
 import 'package:login/screens/contract.dart';
 import 'package:login/widgets/custom_input_decoration.dart';
 import 'package:login/widgets/pagebackground.dart';
@@ -10,27 +12,58 @@ import 'package:provider/provider.dart';
 class ContractDetails extends StatefulWidget {
   static const routeName = '/contractDetails';
 
+  ContractDetails({
+    this.what,
+    this.where,
+    this.address,
+    this.endDate,
+    this.link,
+    this.notes,
+    this.rate,
+    this.startDate,
+    this.projectName,
+    this.usages,
+  });
+
+  final String what,
+      where,
+      projectName,
+      startDate,
+      endDate,
+      rate,
+      link,
+      usages,
+      address,
+      notes;
+
   @override
   _ContractDetailsState createState() => _ContractDetailsState();
 }
 
 class _ContractDetailsState extends State<ContractDetails> {
   List<TextEditingController> taskListController = [];
-  List<Map> data = [], newList = [];
+  List<String> data = [], newList = [];
   int _length;
   var fieldCount;
-  ContractD contract;
+  // ContractD contract;
 
   bool _isEdit = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    contract =
-        Provider.of<ContractDetailProvider>(context, listen: false).contract;
-    data = contract.taskList;
+    // contract =
+    //     Provider.of<ContractDetailProvider>(context, listen: false).contract;
+    // data = contract.taskList;
     _length = data.length;
     fieldCount = data.length;
+
+    print(widget.what);
+    print(widget.where);
+    print(widget.address);
+    print(widget.startDate);
+    print(widget.endDate);
+    print(widget.notes);
   }
 
   @override
@@ -43,12 +76,12 @@ class _ContractDetailsState extends State<ContractDetails> {
   }
 
   List<Widget> _buildList() {
-    for (var i = 0; i < _length; i++) {
-      if (data[i]['init'] == false) {
-        taskListController.add(TextEditingController(text: data[i]['content']));
-        data[i]['init'] = true;
-      }
-    }
+    // for (var i = 0; i < _length; i++) {
+    //   if (data[i]['init'] == false) {
+    //     taskListController.add(TextEditingController(text: data[i]['content']));
+    //     data[i]['init'] = true;
+    //   }
+    // }
 
     if (taskListController.length < fieldCount) {
       for (var i = taskListController.length; i < fieldCount; i++) {
@@ -115,48 +148,46 @@ class _ContractDetailsState extends State<ContractDetails> {
       body: Stack(
         children: <Widget>[
           PageBackground(size: size, imagePath: 'assets/background.png'),
-          Consumer<ContractDetailProvider>(
-            builder: (context, contractDetails, ch) => Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    PageTitle(size: size, title: "Contract Detils"),
-                    SizedBox(
-                      height: size.height > Constant.divSize ? 20 : 8,
-                    ),
-                    Padding(
-                      padding: size.height > Constant.divSize
-                          ? const EdgeInsets.all(28.0)
-                          : const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          customTitleContent(size, "Project",
-                              contractDetails.contract.projectDetail),
-                          SizedBox(
-                            height: size.height > Constant.divSize ? 25 : 10,
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  PageTitle(size: size, title: "Contract Detils"),
+                  SizedBox(
+                    height: size.height > Constant.divSize ? 20 : 8,
+                  ),
+                  Padding(
+                    padding: size.height > Constant.divSize
+                        ? const EdgeInsets.all(28.0)
+                        : const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        customTitleContent(size, "Project", widget.notes),
+                        SizedBox(
+                          height: size.height > Constant.divSize ? 25 : 10,
+                        ),
+                        customTitleContent(size, "Location", widget.where),
+                        SizedBox(
+                          height: size.height > Constant.divSize ? 25 : 10,
+                        ),
+                        Text(
+                          'Team Member',
+                          style: TextStyle(
+                            color: Constant.primaryColor,
+                            fontSize: size.height > Constant.divSize
+                                ? 25
+                                : size.width < 600 ? 10 : 15,
                           ),
-                          customTitleContent(size, "Location",
-                              contractDetails.contract.location),
-                          SizedBox(
-                            height: size.height > Constant.divSize ? 25 : 10,
-                          ),
-                          Text(
-                            'Team Member',
-                            style: TextStyle(
-                              color: Constant.primaryColor,
-                              fontSize: size.height > Constant.divSize
-                                  ? 25
-                                  : size.width < 600 ? 10 : 15,
-                            ),
-                          ),
-                          SizedBox(
-                            height: size.height > Constant.divSize ? 15 : 10,
-                          ),
-                          Container(
+                        ),
+                        SizedBox(
+                          height: size.height > Constant.divSize ? 15 : 10,
+                        ),
+                        Consumer<MembersProvider>(
+                          builder: (context, memberObj, ch) => Container(
                             height: 30,
                             width: size.width,
                             child: ListView.builder(
@@ -165,7 +196,7 @@ class _ContractDetailsState extends State<ContractDetails> {
                               itemBuilder: (context, i) => Padding(
                                   padding: const EdgeInsets.only(bottom: 8.0),
                                   child: Text(
-                                    contractDetails.contract.teamMembers[i],
+                                    memberObj.selectedMembers[i].name,
                                     style: TextStyle(
                                       color: Colors.white60,
                                       fontSize: size.height > Constant.divSize
@@ -173,92 +204,95 @@ class _ContractDetailsState extends State<ContractDetails> {
                                           : size.width < 600 ? 10 : 15,
                                     ),
                                   )),
-                              itemCount:
-                                  contractDetails.contract.taskList.length,
+                              itemCount: memberObj.selectedMembers.length,
                             ),
                           ),
-                          SizedBox(
-                            height: size.height > Constant.divSize ? 25 : 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Task',
-                                style: TextStyle(
-                                  color: Constant.primaryColor,
-                                  fontSize: size.height > Constant.divSize
-                                      ? 25
-                                      : size.width < 600 ? 10 : 15,
-                                ),
+                        ),
+                        SizedBox(
+                          height: size.height > Constant.divSize ? 25 : 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Task',
+                              style: TextStyle(
+                                color: Constant.primaryColor,
+                                fontSize: size.height > Constant.divSize
+                                    ? 25
+                                    : size.width < 600 ? 10 : 15,
                               ),
-                              GestureDetector(
-                                onTap: !_isEdit
-                                    ? () {
-                                        setState(() {
-                                          _isEdit = !_isEdit;
-                                        });
-                                        print(data.length);
-                                      }
-                                    : () {
-                                        setState(() {
-                                          fieldCount++;
-                                        });
-                                        print(data.length);
-                                      },
-                                child: Container(
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.transparent,
-                                    radius: 15,
-                                    child: _isEdit
-                                        ? Image.asset(
-                                            'assets/icons/profileIcon.png')
-                                        : Image.asset(
-                                            'assets/icons/Edit_Icon.png'),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          Container(
-                            color: _isEdit
-                                ? Colors.grey.withOpacity(.2)
-                                : Colors.grey.withOpacity(0),
-                            padding: EdgeInsets.only(left: 20),
-                            margin: EdgeInsets.only(right: 30),
-                            child: ListView(
-                              shrinkWrap: true,
-                              children: children,
                             ),
-                          ),
-                          SizedBox(
-                            height: 25,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  iconContent(
-                                      size: size,
-                                      content: contractDetails.contract.amount,
-                                      image: 'assets/icons/Amount.png'),
-                                  SizedBox(
-                                    width: 25,
-                                  ),
-                                  iconContent(
-                                      size: size,
-                                      content: contractDetails.contract.amount,
-                                      image: 'assets/icons/Select_Date.png'),
-                                ],
+                            GestureDetector(
+                              onTap: !_isEdit
+                                  ? () {
+                                      setState(() {
+                                        _isEdit = !_isEdit;
+                                      });
+                                      print(data.length);
+                                    }
+                                  : () {
+                                      setState(() {
+                                        fieldCount++;
+                                      });
+                                      print(data.length);
+                                    },
+                              child: Container(
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  radius: 15,
+                                  child: _isEdit
+                                      ? Image.asset(
+                                          'assets/icons/profileIcon.png')
+                                      : Image.asset(
+                                          'assets/icons/Edit_Icon.png'),
+                                ),
                               ),
-                            ],
-                          )
-                        ],
-                      ),
+                            )
+                          ],
+                        ),
+                        Container(
+                          color: _isEdit
+                              ? Colors.grey.withOpacity(.2)
+                              : Colors.grey.withOpacity(0),
+                          padding: EdgeInsets.only(left: 20),
+                          margin: EdgeInsets.only(right: 30),
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: children,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                iconContent(
+                                    size: size,
+                                    content: widget.rate,
+                                    image: 'assets/icons/Amount.png'),
+                                SizedBox(
+                                  width: 25,
+                                ),
+                                iconContent(
+                                    size: size,
+                                    content: DateFormat('dd-MMM').format(
+                                            DateTime.parse(widget.startDate)) +
+                                        '-' +
+                                        DateFormat('dd-MMM-yyyy').format(
+                                            DateTime.parse(widget.endDate)),
+                                    image: 'assets/icons/Select_Date.png'),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -273,12 +307,38 @@ class _ContractDetailsState extends State<ContractDetails> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         GestureDetector(
-          onTap: () {
+          onTap: () async {
+            print(taskListController.length);
+            newList.clear();
             for (var i = 0; i < taskListController.length; i++) {
               newList.add(
-                {'content': taskListController[i].text, 'init': false},
+                taskListController[i].text,
               );
             }
+            final selectedMemberList =
+                Provider.of<MembersProvider>(context, listen: false)
+                    .selectedMembers;
+            List<Map> list = [];
+            for (var i = 0; i < selectedMemberList.length; i++) {
+              list.add(
+                {"userid": selectedMemberList[i].id, "status": 0},
+              );
+            }
+            await Provider.of<ProjectProvider>(context, listen: false)
+                .addProject(
+              where: widget.where,
+              what: widget.what,
+              startDate: widget.startDate,
+              endDate: widget.endDate,
+              link: widget.link,
+              notes: widget.notes,
+              projectName: widget.projectName,
+              address: widget.address,
+              memberList: list,
+              rate: widget.rate,
+              usages: widget.usages,
+              taskList: newList,
+            );
             print(newList);
           },
           child: Container(

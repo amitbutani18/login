@@ -11,6 +11,7 @@ import 'package:login/helpers/slider/topslidericonprovider.dart';
 import 'package:login/widgets/bottomfirstslider.dart';
 import 'package:login/widgets/bottomsecslider.dart';
 import 'package:login/widgets/customcircularprogressindicator.dart';
+import 'package:login/widgets/dashbord_widgets/all_projects_widget.dart';
 import 'package:login/widgets/dashbord_widgets/all_request_widget.dart';
 import 'package:login/widgets/dashbord_widgets/dashborddrawer.dart';
 import 'package:login/widgets/dashbord_widgets/notificatin_widget.dart';
@@ -325,6 +326,9 @@ class _PickRoomState extends State<PickRoom> {
       case 'allRequest':
         return AllRequestWidget();
         break;
+      case 'hired':
+        return AllProjectsWidget();
+        break;
       default:
         return dashboardMainWidget(size, context, cityList, imageUrl);
         break;
@@ -342,7 +346,10 @@ class _PickRoomState extends State<PickRoom> {
         return 'assets/images/profilebackground.png';
         break;
       case 'allRequest':
-        return 'assets/images/profilebackground.png';
+        return 'assets/images/projectDetailBackground.png';
+        break;
+      case 'hired':
+        return 'assets/images/projectDetailBackground.png';
         break;
       default:
         return 'assets/background.png';
