@@ -40,4 +40,37 @@ class GetConstant {
       ),
     );
   }
+
+  Text text(
+      {@required String text,
+      double fontSize = 20,
+      Color color = Colors.white,
+      FontWeight fontWeight = FontWeight.normal,
+      double letterSpacing = 1}) {
+    return Text(
+      text,
+      style: TextStyle(
+          fontSize: fontSize,
+          color: color,
+          fontWeight: fontWeight,
+          letterSpacing: letterSpacing),
+    );
+  }
+
+  static Container customContainerForDivideValueInList() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 5),
+      width: 1,
+      height: 10,
+      color: Colors.grey,
+    );
+  }
+
+  static Container customVerticalDivider(double height) {
+    return Container(
+      height: height / 2,
+      width: 3,
+      color: Colors.amber.withOpacity(.5),
+    );
+  }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:login/screens/dashboard.dart';
+import 'package:login/screens/teammate_profile_screen.dart';
 import 'package:login/screens/teammateprofile.dart';
 import 'package:login/widgets/pagebackground.dart';
 import 'package:login/widgets/sliderightroute.dart';
@@ -81,7 +83,7 @@ class _SearchChateMemberState extends State<SearchChateMember> {
                         onTap: () => Navigator.push(
                           context,
                           SlideRightRoute(
-                            page: TeamMateProfile(),
+                            page: PickRoom(),
                           ),
                         ),
                         child: CircleAvatar(

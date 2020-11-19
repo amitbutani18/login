@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/API/logout.dart';
+import 'package:login/helpers/dashboard_method.dart';
+import 'package:login/helpers/slider/topslidericonprovider.dart';
 import 'package:login/screens/addproject.dart';
 import 'package:login/screens/loginscreen.dart';
 import 'package:login/screens/ownprofile.dart';
@@ -60,16 +62,20 @@ class DashbordDrawer extends StatelessWidget {
             Navigator.of(context).pushNamed(SettingScreen.routeName);
           },
         ),
-        IconButton(
-          color: Constant.primaryColor,
-          icon: Icon(Icons.add),
-          onPressed: () async {
-            Navigator.of(context).pop();
-            Navigator.of(context).pushNamed(ProjectDetails.routeName);
-          },
-        ),
+        // IconButton(
+        //   color: Constant.primaryColor,
+        //   icon: Icon(Icons.add),
+        //   onPressed: () async {
+        //     Navigator.of(context).pop();
+        //     Navigator.of(context).pushNamed(ProjectDetails.routeName);
+        //   },
+        // ),
         GestureDetector(
           onTap: () {
+            Provider.of<DashBoardMethods>(context, listen: false)
+                .changeDashboardWidget('');
+            Provider.of<TopSliderIconProvider>(context, listen: false)
+                .resetIcons();
             _showMyDialog(context);
           },
           child: Container(

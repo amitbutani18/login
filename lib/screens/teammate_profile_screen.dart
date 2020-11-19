@@ -247,10 +247,10 @@ class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
               widget.memberData.name,
               style: TextStyle(
                 color: Constant.primaryColor,
-                fontSize: size.height > Constant.divSize ? 35 : 20,
+                fontSize: size.width < 600 ? 15 : 20,
               ),
             ),
-            customSizedBox(size, 10),
+            // customSizedBox(size, 10),
             // customTitleContent(
             //     size, "Company Name", widget.memberData.companyname),
             customSizedBox(size, 15),
@@ -338,7 +338,7 @@ class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
                       direction: Axis.horizontal,
                       // ignoreGestures: true,
                       itemCount: 5,
-                      itemSize: 25,
+                      itemSize: size.width < 600 ? 20 : 25,
                       unratedColor: Colors.grey,
                       itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
                       itemBuilder: (context, _) => Padding(
@@ -370,7 +370,7 @@ class _TeamMateProfileScreenState extends State<TeamMateProfileScreen> {
                       height: 10,
                     ),
                     Text(
-                      "value2",
+                      "\$ " + widget.memberData.dailycharge,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: size.height > Constant.divSize

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:login/helpers/Providers/membersprovider.dart';
 import 'package:login/helpers/Providers/projectProvider.dart';
 import 'package:login/helpers/Providers/projectdetailsprovider.dart';
 import 'package:login/screens/addproject.dart';
@@ -23,6 +24,17 @@ class ProjectDetails extends StatefulWidget {
 
 class _ProjectDetailsState extends State<ProjectDetails> {
   @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    await Provider.of<MembersProvider>(context, listen: false).searchMember(
+        what: widget.byMeObj.what,
+        where: widget.byMeObj.where,
+        members: widget.byMeObj.members);
+    Provider.of<MembersProvider>(context, listen: false)
+        .addMembersForoProjectDetail(widget.byMeObj.members);
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
@@ -41,7 +53,14 @@ class _ProjectDetailsState extends State<ProjectDetails> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  PageTitle(size: size, title: "Project Details"),
+                  PageTitle(
+                      size: size,
+                      title: "Project Details",
+                      callback: () {
+                        Provider.of<MembersProvider>(context, listen: false)
+                            .clearSelectedMember();
+                        Navigator.of(context).pop();
+                      }),
                   SizedBox(
                     height: 20,
                   ),
@@ -154,21 +173,27 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                         SizedBox(
                           width: 12,
                         ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: widget.byMeObj.members.length,
-                              itemBuilder: (context, i) => Text(
-                                    widget.byMeObj.members[i].sId,
-                                    style: TextStyle(
-                                        fontSize: size.height > Constant.divSize
-                                            ? 22
-                                            : 15,
-                                        color: Colors.white54,
-                                        letterSpacing: 1),
-                                  )),
+                        Consumer<MembersProvider>(
+                          builder: (context, memberObj, ch) => Align(
+                            alignment: Alignment.center,
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: memberObj
+                                    .memberForProjectDetailScreen.length,
+                                itemBuilder: (context, i) => Text(
+                                      memberObj.memberForProjectDetailScreen[i]
+                                              .name +
+                                          " ",
+                                      style: TextStyle(
+                                          fontSize:
+                                              size.height > Constant.divSize
+                                                  ? 22
+                                                  : 15,
+                                          color: Colors.white54,
+                                          letterSpacing: 1),
+                                    )),
+                          ),
                         )
                       ],
                     ),
@@ -182,28 +207,48 @@ class _ProjectDetailsState extends State<ProjectDetails> {
     );
   }
 
-  GestureDetector addMemberButton(Size size, BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // if (_checked) {
+  _submit() async {
+    Provider.of<MembersProvider>(context, listen: false)
+        .getNewMember(widget.byMeObj.members);
+    await Provider.of<MembersProvider>(context, listen: false)
+        .addNewMemberInProject();
+    await Provider.of<ProjectProvider>(context, listen: false).loadAllProject();
+    Provider.of<MembersProvider>(context, listen: false).clearSelectedMember();
+    Provider.of<MembersProvider>(context, listen: false).clearAddedMemberList();
+    Navigator.of(context).pop();
+  }
 
-        // _submit();
-        Navigator.of(context).pushNamed(SearchMember.routeName, arguments: {
-          "what": widget.byMeObj.what,
-          "where": widget.byMeObj.where,
-          "members": widget.byMeObj.members
-        });
-        // Navigator.pop(context, true);
-        // } else {
-        //   CustomSnackBar(context, "Please agree SUPREME card policy",
-        //       SnackBartype.nagetive);
-        // }
-      },
-      child: Container(
-        child: CircleAvatar(
-            backgroundColor: Colors.transparent,
-            radius: size.height > Constant.divSize ? 40 : 30,
-            child: Image.asset('assets/icons/Add_Team_Member.png')),
+  Widget addMemberButton(Size size, BuildContext context) {
+    return Consumer<MembersProvider>(
+      builder: (context, membersObj, ch) => Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          GestureDetector(
+            onTap: _submit,
+            child: Container(
+              child: CustomCircleAvatarForIcon(
+                  radius: size.height > Constant.divSize ? 40 : 30,
+                  image: 'assets/icons/Acept.png'),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context)
+                  .pushNamed(SearchMember.routeName, arguments: {
+                "what": widget.byMeObj.what,
+                "where": widget.byMeObj.where,
+                "members": membersObj.selectedMembers.length == 0
+                    ? widget.byMeObj.members
+                    : List<Members>(),
+              });
+            },
+            child: Container(
+              child: CustomCircleAvatarForIcon(
+                  radius: size.height > Constant.divSize ? 40 : 30,
+                  image: 'assets/icons/Add_Team_Member.png'),
+            ),
+          ),
+        ],
       ),
     );
   }

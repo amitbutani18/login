@@ -127,7 +127,7 @@ class _AddProjectState extends State<AddProject> {
                             _formField(
                               lable: 'Project title',
                               width: size.width - 48,
-                              fontSize: 15,
+                              fontSize: size.width < 600 ? 12 : 15,
                               image: 'assets/icons/Lickicon.png',
                               textInputType: TextInputType.text,
                               controller: _projectNameController,
@@ -142,7 +142,7 @@ class _AddProjectState extends State<AddProject> {
                                   onTap: () => _showIconMyDialog(item),
                                   child: _formFieldForWhatAndWhere(
                                     lable: 'What',
-                                    fontSize: 15,
+                                    fontSize: size.width < 600 ? 12 : 15,
                                     image: 'assets/icons/What.png',
                                     width: size.width / 2 - 30,
                                   ),
@@ -154,7 +154,7 @@ class _AddProjectState extends State<AddProject> {
                                   onTap: () => _showMyDialog(cityList),
                                   child: _formFieldForWhatAndWhere(
                                       lable: 'Where',
-                                      fontSize: 15,
+                                      fontSize: size.width < 600 ? 12 : 15,
                                       image: 'assets/icons/Where.png',
                                       width: size.width / 2 - 30),
                                   // child: _formField(
@@ -183,7 +183,7 @@ class _AddProjectState extends State<AddProject> {
                                 _formField(
                                   lable: 'Rate',
                                   width: size.width / 2 - 30,
-                                  fontSize: 15,
+                                  fontSize: size.width < 600 ? 12 : 15,
                                   image: 'assets/icons/Dollar.png',
                                   textInputType: TextInputType.number,
                                   controller: _rateController,
@@ -197,7 +197,7 @@ class _AddProjectState extends State<AddProject> {
                             _formField(
                               lable: 'Address',
                               width: size.width - 48,
-                              fontSize: 15,
+                              fontSize: size.width < 600 ? 12 : 15,
                               image: 'assets/icons/Where.png',
                               textInputType: TextInputType.text,
                               controller: _addressController,
@@ -231,7 +231,7 @@ class _AddProjectState extends State<AddProject> {
                             _formField(
                               lable: 'Link',
                               width: size.width - 48,
-                              fontSize: 15,
+                              fontSize: size.width < 600 ? 12 : 15,
                               image: 'assets/icons/Lickicon.png',
                               textInputType: TextInputType.text,
                               controller: _linkController,
@@ -243,11 +243,11 @@ class _AddProjectState extends State<AddProject> {
                             _formField(
                               lable: 'Usages',
                               width: size.width - 48,
-                              fontSize: 15,
+                              fontSize: size.width < 600 ? 12 : 15,
                               image: 'assets/icons/Usages.png',
                               textInputType: TextInputType.text,
                               controller: _usagesController,
-                              maxLine: 1,
+                              maxLine: null,
                             ),
                             SizedBox(
                               height: 20,
@@ -255,11 +255,11 @@ class _AddProjectState extends State<AddProject> {
                             _formField(
                               lable: 'Notes',
                               width: size.width - 48,
-                              fontSize: 15,
+                              fontSize: size.width < 600 ? 12 : 15,
                               image: 'assets/icons/Notes.png',
                               textInputType: TextInputType.text,
                               controller: _notesController,
-                              maxLine: 1,
+                              maxLine: null,
                             ),
                             SizedBox(
                               height: 20,
@@ -351,8 +351,7 @@ class _AddProjectState extends State<AddProject> {
                                     ? '${DateFormat("dd-MMM-yyyy").format(_firstDate)}'
                                     : '${DateFormat("dd-MMM").format(_firstDate)} | ${DateFormat("dd-MMM-yyyy").format(_lastDate)}',
                             style: TextStyle(
-                                fontSize:
-                                    size.height > Constant.divSize ? 20 : 14,
+                                fontSize: size.width < 600 ? 11.5 : 14,
                                 color: Constant.primaryColor),
                           ),
                         ),
@@ -403,8 +402,7 @@ class _AddProjectState extends State<AddProject> {
                       ? Text(
                           "Who",
                           style: TextStyle(
-                              fontSize:
-                                  size.height > Constant.divSize ? 20 : 14,
+                              fontSize: size.width < 600 ? 11.5 : 14,
                               color: Constant.primaryColor),
                         )
                       : ListView.separated(
@@ -416,8 +414,7 @@ class _AddProjectState extends State<AddProject> {
                           itemBuilder: (context, i) => Text(
                             memberObj.selectedMembers[i].name,
                             style: TextStyle(
-                                fontSize:
-                                    size.height > Constant.divSize ? 20 : 14,
+                                fontSize: size.width < 600 ? 11.5 : 14,
                                 color: Constant.primaryColor),
                           ),
                           itemCount: memberObj.selectedMembers.length,
@@ -736,6 +733,8 @@ class _AddProjectState extends State<AddProject> {
       children: <Widget>[
         GestureDetector(
           onTap: () {
+            // print("_firstDate" + _firstDate.toIso8601String());
+            // print("_lastDate" + _lastDate.toIso8601String());
             if (validateField(context)) {
               _submit();
               // } else {

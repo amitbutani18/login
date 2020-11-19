@@ -316,6 +316,7 @@ class _PickRoomState extends State<PickRoom> {
 
   Widget getDashboardMainWidget(String tag, Size size, BuildContext context,
       List<City> cityList, List<Images> imageUrl) {
+    print("-----------------" + tag);
     switch (tag) {
       case 'projects':
         return ProjectsWidget();

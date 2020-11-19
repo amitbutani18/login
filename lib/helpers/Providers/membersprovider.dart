@@ -96,50 +96,23 @@ class Otherlink {
 }
 
 class MembersProvider with ChangeNotifier {
-  List<Member> _items = [
-    // Member(
-    //   id: "dasfd",
-    //   name: "Amit",
-    //   profileimg:
-    //       'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png',
-    //   aboutus: "kgm vkfd f bkf bkf bkf bg ",
-    //   // companyname: "Amkfkf",
-    //   dailycharge: "50",
-    //   // amount: 25.0,
-    //   youtube: "www.youtube.com",
-    //   email: 'amit.butani29@hmail,cins',
-    //   linkdin: "WWW.vxvmfd.vkfmk",
-    //   location: "kdmgkdf",
-    //   otherlink: [
-    //     Otherlink(
-    //       init: false,
-    //       link: 'www.github.com',
-    //       title: 'Github',
-    //     ),
-    //     Otherlink(
-    //       init: false,
-    //       link: 'www.github.com',
-    //       title: 'Github',
-    //     ),
-    //     Otherlink(
-    //       init: false,
-    //       link: 'www.github.com',
-    //       title: 'Github',
-    //     ),
-    //     Otherlink(
-    //       init: false,
-    //       link: 'www.github.com',
-    //       title: 'Github',
-    //     ),
-    //   ],
-    //   workinghistory: "Asfj jfd fd dfjg jd jg dg ds gksdg k fds",
-    //   occupation: "d;fdgkfdmg",
-    // ),
-  ];
+  List<Member> _items = [];
 
   List<Member> _selectedMembers = [];
 
   List<Member> _searchedMembers = [];
+
+  List<Member> _memberForProjectDetailScreen = [];
+
+  List<Map<dynamic, dynamic>> _oldMemberList = [];
+
+  List<Map<dynamic, dynamic>> get oldMemberList {
+    return [..._oldMemberList];
+  }
+
+  List<Member> get memberForProjectDetailScreen {
+    return [..._memberForProjectDetailScreen];
+  }
 
   List<Member> get searchedMembers {
     return [..._searchedMembers];
@@ -157,7 +130,7 @@ class MembersProvider with ChangeNotifier {
     String what,
     String where,
     String searchString = "",
-    List<Members> list,
+    List<Members> members,
   }) async {
     final response = await http.post(
       '${apiLink}searchmember',
@@ -188,14 +161,28 @@ class MembersProvider with ChangeNotifier {
         }
         _items = memberList;
 
+        if (members.length != 0) {
+          for (var i = 0; i < _items.length; i++) {
+            for (var j = 0; j < members.length; j++) {
+              //   print("Amit");
+              if (_items[i].id == members[j].userid) {
+                print("Match in projects " + members[j].userid);
+                _selectedMembers.add(_items[i]);
+              } else {
+                print("not Match in projects" + members[j].userid);
+              }
+            }
+          }
+        }
+
         for (var i = 0; i < _selectedMembers.length; i++) {
           for (var j = 0; j < memberList.length; j++) {
             //   print("Amit");
-            if (memberList[j].name == _selectedMembers[i].name) {
-              print("Match" + memberList[j].name);
+            if (memberList[j].id == _selectedMembers[i].id) {
+              print("Match" + memberList[j].id);
               memberList.remove(memberList[j]);
             } else {
-              print("not Match" + memberList[j].name);
+              print("not Match" + memberList[j].id);
             }
           }
         }
@@ -205,6 +192,10 @@ class MembersProvider with ChangeNotifier {
         throw "Fail to load";
       }
     }
+  }
+
+  Future<void> addNewMemberInProject() {
+    print(_oldMemberList);
   }
 
   searchMemberFromList(String name) {
@@ -225,6 +216,7 @@ class MembersProvider with ChangeNotifier {
     _searchedMembers.removeWhere((member) => member == selectedMember);
     _items.removeWhere((member) => member == selectedMember);
     _selectedMembers.add(selectedMember);
+    print(_selectedMembers.length);
     notifyListeners();
   }
 
@@ -232,12 +224,55 @@ class MembersProvider with ChangeNotifier {
     _selectedMembers.removeWhere((member) => member == deletedMember);
     _items.add(deletedMember);
     _searchedMembers = _items;
+    print(_selectedMembers.length);
+
     // _searchedMembers.add(deletedMember);
+    notifyListeners();
+  }
+
+  addMembersForoProjectDetail(List<Members> members) {
+    print(members.length);
+    if (members.length != 0) {
+      _memberForProjectDetailScreen = _selectedMembers;
+    }
+    // print(_memberForProjectDetailScreen.length);
     notifyListeners();
   }
 
   clearSelectedMember() {
     _selectedMembers.clear();
+    _memberForProjectDetailScreen.clear();
+    notifyListeners();
+  }
+
+  clearAddedMemberList() {
+    _oldMemberList.clear();
+    notifyListeners();
+  }
+
+  getNewMember(List<Members> members) {
+    for (var i = 0; i < _memberForProjectDetailScreen.length; i++) {
+      for (var j = 0; j < members.length; j++) {
+        //   print("Amit");
+        if (_memberForProjectDetailScreen[i].id == members[j].userid) {
+          // print("Match in old member " + members[j].userid);
+          _oldMemberList.add(
+              {"userid": _memberForProjectDetailScreen[i].id, "status": 1});
+          _memberForProjectDetailScreen
+              .remove(_memberForProjectDetailScreen[i]);
+        } else {
+          // _oldMemberList.add(
+          //     {"userid": _memberForProjectDetailScreen[i].id, "status": 0});
+          print("not Match in projects" + members[j].userid);
+        }
+      }
+    }
+    for (var i = 0; i < _memberForProjectDetailScreen.length; i++) {
+      _oldMemberList
+          .add({"userid": _memberForProjectDetailScreen[i].id, "status": 0});
+    }
+    print(_memberForProjectDetailScreen);
+    print(_oldMemberList);
     notifyListeners();
   }
 

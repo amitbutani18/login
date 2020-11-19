@@ -36,127 +36,139 @@ class _AllRequestWidgetState extends State<AllRequestWidget> {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(top: 8.0, left: 30, right: 10),
-
-        // width: 450,
-        // height: height / 2,
-        // color: Colors.amber,
         child: _isLoad
             ? Center(child: CustomCircularProgressIndicator())
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "SEND REQUEST",
-                            style: TextStyle(
-                                fontSize: height > divSize ? 22 : 15,
-                                color: primaryColor,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Consumer<RequestProvider>(
-                            builder: (context, requestObj, ch) => LimitedBox(
-                                maxHeight: height / 2,
-                                // maxWidth: 650 / 2 - 10,
-                                child: ListView.builder(
-                                  physics: BouncingScrollPhysics(),
-                                  itemBuilder: (context, i) => GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  ProjectDetails(
-                                                    byMeObj: requestObj
-                                                        .sendRequest[i],
-                                                  )))
-                                          .then((value) async {
-                                        await Provider.of<RequestProvider>(
-                                                context,
-                                                listen: false)
-                                            .loadAllProjectRequests();
-                                      });
-                                      print("object");
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8),
-                                      child: CustomRequestTile(
-                                        sendRequest: requestObj.sendRequest[i],
-                                      ),
-                                    ),
-                                  ),
-                                  itemCount: requestObj.sendRequest.length,
-                                )),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: height / 2,
-                    width: 3,
-                    color: Colors.amber.withOpacity(.5),
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.only(left: 50),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "RECEVIE REQUEST",
-                            style: TextStyle(
-                                fontSize: height > divSize ? 22 : 15,
-                                color: primaryColor,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Consumer<RequestProvider>(
-                            builder: (context, requestObj, ch) => LimitedBox(
-                                maxHeight: height / 2,
-                                // maxWidth: 650 / 2 - 10,
-                                child: ListView.builder(
-                                  physics: BouncingScrollPhysics(),
-                                  itemBuilder: (context, i) => GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  Contract(
-                                                    byThemPrjObj: requestObj
-                                                        .reciveRequest[i],
-                                                  )));
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8),
-                                      child: CustomReciveRequestTile(
-                                        reciveRequest:
-                                            requestObj.reciveRequest[i],
-                                      ),
-                                    ),
-                                  ),
-                                  itemCount: requestObj.reciveRequest.length,
-                                )),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // Send Req
+                  sendRequestSide(height),
+                  GetConstant.customVerticalDivider(height),
+                  // Rec Req
+                  recieveRequestSide(height),
                 ],
               ),
       ),
     );
+  }
+
+  Expanded recieveRequestSide(double height) {
+    final width = MediaQuery.of(context).size.width;
+
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.only(left: 50),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GetConstant.shared.text(
+                text: "RECEVIE REQUEST",
+                fontSize: height > divSize ? 22 : 15,
+                color: primaryColor,
+                fontWeight: FontWeight.bold),
+            SizedBox(
+              height: 5,
+            ),
+            Consumer<RequestProvider>(
+              builder: (context, requestObj, ch) => LimitedBox(
+                  maxHeight: height / 2,
+                  // maxWidth: 650 / 2 - 10,
+                  child: requestObj.reciveRequest.length == 0
+                      ? Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: width < 600 ? 10 : 40,
+                              vertical: width < 600 ? 22 : 40),
+                          child:
+                              Image.asset('assets/images/Recore_No_Found.png'),
+                        )
+                      : ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (context, i) => GestureDetector(
+                            onTap: () => _onTapForRecieveReq(
+                                requestObj.reciveRequest[i]),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: CustomReciveRequestTile(
+                                reciveRequest: requestObj.reciveRequest[i],
+                              ),
+                            ),
+                          ),
+                          itemCount: requestObj.reciveRequest.length,
+                        )),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Expanded sendRequestSide(double height) {
+    final width = MediaQuery.of(context).size.width;
+
+    return Expanded(
+      child: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GetConstant.shared.text(
+                text: "SEND REQUEST",
+                fontSize: height > divSize ? 22 : 15,
+                color: primaryColor,
+                fontWeight: FontWeight.bold),
+            SizedBox(
+              height: 5,
+            ),
+            Consumer<RequestProvider>(
+              builder: (context, requestObj, ch) => LimitedBox(
+                  maxHeight: height / 2,
+                  // maxWidth: 650 / 2 - 10,
+                  child: requestObj.sendRequest.length == 0
+                      ? Container(
+                          padding: EdgeInsets.all(width < 600 ? 0 : 40),
+                          child:
+                              Image.asset('assets/images/Recore_No_Found.png'),
+                        )
+                      : ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (context, i) => GestureDetector(
+                            onTap: () =>
+                                _onTapForSendReq(requestObj.sendRequest[i]),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: CustomRequestTile(
+                                sendRequest: requestObj.sendRequest[i],
+                              ),
+                            ),
+                          ),
+                          itemCount: requestObj.sendRequest.length,
+                        )),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _onTapForSendReq(Byme byMeObj) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => ProjectDetails(
+              byMeObj: byMeObj,
+            )));
+    //     .then((value) async {
+    //   await Provider.of<
+    //               RequestProvider>(
+    //           context,
+    //           listen: false)
+    //       .loadAllProjectRequests();
+    // });
+    print("object");
+  }
+
+  _onTapForRecieveReq(Receiverequest requestObj) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => Contract(
+              byThemPrjObj: requestObj,
+            )));
   }
 }
 
@@ -174,14 +186,8 @@ class CustomReciveRequestTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            reciveRequest.name,
-            style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 1),
-          ),
+          GetConstant.shared
+              .text(text: reciveRequest.name, fontWeight: FontWeight.bold),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: Row(
@@ -190,12 +196,7 @@ class CustomReciveRequestTile extends StatelessWidget {
                   icon: 'assets/icons/Location_icon.png',
                   title: reciveRequest.where,
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  width: 1,
-                  height: 10,
-                  color: Colors.grey,
-                ),
+                GetConstant.customContainerForDivideValueInList(),
                 IconTitle(
                   icon: 'assets/icons/Calender_icon.png',
                   title: DateFormat("dd/MM/yyyy")
@@ -224,14 +225,8 @@ class CustomRequestTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            sendRequest.name,
-            style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 1),
-          ),
+          GetConstant.shared
+              .text(text: sendRequest.name, fontWeight: FontWeight.w500),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: Row(
@@ -240,12 +235,7 @@ class CustomRequestTile extends StatelessWidget {
                   icon: 'assets/icons/User_Icon.png',
                   title: sendRequest.what,
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  width: 1,
-                  height: 10,
-                  color: Colors.grey,
-                ),
+                GetConstant.customContainerForDivideValueInList(),
                 IconTitle(
                   icon: 'assets/icons/Dollar_icon.png',
                   title: sendRequest.price.toString(),
@@ -261,12 +251,7 @@ class CustomRequestTile extends StatelessWidget {
                   icon: 'assets/icons/Location_icon.png',
                   title: sendRequest.where,
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  width: 1,
-                  height: 10,
-                  color: Colors.grey,
-                ),
+                GetConstant.customContainerForDivideValueInList(),
                 IconTitle(
                   icon: 'assets/icons/Calender_icon.png',
                   title: DateFormat("dd/MM/yyyy")
@@ -292,6 +277,7 @@ class IconTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -300,21 +286,13 @@ class IconTitle extends StatelessWidget {
           width: 10,
           child: Image.asset(icon),
         ),
-        // Icon(
-        //   icon,
-        //   size: 10,
-        //   color: Colors.white,
-        // ),
         SizedBox(
           width: 3,
         ),
-        Text(
-          title,
-          style: TextStyle(
+        GetConstant.shared.text(
+            text: title,
             color: Colors.white38,
-            fontSize: 15,
-          ),
-        ),
+            fontSize: width < 600 ? 10 : 15),
       ],
     );
   }

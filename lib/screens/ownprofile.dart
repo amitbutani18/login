@@ -491,7 +491,7 @@ class CustomHeading extends StatelessWidget {
       title,
       style: TextStyle(
         color: Constant.primaryColor,
-        fontSize: size.height > Constant.divSize ? 25 : 15,
+        fontSize: size.width < 600 ? 12 : 15,
       ),
     );
   }

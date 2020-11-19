@@ -23,8 +23,8 @@ class PageTitle extends StatelessWidget {
               : callback,
           child: Container(
               padding: EdgeInsets.only(top: 10),
-              height: 30,
-              width: 30,
+              height: size.width < 600 ? 25 : 30,
+              width: size.width < 600 ? 25 : 30,
               child: Image.asset('assets/icons/backicon.png')),
         ),
         Expanded(
@@ -37,7 +37,7 @@ class PageTitle extends StatelessWidget {
                   title,
                   style: TextStyle(
                     color: Constant.primaryColor,
-                    fontSize: size.height > Constant.divSize ? 40 : 22,
+                    fontSize: size.width < 600 ? 15 : 22,
                   ),
                 ),
               ),

@@ -30,9 +30,11 @@ class _AllProjectsWidgetState extends State<AllProjectsWidget> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(top: 8.0, left: 30, right: 10),
+        padding: EdgeInsets.only(
+            top: 8.0, left: width < 600 ? 0 : 30, right: width < 600 ? 0 : 10),
 
         // width: 450,
         // height: height / 2,
@@ -47,14 +49,11 @@ class _AllProjectsWidgetState extends State<AllProjectsWidget> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "BY ME",
-                            style: TextStyle(
-                                fontSize: height > divSize ? 22 : 15,
-                                color: primaryColor,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1),
-                          ),
+                          GetConstant.shared.text(
+                              text: "BY ME",
+                              fontSize: height > divSize ? 22 : 15,
+                              color: primaryColor,
+                              fontWeight: FontWeight.bold),
                           SizedBox(
                             height: 5,
                           ),
@@ -62,27 +61,36 @@ class _AllProjectsWidgetState extends State<AllProjectsWidget> {
                             builder: (context, projectObj, ch) => LimitedBox(
                                 maxHeight: height / 2,
                                 // maxWidth: 650 / 2 - 10,
-                                child: ListView.builder(
-                                  physics: BouncingScrollPhysics(),
-                                  itemBuilder: (context, i) => GestureDetector(
-                                    onTap: () => Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                ProjectDetails(
-                                                  byMeObj: projectObj
-                                                      .projectListByMe[i],
-                                                ))),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8),
-                                      child: CustomByMeTile(
-                                        projectByMe:
-                                            projectObj.projectListByMe[i],
-                                      ),
-                                    ),
-                                  ),
-                                  itemCount: projectObj.projectListByMe.length,
-                                )),
+                                child: projectObj.projectListByMe.length == 0
+                                    ? Container(
+                                        padding: EdgeInsets.all(40),
+                                        child: Image.asset(
+                                            'assets/images/Recore_No_Found.png'),
+                                      )
+                                    : ListView.builder(
+                                        physics: BouncingScrollPhysics(),
+                                        itemBuilder: (context, i) =>
+                                            GestureDetector(
+                                          onTap: () => Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          ProjectDetails(
+                                                            byMeObj: projectObj
+                                                                .projectListByMe[i],
+                                                          ))),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8),
+                                            child: CustomByMeTile(
+                                              projectByMe:
+                                                  projectObj.projectListByMe[i],
+                                            ),
+                                          ),
+                                        ),
+                                        itemCount:
+                                            projectObj.projectListByMe.length,
+                                      )),
                           ),
                         ],
                       ),
@@ -95,18 +103,15 @@ class _AllProjectsWidgetState extends State<AllProjectsWidget> {
                   ),
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.only(left: 50),
+                      padding: EdgeInsets.only(left: width < 600 ? 5 : 50),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "BY THEM",
-                            style: TextStyle(
-                                fontSize: height > divSize ? 22 : 15,
-                                color: primaryColor,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1),
-                          ),
+                          GetConstant.shared.text(
+                              text: "BY THEM",
+                              fontSize: height > divSize ? 22 : 15,
+                              color: primaryColor,
+                              fontWeight: FontWeight.bold),
                           SizedBox(
                             height: 5,
                           ),
@@ -169,18 +174,17 @@ class CustomByThemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            projectByThem.name,
-            style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 1),
-          ),
+          GetConstant.shared.text(
+              text: projectByThem.name,
+              fontWeight: FontWeight.w500,
+              fontSize: width < 600 ? 15 : 18
+              // color: Colors.white38,
+              ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: Row(
@@ -219,39 +223,16 @@ class CustomByMeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            projectByMe.name,
-            style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 1),
+          GetConstant.shared.text(
+            text: projectByMe.name,
+            fontSize: width < 600 ? 15 : 18,
+            fontWeight: FontWeight.w500,
           ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical: 5.0),
-          //   child: Row(
-          //     children: [
-          //       IconTitle(
-          //         icon: 'assets/icons/User_Icon.png',
-          //         title: sendRequest.userName,
-          //       ),
-          //       Container(
-          //         margin: EdgeInsets.symmetric(horizontal: 5),
-          //         width: 1,
-          //         height: 10,
-          //         color: Colors.grey,
-          //       ),
-          //       IconTitle(
-          //         icon: 'assets/icons/Dollar_icon.png',
-          //         title: sendRequest.rate.toString(),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: Row(
@@ -291,6 +272,7 @@ class IconTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -307,13 +289,11 @@ class IconTitle extends StatelessWidget {
         SizedBox(
           width: 3,
         ),
-        Text(
-          title,
-          style: TextStyle(
+        GetConstant.shared.text(
+            text: title,
             color: Colors.white38,
-            fontSize: 15,
-          ),
-        ),
+            fontSize: width < 600 ? 10 : 15,
+            letterSpacing: 0),
       ],
     );
   }

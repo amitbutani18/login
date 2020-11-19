@@ -59,4 +59,34 @@ class TopSliderIconProvider with ChangeNotifier {
   List<SliderIcon> get images {
     return [..._images];
   }
+
+  resetIcons() {
+    _items = [
+      SliderIcon(
+          title: 'addProject',
+          image: 'assets/icons/AddProject.png',
+          isSelected: false),
+      SliderIcon(
+          title: 'add', image: 'assets/icons/add.png', isSelected: false),
+      SliderIcon(
+          title: 'dashboard',
+          image: 'assets/icons/dashboard.png',
+          isSelected: false),
+      SliderIcon(
+          title: 'hired', image: 'assets/icons/Hired.png', isSelected: false),
+      SliderIcon(
+          title: 'pendingRequest',
+          image: 'assets/icons/pendingRequest.png',
+          isSelected: false),
+      SliderIcon(
+          title: 'notifications',
+          image: 'assets/icons/notifications.png',
+          isSelected: false),
+      SliderIcon(
+          title: 'allRequest',
+          image: 'assets/icons/allRequest.png',
+          isSelected: false),
+    ];
+    notifyListeners();
+  }
 }

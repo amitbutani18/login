@@ -302,14 +302,14 @@ class ProjectProvider with ChangeNotifier {
     String usages,
     String notes,
   }) async {
-    print(what);
-    print(where);
+    // print(what);
+    // print(where);
     print(startDate);
-    print(rate);
-    print(address);
-    print(link);
-    print(usages);
-    print(notes);
+    print(endDate);
+    // print(address);
+    // print(link);
+    // print(usages);
+    // print(notes);
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final userId = sharedPreferences.getString('userid');
     print(userId);
