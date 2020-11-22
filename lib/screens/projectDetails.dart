@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:login/helpers/Providers/membersprovider.dart';
 import 'package:login/helpers/Providers/projectProvider.dart';
-import 'package:login/helpers/Providers/projectdetailsprovider.dart';
-import 'package:login/screens/addproject.dart';
+import 'package:login/helpers/Providers/request_provider.dart' as req;
 import 'package:login/screens/searchmember.dart';
 import 'package:login/widgets/custom_input_decoration.dart';
 import 'package:login/widgets/pagebackground.dart';
@@ -211,10 +210,12 @@ class _ProjectDetailsState extends State<ProjectDetails> {
     Provider.of<MembersProvider>(context, listen: false)
         .getNewMember(widget.byMeObj.members);
     await Provider.of<MembersProvider>(context, listen: false)
-        .addNewMemberInProject();
-    await Provider.of<ProjectProvider>(context, listen: false).loadAllProject();
+        .addNewMemberInProject(widget.byMeObj.sId);
     Provider.of<MembersProvider>(context, listen: false).clearSelectedMember();
     Provider.of<MembersProvider>(context, listen: false).clearAddedMemberList();
+    await Provider.of<req.RequestProvider>(context, listen: false)
+        .loadAllProjectRequests();
+    await Provider.of<ProjectProvider>(context, listen: false).loadAllProject();
     Navigator.of(context).pop();
   }
 

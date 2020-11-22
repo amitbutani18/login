@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:login/helpers/Constant/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:login/helpers/Providers/projectProvider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Member {
   List<Otherlink> otherlink;
@@ -194,8 +195,36 @@ class MembersProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addNewMemberInProject() {
+  Future<void> addNewMemberInProject(String projId) async {
     print(_oldMemberList);
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final userId = sharedPreferences.getString('userid');
+    print(userId);
+    final response = await http.post(
+      '${apiLink}addProjectMembers',
+      headers: {"Content-Type": "application/json"},
+      body: json.encode({
+        "userid": userId,
+        "members": _oldMemberList,
+        "projectid": projId,
+      }),
+    );
+    Map<dynamic, dynamic> map = json.decode(response.body);
+    // print(map);
+    if (map.containsKey('err')) {
+      print("Error Occured");
+      print(map['err']);
+      throw map['err'];
+    } else {
+      if (response.statusCode == 200) {
+        print(map['data']);
+        // // final projectModal = AllProjects.fromJson(map['data']);
+        // notifyListeners();
+        // print(projectModal.byme.length);
+      } else {
+        throw "Fail to load";
+      }
+    }
   }
 
   searchMemberFromList(String name) {
