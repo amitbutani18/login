@@ -2,8 +2,8 @@ library constant;
 
 import 'package:flutter/material.dart';
 
-const apiLink = "http://3.15.39.127:3000/API/";
-const imageLink = "http://3.15.39.127:3000/";
+const apiLink = "http://3.23.114.34:3000/API/";
+const imageLink = "http://3.23.114.34:3000/";
 const Color primaryColor = Color(0xFFFFD54F); // Colors.amber[300]
 
 //Error Msg

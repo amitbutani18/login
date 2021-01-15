@@ -143,6 +143,7 @@ class _PickRoomState extends State<PickRoom> {
     final rightSlider = rightIconData.items;
     final cityList = Provider.of<CityList>(context).items;
     Size size = MediaQuery.of(context).size;
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
     return Scaffold(
       key: _scaffoldKey,
